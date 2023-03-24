@@ -1,7 +1,7 @@
 import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React from 'react';
-import {heightScreen, widthScreen} from '../../utility';
+import {colors, heightScreen, widthScreen} from '../../utility';
 const FieldButton = ({
   onPress,
   title,
@@ -10,14 +10,18 @@ const FieldButton = ({
   stylesIcon,
   icon,
   size,
-  color
+  color,
 }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       style={[styles.container, stylesContainer]}>
       {icon ? (
-        <FontAwesome style={[styles.icon, stylesIcon]} name={icon} size={size} color={color}></FontAwesome>
+        <FontAwesome
+          style={[styles.icon, stylesIcon]}
+          name={icon}
+          size={size}
+          color={color}></FontAwesome>
       ) : (
         <></>
       )}
@@ -33,13 +37,13 @@ const styles = StyleSheet.create({
     height: heightScreen * 0.06,
     flexDirection: 'row',
     borderRadius: 20,
-    backgroundColor: '#A2CAE2',
+    backgroundColor: colors.MAINCOLOR,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
-        width: 0,
-        height: heightScreen * 0.001,
+      width: 0,
+      height: heightScreen * 0.001,
     },
     shadowOpacity: 0.23,
     shadowRadius: 2.62,

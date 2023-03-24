@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React, {useLayoutEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {heightScreen, widthScreen} from '../../utility';
+import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FieldTextInput from '../../components/FieldTextInput';
 import FieldButton from '../../components/FieldButton';
@@ -91,7 +91,10 @@ const Body = ({email, setEmail, password, setPassword}) => {
           Don't have an account?
         </Text>
         <Text
-          style={[styles.textForgotPW, {fontWeight: 'bold', color: '#619EC0'}]}
+          style={[
+            styles.textForgotPW,
+            {fontWeight: 'bold', color: colors.MAINCOLOR},
+          ]}
           onPress={() => navigation.navigate('SignUp')}>
           {' '}
           Sign up
@@ -107,12 +110,11 @@ const SignInScreen = () => {
     <View style={styles.viewParent}>
       <ImageBackground
         source={{
-          uri: 'https://f8-zpcloud.zdn.vn/9186063394465801114/55069b0063e2bebce7f3.jpg',
+          uri: 'https://f9-zpcloud.zdn.vn/7073135390479215672/557d015045c79899c1d6.jpg',
         }}
         resizeMode="cover"
-        style={styles.img}
-        >
-          <Header />
+        style={styles.img}>
+        <Header />
         <Body
           email={email}
           setEmail={setEmail}
@@ -131,7 +133,7 @@ const styles = StyleSheet.create({
     height: heightScreen,
     width: widthScreen,
   },
-  img:{
+  img: {
     tintColor: 'gray',
   },
   viewBack: {

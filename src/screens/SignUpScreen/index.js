@@ -10,13 +10,15 @@ import {
   KeyboardAvoidingView,
   SafeAreaView,
   Platform,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {heightScreen, widthScreen} from '../../utility';
+import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FieldTextInput from '../../components/FieldTextInput';
 import FieldButton from '../../components/FieldButton';
+import {SignUp} from '../../apis/controller/accounts/SignUp';
 
 const Header = ({headerMotion}) => {
   const navigation = useNavigation();
@@ -35,74 +37,74 @@ const Header = ({headerMotion}) => {
   );
 };
 const Body = ({
-  last,
-  first,
+  name,
   email,
   password,
   cfpassword,
-  setLast,
-  setFirst,
+  setName,
   setEmail,
   setPassword,
   setCFPassword,
+  validate,
+  errors,
+  handleError,
+  pressRegister,
 }) => {
   const navigation = useNavigation();
+
   return (
     <View style={styles.containerBody}>
       <FieldTextInput
         stylesContainer={{marginTop: heightScreen * 0.05}}
-        placeholder={'Enter your first name'}
-        onChangeText={e => setFirst(e)}
+        placeholder={'Enter your full name'}
+        onFocus={() => handleError(null, 'name')}
+        onChangeText={e => setName(e)}
         onSubmitEditing={Keyboard.dismiss}
-      />
-      <FieldTextInput
-        placeholder={'Enter your last name'}
-        onChangeText={e => setLast(e)}
-        onSubmitEditing={Keyboard.dismiss}
+        error={errors.name}
       />
       <FieldTextInput
         placeholder={'Enter your email'}
+        onFocus={() => handleError(null, 'email')}
         onChangeText={e => setEmail(e)}
         onSubmitEditing={Keyboard.dismiss}
+        error={errors.email}
       />
       <FieldTextInput
         placeholder={'Enter your password'}
         secureTextEntry={true}
+        onFocus={() => handleError(null, 'password')}
         onChangeText={e => setPassword(e)}
         onSubmitEditing={Keyboard.dismiss}
+        error={errors.password}
       />
       <FieldTextInput
         placeholder={'Enter your confirm password'}
         secureTextEntry={true}
+        onFocus={() => handleError(null, 'cfpassword')}
         onChangeText={e => setCFPassword(e)}
-        onSubmitEditing={Keyboard.dismiss}
+        onSubmitEditing={pressRegister}
+        error={errors.cfpassword}
       />
       <FieldButton
         stylesContainer={{marginVertical: heightScreen * 0.02}}
         title={'Sign up'}
-        onPress={() =>
-          console.log(
-            'Last name + First name + Email + Pass + confirmPass',
-            last,
-            first,
-            email,
-            password,
-            cfpassword,
-          )
-        }
+        onPress={validate}
       />
       <View
         style={{
           flexDirection: 'row',
           justifyContent: 'center',
-          marginTop: heightScreen * 0.075,
+          marginTop: heightScreen * 0.162,
         }}>
         <Text
           style={[styles.textForgotPW, {color: 'black', fontStyle: 'italic'}]}>
           Already have an account?
         </Text>
         <Text
-          style={[styles.textForgotPW, {fontWeight: 'bold', color: '#619EC0'}]}
+          style={[
+            styles.textForgotPW,
+            {fontWeight: 'bold', color: colors.MAINCOLOR},
+          ]}
           onPress={() => navigation.navigate('SignIn')}>
           {' '}
           Sign in
@@ -139,16 +141,80 @@ const SignUpScreen = () => {
       hideSubscription.remove();
     };
   }, []);
-  const [last, setLast] = useState('');
-  const [first, setFirst] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [cfpassword, setCFPassword] = useState('');
+  const [errors, setErrors] = useState({});
+  const regexemail = /\S+@\S+\.\S+/;
+  const regexname = /^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$/;
+  const regexpass = /([A-Za-z]+[0-9]|[0-9]+[A-Za-z])[A-Za-z0-9]*/;
+  const handleError = (error, input) => {
+    setErrors(prevState => ({...prevState, [input]: error}));
+  };
+  const pressRegister = () => {
+    if (password == cfpassword) {
+      SignUp(email, name, password);
+    } else {
+      Alert.alert('Failed', 'Password and Confirm Password not match!', [
+        {
+          text: 'Try again',
+          onPress: () => console.log('Account Registration Failed! '),
+        },
+      ]);
+    }
+  };
+  const validate = () => {
+    Keyboard.dismiss();
+    let isValid = true;
+
+    if (!email) {
+      handleError('Email is a required field.', 'email');
+      isValid = false;
+    } else if (!email.match(regexemail)) {
+      handleError('Email must be a valid email.', 'email');
+      isValid = false;
+    }
+
+    if (!name) {
+      handleError('Name is a required field.', 'name');
+      isValid = false;
+    } else if (!name.match(regexname)) {
+      handleError('Name must be a valid name.', 'name');
+      isValid = false;
+    }
+
+    if (!password) {
+      handleError('Password is a required field.', 'password');
+      isValid = false;
+    } else if (password.length < 8) {
+      handleError('Password must be at least 8 characters.', 'password');
+      isValid = false;
+    } else if (!password.match(regexpass)) {
+      handleError(
+        'Password must include at least 1 number and 1 character.',
+        'password',
+      );
+      isValid = false;
+    }
+
+    if (!cfpassword) {
+      handleError('Re-Password is a required field.', 'cfpassword');
+      isValid = false;
+    } else if (cfpassword !== password) {
+      handleError('Password confirmation must match password.', 'cfpassword');
+      isValid = false;
+    }
+
+    if (isValid) {
+      pressRegister();
+    }
+  };
   return (
     <ScrollView style={styles.viewParent}>
       <ImageBackground
         source={{
-          uri: 'https://f8-zpcloud.zdn.vn/9186063394465801114/55069b0063e2bebce7f3.jpg',
+          uri: 'https://f9-zpcloud.zdn.vn/7073135390479215672/557d015045c79899c1d6.jpg',
         }}
         resizeMode="cover"
         style={styles.img}>
@@ -156,16 +222,18 @@ const SignUpScreen = () => {
           behavior={Platform.OS === 'ios' ? 'padding' : null}>
           <Header headerMotion={headerMotion} />
           <Body
-            last={last}
-            setLast={setLast}
-            first={first}
-            setFirst={setFirst}
+            name={name}
+            setName={setName}
             email={email}
             setEmail={setEmail}
             password={password}
             setPassword={setPassword}
             cfpassword={cfpassword}
             setCFPassword={setCFPassword}
+            validate={validate}
+            errors={errors}
+            handleError={handleError}
+            pressRegister={pressRegister}
           />
         </KeyboardAvoidingView>
       </ImageBackground>

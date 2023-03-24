@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {heightScreen, widthScreen} from '../../utility/index';
+import {colors, heightScreen, widthScreen} from '../../utility/index';
 const FieldTextInput = ({
   placeholder,
   onChangeText,
@@ -24,7 +24,7 @@ const FieldTextInput = ({
   styleIcon,
 }) => {
   let [state, setState] = useState(secureTextEntry);
-  const [isFocus, setisFocus] = useState(false);
+  const [isFocus, setIsFocus] = useState(false);
 
   return (
     <View style={[styles.container, stylesContainer]}>
@@ -35,21 +35,24 @@ const FieldTextInput = ({
         secureTextEntry={state}
         onFocus={() => {
           onFocus();
-          setisFocus(true);
+          setIsFocus(true);
         }}
         onBlur={() => {
-          setisFocus(false);
+          setIsFocus(false);
         }}
         pattern={pattern}
         autoCorrect={false}
-        onSubmitEditing={onSubmitEditing}>
-      </TextInput>
+        onSubmitEditing={onSubmitEditing}></TextInput>
+      {error && <Text style={[styles.errortxt, errortxt]}>{error}</Text>}
       {secureTextEntry ? (
         <View style={styles.icon}>
           <TouchableOpacity
             style={{alignItems: 'center'}}
             onPress={() => setState(!state)}>
-            <Ionicons name={state ? 'eye' : 'eye-off'} size={20} color={'#A2CAE2'}></Ionicons>
+            <Ionicons
+              name={state ? 'eye' : 'eye-off'}
+              size={20}
+              color={colors.MAINCOLOR}></Ionicons>
           </TouchableOpacity>
         </View>
       ) : (
@@ -74,10 +77,10 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontSize: 14,
     backgroundColor: '#FFFFFF',
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
-        width: 0,
-        height: heightScreen * 0.001,
+      width: 0,
+      height: heightScreen * 0.001,
     },
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
@@ -89,5 +92,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: widthScreen * 0.04,
     top: heightScreen * 0.018,
+  },
+  errortxt: {
+    fontSize: 12,
+    color: '#FF0000',
+    paddingLeft: widthScreen * 0.03,
+    paddingTop: heightScreen * 0.01,
   },
 });
