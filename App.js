@@ -4,6 +4,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Button, Text} from 'react-native';
 import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
+import {View} from 'react-native/Libraries/Components/View/View';
+import GettingStarted from './src/screens/GettingStartedScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +32,13 @@ const App = () => {
           name="SignUp"
           component={SignUpScreen}
         />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="Getting"
+          component={GettingStarted}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -39,7 +48,7 @@ const HomeScreen = () => {
   return (
     <Button
       title="Go to Jane's profile"
-      onPress={() => navigation.navigate('SignIn')}
+      onPress={() => navigation.navigate('Getting')}
     />
   );
 };
