@@ -1,6 +1,7 @@
+import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 const baseUrl = 'http://192.168.21.63:5000';
-export const SignUp = (email, name, password) => {
+export const SignUp = async (email, name, password) => {
   let data = JSON.stringify({
     email: email,
     password: password,
@@ -17,13 +18,13 @@ export const SignUp = (email, name, password) => {
     data: data,
   };
 
-  axios
+  await axios
     .request(config)
     .then(response => {
       console.log(JSON.stringify(response.data));
     })
     .catch(error => {
-      console.log(error.response.data.message[0]);
+      console.log(error.response.data.message);
+      return error;
     });
 };
-

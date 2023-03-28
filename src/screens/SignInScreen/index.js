@@ -12,6 +12,10 @@ import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FieldTextInput from '../../components/FieldTextInput';
 import FieldButton from '../../components/FieldButton';
+import {SignIn} from '../../apis/controller/accounts/SignIn';
+import dayjs from 'dayjs';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const Header = () => {
   const navigation = useNavigation();
@@ -31,6 +35,14 @@ const Header = () => {
 };
 const Body = ({email, setEmail, password, setPassword}) => {
   const navigation = useNavigation();
+  const handleSignIn = (email, password) => {
+    SignIn(email, password);
+    navigation.navigate('Home');
+  };
+  const handleForgot = async () => {
+    const token = await AsyncStorage.getItem('token');
+    console.log(token);
+  };
   return (
     <View style={styles.containerBody}>
       <FieldTextInput
@@ -45,16 +57,15 @@ const Body = ({email, setEmail, password, setPassword}) => {
         onChangeText={password => setPassword(password)}
         onSubmitEditing={Keyboard.dismiss}
       />
-      <TouchableOpacity style={styles.buttonForgotPW}>
-        <Text style={styles.textForgotPW} pressForgotPW={() => pressForgotPW()}>
-          {' '}
-          Forgot Password?
-        </Text>
+      <TouchableOpacity
+        style={styles.buttonForgotPW}
+        onPress={() => handleForgot()}>
+        <Text style={styles.textForgotPW}>Forgot Password?</Text>
       </TouchableOpacity>
       <FieldButton
         stylesContainer={{marginVertical: heightScreen * 0.03}}
         title={'Sign in'}
-        onPress={() => console.log('email + pass', email, password)}
+        onPress={() => handleSignIn(email, password)}
       />
       <Text style={styles.textOtherSign}>Or sign in using</Text>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>

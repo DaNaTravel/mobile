@@ -114,6 +114,7 @@ const Body = ({
   );
 };
 const SignUpScreen = () => {
+  const navigation = useNavigation();
   const headerMotion = useRef(new Animated.Value(0)).current;
   // function handle animation
   const animatedKeyBoard = (motion, value, duration) => {
@@ -155,6 +156,12 @@ const SignUpScreen = () => {
   const pressRegister = () => {
     if (password == cfpassword) {
       SignUp(email, name, password);
+      Alert.alert('Success', 'Create new user is successful.', [
+        {
+          text: 'Go to login',
+          onPress: () => navigation.navigate('SignIn'),
+        },
+      ]);
     } else {
       Alert.alert('Failed', 'Password and Confirm Password not match!', [
         {
@@ -197,7 +204,7 @@ const SignUpScreen = () => {
       );
       isValid = false;
     }
-
+   
     if (!cfpassword) {
       handleError('Re-Password is a required field.', 'cfpassword');
       isValid = false;
@@ -205,7 +212,6 @@ const SignUpScreen = () => {
       handleError('Password confirmation must match password.', 'cfpassword');
       isValid = false;
     }
-
     if (isValid) {
       pressRegister();
     }

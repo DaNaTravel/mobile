@@ -1,11 +1,10 @@
 import * as React from 'react';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Button, Text} from 'react-native';
 import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
-import {View} from 'react-native/Libraries/Components/View/View';
 import GettingStarted from './src/screens/GettingStartedScreen';
+import HomeScreen from './src/screens/HomeScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,16 +13,18 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{title: 'Welcome'}}
-        />
-        <Stack.Screen
           options={{
             headerShown: false,
           }}
           name="SignIn"
           component={SignInScreen}
+        />
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            headerShown: false,
+          }}
         />
         <Stack.Screen
           options={{
@@ -41,15 +42,6 @@ const App = () => {
         />
       </Stack.Navigator>
     </NavigationContainer>
-  );
-};
-const HomeScreen = () => {
-  const navigation = useNavigation();
-  return (
-    <Button
-      title="Go to Jane's profile"
-      onPress={() => navigation.navigate('Getting')}
-    />
   );
 };
 
