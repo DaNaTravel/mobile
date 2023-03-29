@@ -36,12 +36,12 @@ const HomeScreen = () => {
   return (
     <View>
       <TouchableOpacity onPress={() => getData()}>
-        <Text>alo ola</Text>
+        <Text>Get data </Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={{height: 100, width: 100, backgroundColor: 'gray'}}
+        style={{height: 100, width: 100, backgroundColor: 'gray', alignSelf: 'center',justifyContent: 'center', alignItems: 'center',}}
         onPress={() => handleSignout()}>
-        <Text>aloalo</Text>
+        <Text style={{}}>Signout</Text>
       </TouchableOpacity>
     </View>
   );

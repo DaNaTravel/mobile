@@ -5,17 +5,19 @@ import {
   TouchableOpacity,
   Keyboard,
   ImageBackground,
+  ScrollView,
 } from 'react-native';
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FieldTextInput from '../../components/FieldTextInput';
 import FieldButton from '../../components/FieldButton';
 import {SignIn} from '../../apis/controller/accounts/SignIn';
-import dayjs from 'dayjs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import FieldWebView from '../../components/WebView';
+
 
 const Header = () => {
   const navigation = useNavigation();
@@ -34,7 +36,9 @@ const Header = () => {
   );
 };
 const Body = ({email, setEmail, password, setPassword}) => {
+  const [data, setData] = useState('');
   const navigation = useNavigation();
+  const clientId = '408761369679-s0e57d9ifvhltcgslbekh4g71qm10drs.apps.googleusercontent.com';
   const handleSignIn = (email, password) => {
     SignIn(email, password);
     navigation.navigate('Home');
@@ -43,8 +47,24 @@ const Body = ({email, setEmail, password, setPassword}) => {
     const token = await AsyncStorage.getItem('token');
     console.log(token);
   };
+  const handleSignInWithGG = async () => {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: 'http://192.168.21.63:5000/accounts/google',
+    };
+    
+    await axios.request(config)
+    .then((response) => {
+      setData(response?.data);
+      console.log(typeof data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  };
   return (
-    <View style={styles.containerBody}>
+    <ScrollView style={styles.containerBody}>
       <FieldTextInput
         stylesContainer={{marginTop: heightScreen * 0.05}}
         placeholder={'Enter your email'}
@@ -78,6 +98,7 @@ const Body = ({email, setEmail, password, setPassword}) => {
           stylesTitle={{color: '#000', fontSize: 15, fontWeight: 'bold'}}
           icon={'google'}
           size={30}
+          onPress={() => {handleSignInWithGG();}}
         />
         <FieldButton
           stylesContainer={{
@@ -89,8 +110,10 @@ const Body = ({email, setEmail, password, setPassword}) => {
           icon={'facebook-f'}
           color="#fff"
           size={30}
+          onPress={() => handleSignInWithGG()}
         />
       </View>
+      {data ? <FieldWebView HTML={data} /> : <></>}
       <View
         style={{
           flexDirection: 'row',
@@ -111,7 +134,7 @@ const Body = ({email, setEmail, password, setPassword}) => {
           Sign up
         </Text>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 const SignInScreen = () => {
