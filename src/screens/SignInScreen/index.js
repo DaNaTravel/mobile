@@ -44,8 +44,7 @@ const Body = ({email, setEmail, password, setPassword}) => {
     navigation.navigate('Home');
   };
   const handleForgot = async () => {
-    const token = await AsyncStorage.getItem('token');
-    console.log(token);
+    navigation.navigate('Forgot');
   };
   const handleSignInWithGG = async () => {
     let config = {
