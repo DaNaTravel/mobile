@@ -6,6 +6,7 @@ import SignUpScreen from './src/screens/SignUpScreen';
 import GettingStarted from './src/screens/GettingStartedScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import ForgotPassword from './src/screens/ForgotPasswordScreen';
+import SubmitEmail from './src/screens/SubmitEmailScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +41,13 @@ const App = () => {
           }}
           name="Forgot"
           component={ForgotPassword}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="Submit"
+          component={SubmitEmail}
         />
         <Stack.Screen
           options={{

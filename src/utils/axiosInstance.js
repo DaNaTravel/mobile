@@ -1,34 +1,36 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import dayjs from 'dayjs';
-const baseURL = 'http://192.168.21.63:5000';
-let authToken = AsyncStorage.getItem('token');
+import jwtDecode from 'jwt-decode';
+import {BASE_URL} from '@env';
+const accessToken = AsyncStorage.getItem('token');
 const axiosInstance = axios.create({
-  baseURL,
-  headers: {Authorization: `Bearer ${authToken}`},
+  BASE_URL,
+  headers: {Authorization: `Bearer ${accessToken}`},
 });
 axiosInstance.interceptors.request.use(async req => {
-  const expireInRefreshToken = await AsyncStorage.getItem('expireInRefreshToken');
-  const isExpiredRefresh = dayjs(new Date()).unix();
+  const accessToken = await AsyncStorage.getItem('token');
+  let refreshToken = await AsyncStorage.getItem('refreshToken');
+  const expireInRefreshToken = await jwtDecode(refreshToken).exp;
   console.log('expireInRefreshToken', expireInRefreshToken);
+  const isExpiredRefresh = dayjs(new Date()).unix();
   const isTrueRefresh = Boolean(expireInRefreshToken - isExpiredRefresh > 5);
-  if(isTrueRefresh){
-    if (!authToken) {
-      authToken = AsyncStorage.getItem('token');
-      console.log(authToken);
-      req.headers.Authorization = `Bearer ${authToken}`;
+  if (isTrueRefresh) {
+    if (!accessToken) {
+      req.headers.Authorization = `Bearer ${accessToken}`;
     }
-    const expireInToken = await AsyncStorage.getItem('expireInToken');
+    const expireInToken = await jwtDecode(accessToken).exp;
     console.log('expireInToken', expireInToken);
     const isExpired = dayjs(new Date()).unix();
     console.log('isExpired', isExpired);
     const isTrue = Boolean(expireInToken - isExpired > 5);
     if (isTrue) return req;
-    const refreshToken = await AsyncStorage.getItem('refreshToken');
+    refreshToken = await AsyncStorage.getItem('refreshToken');
+    console.log('aloalo: ', refreshToken);
     let config = {
-      method: 'post',
+      method: 'get',
       maxBodyLength: Infinity,
-      url: `${baseURL}/accounts/refresh`,
+      url: `${BASE_URL}/accounts/refresh`,
       headers: {
         Authorization: `Bearer ${refreshToken}`,
       },
@@ -36,18 +38,10 @@ axiosInstance.interceptors.request.use(async req => {
     axios
       .request(config)
       .then(response => {
-        AsyncStorage.setItem('token', response?.data?.data?.token?.token);
+        AsyncStorage.setItem('token', response?.data?.data?.token);
         AsyncStorage.setItem(
           'refreshToken',
-          response?.data?.data?.refreshToken?.token,
-        );
-        AsyncStorage.setItem(
-          'expireInToken',
-          JSON.stringify(response?.data?.data?.token?.expireIn),
-        );
-        AsyncStorage.setItem(
-          'expireInRefreshToken',
-          JSON.stringify(response?.data?.data?.refreshToken?.expireIn),
+          response?.data?.data?.refreshToken,
         );
         req.headers.Authorization = `Bearer ${AsyncStorage.getItem('token')}`;
         return req;
@@ -57,10 +51,8 @@ axiosInstance.interceptors.request.use(async req => {
         return req;
       });
     return req;
+  } else {
+    console.log('Login session is expired');
   }
-  else{
-    console.log('refresh is expired');
-  }
-  
 });
 export default axiosInstance;

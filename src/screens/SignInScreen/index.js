@@ -18,14 +18,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import FieldWebView from '../../components/WebView';
 
-
 const Header = () => {
   const navigation = useNavigation();
   return (
     <View>
       <View style={styles.viewBack}>
         <TouchableOpacity
-          onPress={() => navigation.goBack()}
+          onPress={() => navigation.navigate('Getting')}
           style={styles.buttonBack}>
           <FontAwesome name="angle-left" size={24} color="black" />
         </TouchableOpacity>
@@ -38,7 +37,8 @@ const Header = () => {
 const Body = ({email, setEmail, password, setPassword}) => {
   const [data, setData] = useState('');
   const navigation = useNavigation();
-  const clientId = '408761369679-s0e57d9ifvhltcgslbekh4g71qm10drs.apps.googleusercontent.com';
+  const clientId =
+    '408761369679-s0e57d9ifvhltcgslbekh4g71qm10drs.apps.googleusercontent.com';
   const handleSignIn = (email, password) => {
     SignIn(email, password);
     navigation.navigate('Home');
@@ -52,15 +52,16 @@ const Body = ({email, setEmail, password, setPassword}) => {
       maxBodyLength: Infinity,
       url: 'http://192.168.21.63:5000/accounts/google',
     };
-    
-    await axios.request(config)
-    .then((response) => {
-      setData(response?.data);
-      console.log(typeof data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+
+    await axios
+      .request(config)
+      .then(response => {
+        setData(response?.data);
+        console.log(typeof data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
   return (
     <ScrollView style={styles.containerBody}>
@@ -97,7 +98,9 @@ const Body = ({email, setEmail, password, setPassword}) => {
           stylesTitle={{color: '#000', fontSize: 15, fontWeight: 'bold'}}
           icon={'google'}
           size={30}
-          onPress={() => {handleSignInWithGG();}}
+          onPress={() => {
+            handleSignInWithGG();
+          }}
         />
         <FieldButton
           stylesContainer={{

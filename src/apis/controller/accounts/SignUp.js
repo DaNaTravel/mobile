@@ -1,6 +1,5 @@
-import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-const baseUrl = 'http://192.168.21.63:5000';
+import {BASE_URL} from '@env';
 export const SignUp = async (email, name, password) => {
   let data = JSON.stringify({
     email: email,
@@ -11,7 +10,7 @@ export const SignUp = async (email, name, password) => {
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: `${baseUrl}/accounts`,
+    url: `${BASE_URL}/accounts`,
     headers: {
       'Content-Type': 'application/json',
     },

@@ -204,7 +204,7 @@ const SignUpScreen = () => {
       );
       isValid = false;
     }
-   
+
     if (!cfpassword) {
       handleError('Re-Password is a required field.', 'cfpassword');
       isValid = false;

@@ -1,7 +1,7 @@
 const {useNavigation} = require('@react-navigation/native');
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
+import {Text, TouchableOpacity, View, StyleSheet, Alert} from 'react-native';
 import axiosInstance from '../../utils/axiosInstance';
 
 const HomeScreen = () => {
@@ -15,6 +15,7 @@ const HomeScreen = () => {
       url: `${baseURL}/accounts`,
       headers: {
         Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
     };
 
@@ -25,6 +26,12 @@ const HomeScreen = () => {
       })
       .catch(error => {
         console.log(error);
+        Alert.alert('Opps!', 'login session expired', [
+          {
+            text: 'Please sign-in again',
+            onPress: () => navigation.navigate('SignIn'),
+          },
+        ]);
       });
   };
   const handleSignout = () => {
@@ -39,7 +46,14 @@ const HomeScreen = () => {
         <Text>Get data </Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={{height: 100, width: 100, backgroundColor: 'gray', alignSelf: 'center',justifyContent: 'center', alignItems: 'center',}}
+        style={{
+          height: 100,
+          width: 100,
+          backgroundColor: 'gray',
+          alignSelf: 'center',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
         onPress={() => handleSignout()}>
         <Text style={{}}>Signout</Text>
       </TouchableOpacity>
