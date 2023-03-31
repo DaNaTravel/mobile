@@ -1,8 +1,11 @@
 import {
+  Alert,
   Animated,
   Image,
   ImageBackground,
   Keyboard,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -15,6 +18,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {heightScreen, widthScreen} from '../../utility';
 import FieldTextInput from '../../components/FieldTextInput';
 import FieldButton from '../../components/FieldButton';
+import {OnForgot} from '../../apis/controller/accounts/OnForgot';
 
 const Header = () => {
   const navigation = useNavigation();
@@ -27,32 +31,46 @@ const Header = () => {
           <FontAwesome name="angle-left" size={24} color="black" />
         </TouchableOpacity>
       </View>
-      <Text style={styles.textHello}>Forgot Password!</Text>
-      <Text style={styles.textWelcome}>Welcome Back To DaNaTravel</Text>
+      <Text style={styles.textHello}>Forgot Password</Text>
     </View>
   );
 };
 const Body = ({email, setEmail}) => {
   const navigation = useNavigation();
   const handleSubmit = email => {
-    console.log(email);
-    navigation.navigate('Submit');
+    if (!email.match(regexemail)) {
+      Alert.alert('Failed', 'Email is not correct', [
+        {
+          text: 'Try again',
+        },
+      ]);
+    } else {
+      OnForgot(email) === 'Email not found'
+        ? Alert.alert('Failed', 'Email is not verified', [
+            {
+              text: 'Try again',
+            },
+          ])
+        : navigation.navigate('Submit', {email: email});
+    }
   };
+  const regexemail = /\S+@\S+\.\S+/;
   return (
     <ScrollView style={styles.containerBody}>
       <Image
-        source={require('../../assets/images/forgot1.png')}
+        source={require('../../assets/images/forgot123.png')}
         resizeMode="cover"
       />
+      <Text style={styles.textEnter}>Enter your email address</Text>
       <FieldTextInput
-        stylesContainer={{marginTop: heightScreen * 0.05}}
+        stylesContainer={{marginTop: heightScreen * 0.02}}
         placeholder={'Enter your email'}
         onChangeText={email => setEmail(email)}
         onSubmitEditing={() => handleSubmit(email)}
       />
       <FieldButton
         stylesContainer={{marginVertical: heightScreen * 0.03}}
-        title={'Submit'}
+        title={'Send verification link'}
         onPress={() => handleSubmit(email)}
       />
     </ScrollView>
@@ -88,10 +106,16 @@ const ForgotPassword = () => {
     };
   }, []);
   const [email, setEmail] = useState('');
+  const linkImg = require('../../assets/images/backgroundForgot.png');
   return (
     <ScrollView style={styles.viewParent}>
-      <Header />
-      <Body email={email} setEmail={setEmail} />
+      <ImageBackground source={linkImg} resizeMode="cover">
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : null}>
+          <Header />
+          <Body email={email} setEmail={setEmail} />
+        </KeyboardAvoidingView>
+      </ImageBackground>
     </ScrollView>
   );
 };
@@ -102,9 +126,6 @@ const styles = StyleSheet.create({
   viewParent: {
     height: heightScreen,
     width: widthScreen,
-  },
-  img: {
-    tintColor: 'gray',
   },
   viewBack: {
     height: heightScreen * 0.12,
@@ -127,10 +148,10 @@ const styles = StyleSheet.create({
     color: '#000',
     textAlign: 'center',
   },
-  textWelcome: {
-    fontSize: 20,
-    color: '#707B81',
-    textAlign: 'center',
+  textEnter: {
+    fontSize: 15,
+    color: '#000',
+    fontWeight: '500',
   },
   containerBody: {
     height: heightScreen,

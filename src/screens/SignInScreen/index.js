@@ -14,7 +14,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FieldTextInput from '../../components/FieldTextInput';
 import FieldButton from '../../components/FieldButton';
 import {SignIn} from '../../apis/controller/accounts/SignIn';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import FieldWebView from '../../components/WebView';
 
