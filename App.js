@@ -7,6 +7,7 @@ import GettingStarted from './src/screens/GettingStartedScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import ForgotPassword from './src/screens/ForgotPasswordScreen';
 import SubmitEmail from './src/screens/SubmitEmailScreen';
+import BottomTab from './src/navigation/BottomTab';
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,13 @@ const App = () => {
           }}
           name="Forgot"
           component={ForgotPassword}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="BottomTab"
+          component={BottomTab}
         />
         <Stack.Screen
           options={{

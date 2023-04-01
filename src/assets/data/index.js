@@ -1,7 +1,7 @@
 export default [
   {
     id: 1,
-    img: require('../images/GT12.png'),
+    img: require('../images/sontra.png'),
     title: 'Travel',
     description: 'Custom and fast planning with a low price and save time.',
   },
@@ -13,7 +13,7 @@ export default [
   },
   {
     id: 3,
-    img: require('../images/GT3.png'),
+    img: require('../images/mariamaria.jpeg'),
     title: 'Enjoy your trip',
     description: 'Enjoy your trip and stay relax.',
   },

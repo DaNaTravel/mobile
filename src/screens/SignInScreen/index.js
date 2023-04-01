@@ -40,7 +40,7 @@ const Body = ({email, setEmail, password, setPassword}) => {
     '408761369679-s0e57d9ifvhltcgslbekh4g71qm10drs.apps.googleusercontent.com';
   const handleSignIn = (email, password) => {
     SignIn(email, password);
-    navigation.navigate('Home');
+    navigation.navigate('BottomTab');
   };
   const handleForgot = async () => {
     navigation.navigate('Forgot');
