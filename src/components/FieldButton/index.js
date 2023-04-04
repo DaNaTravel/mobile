@@ -11,6 +11,9 @@ const FieldButton = ({
   icon,
   size,
   color,
+  icon2,
+  size2,
+  color2,
 }) => {
   return (
     <TouchableOpacity
@@ -26,6 +29,15 @@ const FieldButton = ({
         <></>
       )}
       <Text style={[styles.title, stylesTitle]}>{title}</Text>
+      {icon2 ? (
+        <FontAwesome
+          style={[styles.icon, stylesIcon]}
+          name={icon2}
+          size={size2}
+          color={color2}></FontAwesome>
+      ) : (
+        <></>
+      )}
     </TouchableOpacity>
   );
 };
@@ -50,7 +62,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   icon: {
-    marginRight: widthScreen * 0.06,
+    marginHorizontal: widthScreen * 0.045,
   },
   title: {
     fontSize: 20,

@@ -8,6 +8,9 @@ import HomeScreen from './src/screens/HomeScreen';
 import ForgotPassword from './src/screens/ForgotPasswordScreen';
 import SubmitEmail from './src/screens/SubmitEmailScreen';
 import BottomTab from './src/navigation/BottomTab';
+import GettingScreen from './src/screens/GettingScreen';
+import About1 from './src/screens/GetInfoScreen/About1';
+import About2 from './src/screens/GetInfoScreen/About2';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +59,27 @@ const App = () => {
           }}
           name="Submit"
           component={SubmitEmail}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="About1"
+          component={About1}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="About2"
+          component={About2}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="Start"
+          component={GettingScreen}
         />
         <Stack.Screen
           options={{

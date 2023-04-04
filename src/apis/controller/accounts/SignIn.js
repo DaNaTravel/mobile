@@ -21,8 +21,9 @@ export const SignIn = (email, password) => {
     .then(response => {
       AsyncStorage.setItem('token', response?.data?.data?.token);
       AsyncStorage.setItem('refreshToken', response?.data?.data?.refreshToken);
+      return response.data.message;
     })
     .catch(error => {
-      console.log(error.response.data.message[0]);
+      return error.response.data.message;
     });
 };

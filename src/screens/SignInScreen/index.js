@@ -6,6 +6,7 @@ import {
   Keyboard,
   ImageBackground,
   ScrollView,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -23,7 +24,7 @@ const Header = () => {
     <View>
       <View style={styles.viewBack}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Getting')}
+          onPress={() => navigation.navigate('About1')}
           style={styles.buttonBack}>
           <FontAwesome name="angle-left" size={24} color="black" />
         </TouchableOpacity>
@@ -36,11 +37,31 @@ const Header = () => {
 const Body = ({email, setEmail, password, setPassword}) => {
   const [data, setData] = useState('');
   const navigation = useNavigation();
-  const clientId =
-    '408761369679-s0e57d9ifvhltcgslbekh4g71qm10drs.apps.googleusercontent.com';
-  const handleSignIn = (email, password) => {
+  const handleNavi = () => {
     SignIn(email, password);
     navigation.navigate('BottomTab');
+  };
+  const handleSignIn = (email, password) => {
+    const regexemail = /\S+@\S+\.\S+/;
+    !email.match(regexemail)
+      ? Alert.alert('Failed', 'Email is not correct', [
+          {
+            text: 'Try again',
+          },
+        ])
+      : email.trim() === '' || password.trim() === ''
+      ? Alert.alert('Failed', 'Please enter in full', [
+          {
+            text: 'Try again',
+          },
+        ])
+      : SignIn(email, password) !== null
+      ? Alert.alert('Failed', 'Email or password is wrong!', [
+          {
+            text: 'Try again',
+          },
+        ])
+      : navigation.navigate('BottomTab');
   };
   const handleForgot = async () => {
     navigation.navigate('Forgot');
@@ -192,7 +213,11 @@ const styles = StyleSheet.create({
     color: '#000',
     textAlign: 'center',
   },
-  textWelcome: {fontSize: 20, color: '#707B81', textAlign: 'center'},
+  textWelcome: {
+    fontSize: 20,
+    color: '#707B81',
+    textAlign: 'center',
+  },
   containerBody: {
     height: heightScreen,
     alignSelf: 'center',

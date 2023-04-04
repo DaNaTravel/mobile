@@ -8,13 +8,13 @@ export default [
   {
     id: 2,
     img: require('../images/map.jpg'),
-    title: 'Booking',
-    description: 'Booking room, and vehicle is simple, effective, fast.',
+    title: 'Travel',
+    description: 'Custom and fast planning with a low price and save time.',
   },
   {
     id: 3,
     img: require('../images/mariamaria.jpeg'),
-    title: 'Enjoy your trip',
-    description: 'Enjoy your trip and stay relax.',
+    title: 'Travel',
+    description: 'Custom and fast planning with a low price and save time.',
   },
 ];

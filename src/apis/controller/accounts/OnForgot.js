@@ -17,11 +17,11 @@ export const OnForgot = async email => {
   await axios
     .request(config)
     .then(response => {
-      console.log(response?.data?.message);
+      console.log('res: ', response?.data?.message);
       return response?.data?.message;
     })
     .catch(error => {
-      console.log(error?.response?.data?.message);
+      console.log('error: ', error?.response?.data?.message);
       return error?.response?.data?.message;
     });
 };
