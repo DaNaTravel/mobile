@@ -11,6 +11,7 @@ import BottomTab from './src/navigation/BottomTab';
 import GettingScreen from './src/screens/GettingScreen';
 import About1 from './src/screens/GetInfoScreen/About1';
 import About2 from './src/screens/GetInfoScreen/About2';
+import About3 from './src/screens/GetInfoScreen/About3';
 
 const Stack = createNativeStackNavigator();
 
@@ -73,6 +74,13 @@ const App = () => {
           }}
           name="About2"
           component={About2}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="About3"
+          component={About3}
         />
         <Stack.Screen
           options={{

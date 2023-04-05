@@ -2,9 +2,9 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import WheelPicker from 'react-native-wheely';
 import {colors, heightScreen, widthScreen} from '../../utility';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FieldButton from '../../components/FieldButton';
 import {useNavigation} from '@react-navigation/native';
+import WelcomeAbout from '../../components/WelcomeAbout';
 
 const About1 = () => {
   const navigaton = useNavigation();
@@ -38,17 +38,7 @@ const About1 = () => {
   ];
   return (
     <View style={styles.viewParent}>
-      <View>
-        <View style={styles.viewBack}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('About1')}
-            style={styles.buttonBack}>
-            <FontAwesome name="angle-left" size={24} color="black" />
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.textHello}>How many people join this trip?</Text>
-        <Text style={styles.textWelcome}>This help us create your plan.</Text>
-      </View>
+      <WelcomeAbout title={'How many people join this trip?'} />
       <WheelPicker
         selectedIndex={selectedIndex - 1}
         options={wheelPickerNumbers}
@@ -82,37 +72,8 @@ export default About1;
 
 const styles = StyleSheet.create({
   viewParent: {
-    justifyContent: 'center',
-  },
-  viewBack: {
-    height: heightScreen * 0.12,
-    width: widthScreen,
-  },
-  buttonBack: {
-    position: 'absolute',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-    height: 50,
-    width: 50,
-    borderRadius: 50 / 2,
-    bottom: 0,
-    left: widthScreen * 0.05,
-  },
-  textHello: {
-    fontWeight: '500',
-    fontSize: 35,
-    color: '#000',
-    textAlign: 'center',
-  },
-  textWelcome: {
-    fontSize: 20,
-    color: '#707B81',
-    textAlign: 'center',
-  },
-  containerBody: {
     height: heightScreen,
-    alignSelf: 'center',
+    width: widthScreen,
   },
   buttonNext: {
     width: widthScreen * 0.35,
