@@ -41,27 +41,32 @@ const SliderContainer = props => {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   return (
     <View style={styles.sliderContainer}>
-      <Text style={styles.textWelcome}>
-        1. Your main goal when going to Da Nang?
-      </Text>
-      <WheelPicker
-        selectedIndex={selectedIndex}
-        options={['Eat', 'Explore', 'Both']}
-        onChange={index => setSelectedIndex(index)}
-        itemTextStyle={{fontWeight: '600', fontSize: 25}}
-        selectedIndicatorStyle={{
-          borderTopWidth: 2,
-          borderBottomWidth: 2,
-          borderColor: colors.MAINCOLOR,
-        }}
-      />
-      <Text style={styles.textWelcome}>
-        2. Your estimated spending amount for the trip? (Unit: million VNĐ)
-      </Text>
-      <Text style={styles.result}>
-        {Array.isArray(value) ? value.join(' - ') : value}
-      </Text>
-      {renderChildren()}
+      <View>
+        <Text style={styles.textWelcome}>
+          1. Your main goal when going to Da Nang?
+        </Text>
+        <WheelPicker
+          selectedIndex={selectedIndex}
+          options={['Eat', 'Explore', 'Both']}
+          onChange={index => setSelectedIndex(index)}
+          itemTextStyle={{fontWeight: '600', fontSize: 25}}
+          selectedIndicatorStyle={{
+            borderTopWidth: 2,
+            borderBottomWidth: 2,
+            borderColor: colors.MAINCOLOR,
+          }}
+        />
+      </View>
+      <View style={styles.viewMoney}>
+        <Text style={styles.textWelcome}>
+          2. Your estimated spending amount for the trip? (Unit: million VNĐ)
+        </Text>
+        <Text style={styles.result}>
+          {Array.isArray(value) ? value.join(' - ') : value}
+        </Text>
+        {renderChildren()}
+      </View>
+
       <FieldButton
         stylesContainer={styles.buttonNext}
         title={'Next'}
@@ -108,7 +113,7 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.35,
     backgroundColor: colors.MAINCOLOR,
     alignSelf: 'center',
-    marginTop: heightScreen * 0.183,
+    marginTop: heightScreen * 0.113,
   },
   sliderContainer: {
     width: widthScreen * 0.85,
@@ -122,5 +127,8 @@ const styles = StyleSheet.create({
   result: {
     fontWeight: '600',
     fontSize: 16,
+  },
+  viewMoney: {
+    marginTop: heightScreen * 0.07,
   },
 });
