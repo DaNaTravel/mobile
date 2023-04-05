@@ -10,7 +10,7 @@ const WelcomeAbout = ({title, styleButtonBack}) => {
     <View style={styles.viewHeader}>
       <View style={styles.viewBack}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('About1')}
+          onPress={() => navigation.goBack()}
           style={[styles.buttonBack, styleButtonBack]}>
           <FontAwesome name="angle-left" size={24} color="black" />
         </TouchableOpacity>
