@@ -1,6 +1,7 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -10,9 +11,16 @@ const Profile = () => {
     //redirect Sign In
     navigation.navigate('SignIn');
   };
+  const getData = async () => {
+    let data = JSON.parse(await AsyncStorage.getItem('data'));
+    console.log('data ', data);
+  };
   return (
     <View>
       <Text>Profile</Text>
+      <TouchableOpacity onPress={() => getData()}>
+        <Text>Get data </Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.signOut} onPress={() => handleSignout()}>
         <Text style={{}}>Signout</Text>
       </TouchableOpacity>
