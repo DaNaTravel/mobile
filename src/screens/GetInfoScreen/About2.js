@@ -5,6 +5,7 @@ import {colors, heightScreen, widthScreen} from '../../utility';
 import WelcomeAbout from '../../components/WelcomeAbout';
 import FieldButton from '../../components/FieldButton';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const About2 = ({route}) => {
   const {numberPeople} = route.params;
@@ -29,6 +30,11 @@ const About2 = ({route}) => {
       endDate: endDate,
     },
   };
+  const navigaton = useNavigation();
+  const handleNavi = () => {
+    AsyncStorage.setItem('data', JSON.stringify(data));
+    navigaton.navigate('About3');
+  };
   const handleNext = () => {
     startDate === '' || endDate === ''
       ? Alert.alert('Opps', 'Please choose time!', [
@@ -36,9 +42,8 @@ const About2 = ({route}) => {
             text: 'Try again',
           },
         ])
-      : navigaton.navigate('About3', {data: data});
+      : handleNavi();
   };
-  const navigaton = useNavigation();
   return (
     <View style={styles.viewParent}>
       <WelcomeAbout

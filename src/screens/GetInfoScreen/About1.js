@@ -9,33 +9,10 @@ import WelcomeAbout from '../../components/WelcomeAbout';
 const About1 = () => {
   const navigaton = useNavigation();
   const [selectedIndex, setSelectedIndex] = useState(1);
-  const wheelPickerNumbers = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12',
-    '13',
-    '14',
-    '15',
-    '16',
-    '17',
-    '18',
-    '19',
-    '20',
-    '21',
-    '22',
-    '23',
-    '24',
-    '25',
-  ];
+  let wheelPickerNumbers = [];
+  for (let i = 1; i < 61; i++) {
+    wheelPickerNumbers.push(i);
+  }
   return (
     <View style={styles.viewParent}>
       <WelcomeAbout title={'How many people join this trip?'} />

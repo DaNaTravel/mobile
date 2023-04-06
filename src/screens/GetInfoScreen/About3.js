@@ -5,6 +5,8 @@ import {colors, heightScreen, widthScreen} from '../../utility';
 import FieldButton from '../../components/FieldButton';
 import WelcomeAbout from '../../components/WelcomeAbout';
 import WheelPicker from 'react-native-wheely';
+import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const DEFAULT_VALUE = 0.2;
 const SliderContainer = props => {
@@ -39,6 +41,15 @@ const SliderContainer = props => {
     });
   };
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const options = ['Eat', 'Explore', 'Both'];
+  const navigation = useNavigation();
+  const handleNext = async () => {
+    let data = JSON.parse(await AsyncStorage.getItem('data'));
+    data.expense = value;
+    data.mainGoal = options[selectedIndex];
+    await AsyncStorage.setItem('data', JSON.stringify(data));
+    navigation.navigate('BottomTab');
+  };
   return (
     <View style={styles.sliderContainer}>
       <View>
@@ -47,7 +58,7 @@ const SliderContainer = props => {
         </Text>
         <WheelPicker
           selectedIndex={selectedIndex}
-          options={['Eat', 'Explore', 'Both']}
+          options={options}
           onChange={index => setSelectedIndex(index)}
           itemTextStyle={{fontWeight: '600', fontSize: 25}}
           selectedIndicatorStyle={{
@@ -59,7 +70,7 @@ const SliderContainer = props => {
       </View>
       <View style={styles.viewMoney}>
         <Text style={styles.textWelcome}>
-          2. Your estimated spending amount for the trip? (Unit: million VNĐ)
+          2. Your estimated spending amount for the trip? (Unit: million VND)
         </Text>
         <Text style={styles.result}>
           {Array.isArray(value) ? value.join(' - ') : value}
@@ -74,14 +85,12 @@ const SliderContainer = props => {
         icon2={'angle-right'}
         size2={30}
         color2={'#fff'}
-        onPress={() => console.log(value)}
+        onPress={() => handleNext()}
       />
     </View>
   );
 };
-const About3 = ({route}) => {
-  const {data} = route.params;
-
+const About3 = () => {
   return (
     <View style={styles.viewParent}>
       <WelcomeAbout
