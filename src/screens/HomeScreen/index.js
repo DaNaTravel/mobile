@@ -7,6 +7,7 @@ import {
   Button,
   FlatList,
   SafeAreaView,
+  Image,
 } from 'react-native';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import RBSheet from 'react-native-raw-bottom-sheet';
@@ -14,6 +15,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import Accordion from 'react-native-collapsible/Accordion';
 import AccordionItem from '../../components/AccordionItem';
+import AccordionItemWeather from '../../components/AccordionItemWeather';
 
 const HomeScreen = () => {
   const refRBSheet = useRef();
@@ -25,7 +27,7 @@ const HomeScreen = () => {
     },
     {
       title: 'Weather forecast',
-      content: [0, 1, 2, 3],
+      content: [1, 2, 3],
     },
   ];
 
@@ -39,17 +41,40 @@ const HomeScreen = () => {
   };
   _renderContent = section => {
     return (
-      <SafeAreaView style={styles.content}>
-        <FlatList
-          data={section.content}
-          renderItem={({item, index}) => <AccordionItem item={item} />}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          horizontal
-          scrollEnabled={true}
-          keyExtractor={index => index}
-        />
-      </SafeAreaView>
+      <>
+        {section.title === 'Weather forecast' ? (
+          <SafeAreaView style={styles.contentWeather}>
+            <FlatList
+              data={section.content}
+              renderItem={({item, index}) => (
+                <AccordionItemWeather item={item} />
+              )}
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+              horizontal
+              scrollEnabled={true}
+              keyExtractor={index => index}
+            />
+          </SafeAreaView>
+        ) : (
+          <SafeAreaView style={styles.content}>
+            <FlatList
+              data={section.content}
+              renderItem={({item, index}) => <AccordionItem item={item} />}
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+              horizontal
+              scrollEnabled={true}
+              keyExtractor={index => index}
+            />
+            <TouchableOpacity
+              style={styles.buttonSee}
+              onPress={() => console.log('See itinerary detail!')}>
+              <Text style={styles.textSee}>See details</Text>
+            </TouchableOpacity>
+          </SafeAreaView>
+        )}
+      </>
     );
   };
   return (
@@ -61,11 +86,27 @@ const HomeScreen = () => {
           <Feather name="more-horizontal" size={24} color={'#222222'} />
         </TouchableOpacity>
       </View>
-      <View style={styles.map}></View>
-      <Button
-        title="OPEN BOTTOM SHEET"
-        onPress={() => refRBSheet.current.open()}
+      <Image
+        style={styles.map}
+        source={require('../../assets/images/map.jpg')}
       />
+      <TouchableOpacity
+        style={styles.buttonBottom}
+        onPress={() => refRBSheet.current.open()}>
+        <Text style={styles.textButton}>Touch to see your itinerary</Text>
+      </TouchableOpacity>
+      <View style={styles.viewPopular}>
+        <Text style={styles.textPopular}>Some popular places</Text>
+        <FlatList
+          data={[1, 2, 3, 4, 5]}
+          renderItem={({item, index}) => <AccordionItem item={item} />}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          scrollEnabled={true}
+          keyExtractor={index => index}
+        />
+      </View>
+
       <RBSheet
         ref={refRBSheet}
         closeOnDragDown={true}
@@ -127,9 +168,10 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   map: {
-    backgroundColor: colors.MAINCOLOR,
     height: heightScreen * 0.5,
     width: widthScreen,
+    borderWidth: 0.5,
+    borderColor: '#000',
   },
   header: {
     height: heightScreen * 0.05,
@@ -143,7 +185,55 @@ const styles = StyleSheet.create({
     color: '#000',
     marginLeft: widthScreen * 0.05,
   },
+  contentWeather: {
+    width: widthScreen * 0.85,
+    height: heightScreen * 0.3,
+    alignSelf: 'center',
+  },
   content: {
+    width: widthScreen * 0.85,
+    height: heightScreen * 0.17,
+    alignSelf: 'center',
+  },
+  buttonBottom: {
+    height: heightScreen * 0.06,
+    width: widthScreen * 0.5,
+    borderRadius: 20,
+    backgroundColor: colors.MAINCOLOR,
+    marginVertical: heightScreen * 0.03,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 3,
+  },
+  textButton: {
+    fontSize: 13,
+    fontWeight: 600,
+    color: '#fff',
+    textAlign: 'center',
+  },
+  buttonSee: {
+    alignSelf: 'flex-end',
+  },
+  textSee: {
+    fontStyle: 'italic',
+    color: colors.MAINCOLOR,
+    fontWeight: 500,
+  },
+  textPopular: {
+    fontSize: 18,
+    fontWeight: 500,
+    color: '#000',
+  },
+  viewPopular: {
+    height: heightScreen * 0.3,
     width: widthScreen * 0.85,
     alignSelf: 'center',
   },
