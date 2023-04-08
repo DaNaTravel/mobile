@@ -1,6 +1,6 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {heightScreen, widthScreen} from '../../utility';
+import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -28,11 +28,6 @@ const AccordionItem = ({item}) => {
           <FontAwesome name="star-half" size={17} color="#E8AD16" />
         </View>
       </View>
-      {/* <TouchableOpacity
-        style={styles.viewDel}
-        onPress={() => console.log('cuu em')}>
-        <FontAwesome name="trash-o" size={25} color="black" />
-      </TouchableOpacity> */}
     </TouchableOpacity>
   );
 };
@@ -44,7 +39,7 @@ const styles = StyleSheet.create({
     height: heightScreen * 0.13,
     width: widthScreen * 0.75,
     borderRadius: 15,
-    backgroundColor: '#fff',
+    backgroundColor: colors.WHITE,
     marginHorizontal: heightScreen * 0.005,
     shadowColor: '#000',
     shadowOffset: {

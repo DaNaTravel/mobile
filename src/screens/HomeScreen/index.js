@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   viewHeader: {
     height: heightScreen * 0.08,
     width: widthScreen,
-    backgroundColor: '#fff',
+    backgroundColor: colors.WHITE,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   space: {
     height: heightScreen * 0.08,
     width: widthScreen * 0.05,
-    backgroundColor: '#fff',
+    backgroundColor: colors.WHITE,
   },
   textTitle: {
     fontSize: 20,
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     height: heightScreen * 0.06,
     width: widthScreen * 0.5,
     borderRadius: 20,
-    backgroundColor: colors.MAINCOLOR,
+    backgroundColor: '#2B688C',
     marginVertical: heightScreen * 0.03,
     justifyContent: 'center',
     alignSelf: 'center',
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
   textButton: {
     fontSize: 13,
     fontWeight: 600,
-    color: '#fff',
+    color: colors.WHITE,
     textAlign: 'center',
   },
   buttonSee: {

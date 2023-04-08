@@ -45,10 +45,10 @@ export default FieldButton;
 
 const styles = StyleSheet.create({
   container: {
-    width: widthScreen * 0.9,
-    height: heightScreen * 0.06,
+    width: widthScreen * 0.885,
+    height: heightScreen * 0.07,
     flexDirection: 'row',
-    borderRadius: 20,
+    borderRadius: 30,
     backgroundColor: colors.MAINCOLOR,
     alignItems: 'center',
     justifyContent: 'center',
@@ -68,6 +68,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
     alignSelf: 'center',
-    color: 'white',
+    color: colors.WHITE,
   },
 });

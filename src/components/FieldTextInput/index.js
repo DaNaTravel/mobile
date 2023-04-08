@@ -67,16 +67,18 @@ export default FieldTextInput;
 const styles = StyleSheet.create({
   container: {
     height: heightScreen * 0.095,
-    width: widthScreen * 0.9,
+    width: widthScreen * 0.88,
+    alignSelf: 'center',
   },
   input: {
-    height: heightScreen * 0.06,
-    paddingLeft: widthScreen * 0.04,
+    height: heightScreen * 0.07,
+    width: widthScreen * 0.88,
+    paddingLeft: widthScreen * 0.08,
     paddingRight: widthScreen * 0.12,
-    borderRadius: 20,
+    borderRadius: 30,
     fontStyle: 'normal',
     fontSize: 14,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#f1f1f1',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -91,7 +93,7 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.06,
     position: 'absolute',
     right: widthScreen * 0.04,
-    top: heightScreen * 0.018,
+    top: heightScreen * 0.0225,
   },
   errortxt: {
     fontSize: 12,

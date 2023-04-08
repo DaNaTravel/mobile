@@ -24,13 +24,14 @@ const Header = () => {
     <View>
       <View style={styles.viewBack}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('About1')}
+          onPress={() => navigation.navigate('Getting')}
           style={styles.buttonBack}>
           <FontAwesome name="angle-left" size={24} color="black" />
         </TouchableOpacity>
       </View>
-      <Text style={styles.textHello}>Hello!</Text>
-      <Text style={styles.textWelcome}>Welcome Back To DaNaTravel</Text>
+      <View style={styles.viewHello}>
+        <Text style={styles.textHello}>Welcome, DaNaTravel</Text>
+      </View>
     </View>
   );
 };
@@ -86,7 +87,7 @@ const Body = ({email, setEmail, password, setPassword}) => {
   return (
     <ScrollView style={styles.containerBody}>
       <FieldTextInput
-        stylesContainer={{marginTop: heightScreen * 0.05}}
+        stylesContainer={styles.inputMail}
         placeholder={'Enter your email'}
         onChangeText={email => setEmail(email)}
         onSubmitEditing={Keyboard.dismiss}
@@ -103,19 +104,16 @@ const Body = ({email, setEmail, password, setPassword}) => {
         <Text style={styles.textForgotPW}>Forgot Password?</Text>
       </TouchableOpacity>
       <FieldButton
-        stylesContainer={{marginVertical: heightScreen * 0.03}}
+        stylesContainer={styles.buttonSignin}
         title={'Sign in'}
         onPress={() => handleSignIn(email, password)}
       />
       <Text style={styles.textOtherSign}>Or sign in using</Text>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+      <View style={styles.viewOther}>
         <FieldButton
-          stylesContainer={{
-            width: widthScreen * 0.4,
-            backgroundColor: '#fff',
-          }}
+          stylesContainer={styles.viewButtonGG}
           title={'Google'}
-          stylesTitle={{color: '#000', fontSize: 15, fontWeight: 'bold'}}
+          stylesTitle={styles.textGG}
           icon={'google'}
           size={30}
           onPress={() => {
@@ -123,12 +121,9 @@ const Body = ({email, setEmail, password, setPassword}) => {
           }}
         />
         <FieldButton
-          stylesContainer={{
-            width: widthScreen * 0.4,
-            backgroundColor: '#3498DB',
-          }}
+          stylesContainer={styles.viewButtonFB}
           title={'Facebook'}
-          stylesTitle={{color: '#fff', fontSize: 15, fontWeight: 'bold'}}
+          stylesTitle={styles.textFB}
           icon={'facebook-f'}
           color="#fff"
           size={30}
@@ -136,23 +131,14 @@ const Body = ({email, setEmail, password, setPassword}) => {
         />
       </View>
       {data ? <FieldWebView HTML={data} /> : <></>}
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          marginTop: heightScreen * 0.2,
-        }}>
-        <Text
-          style={[styles.textForgotPW, {color: 'black', fontStyle: 'italic'}]}>
-          Don't have an account?
-        </Text>
+      <View style={styles.viewSignup}>
+        <Text style={styles.textDont}>Don't have an account?</Text>
         <Text
           style={[
             styles.textForgotPW,
             {fontWeight: 'bold', color: colors.MAINCOLOR},
           ]}
           onPress={() => navigation.navigate('SignUp')}>
-          {' '}
           Sign up
         </Text>
       </View>
@@ -164,20 +150,13 @@ const SignInScreen = () => {
   const [password, setPassword] = useState('');
   return (
     <View style={styles.viewParent}>
-      <ImageBackground
-        source={{
-          uri: 'https://f9-zpcloud.zdn.vn/7073135390479215672/557d015045c79899c1d6.jpg',
-        }}
-        resizeMode="cover"
-        style={styles.img}>
-        <Header />
-        <Body
-          email={email}
-          setEmail={setEmail}
-          password={password}
-          setPassword={setPassword}
-        />
-      </ImageBackground>
+      <Header />
+      <Body
+        email={email}
+        setEmail={setEmail}
+        password={password}
+        setPassword={setPassword}
+      />
     </View>
   );
 };
@@ -188,6 +167,7 @@ const styles = StyleSheet.create({
   viewParent: {
     height: heightScreen,
     width: widthScreen,
+    backgroundColor: colors.WHITE,
   },
   img: {
     tintColor: 'gray',
@@ -200,25 +180,33 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#f1f1f1',
     height: 50,
     width: 50,
     borderRadius: 50 / 2,
     bottom: 0,
-    left: widthScreen * 0.05,
+    left: widthScreen * 0.06,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: heightScreen * 0.001,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+  },
+  viewHello: {
+    width: widthScreen * 0.59,
+    alignSelf: 'center',
   },
   textHello: {
     fontWeight: 'bold',
-    fontSize: 35,
+    fontSize: 43,
     color: '#000',
     textAlign: 'center',
   },
-  textWelcome: {
-    fontSize: 20,
-    color: '#707B81',
-    textAlign: 'center',
-  },
   containerBody: {
+    width: widthScreen * 0.885,
     height: heightScreen,
     alignSelf: 'center',
   },
@@ -227,7 +215,7 @@ const styles = StyleSheet.create({
   },
   textForgotPW: {
     fontSize: 12,
-    fontWeight: '500',
+    fontWeight: 500,
     color: '#000',
   },
   textOtherSign: {
@@ -235,5 +223,49 @@ const styles = StyleSheet.create({
     color: '#000',
     marginVertical: heightScreen * 0.015,
     fontSize: 12,
+  },
+  viewSignup: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: heightScreen * 0.15,
+  },
+  inputMail: {
+    marginTop: heightScreen * 0.05,
+  },
+  buttonSignin: {
+    marginVertical: heightScreen * 0.02,
+  },
+  viewOther: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  viewButtonGG: {
+    width: widthScreen * 0.4,
+    backgroundColor: colors.WHITE,
+  },
+  textGG: {
+    color: '#000',
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  viewButtonFB: {
+    width: widthScreen * 0.4,
+    backgroundColor: '#3498DB',
+  },
+  textFB: {
+    color: colors.WHITE,
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  textDont: {
+    fontSize: 12,
+    fontWeight: 500,
+    color: '#000',
+    fontStyle: 'italic',
+  },
+  textSignup: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: colors.MAINCOLOR,
   },
 });

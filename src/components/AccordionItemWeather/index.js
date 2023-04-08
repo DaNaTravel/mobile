@@ -1,6 +1,6 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {heightScreen, widthScreen} from '../../utility';
+import {colors, heightScreen, widthScreen} from '../../utility';
 
 const AccordionItemWeather = ({item}) => {
   return (
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     height: heightScreen * 0.27,
     width: widthScreen * 0.3,
     borderRadius: 15,
-    backgroundColor: '#fff',
+    backgroundColor: colors.WHITE,
     marginHorizontal: heightScreen * 0.005,
     shadowColor: '#000',
     shadowOffset: {

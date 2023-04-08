@@ -23,6 +23,20 @@ const App = () => {
           options={{
             headerShown: false,
           }}
+          name="BottomTab"
+          component={BottomTab}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="Getting"
+          component={GettingStarted}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="About1"
           component={About1}
         />
@@ -58,13 +72,6 @@ const App = () => {
           options={{
             headerShown: false,
           }}
-          name="BottomTab"
-          component={BottomTab}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
           name="Submit"
           component={SubmitEmail}
         />
@@ -88,13 +95,6 @@ const App = () => {
           }}
           name="Start"
           component={GettingScreen}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="Getting"
-          component={GettingStarted}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -45,7 +45,7 @@ const Slider = () => {
   }).current;
 
   return (
-    <View style={{alignItems: 'center'}}>
+    <View style={styles.viewParent}>
       <FlatList
         data={Slides}
         renderItem={({item}) => <SlideItem item={item} />}
@@ -60,8 +60,9 @@ const Slider = () => {
       <Pagination data={Slides} scrollX={scrollX} index={index} />
       <FieldButton
         stylesContainer={{bottom: heightScreen * 0.17}}
-        title={"Let's go"}
+        title={'Get started'}
         onPress={() => navigation.navigate('SignIn')}
+        stylesTitle={styles.textGetstarted}
       />
     </View>
   );
@@ -69,4 +70,11 @@ const Slider = () => {
 
 export default Slider;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  textGetstarted: {
+    fontSize: 26,
+  },
+  viewParent: {
+    alignItems: 'center',
+  },
+});

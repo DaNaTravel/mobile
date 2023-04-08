@@ -33,10 +33,10 @@ const About1 = () => {
       <FieldButton
         stylesContainer={styles.buttonNext}
         title={'Next'}
-        stylesTitle={{color: '#fff', fontSize: 15, fontWeight: 'bold'}}
+        stylesTitle={{color: colors.WHITE, fontSize: 15, fontWeight: 'bold'}}
         icon2={'angle-right'}
         size2={30}
-        color2={'#fff'}
+        color2={colors.WHITE}
         onPress={() =>
           navigaton.navigate('About2', {numberPeople: selectedIndex})
         }

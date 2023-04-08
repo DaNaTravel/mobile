@@ -57,16 +57,16 @@ const About2 = ({route}) => {
         maxDate={maxDate}
         todayBackgroundColor="#f2e6ff"
         selectedDayColor={colors.MAINCOLOR}
-        selectedDayTextColor="#FFFFFF"
+        selectedDayTextColor={colors.WHITE}
         onDateChange={onDateChange}
       />
       <FieldButton
         stylesContainer={styles.buttonNext}
         title={'Next'}
-        stylesTitle={{color: '#fff', fontSize: 15, fontWeight: 'bold'}}
+        stylesTitle={{color: colors.WHITE, fontSize: 15, fontWeight: 'bold'}}
         icon2={'angle-right'}
         size2={30}
-        color2={'#fff'}
+        color2={colors.WHITE}
         onPress={() => handleNext()}
       />
     </View>
@@ -77,7 +77,7 @@ export default About2;
 
 const styles = StyleSheet.create({
   viewParent: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.WHITE,
     height: heightScreen,
     width: widthScreen,
   },

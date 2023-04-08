@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
+import LinearGradient from 'react-native-linear-gradient';
 
 const SlideItem = ({item}) => {
   const translateYImage = new Animated.Value(40);
@@ -26,10 +27,16 @@ const SlideItem = ({item}) => {
       style={styles.container}
       source={item.img}
       resizeMode="cover">
-      <View style={styles.content}>
-        <Text style={styles.title}>{item.title}</Text>
+      <LinearGradient
+        colors={['rgba(255,255,255,0.01)', 'rgba(0,0,0,0.7)']}
+        style={styles.viewBlur}>
+        {item.id === 2 ? (
+          <Text style={styles.title2}>{item.title}</Text>
+        ) : (
+          <Text style={styles.title}>{item.title}</Text>
+        )}
         <Text style={styles.description}>{item.description}</Text>
-      </View>
+      </LinearGradient>
     </ImageBackground>
   );
 };
@@ -45,21 +52,26 @@ const styles = StyleSheet.create({
     flex: 1,
     tintColor: 'gray',
   },
-  content: {
-    flex: 0.2,
-    alignItems: 'center',
-    top: heightScreen * 0.66,
-    width: widthScreen * 0.85,
-    alignSelf: 'center',
-  },
   title: {
     fontSize: 43,
     fontWeight: 'bold',
-    color: colors.MAINCOLOR,
+    color: colors.WHITE,
+  },
+  title2: {
+    fontSize: 43,
+    fontWeight: 'bold',
+    color: colors.BLACK,
   },
   description: {
     fontSize: 20,
-    color: '#000000',
-    textAlign: 'center',
+    color: colors.WHITE,
+  },
+  viewBlur: {
+    width: widthScreen,
+    height: heightScreen * 0.45,
+    paddingHorizontal: widthScreen * 0.06,
+    top: heightScreen * 0.55,
+    alignSelf: 'center',
+    paddingTop: heightScreen * 0.115,
   },
 });

@@ -32,7 +32,6 @@ const Header = ({headerMotion}) => {
         </TouchableOpacity>
       </View>
       <Text style={styles.textHello}>Create Account</Text>
-      <Text style={styles.textWelcome}>Let's companion with us</Text>
     </Animated.View>
   );
 };
@@ -55,7 +54,7 @@ const Body = ({
   return (
     <View style={styles.containerBody}>
       <FieldTextInput
-        stylesContainer={{marginTop: heightScreen * 0.05}}
+        stylesContainer={styles.inputName}
         placeholder={'Enter your full name'}
         onFocus={() => handleError(null, 'name')}
         onChangeText={e => setName(e)}
@@ -86,29 +85,15 @@ const Body = ({
         error={errors.cfpassword}
       />
       <FieldButton
-        stylesContainer={{marginVertical: heightScreen * 0.02}}
+        stylesContainer={styles.buttonSignup}
         title={'Sign up'}
         onPress={validate}
       />
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          marginTop: heightScreen * 0.162,
-        }}>
-        <Text
-          style={[styles.textForgotPW, {color: 'black', fontStyle: 'italic'}]}>
-          Already have an account?
-        </Text>
-        <Text
-          style={[
-            styles.textForgotPW,
-            {fontWeight: 'bold', color: colors.MAINCOLOR},
-          ]}
-          onPress={() => navigation.navigate('SignIn')}>
-          {' '}
-          Sign in
-        </Text>
+      <View style={styles.viewHaveAcc}>
+        <Text style={styles.textHaveAcc}>Already have an account?</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+          <Text style={styles.textSignin}>Sign in</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -218,31 +203,23 @@ const SignUpScreen = () => {
   };
   return (
     <ScrollView style={styles.viewParent}>
-      <ImageBackground
-        source={{
-          uri: 'https://f9-zpcloud.zdn.vn/7073135390479215672/557d015045c79899c1d6.jpg',
-        }}
-        resizeMode="cover"
-        style={styles.img}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : null}>
-          <Header headerMotion={headerMotion} />
-          <Body
-            name={name}
-            setName={setName}
-            email={email}
-            setEmail={setEmail}
-            password={password}
-            setPassword={setPassword}
-            cfpassword={cfpassword}
-            setCFPassword={setCFPassword}
-            validate={validate}
-            errors={errors}
-            handleError={handleError}
-            pressRegister={pressRegister}
-          />
-        </KeyboardAvoidingView>
-      </ImageBackground>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null}>
+        <Header headerMotion={headerMotion} />
+        <Body
+          name={name}
+          setName={setName}
+          email={email}
+          setEmail={setEmail}
+          password={password}
+          setPassword={setPassword}
+          cfpassword={cfpassword}
+          setCFPassword={setCFPassword}
+          validate={validate}
+          errors={errors}
+          handleError={handleError}
+          pressRegister={pressRegister}
+        />
+      </KeyboardAvoidingView>
     </ScrollView>
   );
 };
@@ -253,6 +230,7 @@ const styles = StyleSheet.create({
   viewParent: {
     height: heightScreen,
     width: widthScreen,
+    backgroundColor: colors.WHITE,
   },
   viewBack: {
     height: heightScreen * 0.12,
@@ -262,20 +240,27 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: colors.GRAY,
     height: 50,
     width: 50,
     borderRadius: 50 / 2,
     bottom: 0,
-    left: widthScreen * 0.05,
+    left: widthScreen * 0.06,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: heightScreen * 0.001,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
   },
   textHello: {
     fontWeight: 'bold',
-    fontSize: 35,
+    fontSize: 43,
     color: '#000',
     textAlign: 'center',
   },
-  textWelcome: {fontSize: 20, color: '#707B81', textAlign: 'center'},
   containerBody: {
     height: heightScreen,
     alignSelf: 'center',
@@ -288,7 +273,29 @@ const styles = StyleSheet.create({
   },
   textForgotPW: {
     fontSize: 12,
-    fontWeight: '500',
+    fontWeight: 500,
     color: '#000',
+  },
+  inputName: {
+    marginTop: heightScreen * 0.05,
+  },
+  buttonSignup: {
+    marginVertical: heightScreen * 0.05,
+  },
+  viewHaveAcc: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: heightScreen * 0.1065,
+  },
+  textHaveAcc: {
+    fontSize: 12,
+    fontWeight: 500,
+    color: '#000',
+    fontStyle: 'italic',
+  },
+  textSignin: {
+    color: colors.MAINCOLOR,
+    fontSize: 12,
+    fontWeight: 'bold',
   },
 });
