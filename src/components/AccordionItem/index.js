@@ -3,12 +3,17 @@ import React from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {useNavigation} from '@react-navigation/native';
 
 const AccordionItem = ({item}) => {
+  const navigation = useNavigation();
   return (
     <TouchableOpacity
       style={styles.viewParent}
-      onPress={() => console.log(`See place detail of id ${item}`)}>
+      onPress={() => {
+        console.log(`See place detail of id ${item}`);
+        navigation.navigate('PlaceDetail', {data: item});
+      }}>
       <Image
         source={require('../../assets/images/mariamaria.jpeg')}
         resizeMode="cover"
@@ -20,7 +25,13 @@ const AccordionItem = ({item}) => {
           <MaterialIcons name="place" size={25} color={'#F87265'} />
           <Text>74 Tran Phu - 5.6km</Text>
         </View>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: widthScreen * 0.25,
+          }}>
           <FontAwesome name="star" size={17} color="#E8AD16" />
           <FontAwesome name="star" size={17} color="#E8AD16" />
           <FontAwesome name="star" size={17} color="#E8AD16" />
@@ -40,7 +51,7 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.75,
     borderRadius: 15,
     backgroundColor: colors.WHITE,
-    marginHorizontal: heightScreen * 0.005,
+    marginVertical: heightScreen * 0.005,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

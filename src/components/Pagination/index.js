@@ -2,9 +2,9 @@ import {StyleSheet, Animated, View, Dimensions} from 'react-native';
 import React from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 
-const Pagination = ({data, scrollX, index}) => {
+const Pagination = ({data, scrollX, index, stylesContainer}) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, stylesContainer]}>
       {data.map((_, idx) => {
         const inputRange = [
           (idx - 1) * widthScreen,

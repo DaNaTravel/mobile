@@ -8,6 +8,7 @@ import {
   FlatList,
   SafeAreaView,
   Image,
+  ScrollView,
 } from 'react-native';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import RBSheet from 'react-native-raw-bottom-sheet';
@@ -16,6 +17,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import Accordion from 'react-native-collapsible/Accordion';
 import AccordionItem from '../../components/AccordionItem';
 import AccordionItemWeather from '../../components/AccordionItemWeather';
+import ItineraryPlace from '../../components/ItineraryPlace';
 
 const HomeScreen = () => {
   const refRBSheet = useRef();
@@ -30,7 +32,6 @@ const HomeScreen = () => {
       content: [1, 2, 3],
     },
   ];
-
   _renderHeader = section => {
     return (
       <View style={styles.header}>
@@ -63,7 +64,6 @@ const HomeScreen = () => {
               renderItem={({item, index}) => <AccordionItem item={item} />}
               showsHorizontalScrollIndicator={false}
               showsVerticalScrollIndicator={false}
-              horizontal
               scrollEnabled={true}
               keyExtractor={index => index}
             />
@@ -78,7 +78,7 @@ const HomeScreen = () => {
     );
   };
   return (
-    <View style={styles.viewParent}>
+    <ScrollView style={styles.viewParent}>
       <View style={styles.viewHeader}>
         <View style={styles.space}></View>
         <Text style={styles.textTitle}>Your trip</Text>
@@ -93,16 +93,27 @@ const HomeScreen = () => {
       <TouchableOpacity
         style={styles.buttonBottom}
         onPress={() => refRBSheet.current.open()}>
-        <Text style={styles.textButton}>Touch to see your itinerary</Text>
+        <Feather name="search" size={28} color={colors.WHITE} />
       </TouchableOpacity>
       <View style={styles.viewPopular}>
-        <Text style={styles.textPopular}>Some popular places</Text>
+        <View style={styles.viewTour}>
+          <Text style={styles.textTour}>Tour details</Text>
+          <Text style={styles.priceTour}>$500</Text>
+        </View>
+        <View style={styles.viewDay}>
+          <View style={styles.viewDay1}>
+            <Text style={styles.textDay1}>Day 1</Text>
+          </View>
+          <View style={styles.viewDay2}>
+            <Text style={styles.textDay2}>Day 2</Text>
+          </View>
+        </View>
         <FlatList
           data={[1, 2, 3, 4, 5]}
-          renderItem={({item, index}) => <AccordionItem item={item} />}
+          renderItem={({item, index}) => <ItineraryPlace item={item} />}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
-          scrollEnabled={true}
+          scrollEnabled={false}
           keyExtractor={index => index}
         />
       </View>
@@ -123,9 +134,16 @@ const HomeScreen = () => {
             backgroundColor: '#000',
           },
           container: {
-            borderWidth: 1,
             borderTopLeftRadius: 30,
             borderTopRightRadius: 30,
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 1,
+            },
+            shadowOpacity: 0.22,
+            shadowRadius: 2.22,
+            elevation: 5,
           },
         }}>
         <Accordion
@@ -140,14 +158,15 @@ const HomeScreen = () => {
           touchableComponent={TouchableOpacity}
         />
       </RBSheet>
-    </View>
+    </ScrollView>
   );
 };
 export default HomeScreen;
 const styles = StyleSheet.create({
   viewParent: {
-    height: heightScreen,
+    height: 2 * heightScreen,
     width: widthScreen,
+    backgroundColor: colors.WHITE,
   },
   viewHeader: {
     height: heightScreen * 0.08,
@@ -170,8 +189,6 @@ const styles = StyleSheet.create({
   map: {
     height: heightScreen * 0.5,
     width: widthScreen,
-    borderWidth: 0.5,
-    borderColor: '#000',
   },
   header: {
     height: heightScreen * 0.05,
@@ -196,12 +213,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   buttonBottom: {
-    height: heightScreen * 0.06,
-    width: widthScreen * 0.5,
-    borderRadius: 20,
-    backgroundColor: '#2B688C',
-    marginVertical: heightScreen * 0.03,
+    height: 60,
+    width: 60,
+    borderRadius: 30,
+    backgroundColor: colors.MAINCOLOR,
     justifyContent: 'center',
+    alignItems: 'center',
     alignSelf: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -210,14 +227,8 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
-
     elevation: 3,
-  },
-  textButton: {
-    fontSize: 13,
-    fontWeight: 600,
-    color: colors.WHITE,
-    textAlign: 'center',
+    bottom: heightScreen * 0.03,
   },
   buttonSee: {
     alignSelf: 'flex-end',
@@ -227,14 +238,63 @@ const styles = StyleSheet.create({
     color: colors.MAINCOLOR,
     fontWeight: 500,
   },
-  textPopular: {
-    fontSize: 18,
-    fontWeight: 500,
-    color: '#000',
-  },
   viewPopular: {
-    height: heightScreen * 0.3,
+    width: widthScreen,
+    alignItems: 'center',
+    marginTop: heightScreen * -0.075,
+    marginBottom: heightScreen * 0.1,
+    padding: 15,
+    borderTopRightRadius: 50,
+    borderTopLeftRadius: 50,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+  },
+  viewTour: {
     width: widthScreen * 0.85,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     alignSelf: 'center',
+  },
+  textTour: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: colors.BLACK,
+  },
+  priceTour: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: colors.GREEN,
+  },
+  viewDay: {
+    width: widthScreen * 0.38,
+    flexDirection: 'row',
+    marginVertical: heightScreen * 0.02,
+    justifyContent: 'space-between',
+  },
+  viewDay1: {
+    width: widthScreen * 0.13,
+    borderBottomWidth: 2,
+    borderColor: colors.MAINCOLOR,
+  },
+  viewDay2: {
+    width: widthScreen * 0.13,
+  },
+  textDay1: {
+    fontSize: 20,
+    fontWeight: 600,
+    color: colors.MAINCOLOR,
+  },
+  textDay2: {
+    fontSize: 20,
+    fontWeight: 600,
+    color: colors.STRONGGRAY,
+    textAlign: 'right',
   },
 });

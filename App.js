@@ -12,6 +12,8 @@ import GettingScreen from './src/screens/GettingScreen';
 import About1 from './src/screens/GetInfoScreen/About1';
 import About2 from './src/screens/GetInfoScreen/About2';
 import About3 from './src/screens/GetInfoScreen/About3';
+import PlaceDetail from './src/screens/PlaceDetailScreen';
+import History from './src/screens/HistoryScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -95,6 +97,20 @@ const App = () => {
           }}
           name="Start"
           component={GettingScreen}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="PlaceDetail"
+          component={PlaceDetail}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="History"
+          component={History}
         />
       </Stack.Navigator>
     </NavigationContainer>
