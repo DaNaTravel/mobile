@@ -5,6 +5,7 @@ import Profile from '../screens/ProfileScreen';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {colors} from '../utility';
 import History from '../screens/HistoryScreen';
+import Itinerary from '../screens/ItineraryScreen';
 
 const Tabs = AnimatedTabBarNavigator();
 
@@ -53,7 +54,7 @@ export default () => (
     />
     <Tabs.Screen
       name="History"
-      component={History}
+      component={Itinerary}
       options={{
         tabBarIcon: ({focused, color, size}) => (
           <FontAwesome

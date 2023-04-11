@@ -164,7 +164,7 @@ const HomeScreen = () => {
 export default HomeScreen;
 const styles = StyleSheet.create({
   viewParent: {
-    height: 2 * heightScreen,
+    height: heightScreen,
     width: widthScreen,
     backgroundColor: colors.WHITE,
   },
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     width: widthScreen,
     alignItems: 'center',
     marginTop: heightScreen * -0.075,
-    marginBottom: heightScreen * 0.1,
+    paddingBottom: heightScreen * 0.1,
     padding: 15,
     borderTopRightRadius: 50,
     borderTopLeftRadius: 50,

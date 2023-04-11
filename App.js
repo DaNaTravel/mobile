@@ -14,6 +14,7 @@ import About2 from './src/screens/GetInfoScreen/About2';
 import About3 from './src/screens/GetInfoScreen/About3';
 import PlaceDetail from './src/screens/PlaceDetailScreen';
 import History from './src/screens/HistoryScreen';
+import Itinerary from './src/screens/ItineraryScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -111,6 +112,13 @@ const App = () => {
           }}
           name="History"
           component={History}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="Itinerary"
+          component={Itinerary}
         />
       </Stack.Navigator>
     </NavigationContainer>

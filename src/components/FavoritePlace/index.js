@@ -8,7 +8,7 @@ const FavoritePlace = ({item}) => {
   return (
     <View style={styles.viewContainer}>
       <Image
-        source={require('../../assets/images/sontra.png')}
+        source={require('../../assets/images/muinghe.png')}
         resizeMethod="scale"
         style={styles.viewImg}
       />

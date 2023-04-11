@@ -100,7 +100,9 @@ const PlaceDetail = ({route}) => {
             onPress={() => navigation.goBack()}>
             <FontAwesome name="close" size={33} color={colors.STRONGGRAY} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.viewActionGO}>
+          <TouchableOpacity
+            style={styles.viewActionGO}
+            onPress={() => navigation.navigate('Itinerary')}>
             <Text style={styles.textGO}>GO</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.viewActionV}>
@@ -142,8 +144,8 @@ const styles = StyleSheet.create({
   },
   viewImg: {
     height: heightScreen * 0.25,
+    alignItems: 'center',
     borderRadius: 20,
-    right: 30,
   },
   viewDescription: {
     height: heightScreen * 0.25,
