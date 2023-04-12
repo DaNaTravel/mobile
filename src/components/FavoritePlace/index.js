@@ -6,7 +6,9 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 const FavoritePlace = ({item}) => {
   const [like, setLike] = useState(false);
   return (
-    <View style={styles.viewContainer}>
+    <TouchableOpacity
+      style={styles.viewContainer}
+      onPress={() => console.log('move to Place Detail')}>
       <Image
         source={require('../../assets/images/muinghe.png')}
         resizeMethod="scale"
@@ -33,8 +35,7 @@ const FavoritePlace = ({item}) => {
           />
         </TouchableOpacity>
       </View>
-      <Text>{item}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -43,7 +44,7 @@ export default FavoritePlace;
 const styles = StyleSheet.create({
   viewContainer: {
     width: widthScreen * 0.5,
-    height: heightScreen * 0.2,
+    height: heightScreen * 0.23,
     borderRadius: 12,
     backgroundColor: colors.WHITE,
     marginRight: widthScreen * 0.02,
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   viewImg: {
-    height: heightScreen * 0.135,
+    height: heightScreen * 0.162,
     width: widthScreen * 0.5,
     backgroundColor: colors.STRONGGRAY,
     borderTopLeftRadius: 12,

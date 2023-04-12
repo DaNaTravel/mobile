@@ -4,6 +4,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
@@ -18,10 +19,11 @@ import CarouselItem, {
   SLIDER_WIDTH,
 } from '../../components/CarouselItem';
 import FavoritePlace from '../../components/FavoritePlace';
+import {useNavigation} from '@react-navigation/native';
 const Itinerary = () => {
   const isCarousel = useRef(null);
   const [index, setIndex] = useState(0);
-
+  const navigation = useNavigation();
   return (
     <ScrollView style={styles.viewParent}>
       <View style={styles.viewWelcome}>
@@ -55,48 +57,52 @@ const Itinerary = () => {
       <Text style={styles.textFunc}>Functions</Text>
       <View style={styles.viewFunctions}>
         <View style={styles.viewFuncSon}>
-          <View style={styles.viewLogo}>
+          <TouchableOpacity style={styles.viewLogo}>
             <MaterialCommunityIcons
               name="google-maps"
               size={28}
               color="#2EAD80"
             />
-          </View>
-          <Text style={styles.textTitle}>Travel itinerary</Text>
+          </TouchableOpacity>
+          <Text style={styles.textTitle}>Itinerary</Text>
         </View>
         <View style={styles.viewFuncSon}>
-          <View style={styles.viewLogo2}>
+          <TouchableOpacity style={styles.viewLogo2}>
             <MaterialCommunityIcons
               name="home-search"
               size={28}
               color="#B9AA20"
             />
-          </View>
+          </TouchableOpacity>
           <Text style={styles.textTitle}>Booking</Text>
         </View>
         <View style={styles.viewFuncSon}>
-          <View style={styles.viewLogo3}>
+          <TouchableOpacity
+            style={styles.viewLogo3}
+            onPress={() => navigation.navigate('Weather')}>
             <FontAwesome5 name="cloud-sun" size={24} color="#3E8AC3" />
-          </View>
-          <Text style={styles.textTitle}>Weather forecast</Text>
+          </TouchableOpacity>
+          <Text style={styles.textTitle}>Weather</Text>
         </View>
         <View style={styles.viewFuncSon}>
-          <View style={styles.viewLogo4}>
+          <TouchableOpacity style={styles.viewLogo4}>
             <MaterialIcons name="event" size={28} color="#D042B9" />
-          </View>
+          </TouchableOpacity>
           <Text style={styles.textTitle}>Events</Text>
         </View>
       </View>
       <Text style={styles.textFavo}>Favorite places</Text>
-      <FlatList
-        data={[1, 2, 3, 4, 5]}
-        renderItem={({item, index}) => <FavoritePlace item={item} />}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        scrollEnabled={true}
-        keyExtractor={index => index}
-        horizontal
-      />
+      <View style={styles.viewFavo}>
+        <FlatList
+          data={[1, 2, 3, 4, 5]}
+          renderItem={({item, index}) => <FavoritePlace item={item} />}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          scrollEnabled={true}
+          keyExtractor={index => index}
+          horizontal
+        />
+      </View>
     </ScrollView>
   );
 };
@@ -146,7 +152,7 @@ const styles = StyleSheet.create({
     marginBottom: heightScreen * 0.02,
   },
   viewFunctions: {
-    height: heightScreen * 0.13,
+    height: heightScreen * 0.085,
     justifyContent: 'space-between',
     flexDirection: 'row',
   },
@@ -196,5 +202,8 @@ const styles = StyleSheet.create({
     color: colors.BLACK,
     marginBottom: heightScreen * 0.02,
     marginTop: heightScreen * 0.02,
+  },
+  viewFavo: {
+    height: heightScreen * 0.4,
   },
 });
