@@ -35,35 +35,42 @@ const About2 = ({route}) => {
     AsyncStorage.setItem('data', JSON.stringify(data));
     navigaton.navigate('About3');
   };
+  const handleNaviDefault = () => {
+    let now = new Date();
+    let dataDefault = {
+      number: numberPeople,
+      time: {
+        startDate: now,
+        endDate: now,
+      },
+    };
+    AsyncStorage.setItem('data', JSON.stringify(dataDefault));
+    navigaton.navigate('About3');
+  };
   const handleNext = () => {
-    startDate === '' || endDate === ''
-      ? Alert.alert('Opps', 'Please choose time!', [
-          {
-            text: 'Try again',
-          },
-        ])
-      : handleNavi();
+    startDate === '' || endDate === '' ? handleNaviDefault() : handleNavi();
   };
   return (
     <View style={styles.viewParent}>
-      <WelcomeAbout
-        title={'How long do you explore Da Nang?'}
-        styleButtonBack={{backgroundColor: '#F8F9FA'}}
-      />
+      <WelcomeAbout title={'How long do you explore Da Nang?'} />
       <CalendarPicker
         startFromMonday={true}
         allowRangeSelection={true}
         minDate={minDate}
         maxDate={maxDate}
-        todayBackgroundColor="#f2e6ff"
+        todayBackgroundColor="#9CC8F1"
         selectedDayColor={colors.MAINCOLOR}
         selectedDayTextColor={colors.WHITE}
         onDateChange={onDateChange}
+        previousTitleStyle={styles.titlePreNext}
+        nextTitleStyle={styles.titlePreNext}
+        monthTitleStyle={styles.titleMonthYear}
+        yearTitleStyle={styles.titleMonthYear}
       />
       <FieldButton
         stylesContainer={styles.buttonNext}
         title={'Next'}
-        stylesTitle={{color: colors.WHITE, fontSize: 15, fontWeight: 'bold'}}
+        stylesTitle={styles.textNext}
         icon2={'angle-right'}
         size2={30}
         color2={colors.WHITE}
@@ -90,5 +97,18 @@ const styles = StyleSheet.create({
     backgroundColor: colors.MAINCOLOR,
     alignSelf: 'center',
     marginTop: heightScreen * 0.17,
+  },
+  titlePreNext: {
+    fontSize: 12,
+  },
+  titleMonthYear: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: colors.MAINCOLOR,
+  },
+  textNext: {
+    color: colors.WHITE,
+    fontSize: 15,
+    fontWeight: 'bold',
   },
 });

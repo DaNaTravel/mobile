@@ -10,18 +10,21 @@ import React from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import AccordionItemWeather from '../../components/AccordionItemWeather';
 import WeatherTodayItem from '../../components/Weather/WeatherTodayItem';
 import WeatherDayItem from '../../components/Weather/WeatherDayItem';
+import {useNavigation} from '@react-navigation/native';
 
 const WeatherDetail = () => {
+  const navigation = useNavigation();
   return (
     <LinearGradient
       start={{x: 0, y: 1}}
       end={{x: 0, y: 0}}
       colors={['rgba(97,158,192,1)', 'rgba(162,202,226,1)']}
       style={styles.viewParent}>
-      <TouchableOpacity style={styles.buttonBack}>
+      <TouchableOpacity
+        style={styles.buttonBack}
+        onPress={() => navigation.goBack()}>
         <FontAwesome name="angle-left" size={30} color={colors.BLACK} />
       </TouchableOpacity>
       <View style={styles.viewTitle}>

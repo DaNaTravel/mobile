@@ -9,7 +9,7 @@ const data = [
   },
   {
     id: 3,
-    imgUrl: require('../../images/muinghe.png'),
+    imgUrl: require('../../images/booking.jpg'),
   },
 ];
 

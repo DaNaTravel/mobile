@@ -15,11 +15,18 @@ const Profile = () => {
     let data = JSON.parse(await AsyncStorage.getItem('data'));
     console.log('data ', data);
   };
+  const getToken = async () => {
+    let data = await AsyncStorage.getItem('token');
+    console.log('token ', data);
+  };
   return (
     <View>
       <Text>Profile</Text>
       <TouchableOpacity onPress={() => getData()}>
         <Text>Get data </Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => getToken()}>
+        <Text>Get token </Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.signOut} onPress={() => handleSignout()}>
         <Text style={{}}>Signout</Text>
@@ -27,9 +34,7 @@ const Profile = () => {
     </View>
   );
 };
-
 export default Profile;
-
 const styles = StyleSheet.create({
   signOut: {
     height: 100,

@@ -62,8 +62,8 @@ const PlaceDetail = ({route}) => {
           />
           <View style={styles.viewDescription}>
             <View style={styles.viewAddress}>
-              <Text style={styles.textTitle}>Mũi Nghê</Text>
-              <Text style={styles.textSubTitle}>Sơn Trà, Đà Nẵng</Text>
+              <Text style={styles.textTitle}>Mui Nghe</Text>
+              <Text style={styles.textSubTitle}>Son Tra, Da Nang</Text>
             </View>
             <View style={styles.viewTime}>
               <View style={styles.viewSubTime}>
@@ -102,7 +102,7 @@ const PlaceDetail = ({route}) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.viewActionGO}
-            onPress={() => navigation.navigate('Itinerary')}>
+            onPress={() => navigation.navigate('BottomTab')}>
             <Text style={styles.textGO}>GO</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.viewActionV}>
@@ -127,7 +127,6 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.85,
     alignSelf: 'center',
     top: heightScreen * 0.12,
-    backgroundColor: colors.WHITE,
   },
   viewContent: {
     height: heightScreen * 0.66,
@@ -151,6 +150,7 @@ const styles = StyleSheet.create({
     height: heightScreen * 0.25,
     width: widthScreen * 0.7,
     alignSelf: 'center',
+    marginTop: heightScreen * -0.02,
   },
   viewAddress: {
     height: heightScreen * 0.085,

@@ -1,18 +1,21 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {useNavigation} from '@react-navigation/native';
 
 const ItineraryPlace = ({item}) => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.viewParent}>
+    <TouchableOpacity
+      style={styles.viewParent}
+      onPress={() => navigation.navigate('DetailItineraryPlace', {item: item})}>
       <View style={styles.viewTime}>
         <View style={styles.circleParent}>
           <View style={styles.circleSon}></View>
         </View>
         <Text style={styles.textTime}>9:00 AM - 12:00 AM</Text>
       </View>
-
       <View style={styles.viewContent}>
         <View style={styles.viewInformation}>
           <Image
@@ -36,7 +39,7 @@ const ItineraryPlace = ({item}) => {
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

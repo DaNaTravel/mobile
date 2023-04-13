@@ -26,7 +26,7 @@ export default () => (
     }}>
     <Tabs.Screen
       name="Home"
-      component={HomeScreen}
+      component={Itinerary}
       options={{
         tabBarIcon: ({focused, color, size}) => (
           <FontAwesome
@@ -54,7 +54,7 @@ export default () => (
     />
     <Tabs.Screen
       name="History"
-      component={Itinerary}
+      component={History}
       options={{
         tabBarIcon: ({focused, color, size}) => (
           <FontAwesome

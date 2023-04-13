@@ -9,7 +9,7 @@ export const SignIn = (email, password) => {
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: `${BASE_URL}/accounts/signin`,
+    url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/accounts/signin`,
     headers: {
       'Content-Type': 'application/json',
     },

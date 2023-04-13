@@ -41,14 +41,14 @@ const SliderContainer = props => {
     });
   };
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const options = ['Eat', 'Explore', 'Both'];
+  const options = ['Both', 'Explore', 'Eat'];
   const navigation = useNavigation();
   const handleNext = async () => {
     let data = JSON.parse(await AsyncStorage.getItem('data'));
     data.expense = value;
     data.mainGoal = options[selectedIndex];
     await AsyncStorage.setItem('data', JSON.stringify(data));
-    navigation.navigate('BottomTab');
+    navigation.navigate('Home');
   };
   return (
     <View style={styles.sliderContainer}>
@@ -60,12 +60,8 @@ const SliderContainer = props => {
           selectedIndex={selectedIndex}
           options={options}
           onChange={index => setSelectedIndex(index)}
-          itemTextStyle={{fontWeight: '600', fontSize: 25}}
-          selectedIndicatorStyle={{
-            borderTopWidth: 2,
-            borderBottomWidth: 2,
-            borderColor: colors.MAINCOLOR,
-          }}
+          itemTextStyle={styles.textWheel}
+          selectedIndicatorStyle={styles.wheelStyle}
         />
       </View>
       <View style={styles.viewMoney}>
@@ -81,7 +77,7 @@ const SliderContainer = props => {
       <FieldButton
         stylesContainer={styles.buttonNext}
         title={'Next'}
-        stylesTitle={{color: colors.WHITE, fontSize: 15, fontWeight: 'bold'}}
+        stylesTitle={styles.textNext}
         icon2={'angle-right'}
         size2={30}
         color2={colors.WHITE}
@@ -95,7 +91,7 @@ const About3 = () => {
     <View style={styles.viewParent}>
       <WelcomeAbout
         title={'Other questions...'}
-        styleButtonBack={{backgroundColor: '#F8F9FA'}}
+        styleButtonBack={{backgroundColor: colors.GRAY}}
       />
       <SliderContainer sliderValue={[5, 7]}>
         <Slider
@@ -104,7 +100,7 @@ const About3 = () => {
           minimumTrackTintColor={colors.MAINCOLOR}
           minimumValue={1}
           step={1}
-          thumbTintColor="#fff"
+          thumbTintColor={colors.MAINCOLOR}
         />
       </SliderContainer>
     </View>
@@ -117,6 +113,7 @@ const styles = StyleSheet.create({
   viewParent: {
     height: heightScreen,
     width: widthScreen,
+    backgroundColor: colors.WHITE,
   },
   buttonNext: {
     width: widthScreen * 0.35,
@@ -134,10 +131,24 @@ const styles = StyleSheet.create({
     color: '#707B81',
   },
   result: {
-    fontWeight: '600',
+    fontWeight: 600,
     fontSize: 16,
   },
   viewMoney: {
     marginTop: heightScreen * 0.07,
+  },
+  textWheel: {
+    fontWeight: 600,
+    fontSize: 25,
+  },
+  wheelStyle: {
+    borderTopWidth: 2,
+    borderBottomWidth: 2,
+    borderColor: colors.MAINCOLOR,
+  },
+  textNext: {
+    color: colors.WHITE,
+    fontSize: 15,
+    fontWeight: 'bold',
   },
 });

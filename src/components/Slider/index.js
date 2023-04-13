@@ -59,9 +59,9 @@ const Slider = () => {
       />
       <Pagination data={Slides} scrollX={scrollX} index={index} />
       <FieldButton
-        stylesContainer={{bottom: heightScreen * 0.17}}
+        stylesContainer={styles.viewGet}
         title={'Get started'}
-        onPress={() => navigation.navigate('SignIn')}
+        onPress={() => navigation.navigate('About1')}
         stylesTitle={styles.textGetstarted}
       />
     </View>
@@ -73,8 +73,12 @@ export default Slider;
 const styles = StyleSheet.create({
   textGetstarted: {
     fontSize: 26,
+    fontWeight: 500,
   },
   viewParent: {
     alignItems: 'center',
+  },
+  viewGet: {
+    bottom: heightScreen * 0.17,
   },
 });

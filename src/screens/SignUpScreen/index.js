@@ -4,11 +4,9 @@ import {
   View,
   TouchableOpacity,
   Keyboard,
-  ImageBackground,
   Animated,
   ScrollView,
   KeyboardAvoidingView,
-  SafeAreaView,
   Platform,
   Alert,
 } from 'react-native';
@@ -50,7 +48,6 @@ const Body = ({
   pressRegister,
 }) => {
   const navigation = useNavigation();
-
   return (
     <View style={styles.containerBody}>
       <FieldTextInput
@@ -140,13 +137,19 @@ const SignUpScreen = () => {
   };
   const pressRegister = () => {
     if (password == cfpassword) {
-      SignUp(email, name, password);
-      Alert.alert('Success', 'Create new user is successful.', [
-        {
-          text: 'Go to login',
-          onPress: () => navigation.navigate('SignIn'),
-        },
-      ]);
+      SignUp(email, name, password) == 'Email is existed'
+        ? Alert.alert('Failed', 'Email is existed!', [
+            {
+              text: 'Try again',
+              onPress: () => console.log('Account Registration Failed! '),
+            },
+          ])
+        : Alert.alert('Success', 'Create new user is successful.', [
+            {
+              text: 'Go to login',
+              onPress: () => navigation.navigate('SignIn'),
+            },
+          ]);
     } else {
       Alert.alert('Failed', 'Password and Confirm Password not match!', [
         {

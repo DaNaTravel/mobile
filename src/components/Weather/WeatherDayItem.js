@@ -5,7 +5,7 @@ import {colors, heightScreen, widthScreen} from '../../utility';
 const WeatherDayItem = ({item}) => {
   return (
     <View style={styles.viewParent}>
-      <Text style={styles.textDate}>{item}.00</Text>
+      <Text style={styles.textDate}>{item}/04</Text>
       <Image
         source={require('../../assets/images/cloudy.png')}
         style={styles.img}

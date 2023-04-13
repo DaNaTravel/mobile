@@ -8,7 +8,6 @@ import HomeScreen from './src/screens/HomeScreen';
 import ForgotPassword from './src/screens/ForgotPasswordScreen';
 import SubmitEmail from './src/screens/SubmitEmailScreen';
 import BottomTab from './src/navigation/BottomTab';
-import GettingScreen from './src/screens/GettingScreen';
 import About1 from './src/screens/GetInfoScreen/About1';
 import About2 from './src/screens/GetInfoScreen/About2';
 import About3 from './src/screens/GetInfoScreen/About3';
@@ -17,6 +16,7 @@ import History from './src/screens/HistoryScreen';
 import Itinerary from './src/screens/ItineraryScreen';
 import Weather from './src/screens/WeatherScreen';
 import WeatherDetail from './src/screens/WeatherDetailScreen';
+import DetailItineraryPlace from './src/screens/DetailItineraryPlaceScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,13 +24,6 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="BottomTab"
-          component={BottomTab}
-        />
         <Stack.Screen
           options={{
             headerShown: false,
@@ -44,6 +37,13 @@ const App = () => {
           }}
           name="About1"
           component={About1}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="BottomTab"
+          component={BottomTab}
         />
         <Stack.Screen
           name="Home"
@@ -98,13 +98,6 @@ const App = () => {
           options={{
             headerShown: false,
           }}
-          name="Start"
-          component={GettingScreen}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
           name="PlaceDetail"
           component={PlaceDetail}
         />
@@ -135,6 +128,13 @@ const App = () => {
           }}
           name="WeatherDetail"
           component={WeatherDetail}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DetailItineraryPlace"
+          component={DetailItineraryPlace}
         />
       </Stack.Navigator>
     </NavigationContainer>

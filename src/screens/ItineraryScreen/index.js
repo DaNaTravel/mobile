@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import Carousel from 'react-native-snap-carousel';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -20,15 +20,27 @@ import CarouselItem, {
 } from '../../components/CarouselItem';
 import FavoritePlace from '../../components/FavoritePlace';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const Itinerary = () => {
   const isCarousel = useRef(null);
   const [index, setIndex] = useState(0);
+  const [name, setName] = useState('Guess');
   const navigation = useNavigation();
+  const loadName = async () => {
+    let nameUser = await AsyncStorage.getItem('token');
+    nameUser != null ? setName('Gracie') : setName('Guess');
+    console.log(nameUser);
+    return nameUser;
+  };
+  useLayoutEffect(() => {
+    loadName();
+  }, []);
+
   return (
     <ScrollView style={styles.viewParent}>
       <View style={styles.viewWelcome}>
         <View style={styles.viewHello}>
-          <Text style={styles.textHello}>Hi Gracie!</Text>
+          <Text style={styles.textHello}>Hi {name}!</Text>
           <Text style={styles.textHello1}>
             LET'S START <Text style={styles.textHello2}>YOUR JOURNEY</Text>
           </Text>
@@ -57,7 +69,9 @@ const Itinerary = () => {
       <Text style={styles.textFunc}>Functions</Text>
       <View style={styles.viewFunctions}>
         <View style={styles.viewFuncSon}>
-          <TouchableOpacity style={styles.viewLogo}>
+          <TouchableOpacity
+            style={styles.viewLogo}
+            onPress={() => navigation.navigate('About1')}>
             <MaterialCommunityIcons
               name="google-maps"
               size={28}

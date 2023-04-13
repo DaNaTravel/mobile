@@ -8,7 +8,7 @@ import WelcomeAbout from '../../components/WelcomeAbout';
 
 const About1 = () => {
   const navigaton = useNavigation();
-  const [selectedIndex, setSelectedIndex] = useState(1);
+  const [selectedIndex, setSelectedIndex] = useState(2);
   let wheelPickerNumbers = [];
   for (let i = 1; i < 61; i++) {
     wheelPickerNumbers.push(i);
@@ -23,7 +23,7 @@ const About1 = () => {
           setSelectedIndex(index + 1);
         }}
         itemHeight={70}
-        itemTextStyle={{fontWeight: '600', fontSize: 25}}
+        itemTextStyle={{fontWeight: 600, fontSize: 30}}
         selectedIndicatorStyle={{
           borderTopWidth: 2,
           borderBottomWidth: 2,
@@ -33,7 +33,7 @@ const About1 = () => {
       <FieldButton
         stylesContainer={styles.buttonNext}
         title={'Next'}
-        stylesTitle={{color: colors.WHITE, fontSize: 15, fontWeight: 'bold'}}
+        stylesTitle={styles.textNext}
         icon2={'angle-right'}
         size2={30}
         color2={colors.WHITE}
@@ -51,11 +51,17 @@ const styles = StyleSheet.create({
   viewParent: {
     height: heightScreen,
     width: widthScreen,
+    backgroundColor: colors.WHITE,
   },
   buttonNext: {
     width: widthScreen * 0.35,
     backgroundColor: colors.MAINCOLOR,
     alignSelf: 'center',
     marginTop: heightScreen * 0.1,
+  },
+  textNext: {
+    color: colors.WHITE,
+    fontSize: 15,
+    fontWeight: 'bold',
   },
 });

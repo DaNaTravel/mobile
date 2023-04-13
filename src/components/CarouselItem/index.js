@@ -17,9 +17,8 @@ const CarouselItem = ({item, index}) => {
   return (
     <View style={styles.container} key={index}>
       <LinearGradient
-        colors={['rgba(255,255,255,0.01)', 'rgba(0,0,0,0.8)']}
+        colors={['rgba(255,255,255,0.2)', 'rgba(10,10,10,0.7)']}
         style={styles.viewBlur}>
-        <Image source={item.imgUrl} style={styles.image} />
         <View style={styles.viewFrontImg}>
           {item.id === 2 ? (
             <View style={styles.viewTitle}>
@@ -47,6 +46,7 @@ const CarouselItem = ({item, index}) => {
           </TouchableOpacity>
         </View>
       </LinearGradient>
+      <Image source={item.imgUrl} style={styles.image} />
     </View>
   );
 };
@@ -62,17 +62,21 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
     elevation: 3,
+    zIndex: 0,
   },
   image: {
     width: ITEM_WIDTH,
-    height: heightScreen * 0.3,
+    height: heightScreen * 0.28,
     borderRadius: 20,
+    position: 'absolute',
+    zIndex: 1,
   },
   viewBlur: {
     position: 'absolute',
     width: widthScreen * 0.8,
-    height: heightScreen * 0.3,
+    height: heightScreen * 0.28,
     borderRadius: 20,
+    zIndex: 2,
   },
   buttonTry: {
     height: heightScreen * 0.05,
@@ -95,22 +99,27 @@ const styles = StyleSheet.create({
     height: heightScreen * 0.3,
     alignSelf: 'center',
     top: heightScreen * 0.2,
+    zIndex: 3,
   },
   textTitle: {
     fontSize: 15,
     color: colors.WHITE,
+    fontWeight: 600,
   },
   textTitle2: {
     fontSize: 11,
     color: colors.WHITE,
+    fontWeight: 600,
   },
   textTitle3: {
     fontSize: 15,
     color: colors.BLACK,
+    fontWeight: 600,
   },
   textTitle4: {
     fontSize: 11,
     color: colors.BLACK,
+    fontWeight: 600,
   },
 });
 

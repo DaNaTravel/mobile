@@ -22,13 +22,7 @@ const Header = () => {
   const navigation = useNavigation();
   return (
     <View>
-      <View style={styles.viewBack}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Getting')}
-          style={styles.buttonBack}>
-          <FontAwesome name="angle-left" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
+      <View style={styles.viewBack}></View>
       <View style={styles.viewHello}>
         <Text style={styles.textHello}>Welcome, DaNaTravel</Text>
       </View>
@@ -56,13 +50,13 @@ const Body = ({email, setEmail, password, setPassword}) => {
             text: 'Try again',
           },
         ])
-      : SignIn(email, password) !== null
-      ? Alert.alert('Failed', 'Email or password is wrong!', [
+      : SignIn(email, password) == null
+      ? navigation.navigate('BottomTab')
+      : Alert.alert('Failed', 'Email or password is wrong!', [
           {
             text: 'Try again',
           },
-        ])
-      : navigation.navigate('BottomTab');
+        ]);
   };
   const handleForgot = async () => {
     navigation.navigate('Forgot');
@@ -175,25 +169,7 @@ const styles = StyleSheet.create({
   viewBack: {
     height: heightScreen * 0.12,
     width: widthScreen,
-  },
-  buttonBack: {
-    position: 'absolute',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#f1f1f1',
-    height: 50,
-    width: 50,
-    borderRadius: 50 / 2,
-    bottom: 0,
-    left: widthScreen * 0.06,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: heightScreen * 0.001,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
-    elevation: 4,
+    backgroundColor: colors.WHITE,
   },
   viewHello: {
     width: widthScreen * 0.59,

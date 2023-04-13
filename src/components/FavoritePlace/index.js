@@ -2,13 +2,15 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {useNavigation} from '@react-navigation/native';
 
 const FavoritePlace = ({item}) => {
   const [like, setLike] = useState(false);
+  const navigation = useNavigation();
   return (
     <TouchableOpacity
       style={styles.viewContainer}
-      onPress={() => console.log('move to Place Detail')}>
+      onPress={() => navigation.navigate('PlaceDetail', {data: item})}>
       <Image
         source={require('../../assets/images/muinghe.png')}
         resizeMethod="scale"
@@ -29,7 +31,7 @@ const FavoritePlace = ({item}) => {
           style={styles.viewLike}
           onPress={() => setLike(!like)}>
           <FontAwesome
-            name="heart-o"
+            name="heart"
             size={23}
             color={like ? colors.RED : colors.STRONGGRAY}
           />
