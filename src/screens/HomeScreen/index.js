@@ -18,7 +18,7 @@ import Accordion from 'react-native-collapsible/Accordion';
 import AccordionItem from '../../components/AccordionItem';
 import AccordionItemWeather from '../../components/AccordionItemWeather';
 import ItineraryPlace from '../../components/ItineraryPlace';
-
+import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 const HomeScreen = () => {
   const refRBSheet = useRef();
   const [activeSection, setActiveSection] = useState([]);
@@ -90,11 +90,11 @@ const HomeScreen = () => {
         style={styles.map}
         source={require('../../assets/images/map.jpg')}
       />
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.buttonBottom}
         onPress={() => refRBSheet.current.open()}>
         <Feather name="search" size={28} color={colors.WHITE} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <View style={styles.viewPopular}>
         <View style={styles.viewTour}>
           <Text style={styles.textTour}>Tour details</Text>
@@ -164,8 +164,7 @@ const HomeScreen = () => {
 export default HomeScreen;
 const styles = StyleSheet.create({
   viewParent: {
-    height: heightScreen,
-    width: widthScreen,
+    flex: 1,
     backgroundColor: colors.WHITE,
   },
   viewHeader: {
@@ -239,21 +238,21 @@ const styles = StyleSheet.create({
     fontWeight: 500,
   },
   viewPopular: {
-    width: widthScreen,
+    flex: 1,
     alignItems: 'center',
-    marginTop: heightScreen * -0.075,
+    paddingTop: heightScreen * 0.04,
     paddingBottom: heightScreen * 0.1,
     padding: 15,
     borderTopRightRadius: 50,
     borderTopLeftRadius: 50,
-    shadowColor: '#000',
+    shadowRadius: 2,
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: -3,
     },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
+    shadowColor: '#000000',
+    elevation: 4,
+    marginTop: widthScreen * -0.015,
   },
   viewTour: {
     width: widthScreen * 0.85,
@@ -273,15 +272,16 @@ const styles = StyleSheet.create({
     color: colors.GREEN,
   },
   viewDay: {
-    width: widthScreen * 0.38,
+    width: widthScreen * 0.85,
     flexDirection: 'row',
     marginVertical: heightScreen * 0.02,
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
   },
   viewDay1: {
     width: widthScreen * 0.13,
-    borderBottomWidth: 2,
+    borderBottomWidth: 2.5,
     borderColor: colors.MAINCOLOR,
+    marginRight: widthScreen * 0.05,
   },
   viewDay2: {
     width: widthScreen * 0.13,
@@ -296,5 +296,10 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     color: colors.STRONGGRAY,
     textAlign: 'right',
+  },
+  viewList: {
+    backgroundColor: colors.RED,
+    height: heightScreen,
+    width: widthScreen,
   },
 });

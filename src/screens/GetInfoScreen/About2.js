@@ -46,19 +46,18 @@ const About2 = ({route}) => {
   };
   return (
     <View style={styles.viewParent}>
-      <WelcomeAbout
-        title={'How long do you explore Da Nang?'}
-        styleButtonBack={{backgroundColor: '#F8F9FA'}}
-      />
+      <WelcomeAbout title={'How long do you explore Da Nang?'} />
       <CalendarPicker
         startFromMonday={true}
         allowRangeSelection={true}
         minDate={minDate}
         maxDate={maxDate}
-        todayBackgroundColor="#f2e6ff"
+        todayBackgroundColor="#576CBC"
         selectedDayColor={colors.MAINCOLOR}
         selectedDayTextColor={colors.WHITE}
         onDateChange={onDateChange}
+        previousTitleStyle={styles.titlePreNext}
+        nextTitleStyle={styles.titlePreNext}
       />
       <FieldButton
         stylesContainer={styles.buttonNext}
@@ -90,5 +89,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.MAINCOLOR,
     alignSelf: 'center',
     marginTop: heightScreen * 0.17,
+  },
+  titlePreNext: {
+    fontSize: 12,
   },
 });

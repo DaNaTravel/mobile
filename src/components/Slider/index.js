@@ -73,6 +73,7 @@ export default Slider;
 const styles = StyleSheet.create({
   textGetstarted: {
     fontSize: 26,
+    fontWeight: 500,
   },
   viewParent: {
     alignItems: 'center',

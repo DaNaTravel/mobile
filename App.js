@@ -17,6 +17,7 @@ import History from './src/screens/HistoryScreen';
 import Itinerary from './src/screens/ItineraryScreen';
 import Weather from './src/screens/WeatherScreen';
 import WeatherDetail from './src/screens/WeatherDetailScreen';
+import DetailItineraryPlace from './src/screens/DetailItineraryPlaceScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -135,6 +136,13 @@ const App = () => {
           }}
           name="WeatherDetail"
           component={WeatherDetail}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DetailItineraryPlace"
+          component={DetailItineraryPlace}
         />
       </Stack.Navigator>
     </NavigationContainer>

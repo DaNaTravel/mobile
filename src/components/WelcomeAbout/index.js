@@ -12,7 +12,7 @@ const WelcomeAbout = ({title, styleButtonBack}) => {
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={[styles.buttonBack, styleButtonBack]}>
-          <FontAwesome name="angle-left" size={24} color="black" />
+          <FontAwesome name="angle-left" size={24} color={colors.BLACK} />
         </TouchableOpacity>
       </View>
       <Text style={styles.textHello}>{title}</Text>
@@ -32,12 +32,20 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.WHITE,
+    backgroundColor: colors.GRAY,
     height: 50,
     width: 50,
     borderRadius: 50 / 2,
     bottom: 0,
     left: widthScreen * 0.05,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
   },
   textHello: {
     fontWeight: '500',

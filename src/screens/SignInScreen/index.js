@@ -24,7 +24,7 @@ const Header = () => {
     <View>
       <View style={styles.viewBack}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Getting')}
+          onPress={() => navigation.navigate('About1')}
           style={styles.buttonBack}>
           <FontAwesome name="angle-left" size={24} color="black" />
         </TouchableOpacity>
