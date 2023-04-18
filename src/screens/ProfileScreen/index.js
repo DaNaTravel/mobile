@@ -8,6 +8,8 @@ const Profile = () => {
   const handleSignout = () => {
     //delete cache
     AsyncStorage.clear();
+    // //set flag FirstUse
+    // AsyncStorage.setItem('flag', 'used');
     //redirect Sign In
     navigation.navigate('SignIn');
   };

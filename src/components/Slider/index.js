@@ -14,6 +14,7 @@ import SlideItem from '../SlideItem';
 import Pagination from '../Pagination';
 import FieldButton from '../FieldButton';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Slider = () => {
   const [index, setIndex] = useState(0);
@@ -43,7 +44,9 @@ const Slider = () => {
   const viewabilityConfig = useRef({
     itemVisiblePercentThreshold: 50,
   }).current;
-
+  const handleGet = () => {
+    navigation.navigate('About1');
+  };
   return (
     <View style={styles.viewParent}>
       <FlatList
@@ -61,7 +64,7 @@ const Slider = () => {
       <FieldButton
         stylesContainer={styles.viewGet}
         title={'Get started'}
-        onPress={() => navigation.navigate('About1')}
+        onPress={() => handleGet()}
         stylesTitle={styles.textGetstarted}
       />
     </View>

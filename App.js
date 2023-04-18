@@ -17,10 +17,22 @@ import Itinerary from './src/screens/ItineraryScreen';
 import Weather from './src/screens/WeatherScreen';
 import WeatherDetail from './src/screens/WeatherDetailScreen';
 import DetailItineraryPlace from './src/screens/DetailItineraryPlaceScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  const [lauch, setLauch] = React.useState('');
+  const getFlags = async () => {
+    let flagFirstUse = await AsyncStorage.getItem('flag');
+    console.log(flagFirstUse);
+    // setLauch(JSON.stringify(flagFirstUse));
+  };
+  console.log('lauch', lauch);
+  React.useLayoutEffect(() => {
+    getFlags();
+  }, []);
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -30,20 +42,6 @@ const App = () => {
           }}
           name="Getting"
           component={GettingStarted}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="About1"
-          component={About1}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="BottomTab"
-          component={BottomTab}
         />
         <Stack.Screen
           name="Home"
@@ -59,6 +57,21 @@ const App = () => {
           name="SignIn"
           component={SignInScreen}
         />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="About1"
+          component={About1}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="BottomTab"
+          component={BottomTab}
+        />
+
         <Stack.Screen
           options={{
             headerShown: false,

@@ -29,7 +29,7 @@ const Itinerary = () => {
   const loadName = async () => {
     let nameUser = await AsyncStorage.getItem('token');
     nameUser != null ? setName('Gracie') : setName('Guess');
-    console.log(nameUser);
+    console.log('token:', nameUser);
     return nameUser;
   };
   useLayoutEffect(() => {

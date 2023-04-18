@@ -18,7 +18,6 @@ import Accordion from 'react-native-collapsible/Accordion';
 import AccordionItem from '../../components/AccordionItem';
 import AccordionItemWeather from '../../components/AccordionItemWeather';
 import ItineraryPlace from '../../components/ItineraryPlace';
-import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {useNavigation} from '@react-navigation/native';
 import MapViewComponent from '../../components/MapViewComponent';
 const HomeScreen = () => {
