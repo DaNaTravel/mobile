@@ -40,8 +40,22 @@ const App = () => {
           options={{
             headerShown: false,
           }}
+          name="Weather"
+          component={Weather}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="Getting"
           component={GettingStarted}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="History"
+          component={History}
         />
         <Stack.Screen
           name="Home"
@@ -118,22 +132,8 @@ const App = () => {
           options={{
             headerShown: false,
           }}
-          name="History"
-          component={History}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
           name="Itinerary"
           component={Itinerary}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="Weather"
-          component={Weather}
         />
         <Stack.Screen
           options={{

@@ -6,16 +6,40 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
+import {WeatherPlace} from '../../apis/Weather/WeatherByLatLon';
+import SelectDropdown from 'react-native-select-dropdown';
 
+const districts = [
+  'Hoang Sa',
+  'Hoa Vang',
+  'Thanh Khe',
+  'Cam Le',
+  'Lien Chieu',
+  'Ngu Hanh Son',
+  'Son Tra',
+  'Hai Chau',
+];
 const Weather = () => {
   const navigation = useNavigation();
+  const [positions, setPositions] = useState({lat: 16.103525, lon: 108.282446});
+  const [data, setData] = useState();
+  useEffect(() => {
+    WeatherPlace(positions?.lat, positions?.lon)
+      .then(res => {
+        setData(res);
+      })
+      .catch(err => err);
+  }, [positions]);
+  const renderDropdownIcon = () => {
+    return <Fontisto name="angle-down" size={23} color={colors.WHITE} />;
+  };
   return (
     <ImageBackground
       style={styles.viewParent}
@@ -24,8 +48,46 @@ const Weather = () => {
       <View style={styles.viewHeader}>
         <View style={styles.viewPosition}>
           <Fontisto name="map-marker-alt" size={23} color={colors.WHITE} />
-          <Text style={styles.textPosition}>Cam Le</Text>
-          <Fontisto name="angle-down" size={23} color={colors.WHITE} />
+          <SelectDropdown
+            data={districts}
+            showsVerticalScrollIndicator={false}
+            onSelect={(selectedItem, index) => {
+              index === 0
+                ? setPositions({lat: 16.103525, lon: 108.282446})
+                : index === 1
+                ? setPositions({lat: 15.999988, lon: 108.145799})
+                : index === 2
+                ? setPositions({lat: 16.06418, lon: 108.187341})
+                : index === 3
+                ? setPositions({lat: 16.015367, lon: 108.196236})
+                : index === 4
+                ? setPositions({lat: 16.07177, lon: 108.150382})
+                : index === 5
+                ? setPositions({lat: 15.995506, lon: 108.258805})
+                : index === 6
+                ? setPositions({lat: 16.106998, lon: 108.252182})
+                : setPositions({lat: 16.0472, lon: 108.219959});
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+            defaultButtonText={'Cam Le'}
+            buttonStyle={styles.dropDown}
+            renderDropdownIcon={renderDropdownIcon}
+            dropdownIconPosition={'right'}
+            buttonTextStyle={styles.textPosition}
+            dropdownStyle={{
+              backgroundColor: 'transparent',
+            }}
+            rowTextStyle={{
+              color: colors.WHITE,
+              fontSize: 20,
+              fontWeight: 500,
+            }}
+          />
         </View>
         <View style={styles.viewNoti}>
           <Feather name="bell" size={24} color={colors.WHITE} />
@@ -36,17 +98,23 @@ const Weather = () => {
         style={styles.viewDetails}>
         <Text style={styles.textTime}>Today, 12 Apr</Text>
         <View style={styles.viewTemperature}>
-          <Text style={styles.textTemperature}>29</Text>
+          <Text style={styles.textTemperature}>
+            {Math.floor(data?.main?.temp - 273)}
+          </Text>
           <Text style={styles.textO}>o</Text>
         </View>
-        <Text style={styles.textTime}>Sunny</Text>
+        <Text style={styles.textTime}>
+          {data?.weather?.[0]?.description?.replace(/\b\w/g, c =>
+            c.toUpperCase(),
+          )}
+        </Text>
         <View style={styles.viewWindHum}>
           <View style={styles.viewWind}>
             <Feather name="wind" size={24} color={colors.WHITE} />
             <Text style={styles.textWind}>Wind</Text>
           </View>
           <View style={styles.viewNumberWind}>
-            <Text style={styles.textNumberWind}>10km/h</Text>
+            <Text style={styles.textNumberWind}>{data?.wind?.speed} m/s</Text>
           </View>
         </View>
         <View style={styles.viewWindHum2}>
@@ -55,7 +123,7 @@ const Weather = () => {
             <Text style={styles.textWind}>Hum</Text>
           </View>
           <View style={styles.viewNumberWind}>
-            <Text style={styles.textNumberWind}>54%</Text>
+            <Text style={styles.textNumberWind}>{data?.main?.humidity} %</Text>
           </View>
         </View>
       </LinearGradient>
@@ -82,13 +150,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  viewPosition: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   textPosition: {
-    marginHorizontal: widthScreen * 0.05,
     fontSize: 20,
     fontWeight: 'bold',
     color: colors.WHITE,
@@ -183,5 +245,14 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 600,
     color: colors.BLACK,
+  },
+  dropDown: {
+    alignSelf: 'center',
+    width: widthScreen * 0.4,
+    backgroundColor: 'transparent',
+  },
+  viewPosition: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

@@ -11,7 +11,7 @@ import MapViewDirections from 'react-native-maps-directions';
 
 enableLatestRenderer();
 const ASPECT_RATIO = widthScreen / (heightScreen * 0.5);
-const LATITUDE_DELTA = 0.0922;
+const LATITUDE_DELTA = 0.072;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU';
