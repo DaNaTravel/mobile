@@ -40,15 +40,15 @@ const App = () => {
           options={{
             headerShown: false,
           }}
-          name="Weather"
-          component={Weather}
+          name="Getting"
+          component={GettingStarted}
         />
         <Stack.Screen
           options={{
             headerShown: false,
           }}
-          name="Getting"
-          component={GettingStarted}
+          name="Weather"
+          component={Weather}
         />
         <Stack.Screen
           options={{

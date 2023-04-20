@@ -40,11 +40,34 @@ const Weather = () => {
   const renderDropdownIcon = () => {
     return <Fontisto name="angle-down" size={23} color={colors.WHITE} />;
   };
+  const getDay = () => {
+    let currentDate = new Date();
+    let day = currentDate.getDate();
+    let monthIndex = currentDate.getMonth();
+    let monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    let monthName = monthNames[monthIndex];
+    let formattedDate = `${day} ${monthName}`;
+    return formattedDate;
+  };
   return (
-    <ImageBackground
-      style={styles.viewParent}
-      source={require('../../assets/images/bgweathersunny.jpg')}
-      resizeMode="cover">
+    <LinearGradient
+      start={{x: 0, y: 1}}
+      end={{x: 0, y: 0}}
+      colors={['rgba(97,158,192,1)', 'rgba(162,202,226,1)']}
+      style={styles.viewParent}>
       <View style={styles.viewHeader}>
         <View style={styles.viewPosition}>
           <Fontisto name="map-marker-alt" size={23} color={colors.WHITE} />
@@ -93,21 +116,37 @@ const Weather = () => {
           <Feather name="bell" size={24} color={colors.WHITE} />
         </View>
       </View>
+      <Image
+        source={{
+          uri: `https://openweathermap.org/img/wn/${data?.weather[0]?.icon}.png`,
+        }}
+        style={styles.imgMain}
+        resizeMode="cover"
+      />
       <LinearGradient
         colors={['rgba(255,255,255,0.1)', 'rgba(255,255,255,0.5)']}
         style={styles.viewDetails}>
-        <Text style={styles.textTime}>Today, 12 Apr</Text>
+        <Text style={styles.textTime}>Today, {data ? getDay() : null}</Text>
         <View style={styles.viewTemperature}>
           <Text style={styles.textTemperature}>
             {Math.floor(data?.main?.temp - 273)}
           </Text>
           <Text style={styles.textO}>o</Text>
         </View>
-        <Text style={styles.textTime}>
-          {data?.weather?.[0]?.description?.replace(/\b\w/g, c =>
-            c.toUpperCase(),
-          )}
-        </Text>
+        <View style={styles.viewWeather}>
+          <Image
+            source={{
+              uri: `https://openweathermap.org/img/wn/${data?.weather[0]?.icon}.png`,
+            }}
+            style={styles.imgIcon}
+            resizeMode="cover"
+          />
+          <Text style={styles.textTime}>
+            {data?.weather?.[0]?.description?.replace(/\b\w/g, c =>
+              c.toUpperCase(),
+            )}
+          </Text>
+        </View>
         <View style={styles.viewWindHum}>
           <View style={styles.viewWind}>
             <Feather name="wind" size={24} color={colors.WHITE} />
@@ -133,7 +172,7 @@ const Weather = () => {
         <Text style={styles.textDetail}>Forecast report</Text>
         <Feather name="chevron-right" size={24} color={colors.BLACK} />
       </TouchableOpacity>
-    </ImageBackground>
+    </LinearGradient>
   );
 };
 
@@ -166,7 +205,6 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     alignSelf: 'center',
     alignItems: 'center',
-    marginTop: heightScreen * 0.15,
     borderColor: colors.WHITE,
   },
   viewWindHum: {
@@ -239,7 +277,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     alignSelf: 'center',
-    marginTop: heightScreen * 0.15,
+    marginTop: heightScreen * 0.05,
   },
   textDetail: {
     fontSize: 15,
@@ -254,5 +292,18 @@ const styles = StyleSheet.create({
   viewPosition: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  viewWeather: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  imgIcon: {
+    height: 70,
+    width: 70,
+  },
+  imgMain: {
+    height: heightScreen * 0.25,
+    width: widthScreen * 0.5,
+    alignSelf: 'center',
   },
 });
