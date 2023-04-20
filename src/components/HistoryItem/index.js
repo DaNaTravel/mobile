@@ -10,7 +10,9 @@ import React from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
 const HistoryItem = ({item}) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewContainer1}>
@@ -53,7 +55,9 @@ const HistoryItem = ({item}) => {
           <Text style={styles.textDetailDate}>Total</Text>
           <Text style={styles.textPrice}>$90.00</Text>
         </View>
-        <TouchableOpacity style={styles.buttonDetails}>
+        <TouchableOpacity
+          style={styles.buttonDetails}
+          onPress={() => navigation.navigate('DetailsHistory', {item: item})}>
           <Text style={styles.textDetail}>Details</Text>
         </TouchableOpacity>
       </View>

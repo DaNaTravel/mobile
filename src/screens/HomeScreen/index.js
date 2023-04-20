@@ -84,17 +84,13 @@ const HomeScreen = () => {
       <View style={styles.viewHeader}>
         <View style={styles.space}></View>
         <Text style={styles.textTitle}>Your trip</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('BottomTab')}>
+        <TouchableOpacity onPress={() => navigation.navigate('BottomTabGuess')}>
           <Feather name="more-horizontal" size={24} color={'#222222'} />
         </TouchableOpacity>
       </View>
       <View style={styles.map}>
         <MapViewComponent />
       </View>
-      {/* <Image
-        style={styles.map}
-        source={require('../../assets/images/map.jpg')}
-      /> */}
       {/* <TouchableOpacity
         style={styles.buttonBottom}
         onPress={() => refRBSheet.current.open()}>

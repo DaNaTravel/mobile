@@ -18,140 +18,18 @@ import Weather from './src/screens/WeatherScreen';
 import WeatherDetail from './src/screens/WeatherDetailScreen';
 import DetailItineraryPlace from './src/screens/DetailItineraryPlaceScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import HistoryDetaislScreen from './src/screens/HistoryDetailsScreen';
+import {AppRegistry, View} from 'react-native';
+import {Provider, useDispatch, useSelector} from 'react-redux';
+import {persistor, store} from './src/redux/store';
+import {heightScreen, widthScreen} from './src/utility';
+import {PersistGate} from 'redux-persist/integration/react';
+import AppNavigation from './src/navigation/AppNav';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  const [lauch, setLauch] = React.useState('');
-  const getFlags = async () => {
-    let flagFirstUse = await AsyncStorage.getItem('flag');
-    console.log(flagFirstUse);
-    // setLauch(JSON.stringify(flagFirstUse));
-  };
-  console.log('lauch', lauch);
-  React.useLayoutEffect(() => {
-    getFlags();
-  }, []);
-
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="Getting"
-          component={GettingStarted}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="Weather"
-          component={Weather}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="History"
-          component={History}
-        />
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="SignIn"
-          component={SignInScreen}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="About1"
-          component={About1}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="BottomTab"
-          component={BottomTab}
-        />
-
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="SignUp"
-          component={SignUpScreen}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="Forgot"
-          component={ForgotPassword}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="Submit"
-          component={SubmitEmail}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="About2"
-          component={About2}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="About3"
-          component={About3}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="PlaceDetail"
-          component={PlaceDetail}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="Itinerary"
-          component={Itinerary}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="WeatherDetail"
-          component={WeatherDetail}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="DetailItineraryPlace"
-          component={DetailItineraryPlace}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+  return <AppNavigation />;
 };
 
 export default App;

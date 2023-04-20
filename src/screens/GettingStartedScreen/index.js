@@ -3,11 +3,7 @@ import React from 'react';
 import Slider from '../../components/Slider';
 
 const GettingStarted = () => {
-  return (
-    <View>
-      <Slider />
-    </View>
-  );
+  return <Slider />;
 };
 export default GettingStarted;
 

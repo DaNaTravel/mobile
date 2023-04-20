@@ -15,11 +15,14 @@ import Pagination from '../Pagination';
 import FieldButton from '../FieldButton';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch} from 'react-redux';
+import {setLauch} from '../../redux/features/state/stateSlice';
 
 const Slider = () => {
   const [index, setIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const handleOnScroll = event => {
     Animated.event(
       [
@@ -46,6 +49,7 @@ const Slider = () => {
   }).current;
   const handleGet = () => {
     navigation.navigate('About1');
+    dispatch(setLauch(true));
   };
   return (
     <View style={styles.viewParent}>

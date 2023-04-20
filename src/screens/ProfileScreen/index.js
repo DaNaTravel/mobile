@@ -11,7 +11,7 @@ const Profile = () => {
     // //set flag FirstUse
     // AsyncStorage.setItem('flag', 'used');
     //redirect Sign In
-    navigation.navigate('SignIn');
+    navigation.navigate('LoginNav');
   };
   const getData = async () => {
     let data = JSON.parse(await AsyncStorage.getItem('data'));
