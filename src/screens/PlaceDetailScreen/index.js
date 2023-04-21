@@ -74,14 +74,14 @@ const PlaceDetail = ({route}) => {
                     size={17}
                     color={colors.BLACK}
                   />
-                  <Text style={styles.textDate}>10/02/2001</Text>
+                  <Text style={styles.textDate}>21/04/2001</Text>
                 </View>
               </View>
               <View style={styles.viewSubTime}>
                 <Text style={styles.textTitleDate}>Time start</Text>
                 <View style={styles.viewDate2}>
                   <FontAwesome5 name="clock" size={17} color={colors.GREEN} />
-                  <Text style={styles.textDate2}>9:00 AM</Text>
+                  <Text style={styles.textDate2}>4:00 PM</Text>
                 </View>
               </View>
             </View>
@@ -89,7 +89,8 @@ const PlaceDetail = ({route}) => {
               <Text style={styles.textTitleDate}>Description</Text>
               <Text style={styles.textDescrip}>
                 Mui Nghe is one of three mountains associated with the history
-                of the formation of the Son Tra peninsula...
+                of the formation of the Son Tra peninsula
+                <Text style={styles.textSeemore}> See more</Text>
               </Text>
             </View>
           </View>
@@ -98,15 +99,12 @@ const PlaceDetail = ({route}) => {
           <TouchableOpacity
             style={styles.viewActionX}
             onPress={() => navigation.goBack()}>
-            <FontAwesome name="close" size={33} color={colors.STRONGGRAY} />
+            <FontAwesome name="close" size={40} color={colors.WHITE} />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.viewActionGO}
             onPress={() => navigation.navigate('BottomTab')}>
             <Text style={styles.textGO}>GO</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.viewActionV}>
-            <FontAwesome name="check" size={33} color={colors.STRONGGRAY} />
           </TouchableOpacity>
         </View>
       </View>
@@ -227,10 +225,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   viewActionX: {
-    width: 65,
-    height: 65,
-    borderRadius: 65 / 2,
-    backgroundColor: colors.WHITE,
+    width: 85,
+    height: 85,
+    borderRadius: 85 / 2,
+    backgroundColor: colors.MAINCOLOR,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -258,22 +256,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  viewActionV: {
-    width: 65,
-    height: 65,
-    borderRadius: 65 / 2,
-    backgroundColor: colors.WHITE,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   textX: {
     fontSize: 25,
     color: colors.STRONGGRAY,
@@ -289,5 +271,10 @@ const styles = StyleSheet.create({
   viewPagination: {
     bottom: heightScreen * 0.59,
     alignSelf: 'center',
+  },
+  textSeemore: {
+    color: colors.STRONGGRAY,
+    fontSize: 15,
+    fontWeight: 500,
   },
 });

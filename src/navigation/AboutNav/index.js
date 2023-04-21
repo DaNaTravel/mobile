@@ -19,6 +19,7 @@ import {useSelector} from 'react-redux';
 const Stack = createNativeStackNavigator();
 const AboutNav = () => {
   const laucher = useSelector(state => state.state.lauch);
+  console.log(laucher);
   return (
     <Stack.Navigator>
       {!laucher ? (
@@ -30,101 +31,102 @@ const AboutNav = () => {
             name="Getting"
             component={GettingStarted}
           />
-          <Stack.Screen
-            options={{
-              headerShown: false,
-            }}
-            name="About1"
-            component={About1}
-          />
-          <Stack.Screen
-            options={{
-              headerShown: false,
-            }}
-            name="About2"
-            component={About2}
-          />
-          <Stack.Screen
-            options={{
-              headerShown: false,
-            }}
-            name="About3"
-            component={About3}
-          />
-          <Stack.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            options={{
-              headerShown: false,
-            }}
-            name="BottomTabGuess"
-            component={BottomTab}
-          />
-          <Stack.Screen
-            options={{
-              headerShown: false,
-            }}
-            name="Weather"
-            component={Weather}
-          />
-          <Stack.Screen
-            options={{
-              headerShown: false,
-            }}
-            name="History"
-            component={History}
-          />
-
-          <Stack.Screen
-            options={{
-              headerShown: false,
-            }}
-            name="PlaceDetail"
-            component={PlaceDetail}
-          />
-          <Stack.Screen
-            options={{
-              headerShown: false,
-            }}
-            name="Itinerary"
-            component={Itinerary}
-          />
-          <Stack.Screen
-            options={{
-              headerShown: false,
-            }}
-            name="WeatherDetail"
-            component={WeatherDetail}
-          />
-          <Stack.Screen
-            options={{
-              headerShown: false,
-            }}
-            name="DetailItineraryPlace"
-            component={DetailItineraryPlace}
-          />
-          <Stack.Screen
-            options={{
-              headerShown: false,
-            }}
-            name="DetailsHistory"
-            component={HistoryDetaislScreen}
-          />
         </>
       ) : (
-        <></>
+        <>
+          <Stack.Screen
+            options={{
+              headerShown: false,
+            }}
+            name="LoginNav"
+            component={LoginNav}
+          />
+        </>
       )}
       <Stack.Screen
         options={{
           headerShown: false,
         }}
-        name="LoginNav"
-        component={LoginNav}
+        name="About1"
+        component={About1}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="About2"
+        component={About2}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="About3"
+        component={About3}
+      />
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="BottomTabGuess"
+        component={BottomTab}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="Weather"
+        component={Weather}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="History"
+        component={History}
+      />
+
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="PlaceDetail"
+        component={PlaceDetail}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="Itinerary"
+        component={Itinerary}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="WeatherDetail"
+        component={WeatherDetail}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="DetailItineraryPlace"
+        component={DetailItineraryPlace}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="DetailsHistory"
+        component={HistoryDetaislScreen}
       />
     </Stack.Navigator>
   );

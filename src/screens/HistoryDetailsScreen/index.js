@@ -66,7 +66,7 @@ const HistoryDetaislScreen = ({route}) => {
         </View>
         <View style={styles.viewDate}>
           <FontAwesome name="calendar" size={30} color={colors.BLACK} />
-          <Text style={styles.textPeoDate}>2 days</Text>
+          <Text style={styles.textPeoDate}>6 days</Text>
         </View>
       </View>
       <TabView />

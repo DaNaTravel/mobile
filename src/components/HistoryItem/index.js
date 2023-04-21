@@ -13,18 +13,19 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 const HistoryItem = ({item}) => {
   const navigation = useNavigation();
+  const dataImg = [
+    require('../../assets/images/muinghe.png'),
+    require('../../assets/images/bana.jpg'),
+    require('../../assets/images/mariamaria.jpeg'),
+    require('../../assets/images/booking.jpg'),
+  ];
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewContainer1}>
         <FlatList
-          data={[1, 2, 3, 4]}
+          data={dataImg}
           renderItem={({item, index}) => (
-            <Image
-              style={styles.viewImg}
-              source={require('../../assets/images/muinghe.png')}
-              resizeMode="cover"
-              item={item}
-            />
+            <Image style={styles.viewImg} source={item} resizeMode="cover" />
           )}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
@@ -38,14 +39,14 @@ const HistoryItem = ({item}) => {
         <View style={styles.viewDate}>
           <FontAwesome name="calendar" size={30} color={colors.MAINCOLOR} />
           <View style={styles.viewDetailDate}>
-            <Text style={styles.textDate}>4 Days</Text>
-            <Text style={styles.textDetailDate}>10/04 - 14/04</Text>
+            <Text style={styles.textDate}>6 Days</Text>
+            <Text style={styles.textDetailDate}>10/04 - 15/04</Text>
           </View>
         </View>
         <View style={styles.viewPeople}>
           <Ionicons name="person" size={30} color={colors.MAINCOLOR} />
           <View style={styles.viewDetailDate}>
-            <Text style={styles.textDate}>8 peoples</Text>
+            <Text style={styles.textDate}>2 peoples</Text>
             <Text style={styles.textDetailDate}>Join</Text>
           </View>
         </View>

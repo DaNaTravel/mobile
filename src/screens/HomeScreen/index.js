@@ -82,11 +82,11 @@ const HomeScreen = () => {
   return (
     <ScrollView style={styles.viewParent}>
       <View style={styles.viewHeader}>
-        <View style={styles.space}></View>
-        <Text style={styles.textTitle}>Your trip</Text>
         <TouchableOpacity onPress={() => navigation.navigate('BottomTabGuess')}>
-          <Feather name="more-horizontal" size={24} color={'#222222'} />
+          <Feather name="home" size={24} color={'#222222'} />
         </TouchableOpacity>
+        <Text style={styles.textTitle}>Your trip</Text>
+        <View style={styles.space}></View>
       </View>
       <View style={styles.map}>
         <MapViewComponent />

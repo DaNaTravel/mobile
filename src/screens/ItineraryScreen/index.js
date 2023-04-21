@@ -28,8 +28,7 @@ const Itinerary = () => {
   const navigation = useNavigation();
   const loadName = async () => {
     let nameUser = await AsyncStorage.getItem('token');
-    nameUser != null ? setName('Gracie') : setName('Guess');
-    return nameUser;
+    nameUser != null ? setName('Gracie') : null;
   };
   useLayoutEffect(() => {
     loadName();

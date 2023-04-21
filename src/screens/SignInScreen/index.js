@@ -51,7 +51,7 @@ const Body = ({email, setEmail, password, setPassword}) => {
           },
         ])
       : SignIn(email, password) == null
-      ? navigation.navigate('BottomTab')
+      ? navigation.navigate('BottomTabUser')
       : Alert.alert('Failed', 'Email or password is wrong!', [
           {
             text: 'Try again',
