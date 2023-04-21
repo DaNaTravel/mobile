@@ -18,7 +18,7 @@ const Day = () => {
   return (
     <View style={styles.viewDetailDaily}>
       <FlatList
-        data={[1, 2, 3, 4, 5]}
+        data={[1, 2, 3]}
         renderItem={({item, index}) => <ItineraryPlace item={item} />}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
@@ -28,7 +28,7 @@ const Day = () => {
     </View>
   );
 };
-const days = [1, 2, 3, 4, 5, 6];
+const days = [1, 2, 3, 4, 5];
 const TabView = () => {
   return (
     <Tab.Navigator
@@ -62,11 +62,11 @@ const HistoryDetaislScreen = ({route}) => {
       <View style={styles.viewPeoDate}>
         <View style={styles.viewPeo}>
           <Ionicons name="person" size={30} color={colors.BLACK} />
-          <Text style={styles.textPeoDate}>2 people</Text>
+          <Text style={styles.textPeoDate}>5 people</Text>
         </View>
         <View style={styles.viewDate}>
           <FontAwesome name="calendar" size={30} color={colors.BLACK} />
-          <Text style={styles.textPeoDate}>6 days</Text>
+          <Text style={styles.textPeoDate}>5 days</Text>
         </View>
       </View>
       <TabView />

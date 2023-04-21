@@ -23,9 +23,13 @@ const HistoryItem = ({item}) => {
     <View style={styles.viewParent}>
       <View style={styles.viewContainer1}>
         <FlatList
-          data={dataImg}
+          data={item?.imgs}
           renderItem={({item, index}) => (
-            <Image style={styles.viewImg} source={item} resizeMode="cover" />
+            <Image
+              style={styles.viewImg}
+              source={{uri: item}}
+              resizeMode="cover"
+            />
           )}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
@@ -39,14 +43,14 @@ const HistoryItem = ({item}) => {
         <View style={styles.viewDate}>
           <FontAwesome name="calendar" size={30} color={colors.MAINCOLOR} />
           <View style={styles.viewDetailDate}>
-            <Text style={styles.textDate}>6 Days</Text>
-            <Text style={styles.textDetailDate}>10/04 - 15/04</Text>
+            <Text style={styles.textDate}>{item?.day} Days</Text>
+            <Text style={styles.textDetailDate}>21/04 - 25/04</Text>
           </View>
         </View>
         <View style={styles.viewPeople}>
           <Ionicons name="person" size={30} color={colors.MAINCOLOR} />
           <View style={styles.viewDetailDate}>
-            <Text style={styles.textDate}>2 peoples</Text>
+            <Text style={styles.textDate}>{item?.people} peoples</Text>
             <Text style={styles.textDetailDate}>Join</Text>
           </View>
         </View>
@@ -54,7 +58,7 @@ const HistoryItem = ({item}) => {
       <View style={styles.viewContainer3}>
         <View style={styles.viewPrice}>
           <Text style={styles.textDetailDate}>Total</Text>
-          <Text style={styles.textPrice}>$90.00</Text>
+          <Text style={styles.textPrice}>{item?.price}</Text>
         </View>
         <TouchableOpacity
           style={styles.buttonDetails}

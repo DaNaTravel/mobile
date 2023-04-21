@@ -141,6 +141,7 @@ const DetailItineraryPlace = ({item}) => {
           renderScene={renderScene}
           onIndexChange={setIndex}
           style={styles.viewDay}
+          swipeEnabled={false}
         />
       </View>
     </View>

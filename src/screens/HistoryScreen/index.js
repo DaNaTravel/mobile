@@ -2,6 +2,7 @@ import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import HistoryItem from '../../components/HistoryItem';
+import histories from '../../assets/data/dataHistories';
 
 const History = () => {
   return (
@@ -13,12 +14,12 @@ const History = () => {
           source={require('../../assets/images/bana.jpg')}></Image>
       </View>
       <FlatList
-        data={[1, 2, 3, 4, 5, 6, 7]}
+        data={histories}
         renderItem={({item, index}) => <HistoryItem item={item} />}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         scrollEnabled={true}
-        keyExtractor={index => index}
+        keyExtractor={item => item.id}
         style={styles.viewHistories}
       />
     </View>
