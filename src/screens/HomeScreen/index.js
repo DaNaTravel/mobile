@@ -1,4 +1,4 @@
-import {useRef, useState} from 'react';
+import {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -8,7 +8,6 @@ import {
   FlatList,
   SafeAreaView,
   Image,
-  ScrollView,
 } from 'react-native';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import RBSheet from 'react-native-raw-bottom-sheet';
@@ -20,6 +19,51 @@ import AccordionItemWeather from '../../components/AccordionItemWeather';
 import ItineraryPlace from '../../components/ItineraryPlace';
 import {useNavigation} from '@react-navigation/native';
 import MapViewComponent from '../../components/MapViewComponent';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const Tab = createMaterialTopTabNavigator();
+const Day = () => {
+  return (
+    <View style={styles.viewDetailDaily}>
+      <FlatList
+        data={[1, 2, 3]}
+        renderItem={({item, index}) => <ItineraryPlace item={item} />}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={index => index}
+        style={styles.detailDay}
+      />
+    </View>
+  );
+};
+const TabView = () => {
+  const [days, setDays] = useState([1]);
+  const handleDays = async () => {
+    const data = JSON.parse(await AsyncStorage.getItem('data'));
+    setDays(data?.time);
+  };
+  useLayoutEffect(() => {
+    handleDays();
+  }, []);
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        tabBarLabelStyle: styles.textLabel,
+        tabBarItemStyle: styles.tabBarItem,
+        tabBarStyle: styles.tabBar,
+        tabBarScrollEnabled: true,
+      }}>
+      {days.length !== 0
+        ? days?.map((day, index) => {
+            return (
+              <Tab.Screen name={`Day ${day}`} component={Day} key={index} />
+            );
+          })
+        : null}
+    </Tab.Navigator>
+  );
+};
 const HomeScreen = () => {
   const refRBSheet = useRef();
   const navigation = useNavigation();
@@ -80,7 +124,7 @@ const HomeScreen = () => {
     );
   };
   return (
-    <ScrollView style={styles.viewParent}>
+    <View style={styles.viewParent}>
       <View style={styles.viewHeader}>
         <TouchableOpacity onPress={() => navigation.navigate('BottomTabGuess')}>
           <Feather name="home" size={24} color={'#222222'} />
@@ -101,22 +145,7 @@ const HomeScreen = () => {
           <Text style={styles.textTour}>Tour details</Text>
           <Text style={styles.priceTour}>$500</Text>
         </View>
-        <View style={styles.viewDay}>
-          <View style={styles.viewDay1}>
-            <Text style={styles.textDay1}>Day 1</Text>
-          </View>
-          <View style={styles.viewDay2}>
-            <Text style={styles.textDay2}>Day 2</Text>
-          </View>
-        </View>
-        <FlatList
-          data={[1, 2, 3, 4, 5]}
-          renderItem={({item, index}) => <ItineraryPlace item={item} />}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          scrollEnabled={false}
-          keyExtractor={index => index}
-        />
+        <TabView />
       </View>
 
       <RBSheet
@@ -159,7 +188,7 @@ const HomeScreen = () => {
           touchableComponent={TouchableOpacity}
         />
       </RBSheet>
-    </ScrollView>
+    </View>
   );
 };
 export default HomeScreen;
@@ -242,7 +271,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingTop: heightScreen * 0.04,
-    paddingBottom: heightScreen * 0.1,
     padding: 15,
     borderTopRightRadius: 50,
     borderTopLeftRadius: 50,
@@ -273,35 +301,30 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: colors.GREEN,
   },
-  viewDay: {
+  textLabel: {
+    fontSize: 16,
+    color: colors.BLACK,
+    fontWeight: 600,
+  },
+  tabBarItem: {
+    width: 90,
+  },
+  tabBar: {
+    backgroundColor: colors.WHITE,
     width: widthScreen * 0.85,
-    flexDirection: 'row',
-    marginVertical: heightScreen * 0.02,
-    justifyContent: 'flex-start',
   },
-  viewDay1: {
-    width: widthScreen * 0.13,
-    borderBottomWidth: 2.5,
-    borderColor: colors.MAINCOLOR,
-    marginRight: widthScreen * 0.05,
-  },
-  viewDay2: {
-    width: widthScreen * 0.13,
-  },
-  textDay1: {
-    fontSize: 20,
+  textDate: {
+    fontSize: 18,
     fontWeight: 600,
-    color: colors.MAINCOLOR,
+    color: colors.BLACK,
+    textAlign: 'center',
   },
-  textDay2: {
-    fontSize: 20,
-    fontWeight: 600,
-    color: colors.STRONGGRAY,
-    textAlign: 'right',
+  viewDetailDaily: {
+    paddingBottom: heightScreen * 0.02,
+    backgroundColor: colors.WHITE,
   },
-  viewList: {
-    backgroundColor: colors.RED,
-    height: heightScreen,
-    width: widthScreen,
+  detailDay: {
+    marginTop: heightScreen * 0.02,
+    width: widthScreen * 0.85,
   },
 });

@@ -23,12 +23,18 @@ const About2 = ({route}) => {
   const maxDate = new Date(2027, 9, 17);
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
   const endDate = selectedEndDate ? selectedEndDate.toString() : '';
+  let arr = [];
+  const startDay = new Date(startDate);
+  const endDay = new Date(endDate);
+
+  const rangeInMilliseconds = endDay - startDay;
+  const rangeInDays = Math.round(rangeInMilliseconds / 86400000);
+  for (let i = 1; i <= rangeInDays + 1; i++) {
+    arr.push(i);
+  }
   const data = {
     number: numberPeople,
-    time: {
-      startDate: startDate,
-      endDate: endDate,
-    },
+    time: arr,
   };
   const navigaton = useNavigation();
   const handleNavi = () => {
@@ -39,10 +45,7 @@ const About2 = ({route}) => {
     let now = new Date();
     let dataDefault = {
       number: numberPeople,
-      time: {
-        startDate: now,
-        endDate: now,
-      },
+      time: [1],
     };
     AsyncStorage.setItem('data', JSON.stringify(dataDefault));
     navigaton.navigate('About3');

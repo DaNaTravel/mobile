@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.85,
     marginVertical: heightScreen * 0.008,
     justifyContent: 'space-between',
+    backgroundColor: colors.WHITE,
   },
   viewTime: {
     flexDirection: 'row',

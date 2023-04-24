@@ -79,7 +79,9 @@ const Itinerary = () => {
           <Text style={styles.textTitle}>Itinerary</Text>
         </View>
         <View style={styles.viewFuncSon}>
-          <TouchableOpacity style={styles.viewLogo2}>
+          <TouchableOpacity
+            style={styles.viewLogo2}
+            onPress={() => navigation.navigate('Booking')}>
             <MaterialCommunityIcons
               name="home-search"
               size={28}

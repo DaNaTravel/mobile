@@ -16,6 +16,7 @@ import DetailItineraryPlace from '../../screens/DetailItineraryPlaceScreen';
 import HistoryDetaislScreen from '../../screens/HistoryDetailsScreen';
 import LoginNav from '../LoginNav';
 import {useSelector} from 'react-redux';
+import BookingScreen from '../../screens/BookingScreen';
 const Stack = createNativeStackNavigator();
 const AboutNav = () => {
   const laucher = useSelector(state => state.state.lauch);
@@ -127,6 +128,13 @@ const AboutNav = () => {
         }}
         name="DetailsHistory"
         component={HistoryDetaislScreen}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="Booking"
+        component={BookingScreen}
       />
     </Stack.Navigator>
   );
