@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
     paddingLeft: widthScreen * 0.05,
     paddingTop: heightScreen * 0.025,
     paddingRight: widthScreen * 0.05,
+    backgroundColor: colors.WHITE,
   },
   viewWelcome: {
     flexDirection: 'row',
@@ -134,6 +135,7 @@ const styles = StyleSheet.create({
   viewDetailDaily: {
     flex: 1,
     paddingBottom: heightScreen * 0.2,
+    backgroundColor: colors.WHITE,
   },
   textLabel: {
     fontSize: 16,
@@ -144,7 +146,7 @@ const styles = StyleSheet.create({
     width: 90,
   },
   tabBar: {
-    backgroundColor: colors.GRAY,
+    backgroundColor: colors.WHITE,
   },
   textDate: {
     fontSize: 18,
