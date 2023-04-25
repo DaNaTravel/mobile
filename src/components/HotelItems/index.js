@@ -8,25 +8,38 @@ import {
 } from 'react-native';
 import React from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import LinearGradient from 'react-native-linear-gradient';
+import { useNavigation } from '@react-navigation/native';
 
 const HotelItems = ({item}) => {
+  const navigation = useNavigation()
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={()=>navigation.navigate('BookingDetail',{item})}>
       <Image
         style={styles.image}
         source={require('../../assets/images/booking.jpg')}
       />
-      <View
-        style={{
-          marginVertical: heightScreen * 0.02,
-          paddingHorizontal: widthScreen * 0.02,
-        }}>
+      <LinearGradient
+        colors={['rgba(255,255,255,0.2)', 'rgba(10,10,10,0.7)']}
+        style={styles.viewBlur}>
         <Text numberOfLines={1} style={styles.name}>
           Symphony
         </Text>
-        <Text style={styles.title}>Per Night</Text>
-      </View>
-      <Text style={styles.price}>$20.00</Text>
+        <View style={styles.viewPos}>
+          <FontAwesome name="map-marker" size={28} color={colors.MEDIUMGRAY} />
+          <Text style={styles.position} numberOfLines={1}>
+            Hai Chau, Da Nang
+          </Text>
+        </View>
+        <View style={styles.viewStarPrice}>
+          <Text style={styles.price}>$20.00</Text>
+          <View style={styles.viewStar}>
+            <FontAwesome name="star" size={28} color={colors.YELLOW} />
+            <Text style={styles.price}>5</Text>
+          </View>
+        </View>
+      </LinearGradient>
     </TouchableOpacity>
   );
 };
@@ -45,30 +58,28 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 3,
-    marginRight: widthScreen * 0.025,
-    borderRadius: 20,
+    marginRight: widthScreen * 0.035,
+    borderRadius: 17,
   },
   image: {
     height: heightScreen * 0.3,
     width: widthScreen * 0.4,
+    borderRadius: 17,
   },
-  title: {
-    color: colors.MAINCOLOR,
-    fontStyle: 'italic',
-    marginTop: heightScreen * 0.005,
+  position: {
+    color: colors.MEDIUMGRAY,
+    marginLeft: widthScreen * 0.015,
   },
   name: {
     fontWeight: 700,
-    fontSize: 16,
-    color: colors.BLACK,
+    fontSize: 20,
+    color: colors.WHITE,
     width: widthScreen * 0.3768,
   },
   price: {
     fontWeight: 600,
-    fontSize: 20,
-    color: colors.BLACK,
-    marginLeft: widthScreen * 0.02,
-    marginTop: heightScreen * -0.015,
+    fontSize: 18,
+    color: colors.WHITE,
   },
   icon_like: {
     position: 'absolute',
@@ -82,9 +93,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.MAINCOLOR,
   },
+  viewPos: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  viewStar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  viewStarPrice: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   viewBlur: {
-    width: widthScreen * 0.8,
-    height: heightScreen * 0.28,
-    borderRadius: 20,
+    paddingVertical: heightScreen * 0.02,
+    position: 'absolute',
+    bottom: 0,
+    alignSelf: 'center',
+    width: widthScreen * 0.4,
+    paddingHorizontal: widthScreen*0.025,
+    borderRadius: 17
   },
 });

@@ -10,11 +10,15 @@ const BookingScreen = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.viewParent}>
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        style={styles.buttonBack}>
-        <FontAwesome name="angle-left" size={24} color="black" />
-      </TouchableOpacity>
+      <View style={styles.viewTitle}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.buttonBack}>
+          <FontAwesome name="angle-left" size={24} color="black" />
+        </TouchableOpacity>
+        <Text style={styles.textTitle}>Booking</Text>
+        <View style={styles.viewSpace}></View>
+      </View>
       <TouchableOpacity style={styles.viewSearch}>
         <FontAwesome name="search" size={24} color={colors.STRONGGRAY} />
         <Text style={styles.textSearch}>Looking for hotel</Text>
@@ -65,8 +69,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.GRAY,
-    marginTop: heightScreen * 0.04,
-    marginLeft: widthScreen * 0.05,
     height: 50,
     width: 50,
     borderRadius: 50 / 2,
@@ -139,5 +141,24 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.9,
     alignSelf: 'center',
     height: heightScreen * 0.35,
+    paddingBottom: heightScreen*0.05
   },
+  viewTitle:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: widthScreen*0.9,
+    alignSelf: 'center',
+    marginTop: heightScreen*0.035,
+    alignItems: 'center'
+  },
+  textTitle:{
+    fontSize: 24,
+    fontWeight: 700,
+    color: colors.BLACK
+  },
+  viewSpace:{
+    height: heightScreen*0.05,
+    width: widthScreen*0.1,
+    backgroundColor: colors.WHITE
+  }
 });

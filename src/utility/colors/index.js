@@ -8,3 +8,5 @@ export const BLACK = '#000000';
 export const GREEN = '#0A8039';
 export const LIGHTGREEN = '#CFFFD4';
 export const RED = '#ED2D2D';
+export const YELLOW = '#E8AD16';
+
