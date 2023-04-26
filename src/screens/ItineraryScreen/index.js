@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import React, {useLayoutEffect, useRef, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import Carousel from 'react-native-snap-carousel';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -99,10 +99,16 @@ const Itinerary = () => {
           <Text style={styles.textTitle}>Weather</Text>
         </View>
         <View style={styles.viewFuncSon}>
-          <TouchableOpacity style={styles.viewLogo4}>
-            <MaterialIcons name="event" size={28} color="#D042B9" />
+          <TouchableOpacity
+            style={styles.viewLogo4}
+            onPress={() => navigation.navigate('SearchAll')}>
+            <MaterialIcons
+              name="location-searching"
+              size={28}
+              color="#D042B9"
+            />
           </TouchableOpacity>
-          <Text style={styles.textTitle}>Events</Text>
+          <Text style={styles.textTitle}>Searching</Text>
         </View>
       </View>
       <Text style={styles.textFavo}>Favorite places</Text>

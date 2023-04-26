@@ -5,9 +5,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Profile = () => {
   const navigation = useNavigation();
-  const handleSignout = () => {
+  const handleSignout = async () => {
     //delete cache
-    AsyncStorage.clear();
+    await AsyncStorage.clear();
     // //set flag FirstUse
     // AsyncStorage.setItem('flag', 'used');
     //redirect Sign In

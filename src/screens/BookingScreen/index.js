@@ -141,24 +141,24 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.9,
     alignSelf: 'center',
     height: heightScreen * 0.35,
-    paddingBottom: heightScreen*0.05
+    paddingBottom: heightScreen * 0.05,
   },
-  viewTitle:{
+  viewTitle: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: widthScreen*0.9,
+    width: widthScreen * 0.9,
     alignSelf: 'center',
-    marginTop: heightScreen*0.035,
-    alignItems: 'center'
+    marginTop: heightScreen * 0.035,
+    alignItems: 'center',
   },
-  textTitle:{
+  textTitle: {
     fontSize: 24,
     fontWeight: 700,
-    color: colors.BLACK
+    color: colors.BLACK,
   },
-  viewSpace:{
-    height: heightScreen*0.05,
-    width: widthScreen*0.1,
-    backgroundColor: colors.WHITE
-  }
+  viewSpace: {
+    height: heightScreen * 0.05,
+    width: widthScreen * 0.1,
+    backgroundColor: colors.WHITE,
+  },
 });

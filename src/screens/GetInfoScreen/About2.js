@@ -33,7 +33,7 @@ const About2 = ({route}) => {
   }
   const data = {
     number: numberPeople,
-    time: arr
+    time: arr,
   };
   const navigaton = useNavigation();
   const handleNavi = () => {
@@ -44,7 +44,7 @@ const About2 = ({route}) => {
     let now = new Date();
     let dataDefault = {
       number: numberPeople,
-      time: [1]
+      time: [1],
     };
     AsyncStorage.setItem('data', JSON.stringify(dataDefault));
     navigaton.navigate('About3');
@@ -54,7 +54,9 @@ const About2 = ({route}) => {
   };
   return (
     <View style={styles.viewParent}>
-      <WelcomeAbout title={'How long do you explore Da Nang?'} />
+      <WelcomeAbout
+        title={'What is the duration of your exploration in Da Nang?'}
+      />
       <CalendarPicker
         startFromMonday={true}
         allowRangeSelection={true}

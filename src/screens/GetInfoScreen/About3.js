@@ -41,7 +41,7 @@ const SliderContainer = props => {
     });
   };
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const options = ['Both', 'Explore', 'Eat'];
+  const options = ['Both', 'Explore', 'Cuisine'];
   const navigation = useNavigation();
   const handleNext = async () => {
     let data = JSON.parse(await AsyncStorage.getItem('data'));
@@ -54,7 +54,7 @@ const SliderContainer = props => {
     <View style={styles.sliderContainer}>
       <View>
         <Text style={styles.textWelcome}>
-          1. Your main goal when going to Da Nang?
+          1. What is the main purpose of your trip to Da Nang?
         </Text>
         <WheelPicker
           selectedIndex={selectedIndex}
@@ -66,7 +66,8 @@ const SliderContainer = props => {
       </View>
       <View style={styles.viewMoney}>
         <Text style={styles.textWelcome}>
-          2. Your estimated spending amount for the trip? (Unit: million VND)
+          2. What is your anticipated budget for expenses during the trip?
+          (Unit: million VND)
         </Text>
         <Text style={styles.result}>
           {Array.isArray(value) ? value.join(' - ') : value}

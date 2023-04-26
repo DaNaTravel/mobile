@@ -4,11 +4,8 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
-  Button,
   FlatList,
   SafeAreaView,
-  Image,
-  ScrollView,
 } from 'react-native';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import RBSheet from 'react-native-raw-bottom-sheet';

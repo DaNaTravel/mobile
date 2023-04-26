@@ -1,6 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BASE_URL} from '@env';
+import {useDispatch} from 'react-redux';
 export const SignIn = (email, password) => {
   let data = JSON.stringify({
     email: email,
@@ -18,10 +19,13 @@ export const SignIn = (email, password) => {
 
   axios
     .request(config)
-    .then(response => {
-      AsyncStorage.setItem('token', response?.data?.data?.token);
-      AsyncStorage.setItem('refreshToken', response?.data?.data?.refreshToken);
-      return response.data.message;
+    .then(async response => {
+      await AsyncStorage.setItem('token', response?.data?.data?.token);
+      await AsyncStorage.setItem(
+        'refreshToken',
+        response?.data?.data?.refreshToken,
+      );
+      return response?.data?.message;
     })
     .catch(error => {
       return error.response.data.message;

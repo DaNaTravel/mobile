@@ -15,7 +15,9 @@ const About1 = () => {
   }
   return (
     <View style={styles.viewParent}>
-      <WelcomeAbout title={'How many people join this trip?'} />
+      <WelcomeAbout
+        title={'How many individuals are participating in this trip?'}
+      />
       <WheelPicker
         selectedIndex={selectedIndex - 1}
         options={wheelPickerNumbers}

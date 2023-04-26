@@ -2,13 +2,15 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const HotelNewItems = ({item}) => {
   const [like, setLike] = useState(false);
-  const navigation = useNavigation(); 
+  const navigation = useNavigation();
   return (
-    <TouchableOpacity style={styles.viewParent} onPress={()=>navigation.navigate('BookingDetail',{item})}>
+    <TouchableOpacity
+      style={styles.viewParent}
+      onPress={() => navigation.navigate('BookingDetail', {item})}>
       <Image
         style={styles.img}
         source={require('../../assets/images/muinghe.png')}

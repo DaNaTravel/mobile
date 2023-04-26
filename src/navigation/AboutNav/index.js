@@ -18,6 +18,10 @@ import LoginNav from '../LoginNav';
 import {useSelector} from 'react-redux';
 import BookingScreen from '../../screens/BookingScreen';
 import BookingDetail from '../../screens/BookingDetailScreen';
+import SearchAllScreen from '../../screens/SearchAllScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import jwtDecode from 'jwt-decode';
+
 const Stack = createNativeStackNavigator();
 const AboutNav = () => {
   const laucher = useSelector(state => state.state.lauch);
@@ -143,6 +147,13 @@ const AboutNav = () => {
         }}
         name="BookingDetail"
         component={BookingDetail}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="SearchAll"
+        component={SearchAllScreen}
       />
     </Stack.Navigator>
   );

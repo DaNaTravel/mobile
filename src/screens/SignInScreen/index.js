@@ -4,14 +4,12 @@ import {
   View,
   TouchableOpacity,
   Keyboard,
-  ImageBackground,
   ScrollView,
   Alert,
 } from 'react-native';
 import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {colors, heightScreen, widthScreen} from '../../utility';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FieldTextInput from '../../components/FieldTextInput';
 import FieldButton from '../../components/FieldButton';
 import {SignIn} from '../../apis/controller/accounts/SignIn';
@@ -32,10 +30,6 @@ const Header = () => {
 const Body = ({email, setEmail, password, setPassword}) => {
   const [data, setData] = useState('');
   const navigation = useNavigation();
-  const handleNavi = () => {
-    SignIn(email, password);
-    navigation.navigate('BottomTab');
-  };
   const handleSignIn = (email, password) => {
     const regexemail = /\S+@\S+\.\S+/;
     !email.match(regexemail)

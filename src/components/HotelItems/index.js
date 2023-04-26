@@ -10,33 +10,43 @@ import React from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const HotelItems = ({item}) => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   return (
-    <TouchableOpacity style={styles.container} onPress={()=>navigation.navigate('BookingDetail',{item})}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => navigation.navigate('BookingDetail', {item})}>
       <Image
         style={styles.image}
-        source={require('../../assets/images/booking.jpg')}
+        source={
+          item?.img
+            ? {uri: item?.img}
+            : require('../../assets/images/booking.jpg')
+        }
       />
       <LinearGradient
-        colors={['rgba(255,255,255,0.2)', 'rgba(10,10,10,0.7)']}
+        colors={['rgba(255,255,255,0.01)', 'rgba(10,10,10,0.7)']}
         style={styles.viewBlur}>
         <Text numberOfLines={1} style={styles.name}>
-          Symphony
+          {item?.name ? item?.name : 'Symphony'}
         </Text>
         <View style={styles.viewPos}>
           <FontAwesome name="map-marker" size={28} color={colors.MEDIUMGRAY} />
           <Text style={styles.position} numberOfLines={1}>
-            Hai Chau, Da Nang
+            {item?.position ? item?.position : 'Hai Chau, Da Nang'}
           </Text>
         </View>
         <View style={styles.viewStarPrice}>
-          <Text style={styles.price}>$20.00</Text>
+          <Text style={styles.price}>
+            {item?.price ? item?.price : '$20.00'}
+          </Text>
           <View style={styles.viewStar}>
             <FontAwesome name="star" size={28} color={colors.YELLOW} />
-            <Text style={styles.price}>5</Text>
+            <Text style={styles.price}>
+              {item?.rating ? item?.rating : '5'}
+            </Text>
           </View>
         </View>
       </LinearGradient>
@@ -112,7 +122,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignSelf: 'center',
     width: widthScreen * 0.4,
-    paddingHorizontal: widthScreen*0.025,
-    borderRadius: 17
+    paddingHorizontal: widthScreen * 0.025,
+    borderRadius: 17,
   },
 });
