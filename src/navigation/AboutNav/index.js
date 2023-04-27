@@ -19,8 +19,6 @@ import {useSelector} from 'react-redux';
 import BookingScreen from '../../screens/BookingScreen';
 import BookingDetail from '../../screens/BookingDetailScreen';
 import SearchAllScreen from '../../screens/SearchAllScreen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import jwtDecode from 'jwt-decode';
 
 const Stack = createNativeStackNavigator();
 const AboutNav = () => {

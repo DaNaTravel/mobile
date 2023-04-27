@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useLayoutEffect, useRef, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import Carousel from 'react-native-snap-carousel';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -21,49 +21,47 @@ import CarouselItem, {
 import FavoritePlace from '../../components/FavoritePlace';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const Itinerary = () => {
+const Header = ({name}) => {
+  return (
+    <View style={styles.viewWelcome}>
+      <View style={styles.viewHello}>
+        <Text style={styles.textHello}>Hi {name}!</Text>
+        <Text style={styles.textHello1}>
+          LET'S START <Text style={styles.textHello2}>YOUR JOURNEY</Text>
+        </Text>
+      </View>
+      <Image
+        style={styles.viewAvt}
+        source={require('../../assets/images/bana.jpg')}></Image>
+    </View>
+  );
+};
+const ViewCarousel = () => {
   const isCarousel = useRef(null);
   const [index, setIndex] = useState(0);
-  const [name, setName] = useState('Guess');
-  const navigation = useNavigation();
-  const loadName = async () => {
-    let nameUser = await AsyncStorage.getItem('token');
-    nameUser != null ? setName('Gracie') : null;
-  };
-  useLayoutEffect(() => {
-    loadName();
-  }, []);
-
   return (
-    <ScrollView style={styles.viewParent}>
-      <View style={styles.viewWelcome}>
-        <View style={styles.viewHello}>
-          <Text style={styles.textHello}>Hi {name}!</Text>
-          <Text style={styles.textHello1}>
-            LET'S START <Text style={styles.textHello2}>YOUR JOURNEY</Text>
-          </Text>
-        </View>
-        <Image
-          style={styles.viewAvt}
-          source={require('../../assets/images/bana.jpg')}></Image>
-      </View>
-      <View style={styles.viewForCarousel}>
-        <Carousel
-          layout="default"
-          layoutCardOffset={9}
-          ref={isCarousel}
-          data={data}
-          renderItem={CarouselItem}
-          sliderWidth={SLIDER_WIDTH}
-          itemWidth={ITEM_WIDTH}
-          inactiveSlideShift={1}
-          useScrollView={true}
-          onSnapToItem={index => setIndex(index)}
-          loop={true}
-          activeAnimationType="spring"
-          slideStyle={{borderRadius: 20}}
-        />
-      </View>
+    <View style={styles.viewForCarousel}>
+      <Carousel
+        layout="default"
+        layoutCardOffset={9}
+        ref={isCarousel}
+        data={data}
+        renderItem={CarouselItem}
+        sliderWidth={SLIDER_WIDTH}
+        itemWidth={ITEM_WIDTH}
+        inactiveSlideShift={1}
+        useScrollView={true}
+        onSnapToItem={index => setIndex(index)}
+        loop={true}
+        activeAnimationType="spring"
+        slideStyle={{borderRadius: 20}}
+      />
+    </View>
+  );
+};
+const ViewFunction = ({navigation}) => {
+  return (
+    <>
       <Text style={styles.textFunc}>Functions</Text>
       <View style={styles.viewFunctions}>
         <View style={styles.viewFuncSon}>
@@ -111,6 +109,12 @@ const Itinerary = () => {
           <Text style={styles.textTitle}>Searching</Text>
         </View>
       </View>
+    </>
+  );
+};
+const ViewFavorites = () => {
+  return (
+    <>
       <Text style={styles.textFavo}>Favorite places</Text>
       <View style={styles.viewFavo}>
         <FlatList
@@ -123,6 +127,27 @@ const Itinerary = () => {
           horizontal
         />
       </View>
+    </>
+  );
+};
+const Itinerary = () => {
+  const [name, setName] = useState('');
+  const navigation = useNavigation();
+  const loadName = async () => {
+    let nameUser = await AsyncStorage.getItem('token');
+    nameUser !== null ? setName('Gracie') : setName('Guess');
+    console.log('name', name);
+  };
+  useLayoutEffect(() => {
+    loadName();
+  }, []);
+
+  return (
+    <ScrollView style={styles.viewParent}>
+      <Header name={name} />
+      <ViewCarousel />
+      <ViewFunction navigation={navigation} />
+      <ViewFavorites />
     </ScrollView>
   );
 };

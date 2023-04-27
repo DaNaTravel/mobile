@@ -6,6 +6,7 @@ import SignUpScreen from '../../screens/SignUpScreen';
 import ForgotPassword from '../../screens/ForgotPasswordScreen';
 import SubmitEmail from '../../screens/SubmitEmailScreen';
 import BottomTab from '../BottomTab';
+import AboutNav from '../AboutNav';
 const Stack = createNativeStackNavigator();
 const LoginNav = () => {
   return (
@@ -44,6 +45,13 @@ const LoginNav = () => {
         }}
         name="BottomTabUser"
         component={BottomTab}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="AboutNav"
+        component={AboutNav}
       />
     </Stack.Navigator>
   );

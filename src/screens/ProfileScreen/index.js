@@ -6,12 +6,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Profile = () => {
   const navigation = useNavigation();
   const handleSignout = async () => {
-    //delete cache
+    let data = await AsyncStorage.getItem('token');
+    data !== null
+      ? navigation.navigate('AboutNav')
+      : navigation.navigate('LoginNav');
+
     await AsyncStorage.clear();
-    // //set flag FirstUse
-    // AsyncStorage.setItem('flag', 'used');
-    //redirect Sign In
-    navigation.navigate('LoginNav');
   };
   const getData = async () => {
     let data = JSON.parse(await AsyncStorage.getItem('data'));
