@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.35,
     backgroundColor: colors.MAINCOLOR,
     alignSelf: 'center',
-    marginTop: heightScreen * 0.1,
+    marginTop: heightScreen * 0.07,
   },
   textNext: {
     color: colors.WHITE,

@@ -12,17 +12,17 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import data from '../../assets/data/dataCarouselBooking';
+import LottieView from 'lottie-react-native';
 import CarouselBookingItem, {
   SLIDER_WIDTH,
   ITEM_WIDTH,
 } from '../../components/CarouselBookingItem';
-const BookingDetail = () => {
-  const navigation = useNavigation();
+import SuccessfulBooking from '../../components/Modal/SuccessfulBooking';
+const Header = ({navigation}) => {
   const isCarousel = useRef(null);
   const [index, setIndex] = useState(0);
-  const [see, setSee] = useState(false);
   return (
-    <View style={styles.viewParent}>
+    <>
       <TouchableOpacity
         onPress={() => navigation.goBack()}
         style={styles.buttonBack}>
@@ -68,6 +68,19 @@ const BookingDetail = () => {
           </View>
         </View>
       </View>
+    </>
+  );
+};
+const BookingDetail = () => {
+  const navigation = useNavigation();
+  const [see, setSee] = useState(false);
+  const [booked, setBooked] = useState(false);
+  const handleBook = () => {
+    setBooked(!booked);
+  };
+  return (
+    <View style={styles.viewParent}>
+      <Header navigation={navigation} />
       <Text style={styles.textDetails}>Details</Text>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <Text style={styles.textDes} numberOfLines={see ? null : 6}>
@@ -83,10 +96,15 @@ const BookingDetail = () => {
         </TouchableOpacity>
       </ScrollView>
       <View style={styles.viewButton}>
-        <TouchableOpacity style={styles.buttonBook}>
+        <TouchableOpacity
+          style={styles.buttonBook}
+          onPress={() => handleBook()}>
           <Text style={styles.textBook}>Book the room</Text>
         </TouchableOpacity>
       </View>
+      {booked ? (
+        <SuccessfulBooking booked={booked} setBooked={setBooked} />
+      ) : null}
     </View>
   );
 };

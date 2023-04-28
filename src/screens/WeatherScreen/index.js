@@ -129,7 +129,7 @@ const Weather = () => {
         <Text style={styles.textTime}>Today, {data ? getDay() : null}</Text>
         <View style={styles.viewTemperature}>
           <Text style={styles.textTemperature}>
-            {Math.floor(data?.main?.temp - 273)}
+            {data?.main?.temp ? Math.floor(data?.main?.temp - 273) : '30'}
           </Text>
           <Text style={styles.textO}>o</Text>
         </View>

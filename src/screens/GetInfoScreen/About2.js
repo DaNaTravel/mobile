@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.35,
     backgroundColor: colors.MAINCOLOR,
     alignSelf: 'center',
-    marginTop: heightScreen * 0.17,
+    marginTop: heightScreen * 0.13,
   },
   titlePreNext: {
     fontSize: 12,

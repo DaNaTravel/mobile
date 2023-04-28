@@ -5,11 +5,9 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import HotelItems from '../../components/HotelItems';
 import HotelNewItems from '../../components/HotelNewItems';
 import {useNavigation} from '@react-navigation/native';
-
-const BookingScreen = () => {
-  const navigation = useNavigation();
+const Header = ({navigation}) => {
   return (
-    <View style={styles.viewParent}>
+    <>
       <View style={styles.viewTitle}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
@@ -23,6 +21,12 @@ const BookingScreen = () => {
         <FontAwesome name="search" size={24} color={colors.STRONGGRAY} />
         <Text style={styles.textSearch}>Looking for hotel</Text>
       </TouchableOpacity>
+    </>
+  );
+};
+const ViewPoppular = () => {
+  return (
+    <>
       <View style={styles.viewPop}>
         <Text style={styles.textPop}>Popular Hotels</Text>
         <TouchableOpacity>
@@ -39,6 +43,12 @@ const BookingScreen = () => {
           horizontal
         />
       </View>
+    </>
+  );
+};
+const ViewNewHotels = () => {
+  return (
+    <>
       <View style={styles.viewNew}>
         <Text style={styles.textPop}>New Hotels</Text>
         <TouchableOpacity>
@@ -54,6 +64,16 @@ const BookingScreen = () => {
           keyExtractor={index => index}
         />
       </View>
+    </>
+  );
+};
+const BookingScreen = () => {
+  const navigation = useNavigation();
+  return (
+    <View style={styles.viewParent}>
+      <Header navigation={navigation} />
+      <ViewPoppular />
+      <ViewNewHotels />
     </View>
   );
 };

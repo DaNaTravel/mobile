@@ -72,6 +72,9 @@ const Body = ({email, setEmail, password, setPassword}) => {
         console.log(error);
       });
   };
+  const handleSignInWithGuess = () => {
+    navigation.navigate('BottomTabGuess')
+  }
   return (
     <ScrollView style={styles.containerBody}>
       <FieldTextInput
@@ -96,7 +99,7 @@ const Body = ({email, setEmail, password, setPassword}) => {
         title={'Sign in'}
         onPress={() => handleSignIn(email, password)}
       />
-      <Text style={styles.textOtherSign}>Or sign in using</Text>
+      <Text style={styles.textOtherSign}>Or</Text>
       <View style={styles.viewOther}>
         <FieldButton
           stylesContainer={styles.viewButtonGG}
@@ -110,12 +113,12 @@ const Body = ({email, setEmail, password, setPassword}) => {
         />
         <FieldButton
           stylesContainer={styles.viewButtonFB}
-          title={'Facebook'}
+          title={'Login with Guess'}
           stylesTitle={styles.textFB}
-          icon={'facebook-f'}
+          icon={'user'}
           color="#fff"
           size={30}
-          onPress={() => handleSignInWithGG()}
+          onPress={() => handleSignInWithGuess()}
         />
       </View>
       {data ? <FieldWebView HTML={data} /> : <></>}
@@ -221,11 +224,13 @@ const styles = StyleSheet.create({
   viewButtonFB: {
     width: widthScreen * 0.4,
     backgroundColor: '#3498DB',
+    justifyContent: 'space-evenly'
   },
   textFB: {
     color: colors.WHITE,
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: 'bold',
+    marginLeft: widthScreen*-0.04
   },
   textDont: {
     fontSize: 12,
