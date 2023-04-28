@@ -43,13 +43,6 @@ const LoginNav = () => {
         options={{
           headerShown: false,
         }}
-        name="BottomTabUser"
-        component={BottomTab}
-      />
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
         name="AboutNav"
         component={AboutNav}
       />

@@ -25,9 +25,19 @@ export const SignIn = (email, password) => {
         'refreshToken',
         response?.data?.data?.refreshToken,
       );
-      return response?.data?.message;
+      return response?.data;
     })
     .catch(error => {
       return error.response.data.message;
     });
 };
+
+export function SignInTest(email, password) {
+  return axios.post(
+    `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/accounts/signin`,
+    {
+      email: email,
+      password: password,
+    },
+  );
+}

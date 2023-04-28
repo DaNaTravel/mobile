@@ -7,9 +7,8 @@ const Profile = () => {
   const navigation = useNavigation();
   const handleSignout = async () => {
     let data = await AsyncStorage.getItem('token');
-    data !== null
-      ? navigation.navigate('AboutNav')
-      : navigation.navigate('LoginNav');
+
+    navigation.navigate('LoginNav');
 
     await AsyncStorage.clear();
   };

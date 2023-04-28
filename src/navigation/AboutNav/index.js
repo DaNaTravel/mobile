@@ -111,6 +111,7 @@ const AboutNav = () => {
         name="Itinerary"
         component={Itinerary}
       />
+      {/* nam o bottom tab */}
       <Stack.Screen
         options={{
           headerShown: false,
