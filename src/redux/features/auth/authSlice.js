@@ -23,6 +23,10 @@ export const authSlice = createSlice({
       state.isFetching = false;
       state.error = action.payload;
     },
+    logoutSuccess: (state) => {
+      state.isLoggedIn = false;
+      state.login = null;
+    }
   },
 });
 

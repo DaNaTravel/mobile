@@ -7,10 +7,26 @@ import ForgotPassword from '../../screens/ForgotPasswordScreen';
 import SubmitEmail from '../../screens/SubmitEmailScreen';
 import BottomTab from '../BottomTab';
 import AboutNav from '../AboutNav';
+import {useSelector} from 'react-redux';
 const Stack = createNativeStackNavigator();
 const LoginNav = () => {
+  const login = useSelector(state => state.auth.login);
+  console.log('login', login);
   return (
     <Stack.Navigator>
+      {login?.data?.token !== null ? (
+        <>
+          <Stack.Screen
+            options={{
+              headerShown: false,
+            }}
+            name="BottomTabUser"
+            component={BottomTab}
+          />
+        </>
+      ) : (
+        <></>
+      )}
       <Stack.Screen
         options={{
           headerShown: false,
@@ -39,13 +55,7 @@ const LoginNav = () => {
         name="Submit"
         component={SubmitEmail}
       />
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-        name="BottomTabUser"
-        component={BottomTab}
-      />
+
       <Stack.Screen
         options={{
           headerShown: false,

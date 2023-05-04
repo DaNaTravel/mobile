@@ -122,8 +122,6 @@ const Body = ({email, setEmail, password, setPassword}) => {
 const SignInScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const login = useSelector(state => state.auth.login);
-  console.log('login', login);
   return (
     <View style={styles.viewParent}>
       <Header />

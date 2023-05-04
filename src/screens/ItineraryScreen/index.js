@@ -23,6 +23,7 @@ import FavoritePlace from '../../components/FavoritePlace';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RecommendedItinerary from '../../components/RecommendedItinerary';
+import { useSelector } from 'react-redux';
 const Header = ({name}) => {
   return (
     <View style={styles.viewWelcome}>
@@ -153,10 +154,11 @@ const ViewFavorites = ({dataFavo}) => {
 const Itinerary = () => {
   const [name, setName] = useState('');
   const navigation = useNavigation();
+  const login = useSelector(state => state.auth.login);
   const loadName = async () => {
-    let nameUser = await AsyncStorage.getItem('token');
-    nameUser !== null ? setName('Gracie') : setName('Guess');
+    login?.data?.token ? setName('Gracie') : setName('Guess');
     console.log('name', name);
+    console.log('login', login);
   };
   useLayoutEffect(() => {
     loadName();

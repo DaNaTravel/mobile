@@ -23,7 +23,6 @@ import SearchAllScreen from '../../screens/SearchAllScreen';
 const Stack = createNativeStackNavigator();
 const AboutNav = () => {
   const laucher = useSelector(state => state.state.lauch);
-  console.log(laucher);
   return (
     <Stack.Navigator>
       {!laucher ? (
@@ -79,13 +78,6 @@ const AboutNav = () => {
         options={{
           headerShown: false,
         }}
-        name="BottomTabGuess"
-        component={BottomTab}
-      />
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
         name="Weather"
         component={Weather}
       />
@@ -96,7 +88,13 @@ const AboutNav = () => {
         name="History"
         component={History}
       />
-
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="BottomTabGuess"
+        component={BottomTab}
+      />
       <Stack.Screen
         options={{
           headerShown: false,
