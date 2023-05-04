@@ -41,8 +41,9 @@ const positions = [
     description: 'Tran Thi Ly Bridge',
   },
 ];
-const MapViewComponent = () => {
+const MapViewComponent = ({dataHT}) => {
   const [data, setData] = useState(positions);
+  const [dataHotel, setDataHotel] = useState(dataHT)
   const onMapPress = e => {
     setData([...data, e.nativeEvent.coordinate]);
   };
@@ -62,6 +63,15 @@ const MapViewComponent = () => {
           coordinate={coordinate}
           description={coordinate.description}
           title={coordinate.title}
+        />
+      ))}
+      {dataHotel.map((coordinate, index) => (
+        <Marker
+          key={`coordinate_${index}`}
+          coordinate={{latitude:coordinate.lat,longitude: coordinate.lon}}
+          description={coordinate.address}
+          title={coordinate.title}
+          image={require('../../assets/images/building.png')}
         />
       ))}
       {data.length >= 2 && (

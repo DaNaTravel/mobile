@@ -3,10 +3,25 @@ import React, {useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import NonAccount from '../Modal/NonAccount';
 
 const FavoritePlace = ({item}) => {
   const [like, setLike] = useState(false);
   const navigation = useNavigation();
+  const [alert, setAlert] =  useState(false)
+  const isNoUser = () =>{
+    setAlert(!alert);
+    console.log(alert);
+    
+  }
+  const isUser = () =>{
+    setLike(!like);
+  }
+  const handleLike = async () => {
+    let token = await AsyncStorage.getItem('token');
+    token !== null ? isUser() : isNoUser();
+  }
   return (
     <TouchableOpacity
       style={styles.viewContainer}
@@ -29,7 +44,7 @@ const FavoritePlace = ({item}) => {
         </View>
         <TouchableOpacity
           style={styles.viewLike}
-          onPress={() => setLike(!like)}>
+          onPress={() => handleLike()}>
           <FontAwesome
             name="heart"
             size={23}
@@ -37,6 +52,7 @@ const FavoritePlace = ({item}) => {
           />
         </TouchableOpacity>
       </View>
+      {alert ? (<NonAccount alert={alert} setAlert={setAlert} />) : null}
     </TouchableOpacity>
   );
 };
@@ -49,7 +65,7 @@ const styles = StyleSheet.create({
     height: heightScreen * 0.23,
     borderRadius: 12,
     backgroundColor: colors.WHITE,
-    marginRight: widthScreen * 0.02,
+    marginHorizontal: widthScreen * 0.02,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

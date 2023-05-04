@@ -1,24 +1,25 @@
-import {useRef, useState, useLayoutEffect} from 'react';
+import {useRef, useState, useLayoutEffect, useEffect} from 'react';
 import {
   Text,
   TouchableOpacity,
   View,
   StyleSheet,
   FlatList,
-  SafeAreaView,
 } from 'react-native';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import Accordion from 'react-native-collapsible/Accordion';
-import AccordionItem from '../../components/AccordionItem';
-import AccordionItemWeather from '../../components/AccordionItemWeather';
 import ItineraryPlace from '../../components/ItineraryPlace';
 import {useNavigation} from '@react-navigation/native';
 import MapViewComponent from '../../components/MapViewComponent';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import dataHT from '../../assets/data/dataMap'
+import CarouselItinerary, {
+  ITEM_WIDTH,
+  SLIDER_WIDTH,
+} from '../../components/CarouselItinerary';
+import Carousel from 'react-native-snap-carousel';
 
 const Tab = createMaterialTopTabNavigator();
 const Day = () => {
@@ -65,62 +66,12 @@ const TabView = () => {
 const HomeScreen = () => {
   const refRBSheet = useRef();
   const navigation = useNavigation();
-  const [activeSection, setActiveSection] = useState([]);
-  const SECTIONS = [
-    {
-      title: 'Place to visit',
-      content: [1, 2, 3, 4, 5, 6, 7],
-    },
-    {
-      title: 'Weather forecast',
-      content: [1, 2, 3],
-    },
-  ];
-  _renderHeader = section => {
-    return (
-      <View style={styles.header}>
-        <FontAwesome name="angle-down" size={30} color="black" />
-        <Text style={styles.headerText}>{section.title}</Text>
-      </View>
-    );
-  };
-  _renderContent = section => {
-    return (
-      <>
-        {section.title === 'Weather forecast' ? (
-          <SafeAreaView style={styles.contentWeather}>
-            <FlatList
-              data={section.content}
-              renderItem={({item, index}) => (
-                <AccordionItemWeather item={item} />
-              )}
-              showsHorizontalScrollIndicator={false}
-              showsVerticalScrollIndicator={false}
-              horizontal
-              scrollEnabled={true}
-              keyExtractor={index => index}
-            />
-          </SafeAreaView>
-        ) : (
-          <SafeAreaView style={styles.content}>
-            <FlatList
-              data={section.content}
-              renderItem={({item, index}) => <AccordionItem item={item} />}
-              showsHorizontalScrollIndicator={false}
-              showsVerticalScrollIndicator={false}
-              scrollEnabled={true}
-              keyExtractor={index => index}
-            />
-            <TouchableOpacity
-              style={styles.buttonSee}
-              onPress={() => console.log('See itinerary detail!')}>
-              <Text style={styles.textSee}>See details</Text>
-            </TouchableOpacity>
-          </SafeAreaView>
-        )}
-      </>
-    );
-  };
+  const isCarousel = useRef(null);
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    refRBSheet.current.open();
+  }, []);
+
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewHeader}>
@@ -131,28 +82,35 @@ const HomeScreen = () => {
         <View style={styles.space}></View>
       </View>
       <View style={styles.map}>
-        <MapViewComponent />
+        <MapViewComponent dataHT={dataHT}/>
       </View>
-      {/* <TouchableOpacity
+      <TouchableOpacity
         style={styles.buttonBottom}
         onPress={() => refRBSheet.current.open()}>
         <Feather name="search" size={28} color={colors.WHITE} />
-      </TouchableOpacity> */}
-      <View style={styles.viewPopular}>
-        <View style={styles.viewTour}>
-          <Text style={styles.textTour}>Tour details</Text>
-          <Text style={styles.priceTour}>$500</Text>
-        </View>
-        <TabView />
-      </View>
-
+      </TouchableOpacity>
+      <Carousel
+        layout="default"
+        layoutCardOffset={9}
+        ref={isCarousel}
+        data={dataHT}
+        renderItem={CarouselItinerary}
+        sliderWidth={SLIDER_WIDTH}
+        itemWidth={ITEM_WIDTH}
+        inactiveSlideShift={1}
+        useScrollView={true}
+        onSnapToItem={index => setIndex(index)}
+        loop={true}
+        activeAnimationType="spring"
+        slideStyle={{borderRadius: 20}}
+      />
       <RBSheet
         ref={refRBSheet}
         closeOnDragDown={true}
         closeOnPressMask={false}
         animationType="slide"
         openDuration={400}
-        height={heightScreen * 0.5}
+        height={heightScreen * 0.7}
         dragFromTopOnly={true}
         customStyles={{
           wrapper: {
@@ -174,17 +132,11 @@ const HomeScreen = () => {
             elevation: 5,
           },
         }}>
-        <Accordion
-          sections={SECTIONS}
-          activeSections={activeSection}
-          renderHeader={_renderHeader}
-          renderContent={_renderContent}
-          onChange={section => {
-            setActiveSection(section);
-          }}
-          underlayColor={'transparent'}
-          touchableComponent={TouchableOpacity}
-        />
+        <View style={styles.viewTour}>
+          <Text style={styles.textTour}>Tour details</Text>
+          <Text style={styles.priceTour}>$500</Text>
+        </View>
+        <TabView />
       </RBSheet>
     </View>
   );
@@ -210,8 +162,8 @@ const styles = StyleSheet.create({
   },
   textTitle: {
     fontSize: 20,
-    fontWeight: '600',
-    color: '#000',
+    fontWeight: 600,
+    color: colors.BLACK,
   },
   map: {
     height: heightScreen * 0.5,
@@ -226,7 +178,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 20,
     fontWeight: 600,
-    color: '#000',
+    color: colors.BLACK,
     marginLeft: widthScreen * 0.05,
   },
   contentWeather: {
@@ -255,7 +207,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
     elevation: 3,
-    bottom: heightScreen * 0.03,
   },
   buttonSee: {
     alignSelf: 'flex-end',
@@ -264,23 +215,6 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     color: colors.MAINCOLOR,
     fontWeight: 500,
-  },
-  viewPopular: {
-    flex: 1,
-    alignItems: 'center',
-    paddingTop: heightScreen * 0.04,
-    padding: 15,
-    borderTopRightRadius: 50,
-    borderTopLeftRadius: 50,
-    shadowRadius: 2,
-    shadowOffset: {
-      width: 0,
-      height: -3,
-    },
-    shadowColor: '#000000',
-    elevation: 4,
-    marginTop: widthScreen * -0.15,
-    backgroundColor: colors.WHITE,
   },
   viewTour: {
     width: widthScreen * 0.85,
@@ -309,7 +243,8 @@ const styles = StyleSheet.create({
   },
   tabBar: {
     backgroundColor: colors.WHITE,
-    width: widthScreen * 0.85,
+    width: widthScreen,
+    alignSelf: 'center',
   },
   textDate: {
     fontSize: 18,
@@ -320,6 +255,8 @@ const styles = StyleSheet.create({
   viewDetailDaily: {
     paddingBottom: heightScreen * 0.02,
     backgroundColor: colors.WHITE,
+    width: widthScreen,
+    paddingLeft: widthScreen * 0.05,
   },
   detailDay: {
     marginTop: heightScreen * 0.02,

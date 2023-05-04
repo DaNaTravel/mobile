@@ -24,10 +24,17 @@ const ItineraryPlace = ({item}) => {
           />
           <View style={styles.viewDetail}>
             <Text style={styles.textTitle}>Mui Nghe</Text>
-            <Text style={styles.textDescrip}>
-              It is the most beautiful and ideal place to watch the sunrise in
-              Da Nang
-            </Text>
+            <View style={styles.viewPos}>
+              <FontAwesome
+                name="map-marker"
+                size={17}
+                color={colors.MAINCOLOR}
+              />
+              <Text style={styles.textPos} numberOfLines={1}>
+                Son Tra, Da Nang
+              </Text>
+            </View>
+
             <Text style={styles.textPrice}>$5</Text>
             <View style={styles.viewStar}>
               <FontAwesome name="star" size={17} color="#E8AD16" />
@@ -107,9 +114,10 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     color: colors.BLACK,
   },
-  textDescrip: {
-    fontSize: 10,
+  textPos: {
+    fontSize: 14,
     color: colors.BLACK,
+    marginLeft: widthScreen * 0.02,
   },
   textPrice: {
     fontSize: 16,
@@ -119,5 +127,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: widthScreen * 0.25,
+  },
+  viewPos: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

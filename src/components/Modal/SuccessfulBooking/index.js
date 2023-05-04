@@ -2,9 +2,16 @@ import LottieView from 'lottie-react-native';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {colors, heightScreen, widthScreen} from '../../../utility';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
 
 const SuccessfulBooking = ({booked, setBooked}) => {
+  const navigation = useNavigation();
+  const handleFindMore = () =>{
+    navigation.navigate('SearchAll');
+  }
+  const handleHome = () =>{
+    navigation.navigate('BottomTabGuess')
+  }
   return (
     <View style={styles.viewBlur}>
       <View style={styles.viewAlert}>
@@ -14,12 +21,22 @@ const SuccessfulBooking = ({booked, setBooked}) => {
           style={styles.viewLottie}
           loop={false}
         />
-        <Text style={styles.message}>Booking successful!</Text>
-        <TouchableOpacity
-          style={styles.buttonClose}
-          onPress={() => setBooked(!booked)}>
-          <FontAwesome name="close" size={30} color={colors.WHITE} />
-        </TouchableOpacity>
+        <View style={styles.viewMessage}>
+          <Text style={styles.message}>Booking successful!</Text>
+          <Text style={styles.messageSon}>
+            Have a safe and enjoyable journey!
+          </Text>
+          <TouchableOpacity
+            style={styles.buttonClose}
+            onPress={() => handleFindMore()}>
+            <Text style={styles.textHome}>Find more</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonClose}
+            onPress={() => handleHome()}>
+            <Text style={styles.textHome}>Back to Home</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -29,9 +46,8 @@ export default SuccessfulBooking;
 
 const styles = StyleSheet.create({
   viewAlert: {
-    height: heightScreen * 0.4,
+    height: heightScreen * 0.5,
     width: widthScreen * 0.9,
-    position: 'absolute',
     backgroundColor: colors.WHITE,
     justifyContent: 'center',
     alignItems: 'center',
@@ -48,30 +64,44 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   viewLottie: {
-    flex: 1,
+    height: 300,
+    width: 300,
     borderRadius: 30,
   },
   message: {
     fontSize: 25,
     color: colors.BLACK,
     fontWeight: 600,
-    marginTop: heightScreen * 0.25,
   },
   buttonClose: {
-    height: 50,
-    width: 50,
-    borderRadius: 50 / 2,
+    height: heightScreen * 0.07,
+    width: widthScreen * 0.8,
+    borderRadius: 30,
     backgroundColor: colors.MAINCOLOR,
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'absolute',
-    top: heightScreen * -0.035,
-    right: widthScreen * -0.025,
   },
   viewBlur: {
     height: heightScreen,
     width: widthScreen,
     backgroundColor: 'rgba(0,0,0,0.85)',
     position: 'absolute',
+  },
+  textHome: {
+    fontSize: 20,
+    fontWeight: 600,
+    color: colors.WHITE,
+  },
+  messageSon: {
+    fontSize: 18,
+    fontWeight: 400,
+    color: colors.BLACK,
+  },
+  viewMessage: {
+    top: heightScreen * -0.1,
+    alignItems: 'center',
+    width: widthScreen * 0.8,
+    height: heightScreen * 0.25,
+    justifyContent: 'space-between',
   },
 });

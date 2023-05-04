@@ -18,6 +18,7 @@ import CarouselBookingItem, {
   ITEM_WIDTH,
 } from '../../components/CarouselBookingItem';
 import SuccessfulBooking from '../../components/Modal/SuccessfulBooking';
+
 const Header = ({navigation}) => {
   const isCarousel = useRef(null);
   const [index, setIndex] = useState(0);
@@ -43,6 +44,7 @@ const Header = ({navigation}) => {
           loop={true}
           activeAnimationType="spring"
         />
+        {<PaginationCarousel data={data} index={index}/>}
         <View style={styles.viewName}>
           <View style={styles.viewNamePrice}>
             <Text style={styles.name} numberOfLines={1}>
@@ -71,6 +73,26 @@ const Header = ({navigation}) => {
     </>
   );
 };
+const PaginationCarousel = ({data, index}) =>{
+  return (
+    <Pagination
+      dotsLength={data.length}
+      activeDotIndex={index}
+      containerStyle={{ backgroundColor: 'transparent', zIndex: 1, position: 'absolute', top: heightScreen*0.32, alignSelf: 'center' }}
+      dotStyle={{
+          width: 10,
+          height: 10,
+          borderRadius: 5,
+          backgroundColor: colors.MAINCOLOR,
+      }}
+      inactiveDotStyle={{
+          // Define styles for inactive dots here
+      }}
+      inactiveDotOpacity={0.4}
+      inactiveDotScale={0.6}
+    />
+);
+}
 const BookingDetail = () => {
   const navigation = useNavigation();
   const [see, setSee] = useState(false);
@@ -99,7 +121,7 @@ const BookingDetail = () => {
         <TouchableOpacity
           style={styles.buttonBook}
           onPress={() => handleBook()}>
-          <Text style={styles.textBook}>Book the room</Text>
+          <Text style={styles.textBook}>Add to itinerary</Text>
         </TouchableOpacity>
       </View>
       {booked ? (

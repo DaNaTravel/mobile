@@ -21,6 +21,7 @@ import CarouselItem, {
 import FavoritePlace from '../../components/FavoritePlace';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import HistoryItem from '../../components/HistoryItem';
 const Header = ({name}) => {
   return (
     <View style={styles.viewWelcome}>
@@ -112,6 +113,24 @@ const ViewFunction = ({navigation}) => {
     </>
   );
 };
+const ViewRecommend = () => {
+  return (
+    <>
+      <Text style={styles.textFavo}>Recommended itinerary</Text>
+      <View style={styles.viewRecommendList}>
+        <FlatList
+          data={[1, 2, 3, 4, 5, 6, 7]}
+          renderItem={({item, index}) => <HistoryItem item={item} />}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          scrollEnabled={false}
+          keyExtractor={index => index}
+          style={styles.viewHistories}
+        />
+      </View>
+    </>
+  );
+};
 const ViewFavorites = () => {
   return (
     <>
@@ -143,11 +162,14 @@ const Itinerary = () => {
   }, []);
 
   return (
-    <ScrollView style={styles.viewParent}>
+    <ScrollView
+      style={styles.viewParent}
+      contentContainerStyle={styles.contentContainerStyle}>
       <Header name={name} />
       <ViewCarousel />
       <ViewFunction navigation={navigation} />
       <ViewFavorites />
+      <ViewRecommend />
     </ScrollView>
   );
 };
@@ -159,13 +181,13 @@ const styles = StyleSheet.create({
     width: widthScreen,
     height: heightScreen * 1.2,
     backgroundColor: colors.WHITE,
-    paddingLeft: widthScreen * 0.05,
     paddingTop: heightScreen * 0.025,
-    paddingRight: widthScreen * 0.05,
   },
   viewWelcome: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    width: widthScreen * 0.9,
+    alignSelf: 'center',
   },
   viewAvt: {
     height: 47,
@@ -195,11 +217,14 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: colors.BLACK,
     marginBottom: heightScreen * 0.02,
+    marginLeft: widthScreen * 0.05,
   },
   viewFunctions: {
     height: heightScreen * 0.085,
+    width: widthScreen * 0.9,
     justifyContent: 'space-between',
     flexDirection: 'row',
+    alignSelf: 'center',
   },
   viewFuncSon: {
     height: heightScreen * 0.1,
@@ -247,8 +272,15 @@ const styles = StyleSheet.create({
     color: colors.BLACK,
     marginBottom: heightScreen * 0.02,
     marginTop: heightScreen * 0.02,
+    marginLeft: widthScreen * 0.05,
   },
   viewFavo: {
-    height: heightScreen * 0.4,
+    height: heightScreen * 0.24,
+    marginLeft: widthScreen * 0.05,
+  },
+  viewRecommendList: {
+    marginBottom: heightScreen * 0.12,
+    width: widthScreen * 0.92,
+    alignSelf: 'center',
   },
 });

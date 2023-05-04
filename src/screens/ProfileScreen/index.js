@@ -1,17 +1,14 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React,{useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ConfirmLogout from '../../components/Modal/ConfirmLogout';
 
 const Profile = () => {
   const navigation = useNavigation();
+  const [isModalVisible, setModalVisible] = useState(false);
   const handleSignout = async () => {
-    let data = await AsyncStorage.getItem('token');
-    data !== null
-      ? navigation.navigate('AboutNav')
-      : navigation.navigate('LoginNav');
-
-    await AsyncStorage.clear();
+    setModalVisible(!isModalVisible)
   };
   const getData = async () => {
     let data = JSON.parse(await AsyncStorage.getItem('data'));
@@ -33,6 +30,7 @@ const Profile = () => {
       <TouchableOpacity style={styles.signOut} onPress={() => handleSignout()}>
         <Text style={{}}>Signout</Text>
       </TouchableOpacity>
+      <ConfirmLogout handleSignout={handleSignout} isModalVisible={isModalVisible} navigation={navigation}/>
     </View>
   );
 };
