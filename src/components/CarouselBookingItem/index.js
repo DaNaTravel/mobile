@@ -8,7 +8,7 @@ export const ITEM_WIDTH = Math.round(SLIDER_WIDTH);
 const CarouselBookingItem = ({item, index}) => {
   return (
     <View style={styles.container} key={index}>
-      <Image source={{uri: item.imgUrl}} style={styles.image} />
+      <Image source={{uri: item}} style={styles.image} />
     </View>
   );
 };

@@ -15,7 +15,8 @@ import FieldButton from '../../components/FieldButton';
 import {SignIn} from '../../apis/controller/accounts/SignIn';
 import axios from 'axios';
 import FieldWebView from '../../components/WebView';
-
+import {useDispatch, useSelector} from 'react-redux';
+import {Login} from '../../redux/action/auth/authRequests';
 const Header = () => {
   const navigation = useNavigation();
   return (
@@ -30,27 +31,9 @@ const Header = () => {
 const Body = ({email, setEmail, password, setPassword}) => {
   const [data, setData] = useState('');
   const navigation = useNavigation();
-  const handleSignIn = (email, password) => {
-    const regexemail = /\S+@\S+\.\S+/;
-    !email.match(regexemail)
-      ? Alert.alert('Failed', 'Email is not correct', [
-          {
-            text: 'Try again',
-          },
-        ])
-      : email.trim() === '' || password.trim() === ''
-      ? Alert.alert('Failed', 'Please enter in full', [
-          {
-            text: 'Try again',
-          },
-        ])
-      : SignIn(email, password) == null
-      ? navigation.navigate('BottomTabUser')
-      : Alert.alert('Failed', 'Email or password is wrong!', [
-          {
-            text: 'Try again',
-          },
-        ]);
+  const dispatch = useDispatch();
+  const handleSignIn = async () => {
+    await Login(dispatch, email, password);
   };
   const handleForgot = async () => {
     navigation.navigate('Forgot');
@@ -73,8 +56,8 @@ const Body = ({email, setEmail, password, setPassword}) => {
       });
   };
   const handleSignInWithGuess = () => {
-    navigation.navigate('BottomTabGuess')
-  }
+    navigation.navigate('BottomTabGuess');
+  };
   return (
     <ScrollView style={styles.containerBody}>
       <FieldTextInput
@@ -139,6 +122,8 @@ const Body = ({email, setEmail, password, setPassword}) => {
 const SignInScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const login = useSelector(state => state.auth.login);
+  console.log('login', login);
   return (
     <View style={styles.viewParent}>
       <Header />
@@ -224,13 +209,13 @@ const styles = StyleSheet.create({
   viewButtonFB: {
     width: widthScreen * 0.4,
     backgroundColor: '#3498DB',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
   },
   textFB: {
     color: colors.WHITE,
     fontSize: 13,
     fontWeight: 'bold',
-    marginLeft: widthScreen*-0.04
+    marginLeft: widthScreen * -0.04,
   },
   textDont: {
     fontSize: 12,

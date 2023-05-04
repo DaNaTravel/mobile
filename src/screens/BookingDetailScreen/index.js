@@ -2,7 +2,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
@@ -11,15 +10,13 @@ import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
-import data from '../../assets/data/dataCarouselBooking';
-import LottieView from 'lottie-react-native';
 import CarouselBookingItem, {
   SLIDER_WIDTH,
   ITEM_WIDTH,
 } from '../../components/CarouselBookingItem';
 import SuccessfulBooking from '../../components/Modal/SuccessfulBooking';
 
-const Header = ({navigation}) => {
+const Header = ({navigation, item}) => {
   const isCarousel = useRef(null);
   const [index, setIndex] = useState(0);
   return (
@@ -34,7 +31,7 @@ const Header = ({navigation}) => {
           layout="stack"
           layoutCardOffset={9}
           ref={isCarousel}
-          data={data}
+          data={item?.imgextras}
           renderItem={CarouselBookingItem}
           sliderWidth={SLIDER_WIDTH}
           itemWidth={ITEM_WIDTH}
@@ -44,13 +41,13 @@ const Header = ({navigation}) => {
           loop={true}
           activeAnimationType="spring"
         />
-        {<PaginationCarousel data={data} index={index}/>}
+        {<PaginationCarousel data={item?.imgextras} index={index} />}
         <View style={styles.viewName}>
           <View style={styles.viewNamePrice}>
             <Text style={styles.name} numberOfLines={1}>
-              Symphony
+              {item?.name}
             </Text>
-            <Text style={styles.price}>$16.00</Text>
+            <Text style={styles.price}>{item?.price}</Text>
           </View>
           <View style={styles.viewPosStar}>
             <View style={styles.viewPos}>
@@ -60,12 +57,12 @@ const Header = ({navigation}) => {
                 color={colors.MAINCOLOR}
               />
               <Text style={styles.position} numberOfLines={1}>
-                Hoa Chau, Da Nang
+                {item?.position}
               </Text>
             </View>
             <View style={styles.viewStar}>
               <FontAwesome name="star" size={22} color={colors.WHITE} />
-              <Text style={styles.star}>5</Text>
+              <Text style={styles.star}>{item?.rating}</Text>
             </View>
           </View>
         </View>
@@ -73,45 +70,49 @@ const Header = ({navigation}) => {
     </>
   );
 };
-const PaginationCarousel = ({data, index}) =>{
+const PaginationCarousel = ({data, index}) => {
   return (
     <Pagination
-      dotsLength={data.length}
+      dotsLength={data?.length}
       activeDotIndex={index}
-      containerStyle={{ backgroundColor: 'transparent', zIndex: 1, position: 'absolute', top: heightScreen*0.32, alignSelf: 'center' }}
+      containerStyle={{
+        backgroundColor: 'transparent',
+        zIndex: 1,
+        position: 'absolute',
+        top: heightScreen * 0.32,
+        alignSelf: 'center',
+      }}
       dotStyle={{
-          width: 10,
-          height: 10,
-          borderRadius: 5,
-          backgroundColor: colors.MAINCOLOR,
+        width: 10,
+        height: 10,
+        borderRadius: 5,
+        backgroundColor: colors.MAINCOLOR,
       }}
-      inactiveDotStyle={{
+      inactiveDotStyle={
+        {
           // Define styles for inactive dots here
-      }}
+        }
+      }
       inactiveDotOpacity={0.4}
       inactiveDotScale={0.6}
     />
-);
-}
-const BookingDetail = () => {
+  );
+};
+const BookingDetail = ({route}) => {
   const navigation = useNavigation();
   const [see, setSee] = useState(false);
   const [booked, setBooked] = useState(false);
   const handleBook = () => {
     setBooked(!booked);
   };
+  const {item} = route.params;
   return (
     <View style={styles.viewParent}>
-      <Header navigation={navigation} />
+      <Header navigation={navigation} item={item} />
       <Text style={styles.textDetails}>Details</Text>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <Text style={styles.textDes} numberOfLines={see ? null : 6}>
-          Hidden Beach Bungalow is an ideal resort for couples with an open view
-          of the blue sea. Bungalow has Mediterranean style mixed with Asian
-          design with thatched roof, minimalist furniture from wood, bamboo,
-          creating an airy space close to nature. All rooms have glass doors
-          facing the sea. From the bedroom, you just need to go through the sun
-          terrace with green lawn to the white sand beach with whispering waves.
+          {item?.des}
         </Text>
         <TouchableOpacity style={styles.seeMore} onPress={() => setSee(!see)}>
           <Text>{!see ? 'See more' : 'See less'}</Text>

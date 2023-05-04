@@ -22,30 +22,28 @@ const CarouselItinerary = ({item, index}) => {
         colors={['rgba(255,255,255,0.2)', 'rgba(10,10,10,0.7)']}
         style={styles.viewBlur}>
         <View style={styles.viewFrontImg}>
-            <View style={styles.viewTitle}>
-              <Text style={styles.textTitle}>{item?.title}</Text>
-              <View style={styles.viewAddress}>
-                <Feather name="map-pin" size={14} color={colors.WHITE} />
-                <Text style={styles.textTitle2}>
+          <View style={styles.viewTitle}>
+            <Text style={styles.textTitle}>{item?.title}</Text>
+            <View style={styles.viewAddress}>
+              <Feather name="map-pin" size={14} color={colors.WHITE} />
+              <Text style={styles.textTitle2} numberOfLines={1}>
                 {item?.address}
-                </Text>
-              </View>
-              <View style={styles.viewPriceStar}>
-                <Text style={styles.textTitle2}>{item?.price}</Text>
-                <View style={styles.viewStar}>
+              </Text>
+            </View>
+            <View style={styles.viewPriceStar}>
+              <Text style={styles.textTitle2}>{item?.price}</Text>
+              <View style={styles.viewStar}>
                 <FontAwesome name="star" size={14} color={colors.WHITE} />
-                    <Text style={styles.textTitle2}>
-                        {item?.rating}
-                    </Text>
-                </View>
+                <Text style={styles.textTitle2}>{item?.rating}</Text>
               </View>
             </View>
+          </View>
           <TouchableOpacity style={styles.buttonTry}>
             <Text style={styles.textTry}>Try it</Text>
           </TouchableOpacity>
         </View>
       </LinearGradient>
-      <Image source={{uri:item.imgUrl}} style={styles.image} />
+      <Image source={{uri: item.imgUrl}} style={styles.image} />
     </View>
   );
 };
@@ -94,11 +92,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: ITEM_WIDTH * 0.8,
-    height: heightScreen * 0.3,
+    width: ITEM_WIDTH * 0.9,
+    height: heightScreen * 0.09,
     alignSelf: 'center',
     top: heightScreen * 0.17,
     zIndex: 3,
+    alignItems: 'center',
   },
   textTitle: {
     fontSize: 15,
@@ -109,21 +108,25 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.WHITE,
     fontWeight: 600,
-    marginLeft: widthScreen*0.01
+    marginLeft: widthScreen * 0.01,
   },
-  viewAddress:{
-    flexDirection: 'row'
-  },
-  viewPriceStar:{
+  viewAddress: {
     flexDirection: 'row',
-    width: widthScreen*0.35,
-    justifyContent:'space-between',
+    width: widthScreen * 0.41,
+  },
+  viewPriceStar: {
+    flexDirection: 'row',
+    width: widthScreen * 0.38,
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
-  viewStar:{
+  viewStar: {
     flexDirection: 'row',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
+  viewTitle: {
+    justifyContent: 'space-between',
+  },
 });
 
 export default CarouselItinerary;

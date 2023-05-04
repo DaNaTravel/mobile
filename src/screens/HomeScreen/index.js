@@ -1,20 +1,15 @@
 import {useRef, useState, useLayoutEffect, useEffect} from 'react';
-import {
-  Text,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-  FlatList,
-} from 'react-native';
+import {Text, TouchableOpacity, View, StyleSheet, FlatList} from 'react-native';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import Feather from 'react-native-vector-icons/Feather';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import ItineraryPlace from '../../components/ItineraryPlace';
 import {useNavigation} from '@react-navigation/native';
 import MapViewComponent from '../../components/MapViewComponent';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import dataHT from '../../assets/data/dataMap'
+import dataHT from '../../assets/data/dataMap';
 import CarouselItinerary, {
   ITEM_WIDTH,
   SLIDER_WIDTH,
@@ -82,12 +77,12 @@ const HomeScreen = () => {
         <View style={styles.space}></View>
       </View>
       <View style={styles.map}>
-        <MapViewComponent dataHT={dataHT}/>
+        <MapViewComponent dataHT={dataHT} index={index} />
       </View>
       <TouchableOpacity
         style={styles.buttonBottom}
         onPress={() => refRBSheet.current.open()}>
-        <Feather name="search" size={28} color={colors.WHITE} />
+        <AntDesign name="profile" size={28} color={colors.WHITE} />
       </TouchableOpacity>
       <Carousel
         layout="default"

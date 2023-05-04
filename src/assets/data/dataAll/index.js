@@ -1,7 +1,7 @@
 const data = [
   {
     img: 'https://ik.imagekit.io/tvlk/blog/2022/08/khach-san-view-bien-da-nang-1-1024x624.jpg?tr=dpr-2,w-675',
-    imgextra: [
+    imgextras: [
       'https://hotellebouton.com/wp-content/uploads/2021/03/147278053_218982013228155_8246054670463791463_o-1024x683.jpeg',
       'https://homedecorplus.vn/wp-content/uploads/210615-hdp-khach-san-Hotel-Le-Bouton-da-nang-24.jpg',
       'https://kienviet.net/wp-content/uploads/2021/06/kienviet-hotel-le-bouton-khach-san-mang-dam-ban-sac-thien-nhien-6.png',
@@ -11,12 +11,7 @@ const data = [
     rating: 4.5,
     price: '$300',
     position: 'Son Tra, Da Nang',
-    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view
-        of the blue sea. Bungalow has Mediterranean style mixed with Asian
-        design with thatched roof, minimalist furniture from wood, bamboo,
-        creating an airy space close to nature. All rooms have glass doors
-        facing the sea. From the bedroom, you just need to go through the sun
-        terrace with green lawn to the white sand beach with whispering waves.`,
+    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view of the blue sea. Bungalow has Mediterranean style mixed with Asian design with thatched roof, minimalist furniture from wood, bamboo, creating an airy space close to nature. All rooms have glass doors facing the sea. From the bedroom, you just need to go through the sun terrace with green lawn to the white sand beach with whispering waves.`,
     service: [
       'Coffee & tea, Free WiFi, Drinking water',
       'Breakfast with delicious food',
@@ -25,7 +20,7 @@ const data = [
   },
   {
     img: 'https://maximilan.com.vn/wp-content/uploads/2020/03/96515_og_1.jpeg',
-    imgextra: [
+    imgextras: [
       'https://hotellebouton.com/wp-content/uploads/2021/03/147278053_218982013228155_8246054670463791463_o-1024x683.jpeg',
       'https://homedecorplus.vn/wp-content/uploads/210615-hdp-khach-san-Hotel-Le-Bouton-da-nang-24.jpg',
       'https://kienviet.net/wp-content/uploads/2021/06/kienviet-hotel-le-bouton-khach-san-mang-dam-ban-sac-thien-nhien-6.png',
@@ -35,12 +30,7 @@ const data = [
     rating: 4.5,
     price: '$50',
     position: 'Hai Chau, Da Nang',
-    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view
-        of the blue sea. Bungalow has Mediterranean style mixed with Asian
-        design with thatched roof, minimalist furniture from wood, bamboo,
-        creating an airy space close to nature. All rooms have glass doors
-        facing the sea. From the bedroom, you just need to go through the sun
-        terrace with green lawn to the white sand beach with whispering waves.`,
+    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view of the blue sea. Bungalow has Mediterranean style mixed with Asian design with thatched roof, minimalist furniture from wood, bamboo, creating an airy space close to nature. All rooms have glass doors facing the sea. From the bedroom, you just need to go through the sun terrace with green lawn to the white sand beach with whispering waves.`,
     service: [
       'Coffee & tea, Free WiFi, Drinking water',
       'Breakfast with delicious food',
@@ -49,7 +39,7 @@ const data = [
   },
   {
     img: 'https://giclandhotel.com/uploads/noidung/images/31b5d04245a8637c1a88a3bb4a99a529.jpg',
-    imgextra: [
+    imgextras: [
       'https://hotellebouton.com/wp-content/uploads/2021/03/147278053_218982013228155_8246054670463791463_o-1024x683.jpeg',
       'https://homedecorplus.vn/wp-content/uploads/210615-hdp-khach-san-Hotel-Le-Bouton-da-nang-24.jpg',
       'https://kienviet.net/wp-content/uploads/2021/06/kienviet-hotel-le-bouton-khach-san-mang-dam-ban-sac-thien-nhien-6.png',
@@ -59,12 +49,7 @@ const data = [
     rating: 4.9,
     price: '$300',
     position: 'Lien Chieu, Da Nang',
-    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view
-        of the blue sea. Bungalow has Mediterranean style mixed with Asian
-        design with thatched roof, minimalist furniture from wood, bamboo,
-        creating an airy space close to nature. All rooms have glass doors
-        facing the sea. From the bedroom, you just need to go through the sun
-        terrace with green lawn to the white sand beach with whispering waves.`,
+    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view of the blue sea. Bungalow has Mediterranean style mixed with Asian design with thatched roof, minimalist furniture from wood, bamboo, creating an airy space close to nature. All rooms have glass doors facing the sea. From the bedroom, you just need to go through the sun terrace with green lawn to the white sand beach with whispering waves.`,
     service: [
       'Coffee & tea, Free WiFi, Drinking water',
       'Breakfast with delicious food',
@@ -73,7 +58,7 @@ const data = [
   },
   {
     img: 'https://hanoimoi.com.vn/Uploads/anhthu/2019/2/17/dn.jpg',
-    imgextra: [
+    imgextras: [
       'https://hotellebouton.com/wp-content/uploads/2021/03/147278053_218982013228155_8246054670463791463_o-1024x683.jpeg',
       'https://homedecorplus.vn/wp-content/uploads/210615-hdp-khach-san-Hotel-Le-Bouton-da-nang-24.jpg',
       'https://kienviet.net/wp-content/uploads/2021/06/kienviet-hotel-le-bouton-khach-san-mang-dam-ban-sac-thien-nhien-6.png',
@@ -83,12 +68,7 @@ const data = [
     rating: 4.7,
     price: '$450',
     position: 'Ngu H.Son, Da Nang',
-    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view
-        of the blue sea. Bungalow has Mediterranean style mixed with Asian
-        design with thatched roof, minimalist furniture from wood, bamboo,
-        creating an airy space close to nature. All rooms have glass doors
-        facing the sea. From the bedroom, you just need to go through the sun
-        terrace with green lawn to the white sand beach with whispering waves.`,
+    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view of the blue sea. Bungalow has Mediterranean style mixed with Asian design with thatched roof, minimalist furniture from wood, bamboo, creating an airy space close to nature. All rooms have glass doors facing the sea. From the bedroom, you just need to go through the sun terrace with green lawn to the white sand beach with whispering waves.`,
     service: [
       'Coffee & tea, Free WiFi, Drinking water',
       'Breakfast with delicious food',
@@ -97,7 +77,7 @@ const data = [
   },
   {
     img: 'https://cdn.vietnammoi.vn/171464242508312576/2020/7/6/228796178-1594026396952167435123.jpg',
-    imgextra: [
+    imgextras: [
       'https://hotellebouton.com/wp-content/uploads/2021/03/147278053_218982013228155_8246054670463791463_o-1024x683.jpeg',
       'https://homedecorplus.vn/wp-content/uploads/210615-hdp-khach-san-Hotel-Le-Bouton-da-nang-24.jpg',
       'https://kienviet.net/wp-content/uploads/2021/06/kienviet-hotel-le-bouton-khach-san-mang-dam-ban-sac-thien-nhien-6.png',
@@ -107,12 +87,7 @@ const data = [
     rating: 4.6,
     price: '$250',
     position: 'Hai Chau, Da Nang',
-    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view
-        of the blue sea. Bungalow has Mediterranean style mixed with Asian
-        design with thatched roof, minimalist furniture from wood, bamboo,
-        creating an airy space close to nature. All rooms have glass doors
-        facing the sea. From the bedroom, you just need to go through the sun
-        terrace with green lawn to the white sand beach with whispering waves.`,
+    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view of the blue sea. Bungalow has Mediterranean style mixed with Asian design with thatched roof, minimalist furniture from wood, bamboo, creating an airy space close to nature. All rooms have glass doors facing the sea. From the bedroom, you just need to go through the sun terrace with green lawn to the white sand beach with whispering waves.`,
     service: [
       'Coffee & tea, Free WiFi, Drinking water',
       'Breakfast with delicious food',
@@ -121,7 +96,7 @@ const data = [
   },
   {
     img: 'https://mrvivu.com/wp-content/uploads/2021/04/sala-danang-beach-hotel.jpeg',
-    imgextra: [
+    imgextras: [
       'https://hotellebouton.com/wp-content/uploads/2021/03/147278053_218982013228155_8246054670463791463_o-1024x683.jpeg',
       'https://homedecorplus.vn/wp-content/uploads/210615-hdp-khach-san-Hotel-Le-Bouton-da-nang-24.jpg',
       'https://kienviet.net/wp-content/uploads/2021/06/kienviet-hotel-le-bouton-khach-san-mang-dam-ban-sac-thien-nhien-6.png',
@@ -131,12 +106,7 @@ const data = [
     rating: 4.5,
     price: '$100',
     position: 'Cam Le, Da Nang',
-    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view
-        of the blue sea. Bungalow has Mediterranean style mixed with Asian
-        design with thatched roof, minimalist furniture from wood, bamboo,
-        creating an airy space close to nature. All rooms have glass doors
-        facing the sea. From the bedroom, you just need to go through the sun
-        terrace with green lawn to the white sand beach with whispering waves.`,
+    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view of the blue sea. Bungalow has Mediterranean style mixed with Asian design with thatched roof, minimalist furniture from wood, bamboo, creating an airy space close to nature. All rooms have glass doors facing the sea. From the bedroom, you just need to go through the sun terrace with green lawn to the white sand beach with whispering waves.`,
     service: [
       'Coffee & tea, Free WiFi, Drinking water',
       'Breakfast with delicious food',
@@ -145,7 +115,7 @@ const data = [
   },
   {
     img: 'https://lh4.googleusercontent.com/5px0qoOWsiXFsD6eSAWrNn21YYDb8NFxU4hrVYiIEmZo1Mr5VXYarR0zOLYauDipPqzmx3gTYu93BYA6e_TnJKcT0i3dUylZBUE92lBQ0D2QHYMTurYfR07Oi_9yqQsvlRY9-vjwT7JtpyJzwNl2F5R9ZhV1y_cn4Fhys-z7eOccKnDdRmiuMOWTUw',
-    imgextra: [
+    imgextras: [
       'https://hotellebouton.com/wp-content/uploads/2021/03/147278053_218982013228155_8246054670463791463_o-1024x683.jpeg',
       'https://homedecorplus.vn/wp-content/uploads/210615-hdp-khach-san-Hotel-Le-Bouton-da-nang-24.jpg',
       'https://kienviet.net/wp-content/uploads/2021/06/kienviet-hotel-le-bouton-khach-san-mang-dam-ban-sac-thien-nhien-6.png',
@@ -155,12 +125,7 @@ const data = [
     rating: 4.5,
     price: '$120',
     position: 'Hoa Vang, Da Nang',
-    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view
-        of the blue sea. Bungalow has Mediterranean style mixed with Asian
-        design with thatched roof, minimalist furniture from wood, bamboo,
-        creating an airy space close to nature. All rooms have glass doors
-        facing the sea. From the bedroom, you just need to go through the sun
-        terrace with green lawn to the white sand beach with whispering waves.`,
+    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view of the blue sea. Bungalow has Mediterranean style mixed with Asian design with thatched roof, minimalist furniture from wood, bamboo, creating an airy space close to nature. All rooms have glass doors facing the sea. From the bedroom, you just need to go through the sun terrace with green lawn to the white sand beach with whispering waves.`,
     service: [
       'Coffee & tea, Free WiFi, Drinking water',
       'Breakfast with delicious food',
@@ -169,7 +134,7 @@ const data = [
   },
   {
     img: 'https://du-lich.chudu24.com/f/m/1709/25/poo-halo-5-0941370.jpg',
-    imgextra: [
+    imgextras: [
       'https://hotellebouton.com/wp-content/uploads/2021/03/147278053_218982013228155_8246054670463791463_o-1024x683.jpeg',
       'https://homedecorplus.vn/wp-content/uploads/210615-hdp-khach-san-Hotel-Le-Bouton-da-nang-24.jpg',
       'https://kienviet.net/wp-content/uploads/2021/06/kienviet-hotel-le-bouton-khach-san-mang-dam-ban-sac-thien-nhien-6.png',
@@ -179,12 +144,7 @@ const data = [
     rating: 4.4,
     price: '$370',
     position: 'Son Tra, Da Nang',
-    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view
-        of the blue sea. Bungalow has Mediterranean style mixed with Asian
-        design with thatched roof, minimalist furniture from wood, bamboo,
-        creating an airy space close to nature. All rooms have glass doors
-        facing the sea. From the bedroom, you just need to go through the sun
-        terrace with green lawn to the white sand beach with whispering waves.`,
+    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view of the blue sea. Bungalow has Mediterranean style mixed with Asian design with thatched roof, minimalist furniture from wood, bamboo, creating an airy space close to nature. All rooms have glass doors facing the sea. From the bedroom, you just need to go through the sun terrace with green lawn to the white sand beach with whispering waves.`,
     service: [
       'Coffee & tea, Free WiFi, Drinking water',
       'Breakfast with delicious food',
@@ -193,7 +153,7 @@ const data = [
   },
   {
     img: 'https://pix10.agoda.net/hotelImages/15949242/-1/61146d245b8ecfdf9cea261939921ed7.jpg?ca=12&ce=1&s=1024x768',
-    imgextra: [
+    imgextras: [
       'https://hotellebouton.com/wp-content/uploads/2021/03/147278053_218982013228155_8246054670463791463_o-1024x683.jpeg',
       'https://homedecorplus.vn/wp-content/uploads/210615-hdp-khach-san-Hotel-Le-Bouton-da-nang-24.jpg',
       'https://kienviet.net/wp-content/uploads/2021/06/kienviet-hotel-le-bouton-khach-san-mang-dam-ban-sac-thien-nhien-6.png',
@@ -203,12 +163,7 @@ const data = [
     rating: 4.7,
     price: '$400',
     position: 'Son Tra, Da Nang',
-    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view
-        of the blue sea. Bungalow has Mediterranean style mixed with Asian
-        design with thatched roof, minimalist furniture from wood, bamboo,
-        creating an airy space close to nature. All rooms have glass doors
-        facing the sea. From the bedroom, you just need to go through the sun
-        terrace with green lawn to the white sand beach with whispering waves.`,
+    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view of the blue sea. Bungalow has Mediterranean style mixed with Asian design with thatched roof, minimalist furniture from wood, bamboo, creating an airy space close to nature. All rooms have glass doors facing the sea. From the bedroom, you just need to go through the sun terrace with green lawn to the white sand beach with whispering waves.`,
     service: [
       'Coffee & tea, Free WiFi, Drinking water',
       'Breakfast with delicious food',
@@ -217,7 +172,7 @@ const data = [
   },
   {
     img: 'https://inhat.vn/wp-content/uploads/2022/04/khach-san-view-bien-1.png',
-    imgextra: [
+    imgextras: [
       'https://hotellebouton.com/wp-content/uploads/2021/03/147278053_218982013228155_8246054670463791463_o-1024x683.jpeg',
       'https://homedecorplus.vn/wp-content/uploads/210615-hdp-khach-san-Hotel-Le-Bouton-da-nang-24.jpg',
       'https://kienviet.net/wp-content/uploads/2021/06/kienviet-hotel-le-bouton-khach-san-mang-dam-ban-sac-thien-nhien-6.png',
@@ -227,12 +182,7 @@ const data = [
     rating: 4.9,
     price: '$250',
     position: 'Hai Chau, Da Nang',
-    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view
-        of the blue sea. Bungalow has Mediterranean style mixed with Asian
-        design with thatched roof, minimalist furniture from wood, bamboo,
-        creating an airy space close to nature. All rooms have glass doors
-        facing the sea. From the bedroom, you just need to go through the sun
-        terrace with green lawn to the white sand beach with whispering waves.`,
+    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view of the blue sea. Bungalow has Mediterranean style mixed with Asian design with thatched roof, minimalist furniture from wood, bamboo, creating an airy space close to nature. All rooms have glass doors facing the sea. From the bedroom, you just need to go through the sun terrace with green lawn to the white sand beach with whispering waves.`,
     service: [
       'Coffee & tea, Free WiFi, Drinking water',
       'Breakfast with delicious food',
@@ -241,7 +191,7 @@ const data = [
   },
   {
     img: 'https://2trip.vn/wp-content/uploads/2023/01/khac-san-da-nang-co-be-boi-vo-cuc-5.jpg',
-    imgextra: [
+    imgextras: [
       'https://hotellebouton.com/wp-content/uploads/2021/03/147278053_218982013228155_8246054670463791463_o-1024x683.jpeg',
       'https://homedecorplus.vn/wp-content/uploads/210615-hdp-khach-san-Hotel-Le-Bouton-da-nang-24.jpg',
       'https://kienviet.net/wp-content/uploads/2021/06/kienviet-hotel-le-bouton-khach-san-mang-dam-ban-sac-thien-nhien-6.png',
@@ -251,12 +201,7 @@ const data = [
     rating: 4.8,
     price: '$150',
     position: 'Thanh Khue',
-    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view
-        of the blue sea. Bungalow has Mediterranean style mixed with Asian
-        design with thatched roof, minimalist furniture from wood, bamboo,
-        creating an airy space close to nature. All rooms have glass doors
-        facing the sea. From the bedroom, you just need to go through the sun
-        terrace with green lawn to the white sand beach with whispering waves.`,
+    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view of the blue sea. Bungalow has Mediterranean style mixed with Asian design with thatched roof, minimalist furniture from wood, bamboo, creating an airy space close to nature. All rooms have glass doors facing the sea. From the bedroom, you just need to go through the sun terrace with green lawn to the white sand beach with whispering waves.`,
     service: [
       'Coffee & tea, Free WiFi, Drinking water',
       'Breakfast with delicious food',
@@ -265,7 +210,7 @@ const data = [
   },
   {
     img: 'https://homedecorplus.vn/wp-content/uploads/210615-hdp-khach-san-Hotel-Le-Bouton-da-nang-05.jpg',
-    imgextra: [
+    imgextras: [
       'https://hotellebouton.com/wp-content/uploads/2021/03/147278053_218982013228155_8246054670463791463_o-1024x683.jpeg',
       'https://homedecorplus.vn/wp-content/uploads/210615-hdp-khach-san-Hotel-Le-Bouton-da-nang-24.jpg',
       'https://kienviet.net/wp-content/uploads/2021/06/kienviet-hotel-le-bouton-khach-san-mang-dam-ban-sac-thien-nhien-6.png',
@@ -275,12 +220,7 @@ const data = [
     rating: 4.5,
     price: '$135',
     position: 'Ngu H.Son, Da Nang',
-    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view
-        of the blue sea. Bungalow has Mediterranean style mixed with Asian
-        design with thatched roof, minimalist furniture from wood, bamboo,
-        creating an airy space close to nature. All rooms have glass doors
-        facing the sea. From the bedroom, you just need to go through the sun
-        terrace with green lawn to the white sand beach with whispering waves.`,
+    des: `Hidden Beach Bungalow is an ideal resort for couples with an open view of the blue sea. Bungalow has Mediterranean style mixed with Asian design with thatched roof, minimalist furniture from wood, bamboo, creating an airy space close to nature. All rooms have glass doors facing the sea. From the bedroom, you just need to go through the sun terrace with green lawn to the white sand beach with whispering waves.`,
     service: [
       'Coffee & tea, Free WiFi, Drinking water',
       'Breakfast with delicious food',

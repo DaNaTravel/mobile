@@ -1,5 +1,5 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import {Image, StyleSheet, Text, View} from 'react-native';
+import React, {useRef, useState} from 'react';
 import MapView, {
   PROVIDER_GOOGLE,
   enableLatestRenderer,
@@ -41,12 +41,19 @@ const positions = [
     description: 'Tran Thi Ly Bridge',
   },
 ];
-const MapViewComponent = ({dataHT}) => {
+const MapViewComponent = ({dataHT, index}) => {
   const [data, setData] = useState(positions);
-  const [dataHotel, setDataHotel] = useState(dataHT)
+  const [dataHotel, setDataHotel] = useState(dataHT);
   const onMapPress = e => {
     setData([...data, e.nativeEvent.coordinate]);
   };
+  const mapView = useRef(null);
+  mapView.current?.animateToRegion({
+    latitude: dataHT[index].lat,
+    longitude: dataHT[index].lon,
+    latitudeDelta: 0.025,
+    longitudeDelta: 0.025,
+  });
   return (
     <MapView
       initialRegion={{
@@ -56,7 +63,8 @@ const MapViewComponent = ({dataHT}) => {
         longitudeDelta: LONGITUDE_DELTA,
       }}
       style={styles.map}
-      onPress={onMapPress}>
+      onPress={onMapPress}
+      ref={mapView}>
       {data.map((coordinate, index) => (
         <Marker
           key={`coordinate_${index}`}
@@ -68,11 +76,14 @@ const MapViewComponent = ({dataHT}) => {
       {dataHotel.map((coordinate, index) => (
         <Marker
           key={`coordinate_${index}`}
-          coordinate={{latitude:coordinate.lat,longitude: coordinate.lon}}
+          coordinate={{latitude: coordinate.lat, longitude: coordinate.lon}}
           description={coordinate.address}
-          title={coordinate.title}
-          image={require('../../assets/images/building.png')}
-        />
+          title={coordinate.title}>
+          <Image
+            source={require('../../assets/images/building.png')}
+            style={styles.img}
+          />
+        </Marker>
       ))}
       {data.length >= 2 && (
         <MapViewDirections
@@ -107,5 +118,9 @@ const styles = StyleSheet.create({
   map: {
     height: heightScreen * 0.5,
     width: widthScreen,
+  },
+  img: {
+    height: 40,
+    width: 40,
   },
 });

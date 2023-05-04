@@ -7,26 +7,28 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ConfirmLogout = ({handleSignout, isModalVisible, navigation}) => {
-    const handleConLogout = async()=>{
-            let data = await AsyncStorage.getItem('token');
+  const handleConLogout = async () => {
+    let data = await AsyncStorage.getItem('token');
     data !== null
       ? navigation.navigate('AboutNav')
       : navigation.navigate('LoginNav');
 
     await AsyncStorage.clear();
-    }
+  };
   return (
     <Modal isVisible={isModalVisible}>
       <View style={styles.viewAlert}>
-        <LottieView source={require('../../../assets/animations/logout.json')} 
-        autoPlay
-        style={{height: heightScreen*0.25, width:widthScreen*0.9}}/>
+        <LottieView
+          source={require('../../../assets/animations/logout.json')}
+          autoPlay
+          style={{height: heightScreen * 0.25, width: widthScreen * 0.9}}
+        />
         <Text style={styles.textSure}>Are you sure?</Text>
         <TouchableOpacity onPress={handleConLogout} style={styles.viewCon}>
           <Text style={styles.textCon}>Continue Logout</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonClose} onPress={handleSignout}>
-        <FontAwesome name="close" size={30} color={colors.WHITE} />
+          <FontAwesome name="close" size={30} color={colors.WHITE} />
         </TouchableOpacity>
       </View>
     </Modal>
@@ -37,31 +39,31 @@ export default ConfirmLogout;
 
 const styles = StyleSheet.create({
   viewAlert: {
-    height: heightScreen * 0.35,
+    height: heightScreen * 0.38,
     width: widthScreen * 0.9,
     backgroundColor: colors.WHITE,
-    borderRadius:30,
-    alignItems: 'center'
+    borderRadius: 30,
+    alignItems: 'center',
   },
-  viewCon:{
-    height: heightScreen*0.075,
-    width: widthScreen*0.5,
+  viewCon: {
+    height: heightScreen * 0.075,
+    width: widthScreen * 0.5,
     backgroundColor: colors.MAINCOLOR,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 20
+    borderRadius: 20,
   },
-  textCon:{
-    fontSize:18,
+  textCon: {
+    fontSize: 18,
     fontWeight: 600,
-    color: colors.WHITE
+    color: colors.WHITE,
   },
-  textSure:{
-    fontSize:20,
+  textSure: {
+    fontSize: 20,
     fontWeight: 700,
     color: colors.BLACK,
-    marginTop: heightScreen*-0.03,
-    marginBottom: heightScreen*0.01
+    marginTop: heightScreen * -0.03,
+    marginBottom: heightScreen * 0.01,
   },
   buttonClose: {
     height: 50,

@@ -9,42 +9,38 @@ import NonAccount from '../Modal/NonAccount';
 const FavoritePlace = ({item}) => {
   const [like, setLike] = useState(false);
   const navigation = useNavigation();
-  const [alert, setAlert] =  useState(false)
-  const isNoUser = () =>{
+  const [alert, setAlert] = useState(false);
+  const isNoUser = () => {
     setAlert(!alert);
     console.log(alert);
-    
-  }
-  const isUser = () =>{
+  };
+  const isUser = () => {
     setLike(!like);
-  }
+  };
   const handleLike = async () => {
     let token = await AsyncStorage.getItem('token');
     token !== null ? isUser() : isNoUser();
-  }
+  };
   return (
     <TouchableOpacity
       style={styles.viewContainer}
       onPress={() => navigation.navigate('PlaceDetail', {data: item})}>
       <Image
-        source={require('../../assets/images/muinghe.png')}
+        source={{uri: item?.img}}
         resizeMethod="scale"
         style={styles.viewImg}
       />
       <View style={styles.viewInfo}>
         <View style={styles.viewName}>
-          <Text style={styles.textName}>Mũi Nghê</Text>
+          <Text style={styles.textName} numberOfLines={1}>
+            {item?.name}
+          </Text>
           <View style={styles.viewStar}>
-            <FontAwesome name="star" size={17} color="#E8AD16" />
-            <FontAwesome name="star" size={17} color="#E8AD16" />
-            <FontAwesome name="star" size={17} color="#E8AD16" />
-            <FontAwesome name="star" size={17} color="#E8AD16" />
-            <FontAwesome name="star-half" size={17} color="#E8AD16" />
+            <FontAwesome name="star" size={17} color={colors.WHITE} />
+            <Text style={styles.textRating}>{item?.rating}</Text>
           </View>
         </View>
-        <TouchableOpacity
-          style={styles.viewLike}
-          onPress={() => handleLike()}>
+        <TouchableOpacity style={styles.viewLike} onPress={() => handleLike()}>
           <FontAwesome
             name="heart"
             size={23}
@@ -52,7 +48,7 @@ const FavoritePlace = ({item}) => {
           />
         </TouchableOpacity>
       </View>
-      {alert ? (<NonAccount alert={alert} setAlert={setAlert} />) : null}
+      {alert ? <NonAccount alert={alert} setAlert={setAlert} /> : null}
     </TouchableOpacity>
   );
 };
@@ -91,7 +87,7 @@ const styles = StyleSheet.create({
   },
   viewName: {
     height: heightScreen * 0.065,
-    width: widthScreen * 0.28,
+    width: widthScreen * 0.32,
     justifyContent: 'space-around',
     paddingBottom: 5,
   },
@@ -103,11 +99,22 @@ const styles = StyleSheet.create({
   },
   viewStar: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+    width: widthScreen * 0.15,
+    backgroundColor: colors.YELLOW,
+    borderRadius: 20,
+    alignItems: 'center',
+    marginTop: heightScreen * 0.01,
   },
   textName: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 500,
     color: colors.BLACK,
+  },
+  textRating: {
+    marginLeft: widthScreen * 0.015,
+    fontWeight: 600,
+    color: colors.WHITE,
+    fontSize: 16,
   },
 });

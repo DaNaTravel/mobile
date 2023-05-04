@@ -14,10 +14,11 @@ import {useNavigation} from '@react-navigation/native';
 
 const HotelItems = ({item}) => {
   const navigation = useNavigation();
+
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => navigation.navigate('BookingDetail', {item})}>
+      onPress={() => navigation.navigate('BookingDetail', {item: item})}>
       <Image
         style={styles.image}
         source={

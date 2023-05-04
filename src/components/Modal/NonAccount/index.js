@@ -5,7 +5,6 @@ import {colors, heightScreen, widthScreen} from '../../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const NonAccount = ({alert, setAlert}) => {
-  console.log('alo');
   return (
     <View style={styles.viewBlur}>
       <View style={styles.viewAlert}>
