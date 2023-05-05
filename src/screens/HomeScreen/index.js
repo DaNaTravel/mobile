@@ -15,6 +15,7 @@ import CarouselItinerary, {
   SLIDER_WIDTH,
 } from '../../components/CarouselItinerary';
 import Carousel from 'react-native-snap-carousel';
+import {useSelector} from 'react-redux';
 
 const Tab = createMaterialTopTabNavigator();
 const Day = () => {
@@ -66,11 +67,16 @@ const HomeScreen = () => {
   useEffect(() => {
     refRBSheet.current.open();
   }, []);
-
+  const isUser = useSelector(state => state.auth.login);
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewHeader}>
-        <TouchableOpacity onPress={() => navigation.navigate('BottomTabGuess')}>
+        <TouchableOpacity
+          onPress={() =>
+            isUser?.data?.token !== null
+              ? navigation.navigate('BottomTab')
+              : navigation.navigate('BottomTabGuess')
+          }>
           <Feather name="home" size={24} color={'#222222'} />
         </TouchableOpacity>
         <Text style={styles.textTitle}>Your trip</Text>

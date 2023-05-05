@@ -12,6 +12,7 @@ import SearchAllScreen from '../../screens/SearchAllScreen';
 import WeatherDetail from '../../screens/WeatherDetailScreen';
 import Weather from '../../screens/WeatherScreen';
 import BottomTab from '../BottomTab';
+import LoginNav from '../LoginNav';
 
 const Stack = createNativeStackNavigator();
 
@@ -108,6 +109,13 @@ export const HomeNav = () => {
         }}
         name="SearchAll"
         component={SearchAllScreen}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="LoginNav"
+        component={LoginNav}
       />
     </Stack.Navigator>
   );

@@ -3,6 +3,7 @@ import {
   loginStart,
   loginSuccess,
   loginFailure,
+  logoutSuccess,
 } from '../../features/auth/authSlice';
 
 export const Login = async (dispatch, email, password) => {
@@ -14,4 +15,9 @@ export const Login = async (dispatch, email, password) => {
     .catch(err => {
       dispatch(loginFailure(err.response.message));
     });
+};
+
+export const Logout = async dispatch => {
+  let newValue = {};
+  dispatch(logoutSuccess(newValue));
 };

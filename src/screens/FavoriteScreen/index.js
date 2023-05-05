@@ -12,7 +12,6 @@ const Favorite = () => {
           height: heightScreen * 0.5,
           width: widthScreen,
         }}
-        loop={true}
       />
       <Text style={styles.textAlert}>
         If you want to use this function, you have to log in to use it.

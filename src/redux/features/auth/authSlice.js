@@ -23,9 +23,14 @@ export const authSlice = createSlice({
       state.isFetching = false;
       state.error = action.payload;
     },
+    logoutSuccess: (state, action) => {
+      isLoggedIn = false;
+      state.login = action.payload;
+    },
   },
 });
 
-export const {loginStart, loginSuccess, loginFailure} = authSlice.actions;
+export const {loginStart, loginSuccess, loginFailure, logoutSuccess} =
+  authSlice.actions;
 
 export default authSlice.reducer;

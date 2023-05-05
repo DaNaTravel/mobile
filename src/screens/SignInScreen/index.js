@@ -56,7 +56,7 @@ const Body = ({email, setEmail, password, setPassword}) => {
       });
   };
   const handleSignInWithGuess = () => {
-    navigation.navigate('BottomTabGuess');
+    navigation.navigate('BottomTab');
   };
   return (
     <ScrollView style={styles.containerBody}>

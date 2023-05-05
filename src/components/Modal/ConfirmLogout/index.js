@@ -5,14 +5,14 @@ import {colors, heightScreen, widthScreen} from '../../../utility';
 import LottieView from 'lottie-react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch, useSelector} from 'react-redux';
+import {Logout} from '../../../redux/action/auth/authRequests';
 
 const ConfirmLogout = ({handleSignout, isModalVisible, navigation}) => {
+  const dispatch = useDispatch();
   const handleConLogout = async () => {
-    let data = await AsyncStorage.getItem('token');
-    data !== null
-      ? navigation.navigate('AboutNav')
-      : navigation.navigate('LoginNav');
-
+    navigation.navigate('LoginNav');
+    Logout(dispatch);
     await AsyncStorage.clear();
   };
   return (

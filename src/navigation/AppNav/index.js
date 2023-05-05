@@ -3,12 +3,15 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import AboutNav from '../AboutNav';
 import {useSelector} from 'react-redux';
+import {HomeNav} from '../HomeNav';
 
 const AppNavigation = () => {
-  const laucher = useSelector(state => state.state.lauch);
+  const isUser = useSelector(state => state.auth.login);
+  console.log('aloalo');
+  console.log(isUser);
   return (
     <NavigationContainer>
-      <AboutNav />
+      {isUser?.data?.token !== '' ? <HomeNav /> : <AboutNav />}
     </NavigationContainer>
   );
 };
