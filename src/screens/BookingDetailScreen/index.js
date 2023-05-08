@@ -4,6 +4,7 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
@@ -15,6 +16,7 @@ import CarouselBookingItem, {
   ITEM_WIDTH,
 } from '../../components/CarouselBookingItem';
 import SuccessfulBooking from '../../components/Modal/SuccessfulBooking';
+import RelatedPlace from '../../components/RelatedPlace';
 
 const Header = ({navigation, item}) => {
   const isCarousel = useRef(null);
@@ -53,7 +55,7 @@ const Header = ({navigation, item}) => {
             <View style={styles.viewPos}>
               <FontAwesome
                 name="map-marker"
-                size={28}
+                size={22}
                 color={colors.MAINCOLOR}
               />
               <Text style={styles.position} numberOfLines={1}>
@@ -61,7 +63,7 @@ const Header = ({navigation, item}) => {
               </Text>
             </View>
             <View style={styles.viewStar}>
-              <FontAwesome name="star" size={22} color={colors.WHITE} />
+              <FontAwesome name="star" size={16} color={colors.WHITE} />
               <Text style={styles.star}>{item?.rating}</Text>
             </View>
           </View>
@@ -79,14 +81,14 @@ const PaginationCarousel = ({data, index}) => {
         backgroundColor: 'transparent',
         zIndex: 1,
         position: 'absolute',
-        top: heightScreen * 0.32,
+        top: heightScreen * 0.19,
         alignSelf: 'center',
       }}
       dotStyle={{
         width: 10,
         height: 10,
         borderRadius: 5,
-        backgroundColor: colors.MAINCOLOR,
+        backgroundColor: colors.WHITE,
       }}
       inactiveDotStyle={
         {
@@ -118,13 +120,25 @@ const BookingDetail = ({route}) => {
           <Text>{!see ? 'See more' : 'See less'}</Text>
         </TouchableOpacity>
       </ScrollView>
-      <View style={styles.viewButton}>
+      <Text style={styles.textRelate}>Related Place</Text>
+      <View style={styles.viewRelated}>
+        <FlatList
+          data={[1, 2, 3, 4, 5]}
+          renderItem={({item, index}) => <RelatedPlace item={item} />}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          scrollEnabled={true}
+          keyExtractor={index => index}
+          horizontal
+        />
+      </View>
+      {/* <View style={styles.viewButton}>
         <TouchableOpacity
           style={styles.buttonBook}
           onPress={() => handleBook()}>
           <Text style={styles.textBook}>Add to itinerary</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
       {booked ? (
         <SuccessfulBooking booked={booked} setBooked={setBooked} />
       ) : null}
@@ -165,7 +179,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthScreen * 0.05,
     paddingBottom: heightScreen * 0.01,
     paddingTop: heightScreen * 0.02,
-    marginTop: widthScreen * 0.77,
+    marginTop: widthScreen * 0.5,
   },
   viewNamePrice: {
     flexDirection: 'row',
@@ -197,32 +211,32 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignItems: 'center',
     height: heightScreen * 0.04,
-    width: widthScreen * 0.15,
+    width: widthScreen * 0.17,
     justifyContent: 'center',
   },
   position: {
     color: colors.MAINCOLOR,
     fontSize: 16,
-    marginLeft: widthScreen * 0.01,
+    marginLeft: widthScreen * 0.02,
   },
   star: {
     color: colors.WHITE,
-    fontSize: 18,
+    fontSize: 16,
     marginLeft: widthScreen * 0.01,
   },
   textDetails: {
-    fontSize: 24,
-    fontWeight: 700,
+    fontSize: 20,
+    fontWeight: 600,
     color: colors.BLACK,
     marginLeft: widthScreen * 0.1,
-    marginTop: heightScreen * 0.11,
     marginBottom: heightScreen * 0.012,
+    marginTop: heightScreen * -0.035,
   },
   textDes: {
     fontSize: 16,
     color: colors.BLACK,
-    marginHorizontal: widthScreen * 0.1,
     textAlign: 'justify',
+    marginHorizontal: widthScreen * 0.1,
   },
   buttonBook: {
     height: heightScreen * 0.08,
@@ -272,10 +286,22 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   scroll: {
-    maxHeight: heightScreen * 0.2,
+    maxHeight: heightScreen * 0.1,
     width: widthScreen,
   },
   seeMore: {
+    marginLeft: widthScreen * 0.1,
+  },
+  textRelate: {
+    fontSize: 20,
+    color: colors.BLACK,
+    marginVertical: heightScreen * 0.01,
+    fontWeight: 600,
+    marginLeft: widthScreen * 0.1,
+    marginTop: heightScreen * 0.15,
+  },
+  viewRelated: {
+    height: heightScreen * 0.14,
     marginLeft: widthScreen * 0.1,
   },
 });

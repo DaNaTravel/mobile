@@ -5,10 +5,10 @@ import {colors, heightScreen, widthScreen} from '../../utility';
 export const SLIDER_WIDTH = widthScreen;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH);
 
-const CarouselBookingItem = ({item, index}) => {
+const CarouselDetailItinerary = ({item, index}) => {
   return (
     <View style={styles.container} key={index}>
-      <Image source={{uri: item}} style={styles.image} />
+      <Image source={{uri: item.imgUrl}} style={styles.image} />
     </View>
   );
 };
@@ -21,10 +21,10 @@ const styles = StyleSheet.create({
   },
   image: {
     width: ITEM_WIDTH,
-    height: heightScreen * 0.33,
+    height: heightScreen * 0.3,
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
   },
 });
 
-export default CarouselBookingItem;
+export default CarouselDetailItinerary;

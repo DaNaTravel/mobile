@@ -2,23 +2,30 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import LottieView from 'lottie-react-native';
-
+import {useSelector} from 'react-redux';
 const Favorite = () => {
+  const isUser = useSelector(state => state.auth.login);
   return (
     <View style={styles.viewParent}>
-      <LottieView
-        source={require('../../assets/animations/NonAccount.json')}
-        style={{
-          height: heightScreen * 0.5,
-          width: widthScreen,
-        }}
-      />
-      <Text style={styles.textAlert}>
-        If you want to use this function, you have to log in to use it.
-      </Text>
-      <TouchableOpacity style={styles.viewLogin}>
-        <Text style={styles.textSignin}>Back to Sign in</Text>
-      </TouchableOpacity>
+      {isUser?.message === null ? (
+        <Text>Favorite</Text>
+      ) : (
+        <>
+          <LottieView
+            source={require('../../assets/animations/NonAccount.json')}
+            style={{
+              height: heightScreen * 0.5,
+              width: widthScreen,
+            }}
+          />
+          <Text style={styles.textAlert}>
+            If you want to use this function, you have to log in to use it.
+          </Text>
+          <TouchableOpacity style={styles.viewLogin}>
+            <Text style={styles.textSignin}>Back to Sign in</Text>
+          </TouchableOpacity>
+        </>
+      )}
     </View>
   );
 };

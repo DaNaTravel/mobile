@@ -34,6 +34,7 @@ const Body = ({email, setEmail, password, setPassword}) => {
   const dispatch = useDispatch();
   const handleSignIn = async () => {
     await Login(dispatch, email, password);
+    navigation.navigate('AppNav');
   };
   const handleForgot = async () => {
     navigation.navigate('Forgot');

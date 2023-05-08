@@ -57,6 +57,10 @@ const RecommendedItinerary = ({item}) => {
         </View>
       </View>
       <View style={styles.viewContainer3}>
+        <View style={styles.viewUsed}>
+          <Text style={styles.textPeople}>2.3k</Text>
+          <Text>A number of people used</Text>
+        </View>
         <TouchableOpacity
           style={styles.buttonDetails}
           onPress={() => navigation.navigate('DetailsHistory', {item: item})}>
@@ -143,12 +147,13 @@ const styles = StyleSheet.create({
     height: heightScreen * 0.103,
     width: widthScreen * 0.83,
     alignSelf: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    flexDirection: 'row',
   },
   buttonDetails: {
     height: 0.06 * heightScreen,
-    width: widthScreen * 0.5,
+    width: widthScreen * 0.3,
     backgroundColor: colors.MAINCOLOR,
     justifyContent: 'center',
     alignItems: 'center',
@@ -172,5 +177,14 @@ const styles = StyleSheet.create({
   textPerson: {
     fontSize: 13,
     color: colors.BLACK,
+  },
+  viewUsed: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textPeople: {
+    fontSize: 18,
+    color: colors.BLACK,
+    fontWeight: 600,
   },
 });

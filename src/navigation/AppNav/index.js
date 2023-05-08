@@ -11,7 +11,7 @@ const AppNavigation = () => {
   console.log(isUser);
   return (
     <NavigationContainer>
-      {isUser?.data?.token !== '' ? <HomeNav /> : <AboutNav />}
+      {(isUser?.message === null) !== '' ? <HomeNav /> : <AboutNav />}
     </NavigationContainer>
   );
 };

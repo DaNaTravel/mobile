@@ -2,42 +2,56 @@ import {
   FlatList,
   Image,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import RelatedPlace from '../../components/RelatedPlace';
-
+import Carousel, {Pagination} from 'react-native-snap-carousel';
+import CarouselDetailItinerary, {
+  SLIDER_WIDTH,
+  ITEM_WIDTH,
+} from '../../components/CarouselDetailItinerary';
+import data from '../../assets/data/dataCarouselBooking';
 const DetailItineraryPlace = ({item}) => {
+  const [see, setSee] = useState(false);
   const FirstRoute = () => (
     <View style={styles.viewDes}>
-      <Text style={styles.textDes}>
-        Mui Nghe is one of three mountains associated with the history of the
-        formation of the Son Tra peninsula. The reason it is called Mui Nghe or
-        Hon Nghe comes from the shape of the mountain like a sea lion lying with
-        its head facing the rocky mountain, facing the sea.
-      </Text>
-      <Text style={styles.textDes}>
-        Mui Nghe Da Nang is famous as a beautiful sunrise spot and most ideal
-        tourists should not miss when visiting Da Nang. It also has a very
-        beautiful natural scenery, so it always attracts a large number of
-        visitors to check-in every day...
-        <Text style={styles.textSeemore}>See more</Text>
-      </Text>
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
+        <Text style={styles.textDes} numberOfLines={see ? null : 6}>
+          Mui Nghe is one of three mountains associated with the history of the
+          formation of the Son Tra peninsula. The reason it is called Mui Nghe
+          or Hon Nghe comes from the shape of the mountain like a sea lion lying
+          with its head facing the rocky mountain, facing the sea. Mui Nghe Da
+          Nang is famous as a beautiful sunrise spot and most ideal tourists
+          should not miss when visiting Da Nang. It also has a very beautiful
+          natural scenery, so it always attracts a large number of visitors to
+          check-in every day...
+        </Text>
+        <TouchableOpacity
+          style={styles.textSeemore}
+          onPress={() => setSee(!see)}>
+          <Text>{!see ? 'See more' : 'See less'}</Text>
+        </TouchableOpacity>
+      </ScrollView>
       <Text style={styles.textRelate}>Related Place</Text>
-      <FlatList
-        data={[1, 2, 3, 4, 5]}
-        renderItem={({item, index}) => <RelatedPlace item={item} />}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        scrollEnabled={true}
-        keyExtractor={index => index}
-        horizontal
-      />
+      <View style={styles.viewRelated}>
+        <FlatList
+          data={[1, 2, 3, 4, 5]}
+          renderItem={({item, index}) => <RelatedPlace item={item} />}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          scrollEnabled={true}
+          keyExtractor={index => index}
+          horizontal
+        />
+      </View>
     </View>
   );
   const SecondRoute = () => (
@@ -123,13 +137,31 @@ const DetailItineraryPlace = ({item}) => {
       style={{backgroundColor: colors.WHITE}}
     />
   );
+  const isCarousel = useRef(null);
+  const [ind, setInd] = useState(0);
   return (
     <View style={styles.viewParent}>
-      <Image
+      <View style={styles.viewCarousel}>
+        <Carousel
+          layout="stack"
+          layoutCardOffset={9}
+          ref={isCarousel}
+          data={data}
+          renderItem={CarouselDetailItinerary}
+          sliderWidth={SLIDER_WIDTH}
+          itemWidth={ITEM_WIDTH}
+          inactiveSlideShift={1}
+          useScrollView={true}
+          onSnapToItem={ind => setInd(ind)}
+          loop={true}
+          activeAnimationType="spring"
+        />
+      </View>
+      {/* <Image
         style={styles.img}
         source={require('../../assets/images/bana.jpg')}
         resizeMode="cover"
-      />
+      /> */}
       <View style={styles.content}>
         <View style={styles.viewStar}>
           <Text style={styles.numberStar}>5</Text>
@@ -153,7 +185,6 @@ const styles = StyleSheet.create({
   viewParent: {
     width: widthScreen,
     height: heightScreen,
-    backgroundColor: colors.RED,
   },
   img: {
     width: widthScreen,
@@ -199,7 +230,7 @@ const styles = StyleSheet.create({
   textDes: {
     fontSize: 14,
     textAlign: 'justify',
-    lineHeight: heightScreen * 0.03,
+    lineHeight: heightScreen * 0.033,
     color: colors.BLACK,
   },
   textRelate: {
@@ -268,5 +299,17 @@ const styles = StyleSheet.create({
     marginTop: heightScreen * 0.015,
     fontSize: 14,
     color: colors.BLACK,
+  },
+  viewRelated: {
+    height: heightScreen * 0.14,
+  },
+  scroll: {
+    maxHeight: heightScreen * 0.32,
+    width: widthScreen,
+  },
+  viewCarousel: {
+    width: widthScreen,
+    height: heightScreen * 0.3,
+    zIndex: 0,
   },
 });

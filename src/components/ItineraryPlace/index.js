@@ -2,6 +2,7 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {useNavigation} from '@react-navigation/native';
 
 const ItineraryPlace = ({item}) => {
@@ -36,12 +37,19 @@ const ItineraryPlace = ({item}) => {
             </View>
 
             <Text style={styles.textPrice}>$5</Text>
-            <View style={styles.viewStar}>
-              <FontAwesome name="star" size={17} color="#E8AD16" />
-              <FontAwesome name="star" size={17} color="#E8AD16" />
-              <FontAwesome name="star" size={17} color="#E8AD16" />
-              <FontAwesome name="star" size={17} color="#E8AD16" />
-              <FontAwesome name="star-half" size={17} color="#E8AD16" />
+            <View style={styles.viewStarWeather}>
+              <View style={styles.viewStar}>
+                <FontAwesome name="star" size={17} color="#E8AD16" />
+                <Text style={styles.textStar}>4</Text>
+              </View>
+              <View style={styles.viewWeather}>
+                <FontAwesome5
+                  name="cloud-sun"
+                  size={17}
+                  color={colors.MAINCOLOR}
+                />
+                <Text style={styles.textStar}>Cloudy</Text>
+              </View>
             </View>
           </View>
         </View>
@@ -123,12 +131,24 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.GREEN,
   },
-  viewStar: {
+  viewStarWeather: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: widthScreen * 0.25,
   },
   viewPos: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  viewStar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  textStar: {
+    fontSize: 15,
+    color: colors.BLACK,
+    marginLeft: widthScreen * 0.01,
+  },
+  viewWeather: {
     flexDirection: 'row',
     alignItems: 'center',
   },
