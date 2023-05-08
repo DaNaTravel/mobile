@@ -156,8 +156,8 @@ const Itinerary = () => {
   const navigation = useNavigation();
   const isUser = useSelector(state => state.auth.login);
   const loadName = async () => {
-    isUser?.data?.token !== null ? setName('Gracie') : setName('Guess');
-    console.log('name', name);
+    isUser?.message === null ? setName('Gracie') : setName('Guess');
+    console.log(typeof isUser?.message);
   };
   useLayoutEffect(() => {
     loadName();

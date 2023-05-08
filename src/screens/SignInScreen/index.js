@@ -34,6 +34,7 @@ const Body = ({email, setEmail, password, setPassword}) => {
   const dispatch = useDispatch();
   const handleSignIn = async () => {
     await Login(dispatch, email, password);
+    navigation.navigate('AppNav')
   };
   const handleForgot = async () => {
     navigation.navigate('Forgot');
@@ -56,7 +57,7 @@ const Body = ({email, setEmail, password, setPassword}) => {
       });
   };
   const handleSignInWithGuess = () => {
-    navigation.navigate('BottomTab');
+    navigation.navigate('BottomTabGuess');
   };
   return (
     <ScrollView style={styles.containerBody}>
