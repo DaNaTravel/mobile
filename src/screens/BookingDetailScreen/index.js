@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   FlatList,
+  Image,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
@@ -17,7 +18,7 @@ import CarouselBookingItem, {
 } from '../../components/CarouselBookingItem';
 import SuccessfulBooking from '../../components/Modal/SuccessfulBooking';
 import RelatedPlace from '../../components/RelatedPlace';
-
+import CommentItem from '../../components/CommentItem';
 const Header = ({navigation, item}) => {
   const isCarousel = useRef(null);
   const [index, setIndex] = useState(0);
@@ -33,7 +34,7 @@ const Header = ({navigation, item}) => {
           layout="stack"
           layoutCardOffset={9}
           ref={isCarousel}
-          data={item?.imgextras}
+          data={item?.photos}
           renderItem={CarouselBookingItem}
           sliderWidth={SLIDER_WIDTH}
           itemWidth={ITEM_WIDTH}
@@ -43,13 +44,16 @@ const Header = ({navigation, item}) => {
           loop={true}
           activeAnimationType="spring"
         />
-        {<PaginationCarousel data={item?.imgextras} index={index} />}
+        {<PaginationCarousel data={item?.photos} index={index} />}
         <View style={styles.viewName}>
           <View style={styles.viewNamePrice}>
             <Text style={styles.name} numberOfLines={1}>
-              {item?.name}
+              {item?.name ? item?.name : 'BaNa Hills'}
             </Text>
-            <Text style={styles.price}>{item?.price}</Text>
+            <Text style={styles.price}>
+              {/* {item?.price ? item?.price : '$200'} */}
+              $100
+            </Text>
           </View>
           <View style={styles.viewPosStar}>
             <View style={styles.viewPos}>
@@ -59,12 +63,16 @@ const Header = ({navigation, item}) => {
                 color={colors.MAINCOLOR}
               />
               <Text style={styles.position} numberOfLines={1}>
-                {item?.position}
+                {item?.formatted_address
+                  ? item?.formatted_address
+                  : 'Son Tra, Da Nang'}
               </Text>
             </View>
             <View style={styles.viewStar}>
               <FontAwesome name="star" size={16} color={colors.WHITE} />
-              <Text style={styles.star}>{item?.rating}</Text>
+              <Text style={styles.star}>
+                {item?.rating ? item?.rating : '4.6'}
+              </Text>
             </View>
           </View>
         </View>
@@ -107,19 +115,32 @@ const BookingDetail = ({route}) => {
   const handleBook = () => {
     setBooked(!booked);
   };
-  const {item} = route.params;
+  const {item, type} = route.params;
   return (
-    <View style={styles.viewParent}>
+    <ScrollView style={styles.viewParent} showsVerticalScrollIndicator={false}>
       <Header navigation={navigation} item={item} />
       <Text style={styles.textDetails}>Details</Text>
-      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
+      <View style={styles.scroll}>
         <Text style={styles.textDes} numberOfLines={see ? null : 6}>
-          {item?.des}
+          {item?.des
+            ? item?.des
+            : 'Mui Nghe is one of three mountains associated with the history of the formation of the Son Tra peninsula. The reason it is called Mui Nghe or Hon Nghe comes from the shape of the mountain like a sea lion lying with its head facing the rocky mountain, facing the sea. Mui Nghe Da Nang is famous as a beautiful sunrise spot and most ideal tourists should not miss when visiting Da Nang. It also has a very beautiful natural scenery, so it always attracts a large number of visitors to check-in every day'}
         </Text>
         <TouchableOpacity style={styles.seeMore} onPress={() => setSee(!see)}>
           <Text>{!see ? 'See more' : 'See less'}</Text>
         </TouchableOpacity>
-      </ScrollView>
+      </View>
+      <Text style={styles.textRelate}>Some reviews</Text>
+      <FlatList
+        data={item?.reviews}
+        renderItem={({item, index}) => (
+          <CommentItem item={item} index={index} />
+        )}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        scrollEnabled={false}
+        keyExtractor={item => item?._id}
+      />
       <Text style={styles.textRelate}>Related Place</Text>
       <View style={styles.viewRelated}>
         <FlatList
@@ -132,17 +153,19 @@ const BookingDetail = ({route}) => {
           horizontal
         />
       </View>
-      {/* <View style={styles.viewButton}>
-        <TouchableOpacity
-          style={styles.buttonBook}
-          onPress={() => handleBook()}>
-          <Text style={styles.textBook}>Add to itinerary</Text>
-        </TouchableOpacity>
-      </View> */}
+      {type === 'show' ? null : (
+        <View style={styles.viewButton}>
+          <TouchableOpacity
+            style={styles.buttonBook}
+            onPress={() => handleBook()}>
+            <Text style={styles.textBook}>Add to itinerary</Text>
+          </TouchableOpacity>
+        </View>
+      )}
       {booked ? (
         <SuccessfulBooking booked={booked} setBooked={setBooked} />
       ) : null}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -218,6 +241,7 @@ const styles = StyleSheet.create({
     color: colors.MAINCOLOR,
     fontSize: 16,
     marginLeft: widthScreen * 0.02,
+    width: widthScreen * 0.5,
   },
   star: {
     color: colors.WHITE,
@@ -286,7 +310,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   scroll: {
-    maxHeight: heightScreen * 0.1,
     width: widthScreen,
   },
   seeMore: {
@@ -298,10 +321,9 @@ const styles = StyleSheet.create({
     marginVertical: heightScreen * 0.01,
     fontWeight: 600,
     marginLeft: widthScreen * 0.1,
-    marginTop: heightScreen * 0.15,
   },
   viewRelated: {
     height: heightScreen * 0.14,
-    marginLeft: widthScreen * 0.1,
+    paddingLeft: widthScreen * 0.1,
   },
 });

@@ -6,23 +6,27 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import data from '../../assets/data/dataAll';
 import HotelItems from '../../components/HotelItems';
 import {useNavigation} from '@react-navigation/native';
-const Header = ({search, setSearch, setFilter, items}) => {
-  const handleSearch = (word, data) => {
-    if (word !== '') {
-      const filterName = data.filter(item => {
-        return Object.values(item?.name)
-          .join('')
-          .toLowerCase()
-          .includes(word.toLowerCase());
-      });
-      setFilter(filterName);
-    }
+import {Search} from '../../apis/search';
+const Header = ({search, setSearch, setFilter, items, setItems}) => {
+  // console.log('data', items);
+  // const handleSearch = (word, data) => {
+  //   if (word !== '') {
+  //     const filterName = data.filter(item => {
+  //       return Object.values(item?.name)
+  //         .join('')
+  //         .toLowerCase()
+  //         .includes(word.toLowerCase());
+  //     });
+  //     setFilter(filterName);
+  //   }
+  // };
+  const handleSearch = word => {
+    Search(word, 1, 10, setItems);
   };
   const navigation = useNavigation();
   return (
@@ -37,32 +41,36 @@ const Header = ({search, setSearch, setFilter, items}) => {
         <View style={styles.viewSpace}></View>
       </View>
       <View style={styles.viewSearch}>
-        <FontAwesome name="search" size={24} color={colors.STRONGGRAY} />
+        <TouchableOpacity onPress={() => handleSearch(search)}>
+          <FontAwesome name="search" size={24} color={colors.STRONGGRAY} />
+        </TouchableOpacity>
         <TextInput
           value={search}
           style={styles.input}
           placeholder="Search place where you want to go"
           onChangeText={txt => {
             setSearch(txt);
-            handleSearch(search, items);
+            // handleSearch(search, items);
           }}
+          onSubmitEditing={() => handleSearch(search)}
           autoFocus={true}></TextInput>
       </View>
     </>
   );
 };
-const Body = ({filter}) => {
+const Body = ({filter, items}) => {
+  console.log('items', items);
   return (
     <View style={styles.viewResult}>
       <FlatList
-        data={filter}
+        data={items}
         renderItem={({item, index}) => (
           <View style={styles.viewHotelItem}>
             <HotelItems item={item} />
           </View>
         )}
         numColumns={2}
-        keyExtractor={item => item?.img}
+        keyExtractor={item => item?._id}
         style={styles.result}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
@@ -73,9 +81,8 @@ const Body = ({filter}) => {
 };
 const SearchAllScreen = () => {
   const [search, setSearch] = useState('');
-  const [items, setItems] = useState(data);
+  const [items, setItems] = useState([]);
   const [filter, setFilter] = useState([]);
-
   return (
     <View style={styles.viewParent}>
       <Header
@@ -83,6 +90,7 @@ const SearchAllScreen = () => {
         setSearch={setSearch}
         items={items}
         setFilter={setFilter}
+        setItems={setItems}
       />
       <Body filter={filter} items={items} search={search} />
     </View>

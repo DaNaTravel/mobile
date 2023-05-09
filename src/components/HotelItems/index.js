@@ -6,24 +6,30 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
+import {SearchByID} from '../../apis/search';
 
 const HotelItems = ({item}) => {
   const navigation = useNavigation();
-
+  const [data, setData] = useState({});
+  useLayoutEffect(() => {
+    SearchByID(item?._id, setData);
+  }, []);
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => navigation.navigate('BookingDetail', {item: item})}>
+      onPress={() => navigation.navigate('BookingDetail', {item: data})}>
       <Image
         style={styles.image}
         source={
-          item?.img
-            ? {uri: item?.img}
+          data?.photos?.[0].photo_reference
+            ? {
+                uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=${data?.photos?.[0].photo_reference}&key=AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU`,
+              }
             : require('../../assets/images/booking.jpg')
         }
       />
@@ -31,22 +37,30 @@ const HotelItems = ({item}) => {
         colors={['rgba(255,255,255,0.01)', 'rgba(10,10,10,0.7)']}
         style={styles.viewBlur}>
         <Text numberOfLines={1} style={styles.name}>
-          {item?.name ? item?.name : 'Symphony'}
+          {data?.name ? data?.name : 'Symphony'}
         </Text>
         <View style={styles.viewPos}>
           <FontAwesome name="map-marker" size={28} color={colors.MEDIUMGRAY} />
           <Text style={styles.position} numberOfLines={1}>
-            {item?.position ? item?.position : 'Hai Chau, Da Nang'}
+            {data?.formatted_address
+              ? data?.formatted_address
+              : 'Hai Chau, Da Nang'}
           </Text>
         </View>
         <View style={styles.viewStarPrice}>
           <Text style={styles.price}>
-            {item?.price ? item?.price : '$20.00'}
+            {/* {item?.price ? item?.price : '$20.00'} */}
+            $20
           </Text>
           <View style={styles.viewStar}>
-            <FontAwesome name="star" size={28} color={colors.YELLOW} />
+            <FontAwesome
+              name="star"
+              size={28}
+              color={colors.YELLOW}
+              style={styles.viewAStar}
+            />
             <Text style={styles.price}>
-              {item?.rating ? item?.rating : '5'}
+              {data?.rating ? data?.rating : '5'}
             </Text>
           </View>
         </View>
@@ -125,5 +139,8 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.4,
     paddingHorizontal: widthScreen * 0.025,
     borderRadius: 17,
+  },
+  viewAStar: {
+    marginRight: widthScreen * 0.007,
   },
 });

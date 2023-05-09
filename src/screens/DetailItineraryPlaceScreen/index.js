@@ -32,7 +32,7 @@ const DetailItineraryPlace = ({item}) => {
           Nang is famous as a beautiful sunrise spot and most ideal tourists
           should not miss when visiting Da Nang. It also has a very beautiful
           natural scenery, so it always attracts a large number of visitors to
-          check-in every day...
+          check-in every day
         </Text>
         <TouchableOpacity
           style={styles.textSeemore}

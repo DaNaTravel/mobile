@@ -8,7 +8,12 @@ export const ITEM_WIDTH = Math.round(SLIDER_WIDTH);
 const CarouselBookingItem = ({item, index}) => {
   return (
     <View style={styles.container} key={index}>
-      <Image source={{uri: item}} style={styles.image} />
+      <Image
+        source={{
+          uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=${item?.photo_reference}&key=AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU`,
+        }}
+        style={styles.image}
+      />
     </View>
   );
 };

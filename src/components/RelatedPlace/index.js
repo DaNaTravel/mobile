@@ -1,11 +1,30 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {useNavigation} from '@react-navigation/native';
 
 const RelatedPlace = () => {
+  const [like, setLike] = useState(false);
+  const navigation = useNavigation();
+  let item = {
+    name: 'Mui Nghe',
+    position: 'Son Tra, Da nang',
+    price: '$100',
+    rating: '4.9',
+    imgextras: [
+      'https://hotellebouton.com/wp-content/uploads/2021/03/147278053_218982013228155_8246054670463791463_o-1024x683.jpeg',
+      'https://homedecorplus.vn/wp-content/uploads/210615-hdp-khach-san-Hotel-Le-Bouton-da-nang-24.jpg',
+      'https://kienviet.net/wp-content/uploads/2021/06/kienviet-hotel-le-bouton-khach-san-mang-dam-ban-sac-thien-nhien-6.png',
+      'https://kienviet.net/wp-content/uploads/2021/06/kienviet-hotel-le-bouton-khach-san-mang-dam-ban-sac-thien-nhien-17-Copy.jpg',
+    ],
+  };
   return (
-    <View style={styles.viewParent}>
+    <TouchableOpacity
+      style={styles.viewParent}
+      onPress={() =>
+        navigation.navigate('BookingDetail', {item: item, type: 'book'})
+      }>
       <Image
         style={styles.img}
         source={require('../../assets/images/muinghe.png')}
@@ -14,7 +33,13 @@ const RelatedPlace = () => {
       <View style={styles.content}>
         <View style={styles.Favorites}>
           <Text style={styles.textName}>Mui Nghe</Text>
-          <FontAwesome name="heart-o" size={22} color={colors.STRONGGRAY} />
+          <TouchableOpacity onPress={() => setLike(!like)}>
+            <FontAwesome
+              name="heart"
+              size={22}
+              color={!like ? colors.STRONGGRAY : colors.RED}
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.viewPosition}>
           <FontAwesome name="map-marker" size={15} color={colors.MAINCOLOR} />
@@ -27,7 +52,7 @@ const RelatedPlace = () => {
           <Text style={styles.textStar}>5</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

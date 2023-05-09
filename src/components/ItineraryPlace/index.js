@@ -10,7 +10,9 @@ const ItineraryPlace = ({item}) => {
   return (
     <TouchableOpacity
       style={styles.viewParent}
-      onPress={() => navigation.navigate('DetailItineraryPlace', {item: item})}>
+      onPress={() =>
+        navigation.navigate('BookingDetail', {item: item, type: 'show'})
+      }>
       <View style={styles.viewTime}>
         <View style={styles.circleParent}>
           <View style={styles.circleSon}></View>
@@ -49,6 +51,11 @@ const ItineraryPlace = ({item}) => {
                   color={colors.MAINCOLOR}
                 />
                 <Text style={styles.textStar}>Cloudy</Text>
+              </View>
+              <View style={styles.viewTem}>
+                <Text style={styles.textTem}>13 </Text>
+                <Text style={styles.texto}>o</Text>
+                <Text style={styles.textTem}>C</Text>
               </View>
             </View>
           </View>
@@ -151,5 +158,19 @@ const styles = StyleSheet.create({
   viewWeather: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  viewTem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  texto: {
+    position: 'absolute',
+    left: widthScreen * 0.035,
+    top: heightScreen * -0.008,
+    fontSize: 12,
+    color: colors.BLACK,
+  },
+  textTem: {
+    color: colors.BLACK,
   },
 });

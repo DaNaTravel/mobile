@@ -157,7 +157,6 @@ const Itinerary = () => {
   const isUser = useSelector(state => state.auth.login);
   const loadName = async () => {
     isUser?.message === null ? setName('Gracie') : setName('Guess');
-    console.log(typeof isUser?.message);
   };
   useLayoutEffect(() => {
     loadName();
