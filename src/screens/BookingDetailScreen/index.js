@@ -7,7 +7,7 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
@@ -19,6 +19,7 @@ import CarouselBookingItem, {
 import SuccessfulBooking from '../../components/Modal/SuccessfulBooking';
 import RelatedPlace from '../../components/RelatedPlace';
 import CommentItem from '../../components/CommentItem';
+import { Related } from '../../apis/related';
 const Header = ({navigation, item}) => {
   const isCarousel = useRef(null);
   const [index, setIndex] = useState(0);
@@ -116,6 +117,11 @@ const BookingDetail = ({route}) => {
     setBooked(!booked);
   };
   const {item, type} = route.params;
+  const [data, setData] = useState()
+  useEffect(() => {
+    Related(item?.types[0], item?._id, setData);
+  }, [item])
+  
   return (
     <ScrollView style={styles.viewParent} showsVerticalScrollIndicator={false}>
       <Header navigation={navigation} item={item} />
@@ -144,12 +150,12 @@ const BookingDetail = ({route}) => {
       <Text style={styles.textRelate}>Related Place</Text>
       <View style={styles.viewRelated}>
         <FlatList
-          data={[1, 2, 3, 4, 5]}
-          renderItem={({item, index}) => <RelatedPlace item={item} />}
+          data={data}
+          renderItem={({item, index}) => <RelatedPlace item={item} index={index}/>}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           scrollEnabled={true}
-          keyExtractor={index => index}
+          keyExtractor={item => item?._id}
           horizontal
         />
       </View>

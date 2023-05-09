@@ -7,7 +7,6 @@ import {HomeNav} from '../HomeNav';
 
 const AppNavigation = () => {
   const isUser = useSelector(state => state.auth.login);
-  console.log('aloalo');
   console.log(isUser);
   return (
     <NavigationContainer>

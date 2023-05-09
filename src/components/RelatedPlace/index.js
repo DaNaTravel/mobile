@@ -4,21 +4,9 @@ import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 
-const RelatedPlace = () => {
+const RelatedPlace = ({item}) => {
   const [like, setLike] = useState(false);
   const navigation = useNavigation();
-  let item = {
-    name: 'Mui Nghe',
-    position: 'Son Tra, Da nang',
-    price: '$100',
-    rating: '4.9',
-    imgextras: [
-      'https://hotellebouton.com/wp-content/uploads/2021/03/147278053_218982013228155_8246054670463791463_o-1024x683.jpeg',
-      'https://homedecorplus.vn/wp-content/uploads/210615-hdp-khach-san-Hotel-Le-Bouton-da-nang-24.jpg',
-      'https://kienviet.net/wp-content/uploads/2021/06/kienviet-hotel-le-bouton-khach-san-mang-dam-ban-sac-thien-nhien-6.png',
-      'https://kienviet.net/wp-content/uploads/2021/06/kienviet-hotel-le-bouton-khach-san-mang-dam-ban-sac-thien-nhien-17-Copy.jpg',
-    ],
-  };
   return (
     <TouchableOpacity
       style={styles.viewParent}
@@ -27,12 +15,12 @@ const RelatedPlace = () => {
       }>
       <Image
         style={styles.img}
-        source={require('../../assets/images/muinghe.png')}
+        source={{uri: item?.photos?.[0]?.photo_reference ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=${item?.photos[0]?.photo_reference}&key=AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU` : 'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg'}}
         resizeMode="cover"
       />
       <View style={styles.content}>
         <View style={styles.Favorites}>
-          <Text style={styles.textName}>Mui Nghe</Text>
+          <Text style={styles.textName} numberOfLines={1}>{item?.name ? item?.name : 'Mui Nghe'}</Text>
           <TouchableOpacity onPress={() => setLike(!like)}>
             <FontAwesome
               name="heart"
@@ -44,12 +32,12 @@ const RelatedPlace = () => {
         <View style={styles.viewPosition}>
           <FontAwesome name="map-marker" size={15} color={colors.MAINCOLOR} />
           <Text style={styles.textPositions} numberOfLines={1}>
-            Son Tra, Da Nang
+            {item?.formatted_address ? item?.formatted_address : 'Son Tra, Da Nang'}
           </Text>
         </View>
         <View style={styles.star}>
           <FontAwesome name="star" size={13} color={colors.WHITE} />
-          <Text style={styles.textStar}>5</Text>
+          <Text style={styles.textStar}>{item?.rating ? item?.rating : 5}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -101,6 +89,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.BLACK,
     fontWeight: 600,
+    width: widthScreen*0.25
   },
   star: {
     flexDirection: 'row',
