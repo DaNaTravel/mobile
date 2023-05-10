@@ -2,16 +2,16 @@ import LottieView from 'lottie-react-native';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {colors, heightScreen, widthScreen} from '../../../utility';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const SuccessfulBooking = ({booked, setBooked}) => {
   const navigation = useNavigation();
-  const handleFindMore = () =>{
+  const handleFindMore = () => {
     navigation.navigate('SearchAll');
-  }
-  const handleHome = () =>{
-    navigation.navigate('BottomTabGuess')
-  }
+  };
+  const handleHome = () => {
+    navigation.navigate('BottomTabGuess');
+  };
   return (
     <View style={styles.viewBlur}>
       <View style={styles.viewAlert}>
@@ -22,7 +22,7 @@ const SuccessfulBooking = ({booked, setBooked}) => {
           loop={false}
         />
         <View style={styles.viewMessage}>
-          <Text style={styles.message}>Booking successful!</Text>
+          <Text style={styles.message}>Add to my Itinerary successful!</Text>
           <Text style={styles.messageSon}>
             Have a safe and enjoyable journey!
           </Text>
@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: colors.BLACK,
     fontWeight: 600,
+    textAlign: 'center',
   },
   buttonClose: {
     height: heightScreen * 0.07,

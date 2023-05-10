@@ -11,10 +11,21 @@ import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import HotelItems from '../../components/HotelItems';
 import {useNavigation} from '@react-navigation/native';
-import {Search} from '../../apis/search';
+import {Filter, Search} from '../../apis/search';
+import FilterItem from '../../components/FilterItem';
+const types = [
+  {type: 'restaurant', name: 'Restaurant'},
+  {type: 'cafe', name: 'Cafe'},
+  {type: 'tourist_attraction', name: 'Tourist attraction'},
+  {type: 'lodging', name: 'Lodging'},
+  {type: 'museum', name: 'Museum'},
+  {type: 'amusement_park', name: 'Amusement Park'},
+  {type: 'park', name: 'Park'},
+  {type: 'church', name: 'Church'},
+  {type: 'natural_feature', name: 'Natural Feature'},
+];
 const Header = ({search, setSearch, setFilter, items, setItems}) => {
-  // console.log('data', items);
-  // const handleSearch = (word, data) => {
+  // const handleFilterName = (word, data) => {
   //   if (word !== '') {
   //     const filterName = data.filter(item => {
   //       return Object.values(item?.name)
@@ -22,13 +33,17 @@ const Header = ({search, setSearch, setFilter, items, setItems}) => {
   //         .toLowerCase()
   //         .includes(word.toLowerCase());
   //     });
-  //     setFilter(filterName);
-  //   }
+  //     setItems(filterName);
+  //   } else Filter(arrTypes.join(), 1, 10, setItems);
   // };
   const handleSearch = word => {
-    Search(word, 1, 10, setItems);
+    Search(word, arrTypes.join(), 1, 10, setItems);
   };
+  const [arrTypes, setArrTypes] = useState([]);
   const navigation = useNavigation();
+  useEffect(() => {
+    Filter(arrTypes.join(), 1, 10, setItems);
+  }, [arrTypes]);
   return (
     <>
       <View style={styles.viewTitle}>
@@ -50,16 +65,33 @@ const Header = ({search, setSearch, setFilter, items, setItems}) => {
           placeholder="Search place where you want to go"
           onChangeText={txt => {
             setSearch(txt);
-            // handleSearch(search, items);
+            // handleFilterName(search, items);
           }}
           onSubmitEditing={() => handleSearch(search)}
           autoFocus={true}></TextInput>
+      </View>
+      <View style={styles.viewList}>
+        <FlatList
+          data={types}
+          renderItem={({item, index}) => (
+            <FilterItem
+              item={item}
+              setItems={setItems}
+              setArrTypes={setArrTypes}
+              arrTypes={arrTypes}
+            />
+          )}
+          keyExtractor={item => item.name}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          horizontal
+          style={styles.viewFilter}
+        />
       </View>
     </>
   );
 };
 const Body = ({filter, items}) => {
-  console.log('items', items);
   return (
     <View style={styles.viewResult}>
       <FlatList
@@ -158,7 +190,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   viewResult: {
-    height: heightScreen * 0.77,
+    height: heightScreen * 0.75,
     width: widthScreen * 0.9,
     alignSelf: 'center',
   },
@@ -170,6 +202,14 @@ const styles = StyleSheet.create({
     marginBottom: heightScreen * 0.02,
   },
   result: {
-    marginTop: heightScreen * 0.05,
+    marginTop: heightScreen * 0.02,
+  },
+  viewList: {
+    width: widthScreen * 0.9,
+    alignSelf: 'center',
+    height: heightScreen * 0.07,
+  },
+  viewFilter: {
+    marginTop: heightScreen * 0.012,
   },
 });

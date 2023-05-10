@@ -23,6 +23,8 @@ const About2 = ({route}) => {
   const maxDate = new Date(2027, 9, 17);
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
   const endDate = selectedEndDate ? selectedEndDate.toString() : '';
+
+  // calculate a number of days
   let arr = [];
   const startDay = new Date(startDate);
   const endDay = new Date(endDate);
@@ -31,9 +33,26 @@ const About2 = ({route}) => {
   for (let i = 1; i <= rangeInDays + 1; i++) {
     arr.push(i);
   }
+
+  //convert day
+  const datestart = new Date(startDate);
+  const yearstart = datestart.getFullYear();
+  const monthstart = String(datestart.getMonth() + 1).padStart(2, '0');
+  const daystart = String(datestart.getDate()).padStart(2, '0');
+  const convertStart = `${yearstart}-${monthstart}-${daystart}`;
+
+  const dateend = new Date(endDate);
+  const yearend = dateend.getFullYear();
+  const monthend = String(dateend.getMonth() + 1).padStart(2, '0');
+  const dayend = String(dateend.getDate()).padStart(2, '0');
+  const covertEnd = `${yearend}-${monthend}-${dayend}`;
   const data = {
     number: numberPeople,
-    time: arr,
+    time: {
+      startDate: convertStart,
+      endDate: covertEnd,
+    },
+    days: arr,
   };
   const navigaton = useNavigation();
   const handleNavi = () => {
@@ -42,9 +61,17 @@ const About2 = ({route}) => {
   };
   const handleNaviDefault = () => {
     let now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const date = `${year}-${month}-${day}`;
     let dataDefault = {
       number: numberPeople,
-      time: [1],
+      time: {
+        startDate: date,
+        endDate: date,
+      },
+      days: [1],
     };
     AsyncStorage.setItem('data', JSON.stringify(dataDefault));
     navigaton.navigate('About3');

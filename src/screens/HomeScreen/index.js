@@ -16,6 +16,7 @@ import CarouselItinerary, {
 } from '../../components/CarouselItinerary';
 import Carousel from 'react-native-snap-carousel';
 import {useSelector} from 'react-redux';
+import {ItineraryRoutes} from '../../apis/itineraries';
 
 const Tab = createMaterialTopTabNavigator();
 const Day = () => {
@@ -36,7 +37,7 @@ const TabView = () => {
   const [days, setDays] = useState([1]);
   const handleDays = async () => {
     const data = JSON.parse(await AsyncStorage.getItem('data'));
-    setDays(data?.time);
+    setDays(data?.days);
   };
   useLayoutEffect(() => {
     handleDays();
@@ -64,8 +65,17 @@ const HomeScreen = () => {
   const navigation = useNavigation();
   const isCarousel = useRef(null);
   const [index, setIndex] = useState(0);
+  const [time, setTime] = useState();
+  const [data, setData] = useState([]);
+  const handleTime = async () => {
+    const dataTime = JSON.parse(await AsyncStorage.getItem('data'));
+    setTime(dataTime?.time);
+    ItineraryRoutes(setData);
+  };
+
   useEffect(() => {
     refRBSheet.current.open();
+    handleTime();
   }, []);
   const isUser = useSelector(state => state.auth.login);
   return (
