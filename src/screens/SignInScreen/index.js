@@ -4,37 +4,65 @@ import {
   View,
   TouchableOpacity,
   Keyboard,
-  ImageBackground,
+  ScrollView,
+  Alert,
 } from 'react-native';
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {heightScreen, widthScreen} from '../../utility';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {colors, heightScreen, widthScreen} from '../../utility';
 import FieldTextInput from '../../components/FieldTextInput';
 import FieldButton from '../../components/FieldButton';
-
+import {SignIn} from '../../apis/controller/accounts/SignIn';
+import axios from 'axios';
+import FieldWebView from '../../components/WebView';
+import {useDispatch, useSelector} from 'react-redux';
+import {Login} from '../../redux/action/auth/authRequests';
 const Header = () => {
   const navigation = useNavigation();
   return (
     <View>
-      <View style={styles.viewBack}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.buttonBack}>
-          <FontAwesome name="angle-left" size={24} color="black" />
-        </TouchableOpacity>
+      <View style={styles.viewBack}></View>
+      <View style={styles.viewHello}>
+        <Text style={styles.textHello}>Welcome, DaNaTravel</Text>
       </View>
-      <Text style={styles.textHello}>Hello!</Text>
-      <Text style={styles.textWelcome}>Welcome Back To DaNaTravel</Text>
     </View>
   );
 };
 const Body = ({email, setEmail, password, setPassword}) => {
+  const [data, setData] = useState('');
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const handleSignIn = async () => {
+    await Login(dispatch, email, password);
+    navigation.navigate('AppNav');
+  };
+  const handleForgot = async () => {
+    navigation.navigate('Forgot');
+  };
+  const handleSignInWithGG = async () => {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: 'http://192.168.21.63:5000/accounts/google',
+    };
+
+    await axios
+      .request(config)
+      .then(response => {
+        setData(response?.data);
+        console.log(typeof data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+  const handleSignInWithGuess = () => {
+    navigation.navigate('BottomTab');
+  };
   return (
-    <View style={styles.containerBody}>
+    <ScrollView style={styles.containerBody}>
       <FieldTextInput
-        stylesContainer={{marginTop: heightScreen * 0.05}}
+        stylesContainer={styles.inputMail}
         placeholder={'Enter your email'}
         onChangeText={email => setEmail(email)}
         onSubmitEditing={Keyboard.dismiss}
@@ -45,81 +73,67 @@ const Body = ({email, setEmail, password, setPassword}) => {
         onChangeText={password => setPassword(password)}
         onSubmitEditing={Keyboard.dismiss}
       />
-      <TouchableOpacity style={styles.buttonForgotPW}>
-        <Text style={styles.textForgotPW} pressForgotPW={() => pressForgotPW()}>
-          {' '}
-          Forgot Password?
-        </Text>
+      <TouchableOpacity
+        style={styles.buttonForgotPW}
+        onPress={() => handleForgot()}>
+        <Text style={styles.textForgotPW}>Forgot Password?</Text>
       </TouchableOpacity>
       <FieldButton
-        stylesContainer={{marginVertical: heightScreen * 0.03}}
+        stylesContainer={styles.buttonSignin}
         title={'Sign in'}
-        onPress={() => console.log('email + pass', email, password)}
+        onPress={() => handleSignIn(email, password)}
       />
-      <Text style={styles.textOtherSign}>Or sign in using</Text>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+      <Text style={styles.textOtherSign}>Or</Text>
+      <View style={styles.viewOther}>
         <FieldButton
-          stylesContainer={{
-            width: widthScreen * 0.4,
-            backgroundColor: '#fff',
-          }}
+          stylesContainer={styles.viewButtonGG}
           title={'Google'}
-          stylesTitle={{color: '#000', fontSize: 15, fontWeight: 'bold'}}
+          stylesTitle={styles.textGG}
           icon={'google'}
           size={30}
+          onPress={() => {
+            handleSignInWithGG();
+          }}
         />
         <FieldButton
-          stylesContainer={{
-            width: widthScreen * 0.4,
-            backgroundColor: '#3498DB',
-          }}
-          title={'Facebook'}
-          stylesTitle={{color: '#fff', fontSize: 15, fontWeight: 'bold'}}
-          icon={'facebook-f'}
+          stylesContainer={styles.viewButtonFB}
+          title={'Login with Guess'}
+          stylesTitle={styles.textFB}
+          icon={'user'}
           color="#fff"
           size={30}
+          onPress={() => handleSignInWithGuess()}
         />
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          marginTop: heightScreen * 0.2,
-        }}>
+      {data ? <FieldWebView HTML={data} /> : <></>}
+      <View style={styles.viewSignup}>
+        <Text style={styles.textDont}>Don't have an account?</Text>
         <Text
-          style={[styles.textForgotPW, {color: 'black', fontStyle: 'italic'}]}>
-          Don't have an account?
-        </Text>
-        <Text
-          style={[styles.textForgotPW, {fontWeight: 'bold', color: '#619EC0'}]}
+          style={[
+            styles.textForgotPW,
+            {fontWeight: 'bold', color: colors.MAINCOLOR},
+          ]}
           onPress={() => navigation.navigate('SignUp')}>
-          {' '}
           Sign up
         </Text>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 const SignInScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const login = useSelector(state => state.auth.login);
+  console.log('login', login);
   return (
     <View style={styles.viewParent}>
-      <ImageBackground
-        source={{
-          uri: 'https://f8-zpcloud.zdn.vn/9186063394465801114/55069b0063e2bebce7f3.jpg',
-        }}
-        resizeMode="cover"
-        style={styles.img}
-        >
-          <Header />
-        <Body
-          email={email}
-          setEmail={setEmail}
-          password={password}
-          setPassword={setPassword}
-        />
-      </ImageBackground>
+      <Header />
+      <Body
+        email={email}
+        setEmail={setEmail}
+        password={password}
+        setPassword={setPassword}
+      />
     </View>
   );
 };
@@ -130,33 +144,28 @@ const styles = StyleSheet.create({
   viewParent: {
     height: heightScreen,
     width: widthScreen,
+    backgroundColor: colors.WHITE,
   },
-  img:{
+  img: {
     tintColor: 'gray',
   },
   viewBack: {
     height: heightScreen * 0.12,
     width: widthScreen,
+    backgroundColor: colors.WHITE,
   },
-  buttonBack: {
-    position: 'absolute',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-    height: 50,
-    width: 50,
-    borderRadius: 50 / 2,
-    bottom: 0,
-    left: widthScreen * 0.05,
+  viewHello: {
+    width: widthScreen * 0.59,
+    alignSelf: 'center',
   },
   textHello: {
     fontWeight: 'bold',
-    fontSize: 35,
+    fontSize: 43,
     color: '#000',
     textAlign: 'center',
   },
-  textWelcome: {fontSize: 20, color: '#707B81', textAlign: 'center'},
   containerBody: {
+    width: widthScreen * 0.885,
     height: heightScreen,
     alignSelf: 'center',
   },
@@ -165,7 +174,7 @@ const styles = StyleSheet.create({
   },
   textForgotPW: {
     fontSize: 12,
-    fontWeight: '500',
+    fontWeight: 500,
     color: '#000',
   },
   textOtherSign: {
@@ -173,5 +182,51 @@ const styles = StyleSheet.create({
     color: '#000',
     marginVertical: heightScreen * 0.015,
     fontSize: 12,
+  },
+  viewSignup: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: heightScreen * 0.15,
+  },
+  inputMail: {
+    marginTop: heightScreen * 0.05,
+  },
+  buttonSignin: {
+    marginVertical: heightScreen * 0.02,
+  },
+  viewOther: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  viewButtonGG: {
+    width: widthScreen * 0.4,
+    backgroundColor: colors.WHITE,
+  },
+  textGG: {
+    color: '#000',
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  viewButtonFB: {
+    width: widthScreen * 0.4,
+    backgroundColor: '#3498DB',
+    justifyContent: 'space-evenly',
+  },
+  textFB: {
+    color: colors.WHITE,
+    fontSize: 13,
+    fontWeight: 'bold',
+    marginLeft: widthScreen * -0.04,
+  },
+  textDont: {
+    fontSize: 12,
+    fontWeight: 500,
+    color: '#000',
+    fontStyle: 'italic',
+  },
+  textSignup: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: colors.MAINCOLOR,
   },
 });
