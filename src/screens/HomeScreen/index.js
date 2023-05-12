@@ -1,11 +1,17 @@
-import {useRef, useState, useLayoutEffect, useEffect} from 'react';
+import React, {
+  useRef,
+  useState,
+  useLayoutEffect,
+  useEffect,
+  useCallback,
+} from 'react';
 import {Text, TouchableOpacity, View, StyleSheet, FlatList} from 'react-native';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ItineraryPlace from '../../components/ItineraryPlace';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import MapViewComponent from '../../components/MapViewComponent';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -17,9 +23,10 @@ import CarouselItinerary, {
 import Carousel from 'react-native-snap-carousel';
 import {useSelector} from 'react-redux';
 import {ItineraryRoutes} from '../../apis/itineraries';
+import DayItem from '../../components/DayItem';
 
 const Tab = createMaterialTopTabNavigator();
-const Day = ({data}) => {
+const Day = ({data, index}) => {
   return (
     <View style={styles.viewDetailDaily}>
       <FlatList
@@ -55,7 +62,7 @@ const TabView = ({data}) => {
             return (
               <Tab.Screen
                 name={`Day ${day}`}
-                children={() => <Day data={data[index]} />}
+                children={() => <Day data={data[index]} index={index} />}
                 key={index}
               />
             );
@@ -72,39 +79,55 @@ const HomeScreen = () => {
   const [time, setTime] = useState();
   const [data, setData] = useState([]);
   const [dataMap, setDataMap] = useState();
+  const [days, setDays] = useState([1]);
   const handleTime = async () => {
     const dataTime = JSON.parse(await AsyncStorage.getItem('data'));
     setTime(dataTime?.time);
-    // ItineraryRoutes(time?.startDate, time?.endDate, setData);
+    const data = JSON.parse(await AsyncStorage.getItem('data'));
+    setDays(data?.days);
   };
-  const handleTest = data => {
-    ItineraryRoutes(time?.startDate, time?.endDate, setData);
-    var transformedData = {};
 
-    data.forEach(function (item, index) {
-      var key = `routes${index + 1}`;
-      transformedData[key] = [];
-
-      item.route.forEach(function (routeItem) {
-        var place = {
-          latitude: routeItem.description.latitude,
-          longitude: routeItem.description.longitude,
-          name: routeItem.description.name,
-          address: routeItem.description.address,
-        };
-
-        transformedData[key].push(place);
-      });
-    });
-
-    // In kết quả
-    setDataMap(transformedData);
-  };
   useLayoutEffect(() => {
-    refRBSheet.current.open();
     handleTime();
+    if (refRBSheet.current) {
+      refRBSheet.current.open();
+    }
   }, []);
+
+  useEffect(() => {
+    if (time?.startDate && time?.endDate) {
+      ItineraryRoutes(time.startDate, time.endDate, responseData => {
+        setData(responseData);
+        var transformedData = {};
+
+        responseData.forEach(function (item, index) {
+          var key = `routes${index + 1}`;
+          transformedData[key] = [];
+
+          item.route.forEach(function (routeItem) {
+            var place = {
+              latitude: routeItem.description.latitude,
+              longitude: routeItem.description.longitude,
+              name: routeItem.description.name,
+              address: routeItem.description.address,
+            };
+
+            transformedData[key].push(place);
+          });
+        });
+        setDataMap(transformedData);
+      });
+    }
+  }, [time?.startDate, time?.endDate]);
   const isUser = useSelector(state => state.auth.login);
+  const [selectedItem, setSelectedItem] = useState(1);
+  const renderItem = ({item}) => (
+    <DayItem
+      item={item}
+      selected={item === selectedItem}
+      onSelect={setSelectedItem}
+    />
+  );
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewHeader}>
@@ -120,21 +143,29 @@ const HomeScreen = () => {
         <View style={styles.space}></View>
       </View>
       <View style={styles.map}>
-        <MapViewComponent dataHT={dataHT} index={index} dataMap={dataMap} />
+        <MapViewComponent
+          dataHT={dataHT}
+          index={index}
+          dataMap={dataMap}
+          selectedItem={selectedItem}
+        />
       </View>
-      <View style={{flexDirection: 'row'}}>
+      <View style={styles.viewRow}>
         <TouchableOpacity
           style={styles.buttonBottom}
           onPress={() => refRBSheet.current.open()}>
           <AntDesign name="profile" size={28} color={colors.WHITE} />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonBottom}
-          onPress={() => handleTest(data)}>
-          <AntDesign name="profile" size={28} color={colors.WHITE} />
-        </TouchableOpacity>
+        <View style={styles.viewLists}></View>
+        <FlatList
+          data={days}
+          renderItem={renderItem}
+          keyExtractor={item => item.toString()}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          horizontal
+        />
       </View>
-
       <Carousel
         layout="default"
         layoutCardOffset={9}
@@ -307,5 +338,15 @@ const styles = StyleSheet.create({
   detailDay: {
     marginTop: heightScreen * 0.02,
     width: widthScreen * 0.85,
+  },
+  viewLists: {
+    height: heightScreen * 0.08,
+  },
+  viewRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: heightScreen * 0.08,
+    width: widthScreen,
+    justifyContent: 'center',
   },
 });

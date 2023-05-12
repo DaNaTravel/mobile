@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {BASE_URL} from '@env';
-export const ItineraryRoutes = (startDate, endDate, setData) => {
+export const ItineraryRoutes = async (startDate, endDate, setData) => {
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
@@ -9,10 +9,9 @@ export const ItineraryRoutes = (startDate, endDate, setData) => {
       'Content-Type': 'application/json',
     },
   };
-  axios
+  await axios
     .request(config)
     .then(async response => {
-      console.log(response?.data?.routes);
       setData(response?.data?.routes);
     })
     .catch(error => {

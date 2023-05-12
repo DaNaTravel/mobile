@@ -41,15 +41,13 @@ const positions = [
     description: 'Tran Thi Ly Bridge',
   },
 ];
-const MapViewComponent = ({dataHT, index, dataMap}) => {
+const MapViewComponent = ({dataHT, index, dataMap, selectedItem}) => {
   const [data, setData] = useState(positions);
   const [dataHotel, setDataHotel] = useState(dataHT);
-  const onMapPress = e => {
-    setData([...data, e.nativeEvent.coordinate]);
-  };
   useEffect(() => {
-    setData(dataMap?.routes1);
-  }, [dataMap]);
+    const selectedRoutes = dataMap?.[`routes${selectedItem}`];
+    setData(selectedRoutes);
+  }, [dataMap, selectedItem]);
 
   const mapView = useRef(null);
   mapView.current?.animateToRegion({
@@ -67,7 +65,6 @@ const MapViewComponent = ({dataHT, index, dataMap}) => {
         longitudeDelta: LONGITUDE_DELTA,
       }}
       style={styles.map}
-      onPress={onMapPress}
       ref={mapView}>
       {data?.map((coordinate, index) => (
         <Marker
