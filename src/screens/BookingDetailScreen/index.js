@@ -19,7 +19,8 @@ import CarouselBookingItem, {
 import SuccessfulBooking from '../../components/Modal/SuccessfulBooking';
 import RelatedPlace from '../../components/RelatedPlace';
 import CommentItem from '../../components/CommentItem';
-import {Related} from '../../apis/related';
+import {useSelector} from 'react-redux';
+import {AddLocationFavorite} from '../../apis/favorite';
 const dataImage = [
   {
     photo_reference:
@@ -46,7 +47,18 @@ const Header = ({navigation, item, booked, handleBook}) => {
   const isCarousel = useRef(null);
   const [index, setIndex] = useState(0);
   const [like, setLike] = useState(false);
-  const handleFavo = () => {
+  const isUser = useSelector(state => state.auth.login);
+  const [data, setData] = useState();
+  const checkFavo = () => {
+    isUser?.data?._id === undefined
+      ? console.log('Dang nhap de su dung')
+      : handleFavo();
+  };
+  const handleFavo = async () => {
+    const result = await AddLocationFavorite(isUser?.data?._id, item?._id);
+    result === 'Success' ? OnFavo() : console.log('Something was wrong');
+  };
+  const OnFavo = () => {
     handleBook();
     setLike(!like);
   };
@@ -58,7 +70,7 @@ const Header = ({navigation, item, booked, handleBook}) => {
         <FontAwesome name="angle-left" size={30} color={colors.WHITE} />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => handleFavo()}
+        onPress={() => checkFavo()}
         style={[
           styles.buttonFavo,
           like ? {borderColor: colors.RED} : {borderColor: colors.WHITE},
