@@ -1,14 +1,67 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import {StyleSheet, Text, TouchableOpacity, View, FlatList} from 'react-native';
+import React, {useState, useEffect} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import LottieView from 'lottie-react-native';
 import {useSelector} from 'react-redux';
+import FavoriteItem from '../../components/FavoriteItem';
+import {GetFavo} from '../../apis/favorite';
+const FavoriteTab = () => {
+  const [selectedItem, setSelectedItem] = useState('Itineraries');
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    GetFavo(selectedItem === 'Itineraries' ? 'itinerary' : 'location', setData);
+  }, [selectedItem]);
+
+  const renderItem = ({item}) => (
+    <TouchableOpacity
+      style={[
+        styles.tabBarItem,
+        selectedItem === item && styles.selectedTabBarItem,
+      ]}
+      onPress={() => setSelectedItem(item)}>
+      <Text
+        style={[
+          styles.textLabel,
+          selectedItem === item && styles.selectedLabel,
+        ]}>
+        {item}
+      </Text>
+    </TouchableOpacity>
+  );
+  return (
+    <View>
+      <View style={styles.viewList}>
+        <FlatList
+          data={['Itineraries', 'Locations']}
+          renderItem={renderItem}
+          keyExtractor={item => item.toString()}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          horizontal
+        />
+      </View>
+      {data === null ? (
+        <Text>You don't have any favorite</Text>
+      ) : (
+        <FlatList
+          data={data}
+          renderItem={({item, index}) => (
+              <FavoriteItem item={item} />
+          )}
+          keyExtractor={item => item._id}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
+    </View>
+  );
+};
 const Favorite = () => {
   const isUser = useSelector(state => state.auth.login);
   return (
     <View style={styles.viewParent}>
       {isUser?.message === null ? (
-        <Text>Favorite</Text>
+        <FavoriteTab />
       ) : (
         <>
           <LottieView
@@ -47,7 +100,7 @@ const styles = StyleSheet.create({
     fontWeight: 500,
   },
   viewLogin: {
-    height: heightScreen * 0.1,
+    height: heightScreen * 0.08,
     width: widthScreen * 0.5,
     backgroundColor: colors.MAINCOLOR,
     borderRadius: 30,
@@ -59,5 +112,41 @@ const styles = StyleSheet.create({
     color: colors.WHITE,
     fontWeight: 500,
     fontSize: 20,
+  },
+  tabBarItem: {
+    width: widthScreen * 0.4,
+    height: heightScreen * 0.1,
+    borderRadius: 20,
+    backgroundColor: colors.WHITE,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: widthScreen * 0.02,
+  },
+  textLabel: {
+    fontSize: 16,
+    fontWeight: 600,
+    color: colors.BLACK,
+  },
+  viewList: {
+    height: heightScreen * 0.12,
+    width: widthScreen * 0.9,
+    alignItems: 'center',
+    marginTop: heightScreen * 0.03,
+  },
+  selectedTabBarItem: {
+    backgroundColor: colors.MAINCOLOR,
+  },
+  selectedLabel: {
+    fontSize: 16,
+    fontWeight: 600,
+    color: colors.WHITE,
   },
 });

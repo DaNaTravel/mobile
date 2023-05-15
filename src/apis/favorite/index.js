@@ -25,3 +25,22 @@ export const AddLocationFavorite = (accountId, locationId) => {
       console.log(error?.data);
     });
 };
+export const GetFavo = (category, setData) => {
+  let config = {
+    method: 'get',
+    maxBodyLength: Infinity,
+    url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/favorites?category=${category}`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  axios
+    .request(config)
+    .then(response => {
+      setData(response?.data?.data);
+    })
+    .catch(error => {
+      console.log(error?.data);
+    });
+};
