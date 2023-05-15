@@ -11,7 +11,7 @@ import {Logout} from '../../../redux/action/auth/authRequests';
 const ConfirmLogout = ({handleSignout, isModalVisible, navigation}) => {
   const dispatch = useDispatch();
   const handleConLogout = async () => {
-    navigation.navigate('LoginNav');
+    navigation.replace('LoginNav');
     Logout(dispatch);
     await AsyncStorage.clear();
   };

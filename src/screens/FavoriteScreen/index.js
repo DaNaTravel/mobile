@@ -5,55 +5,41 @@ import LottieView from 'lottie-react-native';
 import {useSelector} from 'react-redux';
 import FavoriteItem from '../../components/FavoriteItem';
 import {GetFavo} from '../../apis/favorite';
-const FavoriteTab = () => {
-  const [selectedItem, setSelectedItem] = useState('Itineraries');
-  const [data, setData] = useState(null);
-  useEffect(() => {
-    GetFavo(selectedItem === 'Itineraries' ? 'itinerary' : 'location', setData);
-  }, [selectedItem]);
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import Itineraries from '../../components/FavoriteItems/Itineraries';
+import Locations from '../../components/FavoriteItems/Locations';
 
-  const renderItem = ({item}) => (
-    <TouchableOpacity
-      style={[
-        styles.tabBarItem,
-        selectedItem === item && styles.selectedTabBarItem,
-      ]}
-      onPress={() => setSelectedItem(item)}>
-      <Text
-        style={[
-          styles.textLabel,
-          selectedItem === item && styles.selectedLabel,
-        ]}>
-        {item}
-      </Text>
-    </TouchableOpacity>
-  );
+const Tab = createMaterialTopTabNavigator();
+
+const TabView = ({isUser}) => {
+  const [data, setData] = useState(null);
+  const handleData = category => {
+    console.log('load lai locations');
+    GetFavo(category, isUser?._id, setData);
+  };
   return (
-    <View>
-      <View style={styles.viewList}>
-        <FlatList
-          data={['Itineraries', 'Locations']}
-          renderItem={renderItem}
-          keyExtractor={item => item.toString()}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          horizontal
-        />
-      </View>
-      {data === null ? (
-        <Text>You don't have any favorite</Text>
-      ) : (
-        <FlatList
-          data={data}
-          renderItem={({item, index}) => (
-              <FavoriteItem item={item} />
-          )}
-          keyExtractor={item => item._id}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-        />
-      )}
-    </View>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarLabelStyle: styles.textLabel,
+        tabBarItemStyle: styles.tabBarItem,
+        tabBarStyle: styles.tabBar,
+        tabBarScrollEnabled: true,
+      }}>
+      <Tab.Screen
+        name={'Itineraries'}
+        children={() => <Itineraries data={data} />}
+        listeners={{
+          focus: () => handleData('itinerary'),
+        }}
+      />
+      <Tab.Screen
+        name={'Locations'}
+        children={() => <Locations data={data} />}
+        listeners={{
+          focus: () => handleData('location'),
+        }}
+      />
+    </Tab.Navigator>
   );
 };
 const Favorite = () => {
@@ -61,7 +47,7 @@ const Favorite = () => {
   return (
     <View style={styles.viewParent}>
       {isUser?.message === null ? (
-        <FavoriteTab />
+        <TabView isUser={isUser} />
       ) : (
         <>
           <LottieView
@@ -113,27 +99,20 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     fontSize: 20,
   },
-  tabBarItem: {
-    width: widthScreen * 0.4,
-    height: heightScreen * 0.1,
-    borderRadius: 20,
-    backgroundColor: colors.WHITE,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: widthScreen * 0.02,
-  },
   textLabel: {
     fontSize: 16,
-    fontWeight: 600,
     color: colors.BLACK,
+    fontWeight: 600,
+  },
+  tabBarItem: {
+    width: widthScreen * 0.5,
+    height: heightScreen * 0.08,
+  },
+  tabBar: {
+    backgroundColor: colors.WHITE,
+    width: widthScreen,
+    alignSelf: 'center',
+    height: heightScreen * 0.08,
   },
   viewList: {
     height: heightScreen * 0.12,

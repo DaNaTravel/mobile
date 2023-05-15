@@ -48,14 +48,14 @@ const Header = ({navigation, item, booked, handleBook}) => {
   const [index, setIndex] = useState(0);
   const [like, setLike] = useState(false);
   const isUser = useSelector(state => state.auth.login);
-  const [data, setData] = useState();
   const checkFavo = () => {
     isUser?.data?._id === undefined
       ? console.log('Dang nhap de su dung')
       : handleFavo();
   };
-  const handleFavo = async () => {
-    const result = await AddLocationFavorite(isUser?.data?._id, item?._id);
+  const handleFavo = () => {
+    const result = AddLocationFavorite(isUser?.data?._id, item?._id);
+    console.log('result', result);
     result === 'Success' ? OnFavo() : console.log('Something was wrong');
   };
   const OnFavo = () => {

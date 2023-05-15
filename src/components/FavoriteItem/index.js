@@ -1,42 +1,57 @@
 import {Image, TouchableOpacity, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {SearchByID} from '../../apis/search';
+import {DeleteFavo} from '../../apis/favorite';
 
 const FavoriteItem = ({item}) => {
-  console.log(item?._id);
+  const [data, setData] = useState();
+  useEffect(() => {
+    SearchByID(item?.locationId, setData);
+  }, []);
   return (
     <View style={styles.viewParent}>
       <Image
-        source={{
-          uri: 'https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/9-1.jpg',
-        }}
+        source={
+          data?.photos?.[0].photo_reference
+            ? {
+                uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=${data?.photos?.[0].photo_reference}&key=AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU`,
+              }
+            : require('../../assets/images/booking.jpg')
+        }
         style={styles.img}
       />
       <LinearGradient
-        colors={['rgba(255,255,255,0.01)', 'rgba(10,10,10,0.6)']}
+        colors={['rgba(255,255,255,0.01)', 'rgba(10,10,10,0.7)']}
         style={styles.viewBlur}>
-          <View style={styles.content}>
-            <Text style={styles.textName} numberOfLines={1}>Bana Hill</Text>
-            <View style={styles.viewPos}>
-            <FontAwesome name="map-marker" size={32} color={colors.WHITE} />
-            <Text style={styles.textPos} numberOfLines={1}>21 Nguyen Phuoc Lan</Text>
-            </View>
-            <View style={styles.viewRatingPrice}>
-              <Text style={styles.textPrice}>$5</Text>
-            <View style={styles.viewRating}>
-            <FontAwesome name="star" size={20} color={colors.WHITE} />
-            <Text style={styles.textPrice}>4.2</Text>
-            </View>
-            </View>
-            
+        <View style={styles.content}>
+          <Text style={styles.textName} numberOfLines={1}>
+            {data?.name}
+          </Text>
+          <View style={styles.viewPos}>
+            <FontAwesome name="map-marker" size={26} color={colors.WHITE} />
+            <Text style={styles.textPos} numberOfLines={1}>
+              {data?.formatted_address}
+            </Text>
           </View>
-          <View style={styles.viewLike}><TouchableOpacity style={{marginTop: heightScreen*0.02}}>
-          <FontAwesome name="heart" size={32} color={colors.RED} />
-          </TouchableOpacity></View>
-          
-          </LinearGradient>
+          <View style={styles.viewRatingPrice}>
+            <Text style={styles.textPrice}>$5</Text>
+            <View style={styles.viewRating}>
+              <FontAwesome name="star" size={18} color={colors.WHITE} />
+              <Text style={styles.textPrice}>{data?.rating}</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.viewLike}>
+          <TouchableOpacity
+            style={styles.Heart}
+            onPress={() => DeleteFavo(data?._id)}>
+            <FontAwesome name="heart" size={32} color={colors.RED} />
+          </TouchableOpacity>
+        </View>
+      </LinearGradient>
     </View>
   );
 };
@@ -57,6 +72,8 @@ const styles = StyleSheet.create({
     shadowRadius: 2.22,
     elevation: 3,
     borderRadius: 20,
+    marginVertical: heightScreen * 0.015,
+    alignSelf: 'center',
   },
   img: {
     height: heightScreen * 0.18,
@@ -71,51 +88,54 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.9,
     paddingHorizontal: widthScreen * 0.025,
     borderRadius: 20,
-    height: heightScreen*0.15,
-    flexDirection: 'row'
+    height: heightScreen * 0.15,
+    flexDirection: 'row',
   },
-  textName:{
+  textName: {
     fontWeight: 600,
     color: colors.WHITE,
-    fontSize: 22
+    fontSize: 22,
   },
-  content:{
-    width: widthScreen*0.425,
-    height: heightScreen*0.11
+  content: {
+    width: widthScreen * 0.425,
+    height: heightScreen * 0.11,
   },
-  viewLike:{
-    width: widthScreen*0.425,
-    height: heightScreen*0.11,
-    alignItems: 'flex-end'
+  viewLike: {
+    width: widthScreen * 0.425,
+    height: heightScreen * 0.11,
+    alignItems: 'flex-end',
   },
-  viewPos:{
+  viewPos: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
-  textPos:{
+  textPos: {
     fontSize: 16,
     fontWeight: 500,
     color: colors.WHITE,
-    marginLeft: widthScreen*0.01
+    marginLeft: widthScreen * 0.01,
   },
-  textPrice:{
+  textPrice: {
     fontSize: 18,
     fontWeight: 500,
     color: colors.WHITE,
   },
-  viewRating:{
-    height: heightScreen*0.03,
-    width: widthScreen*0.15,
+  viewRating: {
+    height: heightScreen * 0.03,
+    width: widthScreen * 0.15,
     backgroundColor: colors.YELLOW,
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
-  viewRatingPrice:{
+  viewRatingPrice: {
     flexDirection: 'row',
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-between'
-  }
+    justifyContent: 'space-between',
+  },
+  Heart: {
+    marginTop: heightScreen * 0.02,
+  },
 });

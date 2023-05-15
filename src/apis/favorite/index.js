@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {BASE_URL} from '@env';
-export const AddLocationFavorite = (accountId, locationId) => {
+export const AddLocationFavorite = async (accountId, locationId) => {
   let data = JSON.stringify({
     accountId: accountId,
     locationId: locationId,
@@ -15,21 +15,21 @@ export const AddLocationFavorite = (accountId, locationId) => {
     data: data,
   };
 
-  axios
+  await axios
     .request(config)
     .then(async response => {
       console.log(response?.data?.mesage);
       return response?.data?.mesage;
     })
     .catch(error => {
-      console.log(error?.data);
+      console.log(error?.data?.mesage);
     });
 };
-export const GetFavo = (category, setData) => {
+export const GetFavo = (category, accountId, setData) => {
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/favorites?category=${category}`,
+    url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/favorites?category=${category}&accountId=${accountId}&`,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -39,6 +39,23 @@ export const GetFavo = (category, setData) => {
     .request(config)
     .then(response => {
       setData(response?.data?.data);
+    })
+    .catch(error => {
+      console.log(error?.data);
+    });
+};
+
+export const DeleteFavo = id => {
+  let config = {
+    method: 'delete',
+    maxBodyLength: Infinity,
+    url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/favorites/${id}`,
+  };
+
+  axios
+    .request(config)
+    .then(response => {
+      setData(response?.data);
     })
     .catch(error => {
       console.log(error?.data);

@@ -11,7 +11,8 @@ import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
-const HistoryItem = ({item}) => {
+import {DeleteFavo} from '../../apis/favorite';
+const HistoryItem = ({item, type}) => {
   const navigation = useNavigation();
   const dataImg = [
     require('../../assets/images/muinghe.png'),
@@ -39,14 +40,18 @@ const HistoryItem = ({item}) => {
         <View style={styles.viewDate}>
           <FontAwesome name="calendar" size={30} color={colors.MAINCOLOR} />
           <View style={styles.viewDetailDate}>
-            <Text style={styles.textDate}>6 Days</Text>
+            <Text style={styles.textDate}>
+              {item?.itinerary?.days ? item?.itinerary?.days : '6'} Days
+            </Text>
             <Text style={styles.textDetailDate}>10/04 - 15/04</Text>
           </View>
         </View>
         <View style={styles.viewPeople}>
           <Ionicons name="person" size={30} color={colors.MAINCOLOR} />
           <View style={styles.viewDetailDate}>
-            <Text style={styles.textDate}>2 peoples</Text>
+            <Text style={styles.textDate}>
+              {item?.itinerary?.people ? item?.itinerary?.people : '2'} peoples
+            </Text>
             <Text style={styles.textDetailDate}>Join</Text>
           </View>
         </View>
@@ -54,13 +59,22 @@ const HistoryItem = ({item}) => {
       <View style={styles.viewContainer3}>
         <View style={styles.viewPrice}>
           <Text style={styles.textDetailDate}>Total</Text>
-          <Text style={styles.textPrice}>$90.00</Text>
+          <Text style={styles.textPrice}>
+            ${item?.itinerary?.cost ? item?.itinerary?.cost : '20'}.00
+          </Text>
         </View>
         <TouchableOpacity
           style={styles.buttonDetails}
           onPress={() => navigation.navigate('DetailsHistory', {item: item})}>
           <Text style={styles.textDetail}>Details</Text>
         </TouchableOpacity>
+        {type === 'favorite' ? (
+          <TouchableOpacity
+            style={styles.Heart}
+            onPress={() => DeleteFavo(item?._id)}>
+            <FontAwesome name="heart" size={32} color={colors.RED} />
+          </TouchableOpacity>
+        ) : null}
       </View>
     </View>
   );
@@ -73,7 +87,6 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.9,
     height: heightScreen * 0.34,
     backgroundColor: colors.WHITE,
-    marginBottom: heightScreen * 0.017,
     borderRadius: 25,
     paddingVertical: heightScreen * 0.015,
     paddingHorizontal: widthScreen * 0.035,
@@ -85,7 +98,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 5,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    marginVertical: heightScreen * 0.015,
   },
   viewContainer1: {
     height: heightScreen * 0.103,
@@ -158,7 +172,6 @@ const styles = StyleSheet.create({
   },
   viewPrice: {
     height: heightScreen * 0.085,
-    width: widthScreen * 0.3,
     justifyContent: 'space-around',
   },
   textDetail: {

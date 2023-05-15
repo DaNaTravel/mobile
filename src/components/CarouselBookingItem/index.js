@@ -13,6 +13,7 @@ const CarouselBookingItem = ({item, index}) => {
           uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=${item?.photo_reference}&key=AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU`,
         }}
         style={styles.image}
+        key={item?.photo_reference}
       />
     </View>
   );
