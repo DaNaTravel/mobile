@@ -8,6 +8,7 @@ import SubmitEmail from '../../screens/SubmitEmailScreen';
 import BottomTab from '../BottomTab';
 import AboutNav from '../AboutNav';
 import AppNavigation from '../AppNav';
+import AboutCommonNavigation from '../AboutCommonNav';
 const Stack = createNativeStackNavigator();
 const LoginNav = () => {
   return (
@@ -60,6 +61,13 @@ const LoginNav = () => {
         }}
         name="AppNav"
         component={AppNavigation}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="AboutCommon"
+        component={AboutCommonNavigation}
       />
     </Stack.Navigator>
   );

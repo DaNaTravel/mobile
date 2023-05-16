@@ -11,6 +11,7 @@ import PlaceDetail from '../../screens/PlaceDetailScreen';
 import SearchAllScreen from '../../screens/SearchAllScreen';
 import WeatherDetail from '../../screens/WeatherDetailScreen';
 import Weather from '../../screens/WeatherScreen';
+import AboutCommonNavigation from '../AboutCommonNav';
 import BottomTab from '../BottomTab';
 import LoginNav from '../LoginNav';
 
@@ -116,6 +117,13 @@ export const HomeNav = () => {
         }}
         name="LoginNav"
         component={LoginNav}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="AboutCommon"
+        component={AboutCommonNavigation}
       />
     </Stack.Navigator>
   );

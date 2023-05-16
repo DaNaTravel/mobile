@@ -74,6 +74,12 @@ const HistoryItem = ({item, type}) => {
             onPress={() => DeleteFavo(item?._id)}>
             <FontAwesome name="heart" size={32} color={colors.RED} />
           </TouchableOpacity>
+        ) : type === 'itineraries' ? (
+          <TouchableOpacity
+            style={styles.Heart}
+            onPress={() => DeleteFavo(item?._id)}>
+            <FontAwesome name="heart" size={32} color={colors.STRONGGRAY} />
+          </TouchableOpacity>
         ) : null}
       </View>
     </View>

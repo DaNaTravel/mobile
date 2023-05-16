@@ -5,14 +5,12 @@ import {
   TouchableOpacity,
   Keyboard,
   ScrollView,
-  Alert,
 } from 'react-native';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FieldTextInput from '../../components/FieldTextInput';
 import FieldButton from '../../components/FieldButton';
-import {SignIn} from '../../apis/controller/accounts/SignIn';
 import axios from 'axios';
 import FieldWebView from '../../components/WebView';
 import {useDispatch, useSelector} from 'react-redux';
@@ -57,7 +55,7 @@ const Body = ({email, setEmail, password, setPassword}) => {
       });
   };
   const handleSignInWithGuess = () => {
-    navigation.navigate('BottomTab');
+    navigation.navigate('BottomTabGuess');
   };
   return (
     <ScrollView style={styles.containerBody}>

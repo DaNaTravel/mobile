@@ -7,21 +7,19 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import React, {useLayoutEffect, useRef, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import Carousel from 'react-native-snap-carousel';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import data from '../../assets/data/dataCarouselHome/index';
 import dataFavorite from '../../assets/data/dataFavo/index';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import CarouselItem, {
   ITEM_WIDTH,
   SLIDER_WIDTH,
 } from '../../components/CarouselItem';
 import FavoritePlace from '../../components/FavoritePlace';
 import {useNavigation} from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import RecommendedItinerary from '../../components/RecommendedItinerary';
 import {useSelector} from 'react-redux';
 const Header = ({name}) => {
@@ -82,14 +80,10 @@ const ViewFunction = ({navigation}) => {
         <View style={styles.viewFuncSon}>
           <TouchableOpacity
             style={styles.viewLogo2}
-            onPress={() => navigation.navigate('Booking')}>
-            <MaterialCommunityIcons
-              name="home-search"
-              size={28}
-              color="#B9AA20"
-            />
+            onPress={() => navigation.navigate('AboutCommon')}>
+            <FontAwesome5 name="route" size={28} color="#B9AA20" />
           </TouchableOpacity>
-          <Text style={styles.textTitle}>Booking</Text>
+          <Text style={styles.textTitle}>Itineraries</Text>
         </View>
         <View style={styles.viewFuncSon}>
           <TouchableOpacity
@@ -103,13 +97,9 @@ const ViewFunction = ({navigation}) => {
           <TouchableOpacity
             style={styles.viewLogo4}
             onPress={() => navigation.navigate('SearchAll')}>
-            <MaterialIcons
-              name="location-searching"
-              size={28}
-              color="#D042B9"
-            />
+            <FontAwesome5 name="search-location" size={28} color="#D042B9" />
           </TouchableOpacity>
-          <Text style={styles.textTitle}>Searching</Text>
+          <Text style={styles.textTitle}>Locations</Text>
         </View>
       </View>
     </>

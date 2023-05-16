@@ -25,17 +25,6 @@ const types = [
   {type: 'natural_feature', name: 'Natural Feature'},
 ];
 const Header = ({search, setSearch, setFilter, items, setItems}) => {
-  // const handleFilterName = (word, data) => {
-  //   if (word !== '') {
-  //     const filterName = data.filter(item => {
-  //       return Object.values(item?.name)
-  //         .join('')
-  //         .toLowerCase()
-  //         .includes(word.toLowerCase());
-  //     });
-  //     setItems(filterName);
-  //   } else Filter(arrTypes.join(), 1, 10, setItems);
-  // };
   const handleSearch = word => {
     Search(word, arrTypes.join(), 1, 10, setItems);
   };
