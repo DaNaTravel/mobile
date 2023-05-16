@@ -7,10 +7,10 @@ import {useNavigation} from '@react-navigation/native';
 const SuccessfulBooking = ({booked, setBooked}) => {
   const navigation = useNavigation();
   const handleFindMore = () => {
-    navigation.navigate('SearchAll');
+    navigation.replace('SearchAll');
   };
   const handleHome = () => {
-    navigation.navigate('BottomTabGuess');
+    navigation.replace('BottomTabGuess');
   };
   return (
     <View style={styles.viewBlur}>

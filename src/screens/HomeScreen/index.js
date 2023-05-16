@@ -133,7 +133,7 @@ const HomeScreen = () => {
       <View style={styles.viewHeader}>
         <TouchableOpacity
           onPress={() =>
-            isUser?.data?.token !== null
+            isUser?.data?._id !== undefined
               ? navigation.navigate('BottomTab')
               : navigation.navigate('BottomTabGuess')
           }>
@@ -156,15 +156,16 @@ const HomeScreen = () => {
           onPress={() => refRBSheet.current.open()}>
           <AntDesign name="profile" size={28} color={colors.WHITE} />
         </TouchableOpacity>
-        <View style={styles.viewLists}><FlatList
-          data={days}
-          renderItem={renderItem}
-          keyExtractor={item => item.toString()}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          horizontal
-        /></View>
-        
+        <View style={styles.viewLists}>
+          <FlatList
+            data={days}
+            renderItem={renderItem}
+            keyExtractor={item => item.toString()}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            horizontal
+          />
+        </View>
       </View>
       <Carousel
         layout="default"

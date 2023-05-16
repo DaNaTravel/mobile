@@ -14,7 +14,6 @@ const Tab = createMaterialTopTabNavigator();
 const TabView = ({isUser}) => {
   const [data, setData] = useState(null);
   const handleData = category => {
-    console.log('load lai locations');
     GetFavo(category, isUser?._id, setData);
   };
   return (

@@ -9,8 +9,8 @@ const AppNavigation = () => {
   const isUser = useSelector(state => state.auth.login);
   console.log(isUser);
   return (
-    <NavigationContainer>
-      {(isUser?.message === null) !== '' ? <HomeNav /> : <AboutNav />}
+    <NavigationContainer independent={true}>
+      {isUser?.data?._id !== undefined ? <HomeNav /> : <AboutNav />}
     </NavigationContainer>
   );
 };

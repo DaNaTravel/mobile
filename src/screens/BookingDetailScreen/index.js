@@ -21,6 +21,7 @@ import RelatedPlace from '../../components/RelatedPlace';
 import CommentItem from '../../components/CommentItem';
 import {useSelector} from 'react-redux';
 import {AddLocationFavorite} from '../../apis/favorite';
+import NonAccount from '../../components/Modal/NonAccount';
 const dataImage = [
   {
     photo_reference:
@@ -43,15 +44,16 @@ const dataImage = [
       'AUjq9jmPatLo6leE2kXBkW9wjsQnp2EU2dvRmiu6GESpW-nxFgtOEkIZzBNTYWGN4qt3HkkzosXUw4mfPd4Z9lFzdU_AuyAgcCvD8pID6xene_NfsFNNa64xfuc_Hrm1wmuFlpm9Hn4df-QibLT_-UZrNny_r_dV0cKtssmZZ1UnqtRFmZov',
   },
 ];
-const Header = ({navigation, item, booked, handleBook}) => {
+const Header = ({navigation, item, booked, handleBook, setAlert}) => {
   const isCarousel = useRef(null);
   const [index, setIndex] = useState(0);
   const [like, setLike] = useState(false);
   const isUser = useSelector(state => state.auth.login);
   const checkFavo = () => {
     isUser?.data?._id === undefined
-      ? console.log('Dang nhap de su dung')
-      : handleFavo();
+      ? setAlert(true)
+      : // : handleFavo();
+        console.log('okeoke');
   };
   const handleFavo = () => {
     const result = AddLocationFavorite(isUser?.data?._id, item?._id);
@@ -164,6 +166,7 @@ const BookingDetail = ({route}) => {
   const navigation = useNavigation();
   const [see, setSee] = useState(false);
   const [booked, setBooked] = useState(false);
+  const [alert, setAlert] = useState(false);
   const handleBook = () => {
     setBooked(!booked);
   };
@@ -182,6 +185,7 @@ const BookingDetail = ({route}) => {
         item={item}
         handleBook={handleBook}
         booked={booked}
+        alert={alert}
       />
       <Text style={styles.textDetails}>Details</Text>
       <View style={styles.scroll}>
@@ -222,6 +226,7 @@ const BookingDetail = ({route}) => {
       {booked ? (
         <SuccessfulBooking booked={booked} setBooked={setBooked} />
       ) : null}
+      {alert ? <NonAccount setAlert={setAlert} /> : null}
     </ScrollView>
   );
 };

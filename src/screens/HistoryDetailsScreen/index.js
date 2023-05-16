@@ -10,7 +10,7 @@ import React from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import ItineraryPlace from '../../components/ItineraryPlace';
 const Tab = createMaterialTopTabNavigator();
