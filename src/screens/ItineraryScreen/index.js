@@ -75,7 +75,7 @@ const ViewFunction = ({navigation}) => {
               color="#2EAD80"
             />
           </TouchableOpacity>
-          <Text style={styles.textTitle}>Itinerary</Text>
+          <Text style={styles.textTitle}>Route</Text>
         </View>
         <View style={styles.viewFuncSon}>
           <TouchableOpacity
@@ -87,19 +87,19 @@ const ViewFunction = ({navigation}) => {
         </View>
         <View style={styles.viewFuncSon}>
           <TouchableOpacity
-            style={styles.viewLogo3}
-            onPress={() => navigation.navigate('Weather')}>
-            <FontAwesome5 name="cloud-sun" size={24} color="#3E8AC3" />
-          </TouchableOpacity>
-          <Text style={styles.textTitle}>Weather</Text>
-        </View>
-        <View style={styles.viewFuncSon}>
-          <TouchableOpacity
             style={styles.viewLogo4}
             onPress={() => navigation.navigate('SearchAll')}>
             <FontAwesome5 name="search-location" size={28} color="#D042B9" />
           </TouchableOpacity>
           <Text style={styles.textTitle}>Locations</Text>
+        </View>
+        <View style={styles.viewFuncSon}>
+          <TouchableOpacity
+            style={styles.viewLogo3}
+            onPress={() => navigation.navigate('Weather')}>
+            <FontAwesome5 name="calendar" size={24} color="#3E8AC3" />
+          </TouchableOpacity>
+          <Text style={styles.textTitle}>Event</Text>
         </View>
       </View>
     </>

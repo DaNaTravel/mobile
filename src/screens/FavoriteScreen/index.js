@@ -60,7 +60,7 @@ const Favorite = () => {
             If you want to use this function, you have to log in to use it.
           </Text>
           <TouchableOpacity style={styles.viewLogin}>
-            <Text style={styles.textSignin}>Back to Sign in</Text>
+            <Text style={styles.textSignin}>Go to Sign in</Text>
           </TouchableOpacity>
         </>
       )}

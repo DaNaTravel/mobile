@@ -41,12 +41,12 @@ const SliderContainer = props => {
     });
   };
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const options = ['Both', 'Explore', 'Cuisine'];
+  const options = ['All', 'Art', 'Historical', 'Culinary', 'Relax', 'Natural'];
   const navigation = useNavigation();
   const handleNext = async () => {
     let data = JSON.parse(await AsyncStorage.getItem('data'));
     data.expense = value;
-    data.mainGoal = options[selectedIndex];
+    data.mainGoal = selectedIndex;
     await AsyncStorage.setItem('data', JSON.stringify(data));
     navigation.navigate('Home');
   };

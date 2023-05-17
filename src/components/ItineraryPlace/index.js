@@ -3,6 +3,7 @@ import React from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 
 const ItineraryPlace = ({item}) => {
@@ -25,10 +26,18 @@ const ItineraryPlace = ({item}) => {
         <View style={styles.viewInformation}>
           <Image
             style={styles.viewImg}
-            source={require('../../assets/images/bana.jpg')}
+            source={
+              item?.description?.photos
+                ? {
+                    uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=${item?.description?.photos}&key=AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU`,
+                  }
+                : require('../../assets/images/bana.jpg')
+            }
           />
           <View style={styles.viewDetail}>
-            <Text style={styles.textTitle}>{item?.description?.name}</Text>
+            <Text style={styles.textTitle} numberOfLines={1}>
+              {item?.description?.name}
+            </Text>
             <View style={styles.viewPos}>
               <FontAwesome
                 name="map-marker"
@@ -51,15 +60,11 @@ const ItineraryPlace = ({item}) => {
                 </Text>
               </View>
               <View style={styles.viewWeather}>
-                <FontAwesome5
-                  name="cloud-sun"
-                  size={17}
-                  color={colors.MAINCOLOR}
-                />
-                <Text style={styles.textStar}>Cloudy</Text>
+                <Ionicons name="sunny" size={20} color={colors.MAINCOLOR} />
+                <Text style={styles.textStar}>Sun</Text>
               </View>
               <View style={styles.viewTem}>
-                <Text style={styles.textTem}>13 </Text>
+                <Text style={styles.textTem}>33 </Text>
                 <Text style={styles.texto}>o</Text>
                 <Text style={styles.textTem}>C</Text>
               </View>

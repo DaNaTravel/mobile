@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -14,19 +14,42 @@ import {useNavigation} from '@react-navigation/native';
 import {DeleteFavo} from '../../apis/favorite';
 const HistoryItem = ({item, type}) => {
   const navigation = useNavigation();
-  const dataImg = [
+  const [dataImg, setDataImg] = useState([]);
+  const dataImgs = [
     require('../../assets/images/muinghe.png'),
     require('../../assets/images/bana.jpg'),
     require('../../assets/images/mariamaria.jpeg'),
     require('../../assets/images/booking.jpg'),
   ];
+  const CreateListImg = () => {
+    item?.itinerary?.people === undefined
+      ? setDataImg(
+          item?.routes
+            .map(route => route.photos)
+            .filter(photo => photo !== null),
+        )
+      : null;
+  };
+  useEffect(() => {
+    CreateListImg();
+  }, []);
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewContainer1}>
         <FlatList
-          data={dataImg}
+          data={dataImg ? dataImg : dataImgs}
           renderItem={({item, index}) => (
-            <Image style={styles.viewImg} source={item} resizeMode="cover" />
+            <Image
+              style={styles.viewImg}
+              source={
+                item
+                  ? {
+                      uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=${item}&key=AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU`,
+                    }
+                  : null
+              }
+              resizeMode="cover"
+            />
           )}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
@@ -41,7 +64,10 @@ const HistoryItem = ({item, type}) => {
           <FontAwesome name="calendar" size={30} color={colors.MAINCOLOR} />
           <View style={styles.viewDetailDate}>
             <Text style={styles.textDate}>
-              {item?.itinerary?.days ? item?.itinerary?.days : '6'} Days
+              {item?.itinerary?.days !== undefined
+                ? item?.itinerary?.days
+                : item?.days}{' '}
+              Days
             </Text>
             <Text style={styles.textDetailDate}>10/04 - 15/04</Text>
           </View>
@@ -50,7 +76,10 @@ const HistoryItem = ({item, type}) => {
           <Ionicons name="person" size={30} color={colors.MAINCOLOR} />
           <View style={styles.viewDetailDate}>
             <Text style={styles.textDate}>
-              {item?.itinerary?.people ? item?.itinerary?.people : '2'} peoples
+              {item?.itinerary?.people !== undefined
+                ? item?.itinerary?.people
+                : item?.people}{' '}
+              peoples
             </Text>
             <Text style={styles.textDetailDate}>Join</Text>
           </View>
@@ -60,7 +89,13 @@ const HistoryItem = ({item, type}) => {
         <View style={styles.viewPrice}>
           <Text style={styles.textDetailDate}>Total</Text>
           <Text style={styles.textPrice}>
-            ${item?.itinerary?.cost ? item?.itinerary?.cost : '20'}.00
+            $
+            {item?.itinerary?.cost !== undefined
+              ? item?.itinerary?.cost
+              : item?.cost === '0'
+              ? item?.cost
+              : '20'}
+            .00
           </Text>
         </View>
         <TouchableOpacity

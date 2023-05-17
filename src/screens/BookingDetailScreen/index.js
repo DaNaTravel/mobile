@@ -49,6 +49,7 @@ const Header = ({navigation, item, booked, handleBook, setAlert}) => {
   const [index, setIndex] = useState(0);
   const [like, setLike] = useState(false);
   const isUser = useSelector(state => state.auth.login);
+  console.log(item);
   const checkFavo = () => {
     isUser?.data?._id === undefined
       ? setAlert(true)
@@ -97,6 +98,7 @@ const Header = ({navigation, item, booked, handleBook, setAlert}) => {
           onSnapToItem={index => setIndex(index)}
           loop={true}
           activeAnimationType="spring"
+          key={item => item._id}
         />
         {<PaginationCarousel data={item?.photos} index={index} />}
         <View style={styles.viewName}>
@@ -104,10 +106,7 @@ const Header = ({navigation, item, booked, handleBook, setAlert}) => {
             <Text style={styles.name} numberOfLines={1}>
               {item?.name ? item?.name : 'BaNa Hills'}
             </Text>
-            <Text style={styles.price}>
-              {/* {item?.price ? item?.price : '$200'} */}
-              $100
-            </Text>
+            <Text style={styles.price}>${item?.cost ? item?.cost : '20'}</Text>
           </View>
           <View style={styles.viewPosStar}>
             <View style={styles.viewPos}>

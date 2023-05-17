@@ -80,11 +80,14 @@ const HomeScreen = () => {
   const [data, setData] = useState([]);
   const [dataMap, setDataMap] = useState();
   const [days, setDays] = useState([1]);
+  const [mainGoal, setMainGoal] = useState(0);
   const handleTime = async () => {
     const dataTime = JSON.parse(await AsyncStorage.getItem('data'));
     setTime(dataTime?.time);
     const data = JSON.parse(await AsyncStorage.getItem('data'));
     setDays(data?.days);
+    const goal = JSON.parse(await AsyncStorage.getItem('data'));
+    setMainGoal(goal?.mainGoal);
   };
 
   useLayoutEffect(() => {
@@ -96,7 +99,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     if (time?.startDate && time?.endDate) {
-      ItineraryRoutes(time.startDate, time.endDate, responseData => {
+      ItineraryRoutes(time.startDate, time.endDate, mainGoal, responseData => {
         setData(responseData);
         var transformedData = {};
 
@@ -341,13 +344,14 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.85,
   },
   viewLists: {
-    height: heightScreen * 0.08,
+    backgroundColor: colors.WHITE,
+    justifyContent: 'center',
   },
   viewRow: {
     flexDirection: 'row',
     alignItems: 'center',
     height: heightScreen * 0.08,
     width: widthScreen,
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
   },
 });

@@ -4,6 +4,7 @@ import {colors, heightScreen, widthScreen} from '../../utility';
 import HistoryItem from '../../components/HistoryItem';
 
 const History = () => {
+  const isUser = useSelector(state => state.auth.login);
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewWelcome}>
