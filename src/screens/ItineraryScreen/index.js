@@ -96,7 +96,7 @@ const ViewFunction = ({navigation}) => {
         <View style={styles.viewFuncSon}>
           <TouchableOpacity
             style={styles.viewLogo3}
-            onPress={() => navigation.navigate('Weather')}>
+            onPress={() => navigation.navigate('ChoosePosition')}>
             <FontAwesome5 name="calendar" size={24} color="#3E8AC3" />
           </TouchableOpacity>
           <Text style={styles.textTitle}>Event</Text>

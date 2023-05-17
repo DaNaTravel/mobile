@@ -1,6 +1,7 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import BookingDetail from '../../screens/BookingDetailScreen';
 import BookingScreen from '../../screens/BookingScreen';
+import ChoosePosition from '../../screens/ChoosePositionScreen';
 import DetailItineraryPlace from '../../screens/DetailItineraryPlaceScreen';
 import About1 from '../../screens/GetInfoScreen/About1';
 import About2 from '../../screens/GetInfoScreen/About2';
@@ -117,6 +118,13 @@ export const HomeNav = () => {
         }}
         name="LoginNav"
         component={LoginNav}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="ChoosePosition"
+        component={ChoosePosition}
       />
       <Stack.Screen
         options={{

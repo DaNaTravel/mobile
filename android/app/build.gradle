@@ -180,7 +180,17 @@ dependencies {
     implementation("androidx.browser:browser:1.2.0")
     implementation project(':lottie-react-native')
 }
+ext {
+  compileSdkVersion   = 28
+  buildToolsVersion   = "28.0.3"
+  minSdkVersion       = 16
+  targetSdkVersion    = 28
 
+  // Any of the following will work
+  googlePlayServicesVersion      = "17.0.0"
+  // playServicesVersion         = "17.0.0"
+  // playServicesLocationVersion = "17.0.0"
+}
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
 
 
