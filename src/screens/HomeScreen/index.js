@@ -341,13 +341,14 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.85,
   },
   viewLists: {
-    height: heightScreen * 0.08,
+    backgroundColor: colors.WHITE,
+    justifyContent: 'center'
   },
   viewRow: {
     flexDirection: 'row',
     alignItems: 'center',
     height: heightScreen * 0.08,
     width: widthScreen,
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
   },
 });

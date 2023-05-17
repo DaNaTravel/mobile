@@ -14,11 +14,12 @@ import {useNavigation} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import ItineraryPlace from '../../components/ItineraryPlace';
 const Tab = createMaterialTopTabNavigator();
-const Day = () => {
+const Day = ({data}) => {
+  console.log(data);
   return (
     <View style={styles.viewDetailDaily}>
       <FlatList
-        data={[1, 2, 3, 4, 5]}
+        data={data}
         renderItem={({item, index}) => <ItineraryPlace item={item} />}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
@@ -28,8 +29,11 @@ const Day = () => {
     </View>
   );
 };
-const days = [1, 2, 3, 4, 5, 6];
-const TabView = () => {
+const TabView = ({item}) => {
+  const days = [];
+  for (let i = 1; i <= item?.days; i++) {
+    days.push(i);
+  }
   return (
     <Tab.Navigator
       screenOptions={{
@@ -39,7 +43,7 @@ const TabView = () => {
         tabBarScrollEnabled: true,
       }}>
       {days.map((day, index) => {
-        return <Tab.Screen name={`Day ${day}`} component={Day} key={index} />;
+        return <Tab.Screen name={`Day ${day}`} children={() => <Day data={item[index]} />} key={index} />;
       })}
     </Tab.Navigator>
   );
@@ -69,7 +73,7 @@ const HistoryDetaislScreen = ({route}) => {
           <Text style={styles.textPeoDate}>6 days</Text>
         </View>
       </View>
-      <TabView />
+      <TabView item={item}/>
     </View>
   );
 };

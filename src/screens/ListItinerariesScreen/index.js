@@ -1,12 +1,18 @@
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import {useNavigation} from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import HistoryItem from '../../components/HistoryItem';
+import { GetItineraries } from '../../apis/itineraries';
 
 const ListItinerariesScreen = () => {
+  const [data, setData] = useState();
   const navigation = useNavigation();
+  useEffect(() => {
+    GetItineraries(setData);
+  }, [])
+  
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewTitle}>
@@ -20,19 +26,19 @@ const ListItinerariesScreen = () => {
       </View>
       <View style={styles.viewList}>
         <FlatList
-          data={[1, 2, 3, 4]}
+          data={data}
           renderItem={({item, index}) => (
             <HistoryItem
               item={item}
               index={index}
-              key={item}
+              key={item?._id}
               type={'itineraries'}
             />
           )}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           scrollEnabled={true}
-          keyExtractor={item => item}
+          keyExtractor={item => item?._id}
         />
       </View>
     </View>
