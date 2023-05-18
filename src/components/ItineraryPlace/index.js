@@ -11,9 +11,7 @@ const ItineraryPlace = ({item}) => {
   return (
     <TouchableOpacity
       style={styles.viewParent}
-      onPress={() =>
-        navigation.navigate('BookingDetail', {item: item, type: 'show'})
-      }>
+      onPress={() => navigation.navigate('LocationDetail', {item: item})}>
       <View style={styles.viewTime}>
         <View style={styles.circleParent}>
           <View style={styles.circleSon}></View>

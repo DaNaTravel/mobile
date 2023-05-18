@@ -13,7 +13,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {DeleteFavo} from '../../apis/favorite';
 const HistoryItem = ({item, type}) => {
-  console.log('data', item);
   const navigation = useNavigation();
   const [dataImg, setDataImg] = useState([]);
   const dataImgs = [
@@ -22,47 +21,44 @@ const HistoryItem = ({item, type}) => {
     require('../../assets/images/mariamaria.jpeg'),
     require('../../assets/images/booking.jpg'),
   ];
-  const CreateListImg = () => {
-    item?.itinerary?.people === undefined
-      ? setDataImg(
-          item?.itinerary?.routes
-            ? item?.itinerary?.routes
-                .map(route => route?.description?.photos?.[0]?.photo_reference)
-                .filter(photo => photo !== null)
-            : null,
-        )
-      : null;
-  };
-  useEffect(() => {
-    CreateListImg();
-    console.log(
-      'item?.itinerary?.routes?.route',
-      item?.itinerary?.routes?.[0].route?.description?.photos?.[0]
-        ?.photo_reference,
-    );
-  }, []);
+  // const CreateListImg = () => {
+  //   item?.itinerary?.people === undefined
+  //     ? null
+  //     : setDataImg(
+  //         item?.itinerary?.routes
+  //           ? item?.itinerary?.routes
+  //               .map(route => route?.description?.photos)
+  //               .filter(photo => photo !== null)
+  //           : null,
+  //       );
+  //   console.log(dataImg[0]?.photo_reference);
+  // };
+  // useEffect(() => {
+  //   CreateListImg();
+  // }, []);
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewContainer1}>
         <FlatList
-          data={dataImg ? dataImg : dataImgs}
+          data={dataImgs}
           renderItem={({item, index}) => (
             <Image
               style={styles.viewImg}
               source={
-                item
-                  ? {
-                      uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=${item}&key=AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU`,
-                    }
-                  : null
+                // item
+                //   ? {
+                //       uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=${item}&key=AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU`,
+                //     }
+                //   : null
+                item ? item : null
               }
               resizeMode="cover"
             />
           )}
+          keyExtractor={index => index}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           scrollEnabled={true}
-          keyExtractor={index => index}
           style={styles.viewContainer1}
           horizontal
         />

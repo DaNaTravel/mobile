@@ -15,7 +15,7 @@ import Weather from '../../screens/WeatherScreen';
 import AboutCommonNavigation from '../AboutCommonNav';
 import BottomTab from '../BottomTab';
 import LoginNav from '../LoginNav';
-
+import LocationDetail from '../../screens/LocationDetailScreen';
 const Stack = createNativeStackNavigator();
 
 export const HomeNav = () => {
@@ -125,6 +125,13 @@ export const HomeNav = () => {
         }}
         name="ChoosePosition"
         component={ChoosePosition}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="LocationDetail"
+        component={LocationDetail}
       />
       <Stack.Screen
         options={{

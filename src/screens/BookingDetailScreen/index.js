@@ -49,7 +49,6 @@ const Header = ({navigation, item, booked, handleBook, setAlert}) => {
   const [index, setIndex] = useState(0);
   const [like, setLike] = useState(false);
   const isUser = useSelector(state => state.auth.login);
-  console.log(item);
   const checkFavo = () => {
     isUser?.data?._id === undefined
       ? setAlert(true)
@@ -158,6 +157,7 @@ const PaginationCarousel = ({data, index}) => {
       }
       inactiveDotOpacity={0.4}
       inactiveDotScale={0.6}
+      key={item => item?.photo_reference}
     />
   );
 };

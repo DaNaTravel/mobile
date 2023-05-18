@@ -102,7 +102,6 @@ const HomeScreen = () => {
       ItineraryRoutes(time.startDate, time.endDate, mainGoal, responseData => {
         setData(responseData);
         var transformedData = {};
-
         responseData.forEach(function (item, index) {
           var key = `routes${index + 1}`;
           transformedData[key] = [];
@@ -120,6 +119,7 @@ const HomeScreen = () => {
         });
         setDataMap(transformedData);
       });
+      console.log(dataMap);
     }
   }, [time?.startDate, time?.endDate]);
   const isUser = useSelector(state => state.auth.login);
@@ -167,6 +167,7 @@ const HomeScreen = () => {
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
             horizontal
+            style={styles.listDays}
           />
         </View>
       </View>
@@ -353,5 +354,10 @@ const styles = StyleSheet.create({
     height: heightScreen * 0.08,
     width: widthScreen,
     justifyContent: 'space-evenly',
+  },
+  listDays: {
+    flex: 1,
+    alignSelf: 'center',
+    marginTop: 13,
   },
 });
