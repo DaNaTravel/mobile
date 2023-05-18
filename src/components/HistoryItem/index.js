@@ -13,6 +13,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {DeleteFavo} from '../../apis/favorite';
 const HistoryItem = ({item, type}) => {
+  console.log('data', item);
   const navigation = useNavigation();
   const [dataImg, setDataImg] = useState([]);
   const dataImgs = [
@@ -24,14 +25,21 @@ const HistoryItem = ({item, type}) => {
   const CreateListImg = () => {
     item?.itinerary?.people === undefined
       ? setDataImg(
-          item?.routes
-            .map(route => route.photos)
-            .filter(photo => photo !== null),
+          item?.itinerary?.routes
+            ? item?.itinerary?.routes
+                .map(route => route?.description?.photos?.[0]?.photo_reference)
+                .filter(photo => photo !== null)
+            : null,
         )
       : null;
   };
   useEffect(() => {
     CreateListImg();
+    console.log(
+      'item?.itinerary?.routes?.route',
+      item?.itinerary?.routes?.[0].route?.description?.photos?.[0]
+        ?.photo_reference,
+    );
   }, []);
   return (
     <View style={styles.viewParent}>

@@ -95,7 +95,7 @@ const Body = ({email, setEmail, password, setPassword}) => {
         />
         <FieldButton
           stylesContainer={styles.viewButtonFB}
-          title={'Login with Guess'}
+          title={'Login as Guess'}
           stylesTitle={styles.textFB}
           icon={'user'}
           color="#fff"
