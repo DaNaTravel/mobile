@@ -52,13 +52,14 @@ const Header = ({navigation, item, booked, handleBook, setAlert}) => {
   const checkFavo = () => {
     isUser?.data?._id === undefined
       ? setAlert(true)
-      : // : handleFavo();
-        console.log('okeoke');
+      : handleFavo();
+      
   };
   const handleFavo = () => {
-    const result = AddLocationFavorite(isUser?.data?._id, item?._id);
-    console.log('result', result);
-    result === 'Success' ? OnFavo() : console.log('Something was wrong');
+    // const result = AddLocationFavorite(isUser?.data?._id, item?._id);
+    // console.log('result', result);
+    // result === 'Success' ? OnFavo() : console.log('Something was wrong');
+    OnFavo()
   };
   const OnFavo = () => {
     handleBook();
@@ -184,7 +185,7 @@ const BookingDetail = ({route}) => {
         item={item}
         handleBook={handleBook}
         booked={booked}
-        alert={alert}
+        setAlert={setAlert}
       />
       <Text style={styles.textDetails}>Details</Text>
       <View style={styles.scroll}>

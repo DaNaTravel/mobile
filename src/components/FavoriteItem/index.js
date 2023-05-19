@@ -5,12 +5,23 @@ import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {SearchByID} from '../../apis/search';
 import {DeleteFavo} from '../../apis/favorite';
+import { useNavigation } from '@react-navigation/native';
+import ConfirmLogout from '../Modal/ConfirmLogout';
 
 const FavoriteItem = ({item}) => {
   const [data, setData] = useState();
   useEffect(() => {
     SearchByID(item?.locationId, setData);
   }, []);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const handleSure = async () => {
+    setModalVisible(!isModalVisible);
+  };
+  const handleDelete = (id) => {
+    // DeleteFavo(id);
+    setModalVisible(!isModalVisible);
+  }
+  const navigation = useNavigation();
   return (
     <View style={styles.viewParent}>
       <Image
@@ -47,11 +58,17 @@ const FavoriteItem = ({item}) => {
         <View style={styles.viewLike}>
           <TouchableOpacity
             style={styles.Heart}
-            onPress={() => DeleteFavo(data?._id)}>
+            onPress={() => handleDelete(data?._id)}>
             <FontAwesome name="heart" size={32} color={colors.RED} />
           </TouchableOpacity>
         </View>
       </LinearGradient>
+      <ConfirmLogout
+        handleSignout={handleSure}
+        isModalVisible={isModalVisible}
+        navigation={navigation}
+        type={'delete'}
+      />
     </View>
   );
 };

@@ -2,6 +2,7 @@ import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import HistoryItem from '../../components/HistoryItem';
+import { useSelector } from 'react-redux';
 
 const History = () => {
   const isUser = useSelector(state => state.auth.login);

@@ -119,7 +119,6 @@ const HomeScreen = () => {
         });
         setDataMap(transformedData);
       });
-      console.log(dataMap);
     }
   }, [time?.startDate, time?.endDate]);
   const isUser = useSelector(state => state.auth.login);

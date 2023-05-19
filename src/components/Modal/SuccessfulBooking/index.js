@@ -5,13 +5,6 @@ import {colors, heightScreen, widthScreen} from '../../../utility';
 import {useNavigation} from '@react-navigation/native';
 
 const SuccessfulBooking = ({booked, setBooked}) => {
-  const navigation = useNavigation();
-  const handleFindMore = () => {
-    navigation.replace('SearchAll');
-  };
-  const handleHome = () => {
-    navigation.replace('BottomTabGuess');
-  };
   return (
     <View style={styles.viewBlur}>
       <View style={styles.viewAlert}>
@@ -22,19 +15,14 @@ const SuccessfulBooking = ({booked, setBooked}) => {
           loop={false}
         />
         <View style={styles.viewMessage}>
-          <Text style={styles.message}>Add to my Itinerary successful!</Text>
+          <Text style={styles.message}>Successfully Added to your Itinerary!</Text>
           <Text style={styles.messageSon}>
             Have a safe and enjoyable journey!
           </Text>
           <TouchableOpacity
             style={styles.buttonClose}
-            onPress={() => handleFindMore()}>
-            <Text style={styles.textHome}>Find more</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttonClose}
-            onPress={() => handleHome()}>
-            <Text style={styles.textHome}>Back to Home</Text>
+            onPress={() => setBooked(false)}>
+            <Text style={styles.textHome}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </View>

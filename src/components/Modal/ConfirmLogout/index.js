@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import {Logout} from '../../../redux/action/auth/authRequests';
 
-const ConfirmLogout = ({handleSignout, isModalVisible, navigation}) => {
+const ConfirmLogout = ({handleSignout, isModalVisible, navigation,type}) => {
   const dispatch = useDispatch();
   const handleConLogout = async () => {
     navigation.replace('LoginNav');
@@ -25,7 +25,8 @@ const ConfirmLogout = ({handleSignout, isModalVisible, navigation}) => {
         />
         <Text style={styles.textSure}>Are you sure?</Text>
         <TouchableOpacity onPress={handleConLogout} style={styles.viewCon}>
-          <Text style={styles.textCon}>Continue Logout</Text>
+        {type === 'delete' ? <Text style={styles.textCon}>Continue Delete</Text> : <Text style={styles.textCon}>Continue Logout</Text>}
+          
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonClose} onPress={handleSignout}>
           <FontAwesome name="close" size={30} color={colors.WHITE} />
