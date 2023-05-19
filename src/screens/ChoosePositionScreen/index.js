@@ -1,14 +1,32 @@
 import React, {useEffect, useState} from 'react';
-import {View, TextInput, Button} from 'react-native';
-import MapView from 'react-native-maps';
+import {View, Button, StyleSheet} from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import {PermissionsAndroid} from 'react-native';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import {heightScreen, widthScreen} from '../../utility';
 import axios from 'axios';
+const GOOGLE_PLACES_API_KEY = 'AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU';
 
+const PlaceSearch = ({setAddress}) => {
+  return (
+    <View style={styles.container}>
+      <GooglePlacesAutocomplete
+        placeholder="Search"
+        onPress={(data, details = null) => {
+          console.log(data);
+          setAddress(data?.description);
+        }}
+        query={{
+          key: GOOGLE_PLACES_API_KEY,
+          language: 'en',
+          components: 'country:vn',
+        }}
+      />
+    </View>
+  );
+};
 const ChoosePosition = () => {
-  const [address, setAddress] = useState('');
-  const [coordinates, setCoordinates] = useState(null);
-
+  const [address, setAddress] = useState();
   useEffect(() => {
     requestLocationPermission();
   }, []);
@@ -51,7 +69,7 @@ const ChoosePosition = () => {
       const response = await axios.get(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
           address,
-        )}&key=AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU`,
+        )}&key=${GOOGLE_PLACES_API_KEY}`,
       );
       const {results} = response.data;
       if (results.length > 0) {
@@ -67,32 +85,38 @@ const ChoosePosition = () => {
   };
   return (
     <View>
-      <TextInput
-        placeholder="Enter an address"
-        value={address}
-        onChangeText={setAddress}
-      />
       <Button
-        title="Get Coordinates"
+        title="Get Current Location"
         onPress={() => {
           getCurrentLocation();
+        }}
+      />
+      <Button
+        title="Get Input Location"
+        onPress={() => {
           getCoordinatesFromAddress(address);
         }}
       />
-      {coordinates && (
-        <MapView
-          style={{width: '100%', height: 300}}
-          initialRegion={{
-            latitude: coordinates.latitude,
-            longitude: coordinates.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}>
-          <MapView.Marker coordinate={coordinates} />
-        </MapView>
-      )}
+      <PlaceSearch setAddress={setAddress} />
     </View>
   );
 };
 
 export default ChoosePosition;
+
+const styles = StyleSheet.create({
+  container: {
+    height: heightScreen,
+    width: widthScreen,
+  },
+  autocompleteContainer: {
+    width: '80%',
+  },
+  textInput: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    width: widthScreen * 0.3,
+  },
+});
