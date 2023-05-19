@@ -34,5 +34,6 @@ const styles = StyleSheet.create({
   },
   viewList: {
     width: widthScreen,
+    paddingBottom: heightScreen * 0.18,
   },
 });

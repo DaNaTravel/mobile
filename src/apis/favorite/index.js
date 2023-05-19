@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {BASE_URL} from '@env';
-export const AddLocationFavorite = async (accountId, locationId) => {
+export const AddLocationFavorite = (accountId, locationId, setResult) => {
   let data = JSON.stringify({
     accountId: accountId,
     locationId: locationId,
@@ -8,28 +8,28 @@ export const AddLocationFavorite = async (accountId, locationId) => {
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: `http://192.168.20.191:5000/favorites`,
+    url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/favorites`,
     headers: {
       'Content-Type': 'application/json',
     },
     data: data,
   };
 
-  await axios
+  axios
     .request(config)
     .then(async response => {
-      console.log(response?.data?.mesage);
-      return response?.data?.mesage;
+      setResult(await response?.data?.message);
     })
     .catch(error => {
-      console.log(error?.data?.mesage);
+      console.log(error?.data?.message);
     });
 };
+
 export const GetFavo = (category, accountId, setData) => {
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/favorites?category=${category}&accountId=6425378112c66cf317bfad3c`,
+    url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/favorites?category=${category}&accountId=${accountId}`,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -45,19 +45,27 @@ export const GetFavo = (category, accountId, setData) => {
     });
 };
 
-export const DeleteFavo = id => {
+export const DeleteFavo = (accountId, locationId, setResult) => {
+  let data = JSON.stringify({
+    accountId: accountId,
+    locationId: locationId,
+  });
   let config = {
     method: 'delete',
     maxBodyLength: Infinity,
-    url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/favorites/${id}`,
+    url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/favorites`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: data,
   };
 
   axios
     .request(config)
-    .then(response => {
-      setData(response?.data);
+    .then(async response => {
+      setResult(await response?.data?.message);
     })
     .catch(error => {
-      console.log(error?.data);
+      console.log(error?.data?.message);
     });
 };

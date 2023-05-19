@@ -13,10 +13,9 @@ import FieldTextInput from '../../components/FieldTextInput';
 import FieldButton from '../../components/FieldButton';
 import axios from 'axios';
 import FieldWebView from '../../components/WebView';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {Login} from '../../redux/action/auth/authRequests';
 const Header = () => {
-  const navigation = useNavigation();
   return (
     <View>
       <View style={styles.viewBack}></View>
@@ -121,8 +120,6 @@ const Body = ({email, setEmail, password, setPassword}) => {
 const SignInScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const login = useSelector(state => state.auth.login);
-  console.log('login', login);
   return (
     <View style={styles.viewParent}>
       <Header />

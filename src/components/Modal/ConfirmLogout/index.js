@@ -7,13 +7,26 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import {Logout} from '../../../redux/action/auth/authRequests';
+import {DeleteFavo} from '../../../apis/favorite';
 
-const ConfirmLogout = ({handleSignout, isModalVisible, navigation,type}) => {
+const ConfirmLogout = ({
+  handleSignout,
+  isModalVisible,
+  navigation,
+  type,
+  dataId,
+  setModalVisible,
+}) => {
   const dispatch = useDispatch();
+  const isUser = useSelector(state => state.auth.login);
   const handleConLogout = async () => {
     navigation.replace('LoginNav');
     Logout(dispatch);
     await AsyncStorage.clear();
+  };
+  const handleDelete = async () => {
+    DeleteFavo(isUser?.data?._id, dataId);
+    setModalVisible(!isModalVisible);
   };
   return (
     <Modal isVisible={isModalVisible}>
@@ -24,9 +37,14 @@ const ConfirmLogout = ({handleSignout, isModalVisible, navigation,type}) => {
           style={{height: heightScreen * 0.25, width: widthScreen * 0.9}}
         />
         <Text style={styles.textSure}>Are you sure?</Text>
-        <TouchableOpacity onPress={handleConLogout} style={styles.viewCon}>
-        {type === 'delete' ? <Text style={styles.textCon}>Continue Delete</Text> : <Text style={styles.textCon}>Continue Logout</Text>}
-          
+        <TouchableOpacity
+          onPress={type === 'delete' ? handleDelete : handleConLogout}
+          style={styles.viewCon}>
+          {type === 'delete' ? (
+            <Text style={styles.textCon}>Continue Delete</Text>
+          ) : (
+            <Text style={styles.textCon}>Continue Logout</Text>
+          )}
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonClose} onPress={handleSignout}>
           <FontAwesome name="close" size={30} color={colors.WHITE} />

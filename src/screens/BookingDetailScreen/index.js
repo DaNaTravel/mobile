@@ -17,10 +17,11 @@ import CarouselBookingItem, {
   ITEM_WIDTH,
 } from '../../components/CarouselBookingItem';
 import SuccessfulBooking from '../../components/Modal/SuccessfulBooking';
+import SuccessfullyRemoved from '../../components/Modal/SuccessfullyRemoved';
 import RelatedPlace from '../../components/RelatedPlace';
 import CommentItem from '../../components/CommentItem';
 import {useSelector} from 'react-redux';
-import {AddLocationFavorite} from '../../apis/favorite';
+import {AddLocationFavorite, DeleteFavo} from '../../apis/favorite';
 import NonAccount from '../../components/Modal/NonAccount';
 const dataImage = [
   {
@@ -44,25 +45,32 @@ const dataImage = [
       'AUjq9jmPatLo6leE2kXBkW9wjsQnp2EU2dvRmiu6GESpW-nxFgtOEkIZzBNTYWGN4qt3HkkzosXUw4mfPd4Z9lFzdU_AuyAgcCvD8pID6xene_NfsFNNa64xfuc_Hrm1wmuFlpm9Hn4df-QibLT_-UZrNny_r_dV0cKtssmZZ1UnqtRFmZov',
   },
 ];
-const Header = ({navigation, item, booked, handleBook, setAlert}) => {
+const Header = ({
+  navigation,
+  item,
+  booked,
+  handleBook,
+  setAlert,
+  handleRemove,
+  removed,
+}) => {
   const isCarousel = useRef(null);
   const [index, setIndex] = useState(0);
   const [like, setLike] = useState(false);
+  const [result, setResult] = useState();
   const isUser = useSelector(state => state.auth.login);
   const checkFavo = () => {
-    isUser?.data?._id === undefined
-      ? setAlert(true)
-      : handleFavo();
-      
+    isUser?.data?._id === undefined ? setAlert(true) : handleFavo();
   };
   const handleFavo = () => {
-    // const result = AddLocationFavorite(isUser?.data?._id, item?._id);
-    // console.log('result', result);
-    // result === 'Success' ? OnFavo() : console.log('Something was wrong');
-    OnFavo()
+    like
+      ? DeleteFavo(isUser?.data?._id, item?._id)
+      : AddLocationFavorite(isUser?.data?._id, item?._id, setResult);
+    console.log(result);
+    OnFavo();
   };
   const OnFavo = () => {
-    handleBook();
+    like ? handleRemove() : handleBook();
     setLike(!like);
   };
   return (
@@ -166,9 +174,13 @@ const BookingDetail = ({route}) => {
   const navigation = useNavigation();
   const [see, setSee] = useState(false);
   const [booked, setBooked] = useState(false);
+  const [removed, setRemoved] = useState(false);
   const [alert, setAlert] = useState(false);
   const handleBook = () => {
     setBooked(!booked);
+  };
+  const handleRemove = () => {
+    setRemoved(!removed);
   };
   const {item} = route.params;
   const [data, setData] = useState([]);
@@ -184,7 +196,9 @@ const BookingDetail = ({route}) => {
         navigation={navigation}
         item={item}
         handleBook={handleBook}
+        handleRemove={handleRemove}
         booked={booked}
+        removed={removed}
         setAlert={setAlert}
       />
       <Text style={styles.textDetails}>Details</Text>
@@ -202,7 +216,7 @@ const BookingDetail = ({route}) => {
       <FlatList
         data={item?.reviews}
         renderItem={({item, index}) => (
-          <CommentItem item={item} index={index} key={item?.author_name} />
+          <CommentItem item={item} index={index} key={item._id} />
         )}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
@@ -214,7 +228,7 @@ const BookingDetail = ({route}) => {
         <FlatList
           data={data}
           renderItem={({item, index}) => (
-            <RelatedPlace item={item} index={index} key={item?._id} />
+            <RelatedPlace item={item} index={index} key={item._id} />
           )}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
@@ -225,6 +239,9 @@ const BookingDetail = ({route}) => {
       </View>
       {booked ? (
         <SuccessfulBooking booked={booked} setBooked={setBooked} />
+      ) : null}
+      {removed ? (
+        <SuccessfullyRemoved removed={removed} setRemoved={setRemoved} />
       ) : null}
       {alert ? <NonAccount setAlert={setAlert} /> : null}
     </ScrollView>

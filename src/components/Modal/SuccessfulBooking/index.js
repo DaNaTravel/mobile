@@ -2,7 +2,6 @@ import LottieView from 'lottie-react-native';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {colors, heightScreen, widthScreen} from '../../../utility';
-import {useNavigation} from '@react-navigation/native';
 
 const SuccessfulBooking = ({booked, setBooked}) => {
   return (
@@ -15,7 +14,9 @@ const SuccessfulBooking = ({booked, setBooked}) => {
           loop={false}
         />
         <View style={styles.viewMessage}>
-          <Text style={styles.message}>Successfully Added to your Itinerary!</Text>
+          <Text style={styles.message}>
+            Successfully added to your favorite locations!
+          </Text>
           <Text style={styles.messageSon}>
             Have a safe and enjoyable journey!
           </Text>

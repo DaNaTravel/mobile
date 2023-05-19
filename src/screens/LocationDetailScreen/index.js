@@ -58,7 +58,6 @@ const Header = ({navigation, data, booked, handleBook, setAlert}) => {
   };
   const handleFavo = () => {
     const result = AddLocationFavorite(isUser?.data?._id, data?._id);
-    console.log('result', result);
     result === 'Success' ? OnFavo() : console.log('Something was wrong');
   };
   const OnFavo = () => {

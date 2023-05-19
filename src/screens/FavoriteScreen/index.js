@@ -3,7 +3,6 @@ import React, {useState, useEffect} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import LottieView from 'lottie-react-native';
 import {useSelector} from 'react-redux';
-import FavoriteItem from '../../components/FavoriteItem';
 import {GetFavo} from '../../apis/favorite';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Itineraries from '../../components/FavoriteItems/Itineraries';
@@ -14,7 +13,7 @@ const Tab = createMaterialTopTabNavigator();
 const TabView = ({isUser}) => {
   const [data, setData] = useState(null);
   const handleData = category => {
-    GetFavo(category, isUser?._id, setData);
+    GetFavo(category, isUser?.data?._id, setData);
   };
   return (
     <Tab.Navigator

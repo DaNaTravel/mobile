@@ -4,8 +4,7 @@ import {colors, heightScreen, widthScreen} from '../../utility';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {SearchByID} from '../../apis/search';
-import {DeleteFavo} from '../../apis/favorite';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import ConfirmLogout from '../Modal/ConfirmLogout';
 
 const FavoriteItem = ({item}) => {
@@ -17,10 +16,9 @@ const FavoriteItem = ({item}) => {
   const handleSure = async () => {
     setModalVisible(!isModalVisible);
   };
-  const handleDelete = (id) => {
-    // DeleteFavo(id);
+  const handleDelete = id => {
     setModalVisible(!isModalVisible);
-  }
+  };
   const navigation = useNavigation();
   return (
     <View style={styles.viewParent}>
@@ -68,6 +66,8 @@ const FavoriteItem = ({item}) => {
         isModalVisible={isModalVisible}
         navigation={navigation}
         type={'delete'}
+        dataId={data?._id}
+        setModalVisible={setModalVisible}
       />
     </View>
   );
