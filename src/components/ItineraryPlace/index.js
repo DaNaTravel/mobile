@@ -2,8 +2,9 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {useNavigation} from '@react-navigation/native';
 
 const ItineraryPlace = ({item}) => {
@@ -62,9 +63,9 @@ const ItineraryPlace = ({item}) => {
                 <Text style={styles.textStar}>Sun</Text>
               </View>
               <View style={styles.viewTem}>
+              <FontAwesome5 name="temperature-high" size={17} color={colors.BLACK} />
                 <Text style={styles.textTem}>33 </Text>
-                <Text style={styles.texto}>o</Text>
-                <Text style={styles.textTem}>C</Text>
+                <MaterialCommunityIcons name="temperature-celsius" size={17} color={colors.BLACK} />
               </View>
             </View>
           </View>
@@ -172,14 +173,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  texto: {
-    position: 'absolute',
-    left: widthScreen * 0.035,
-    top: heightScreen * -0.008,
-    fontSize: 12,
-    color: colors.BLACK,
-  },
   textTem: {
     color: colors.BLACK,
+    marginLeft: widthScreen*0.01
   },
 });

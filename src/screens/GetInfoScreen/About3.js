@@ -48,7 +48,7 @@ const SliderContainer = props => {
     data.expense = value;
     data.mainGoal = selectedIndex;
     await AsyncStorage.setItem('data', JSON.stringify(data));
-    navigation.navigate('Home');
+    navigation.navigate('ChoosePosition');
   };
   return (
     <View style={styles.sliderContainer}>

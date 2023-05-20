@@ -73,6 +73,10 @@ const Header = ({
     like ? handleRemove() : handleBook();
     setLike(!like);
   };
+  useEffect(() => {
+
+  }, [])
+  
   return (
     <>
       <TouchableOpacity
@@ -216,7 +220,7 @@ const BookingDetail = ({route}) => {
       <FlatList
         data={item?.reviews}
         renderItem={({item, index}) => (
-          <CommentItem item={item} index={index} key={item._id} />
+          <CommentItem item={item} index={index} key={item.author_name} />
         )}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}

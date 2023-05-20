@@ -5,10 +5,12 @@ import {useNavigation} from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import HistoryItem from '../../components/HistoryItem';
 import {GetItineraries} from '../../apis/itineraries';
+import { useSelector } from 'react-redux';
 
 const ListItinerariesScreen = () => {
   const navigation = useNavigation();
   const [data, setData] = useState();
+  const isUser = useSelector(state => state.auth.login);
   useEffect(() => {
     GetItineraries(setData);
   }, []);
@@ -16,7 +18,7 @@ const ListItinerariesScreen = () => {
     <View style={styles.viewParent}>
       <View style={styles.viewTitle}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('BottomTabGuess')}
+          onPress={() => isUser?.data?._id !== undefined ? navigation.navigate('BottomTab') : navigation.navigate('BottomTabGuess')}
           style={styles.buttonBack}>
           <FontAwesome name="angle-left" size={24} color="black" />
         </TouchableOpacity>
@@ -86,4 +88,7 @@ const styles = StyleSheet.create({
     marginTop: heightScreen * 0.035,
     alignItems: 'center',
   },
+  viewList:{
+    backgroundColor: 'red'
+  }
 });

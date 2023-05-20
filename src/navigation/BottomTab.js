@@ -1,6 +1,5 @@
 import {AnimatedTabBarNavigator} from 'react-native-animated-nav-tab-bar';
 import Favorite from '../screens/FavoriteScreen';
-import HomeScreen from '../screens/HomeScreen';
 import Profile from '../screens/ProfileScreen';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {colors} from '../utility';
@@ -14,9 +13,9 @@ export default () => (
     tabBarOptions={{
       inactiveTintColor: '#ECF2FF',
       activeBackgroundColor: '#ECF2FF',
+
     }}
     appearance={{
-      whenActiveShow: 'icon-only',
       activeColors: colors.WHITE,
       activeTabBackgrounds: colors.MAINCOLOR,
       horizontalPadding: 20,

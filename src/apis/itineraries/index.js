@@ -1,10 +1,17 @@
 import axios from 'axios';
 import {BASE_URL} from '@env';
-export const ItineraryRoutes = async (startDate, endDate, idType, setData) => {
+export const ItineraryRoutes = async (
+  latitude,
+  longitude,
+  startDate,
+  endDate,
+  idType,
+  setData,
+) => {
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: `http://ec2-18-177-138-181.ap-northeast-1.compute.amazonaws.com:3000/routes?latitude=16.019110655988168&longitude=108.22903420822459&startDate=${startDate}&endDate=${endDate}&type=${idType}`,
+    url: `http://ec2-18-177-138-181.ap-northeast-1.compute.amazonaws.com:3000/routes?latitude=${latitude}&longitude=${longitude}&startDate=${startDate}&endDate=${endDate}&type=${idType}`,
     headers: {
       'Content-Type': 'application/json',
     },

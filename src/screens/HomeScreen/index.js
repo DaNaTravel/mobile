@@ -81,13 +81,15 @@ const HomeScreen = () => {
   const [dataMap, setDataMap] = useState();
   const [days, setDays] = useState([1]);
   const [mainGoal, setMainGoal] = useState(0);
+  const [lat, setLat] = useState();
+  const [long, setLong] = useState();
   const handleTime = async () => {
-    const dataTime = JSON.parse(await AsyncStorage.getItem('data'));
-    setTime(dataTime?.time);
     const data = JSON.parse(await AsyncStorage.getItem('data'));
+    setTime(data?.time);
     setDays(data?.days);
-    const goal = JSON.parse(await AsyncStorage.getItem('data'));
-    setMainGoal(goal?.mainGoal);
+    setMainGoal(data?.mainGoal);
+    setLat(data?.latitude);
+    setLong(data?.longitude);
   };
 
   useLayoutEffect(() => {
@@ -99,28 +101,34 @@ const HomeScreen = () => {
 
   useEffect(() => {
     if (time?.startDate && time?.endDate) {
-      ItineraryRoutes(time.startDate, time.endDate, mainGoal, responseData => {
-        setData(responseData);
-        var transformedData = {};
-        responseData.forEach(function (item, index) {
-          var key = `routes${index + 1}`;
-          transformedData[key] = [];
+      ItineraryRoutes(
+        lat,
+        long,
+        time.startDate,
+        time.endDate,
+        mainGoal,
+        responseData => {
+          setData(responseData);
+          var transformedData = {};
+          responseData.forEach(function (item, index) {
+            var key = `routes${index + 1}`;
+            transformedData[key] = [];
 
-          item.route.forEach(function (routeItem) {
-            var place = {
-              latitude: routeItem.description.latitude,
-              longitude: routeItem.description.longitude,
-              name: routeItem.description.name,
-              address: routeItem.description.address,
-            };
-
-            transformedData[key].push(place);
+            item.route.forEach(function (routeItem) {
+              var place = {
+                latitude: routeItem.description.latitude,
+                longitude: routeItem.description.longitude,
+                name: routeItem.description.name,
+                address: routeItem.description.address,
+              };
+              transformedData[key].push(place);
+            });
           });
-        });
-        setDataMap(transformedData);
-      });
+          setDataMap(transformedData);
+        },
+      );
     }
-  }, [time?.startDate, time?.endDate]);
+  }, [time?.startDate, time?.endDate, lat, long]);
   const isUser = useSelector(state => state.auth.login);
   const [selectedItem, setSelectedItem] = useState(1);
   const renderItem = ({item}) => (
@@ -130,6 +138,10 @@ const HomeScreen = () => {
       onSelect={setSelectedItem}
     />
   );
+  const handleData = async () => {
+    let data = JSON.parse(await AsyncStorage.getItem('data'));
+    console.log('data ', data);
+  };
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewHeader}>
@@ -156,6 +168,11 @@ const HomeScreen = () => {
         <TouchableOpacity
           style={styles.buttonBottom}
           onPress={() => refRBSheet.current.open()}>
+          <AntDesign name="profile" size={28} color={colors.WHITE} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonBottom}
+          onPress={() => handleData()}>
           <AntDesign name="profile" size={28} color={colors.WHITE} />
         </TouchableOpacity>
         <View style={styles.viewLists}>

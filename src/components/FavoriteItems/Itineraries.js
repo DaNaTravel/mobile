@@ -5,7 +5,7 @@ import HistoryItem from '../../components/HistoryItem';
 const Itineraries = ({data}) => {
   return (
     <View style={styles.viewParent}>
-      {data === null ? (
+      {data.length === 0 ? (
         <Text>You don't have any favorite itinerary items</Text>
       ) : (
         <View style={styles.viewList}>
@@ -35,6 +35,6 @@ const styles = StyleSheet.create({
   },
   viewList: {
     width: widthScreen,
-    paddingBottom: heightScreen * 0.18,
+    paddingBottom: 185,
   },
 });

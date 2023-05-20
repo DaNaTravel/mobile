@@ -21,7 +21,7 @@ const FavoriteItem = ({item}) => {
   };
   const navigation = useNavigation();
   return (
-    <View style={styles.viewParent}>
+    <TouchableOpacity style={styles.viewParent} onPress={() => navigation.navigate('BookingDetail', {item: data})}>
       <Image
         source={
           data?.photos?.[0].photo_reference
@@ -69,7 +69,7 @@ const FavoriteItem = ({item}) => {
         dataId={data?._id}
         setModalVisible={setModalVisible}
       />
-    </View>
+    </TouchableOpacity>
   );
 };
 
