@@ -11,7 +11,7 @@ const DayItem = ({item, selected, onSelect}) => {
         {backgroundColor: selected ? colors.MAINCOLOR : colors.WHITE},
       ]}
       onPress={() => onSelect(item)}>
-      <Text>Day {item}</Text>
+      <Text style={[styles.textDay, {color: selected ? colors.WHITE : colors.BLACK}]}>Day {item}</Text>
     </TouchableOpacity>
   );
 };
@@ -34,4 +34,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  textDay:{
+    fontWeight: 500
+  }
 });

@@ -138,10 +138,10 @@ const HomeScreen = () => {
       onSelect={setSelectedItem}
     />
   );
-  const handleData = async () => {
-    let data = JSON.parse(await AsyncStorage.getItem('data'));
-    console.log('data ', data);
-  };
+  // const handleData = async () => {
+  //   let data = JSON.parse(await AsyncStorage.getItem('data'));
+  //   console.log('data ', data);
+  // };
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewHeader}>
@@ -170,11 +170,11 @@ const HomeScreen = () => {
           onPress={() => refRBSheet.current.open()}>
           <AntDesign name="profile" size={28} color={colors.WHITE} />
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.buttonBottom}
           onPress={() => handleData()}>
           <AntDesign name="profile" size={28} color={colors.WHITE} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <View style={styles.viewLists}>
           <FlatList
             data={days}

@@ -182,6 +182,7 @@ const styles = StyleSheet.create({
     height: heightScreen * 0.75,
     width: widthScreen * 0.9,
     alignSelf: 'center',
+    paddingBottom: heightScreen*0.03
   },
   input: {
     marginLeft: widthScreen * 0.03,

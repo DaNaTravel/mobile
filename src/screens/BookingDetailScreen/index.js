@@ -225,7 +225,7 @@ const BookingDetail = ({route}) => {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         scrollEnabled={false}
-        keyExtractor={item => item?._id}
+        keyExtractor={item => item.author_name}
       />
       <Text style={styles.textRelate}>Related Place</Text>
       <View style={styles.viewRelated}>
@@ -237,7 +237,7 @@ const BookingDetail = ({route}) => {
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           scrollEnabled={true}
-          keyExtractor={item => item?._id}
+          keyExtractor={item => item._id}
           horizontal
         />
       </View>

@@ -6,9 +6,9 @@ import {
   logoutSuccess,
 } from '../../features/auth/authSlice';
 
-export const Login = async (dispatch, email, password) => {
+export const Login = (dispatch, email, password) => {
   dispatch(loginStart());
-  await SignInTest(email, password)
+  SignInTest(email, password)
     .then(res => {
       dispatch(loginSuccess(res.data));
     })

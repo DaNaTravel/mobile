@@ -48,7 +48,7 @@ const Slider = () => {
     itemVisiblePercentThreshold: 50,
   }).current;
   const handleGet = () => {
-    navigation.navigate('About1');
+    navigation.navigate('LoginNav');
     dispatch(setLauch(true));
   };
   return (

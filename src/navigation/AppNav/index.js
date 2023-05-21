@@ -7,10 +7,10 @@ import {HomeNav} from '../HomeNav';
 
 const AppNavigation = () => {
   const isUser = useSelector(state => state.auth.login);
-  console.log(isUser);
+  console.log(isUser?.data?.refreshToken);
   return (
-    <NavigationContainer independent={true}>
-      {isUser?.data?._id !== undefined ? <HomeNav /> : <AboutNav />}
+    <NavigationContainer>
+      {isUser?.data?.refreshToken !== undefined ? <HomeNav /> : <AboutNav />}
     </NavigationContainer>
   );
 };

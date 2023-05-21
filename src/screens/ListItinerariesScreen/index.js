@@ -89,6 +89,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   viewList:{
-    backgroundColor: 'red'
   }
 });

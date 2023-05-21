@@ -29,9 +29,8 @@ const Body = ({email, setEmail, password, setPassword}) => {
   const [data, setData] = useState('');
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const handleSignIn = async () => {
-    await Login(dispatch, email, password);
-    navigation.navigate('AppNav');
+  const handleSignIn = () => {
+    Login(dispatch, email, password);
   };
   const handleForgot = async () => {
     navigation.navigate('Forgot');

@@ -116,13 +116,6 @@ export const HomeNav = () => {
         options={{
           headerShown: false,
         }}
-        name="LoginNav"
-        component={LoginNav}
-      />
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
         name="ChoosePosition"
         component={ChoosePosition}
       />

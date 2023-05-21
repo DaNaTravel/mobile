@@ -20,7 +20,7 @@ const ConfirmLogout = ({
   const dispatch = useDispatch();
   const isUser = useSelector(state => state.auth.login);
   const handleConLogout = async () => {
-    navigation.replace('LoginNav');
+    isUser?.data?._id === undefined ? navigation.replace('LoginNav') : null; 
     Logout(dispatch);
     await AsyncStorage.clear();
   };

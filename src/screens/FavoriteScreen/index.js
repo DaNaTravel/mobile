@@ -7,6 +7,7 @@ import {GetFavo} from '../../apis/favorite';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Itineraries from '../../components/FavoriteItems/Itineraries';
 import Locations from '../../components/FavoriteItems/Locations';
+import { useNavigation } from '@react-navigation/native';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -42,6 +43,7 @@ const TabView = ({isUser}) => {
 };
 const Favorite = () => {
   const isUser = useSelector(state => state.auth.login);
+  const navigation = useNavigation()
   return (
     <View style={styles.viewParent}>
       {isUser?.message === null ? (
@@ -58,7 +60,7 @@ const Favorite = () => {
           <Text style={styles.textAlert}>
             If you want to use this function, you have to log in to use it.
           </Text>
-          <TouchableOpacity style={styles.viewLogin}>
+          <TouchableOpacity style={styles.viewLogin} onPress={()=>navigation.replace('LoginNav')}>
             <Text style={styles.textSignin}>Go to Sign in</Text>
           </TouchableOpacity>
         </>
