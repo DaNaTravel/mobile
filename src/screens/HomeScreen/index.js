@@ -44,7 +44,7 @@ const TabView = ({data}) => {
   const [days, setDays] = useState([1]);
   const handleDays = async () => {
     const data = JSON.parse(await AsyncStorage.getItem('data'));
-    setDays(data?.days);
+    setDays(data?.days)
   };
   useLayoutEffect(() => {
     handleDays();
@@ -130,7 +130,7 @@ const HomeScreen = () => {
     }
   }, [time?.startDate, time?.endDate, lat, long]);
   const isUser = useSelector(state => state.auth.login);
-  const [selectedItem, setSelectedItem] = useState(1);
+  const [selectedItem, setSelectedItem] = useState(1)
   const renderItem = ({item}) => (
     <DayItem
       item={item}

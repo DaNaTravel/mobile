@@ -54,7 +54,7 @@ const ChoosePosition = () => {
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         console.log('Location permission granted.');
-        getCurrentLocation();
+        // getCurrentLocation();
       } else {
         console.log('Location permission denied.');
       }
@@ -72,6 +72,7 @@ const ChoosePosition = () => {
         );
       });
       const {latitude, longitude} = position.coords;
+      console.log(latitude, longitude);
       handlePosition(latitude, longitude);
     } catch (error) {
       console.error('Error getting current location:', error);
@@ -87,6 +88,7 @@ const ChoosePosition = () => {
       const {results} = response.data;
       if (results.length > 0) {
         const {lat, lng} = results[0].geometry.location;
+        console.log(lat, lng);
         handlePosition(lat, lng)      
       } else {
         throw new Error('No results found');

@@ -69,11 +69,15 @@ const styles = StyleSheet.create({
     height: 47,
     width: 47,
     borderRadius: 23.5,
+    marginTop: heightScreen * 0.025,
+    marginRight: widthScreen * 0.05,
   },
   textTitle: {
     fontSize: 30,
     color: colors.BLACK,
     fontWeight: 'bold',
+    marginLeft: widthScreen * 0.05,
+    marginTop: heightScreen * 0.025,
   },
   viewHistories: {
     flex: 1,

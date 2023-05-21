@@ -93,7 +93,7 @@ const Body = ({email, setEmail, password, setPassword}) => {
         />
         <FieldButton
           stylesContainer={styles.viewButtonFB}
-          title={'Login as Guess'}
+          title={'Login as Guest'}
           stylesTitle={styles.textFB}
           icon={'user'}
           color="#fff"

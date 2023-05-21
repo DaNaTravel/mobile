@@ -132,8 +132,9 @@ const styles = StyleSheet.create({
     color: '#707B81',
   },
   result: {
-    fontWeight: 600,
-    fontSize: 16,
+    fontWeight: 700,
+    fontSize: 24,
+    textAlign: 'center'
   },
   viewMoney: {
     marginTop: heightScreen * 0.07,
