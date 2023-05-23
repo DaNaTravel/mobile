@@ -21,7 +21,9 @@ const FavoriteItem = ({item}) => {
   };
   const navigation = useNavigation();
   return (
-    <TouchableOpacity style={styles.viewParent} onPress={() => navigation.navigate('BookingDetail', {item: data})}>
+    <TouchableOpacity
+      style={styles.viewParent}
+      onPress={() => navigation.navigate('BookingDetail', {item: data})}>
       <Image
         source={
           data?.photos?.[0].photo_reference

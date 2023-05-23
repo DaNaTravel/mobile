@@ -5,20 +5,31 @@ import {useNavigation} from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import HistoryItem from '../../components/HistoryItem';
 import {GetItineraries} from '../../apis/itineraries';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ListItinerariesScreen = () => {
   const navigation = useNavigation();
   const [data, setData] = useState();
   const isUser = useSelector(state => state.auth.login);
+  const [listFavo, setListFavo] = useState([]);
+  const handleListFavo = async () => {
+    let list = JSON.parse(await AsyncStorage.getItem('listItiFavo'));
+    setListFavo(list);
+  };
   useEffect(() => {
     GetItineraries(setData);
+    handleListFavo();
   }, []);
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewTitle}>
         <TouchableOpacity
-          onPress={() => isUser?.data?._id !== undefined ? navigation.navigate('BottomTab') : navigation.navigate('BottomTabGuess')}
+          onPress={() =>
+            isUser?.data?._id !== undefined
+              ? navigation.navigate('BottomTab')
+              : navigation.navigate('BottomTabGuess')
+          }
           style={styles.buttonBack}>
           <FontAwesome name="angle-left" size={24} color="black" />
         </TouchableOpacity>
@@ -34,6 +45,7 @@ const ListItinerariesScreen = () => {
               index={index}
               key={item?._id}
               type={'itineraries'}
+              listFavo={listFavo}
             />
           )}
           showsHorizontalScrollIndicator={false}
@@ -88,6 +100,7 @@ const styles = StyleSheet.create({
     marginTop: heightScreen * 0.035,
     alignItems: 'center',
   },
-  viewList:{
-  }
+  viewList: {
+    paddingBottom: heightScreen * 0.1,
+  },
 });

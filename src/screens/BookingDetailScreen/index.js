@@ -23,6 +23,7 @@ import CommentItem from '../../components/CommentItem';
 import {useSelector} from 'react-redux';
 import {AddLocationFavorite, DeleteFavo} from '../../apis/favorite';
 import NonAccount from '../../components/Modal/NonAccount';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const dataImage = [
   {
     photo_reference:
@@ -73,10 +74,29 @@ const Header = ({
     like ? handleRemove() : handleBook();
     setLike(!like);
   };
-  useEffect(() => {
+  const [listFavo, setListFavo] = useState(null);
+  const handleListFavo = async () => {
+    let list = JSON.parse(await AsyncStorage.getItem('listLocaFavo'));
+    setListFavo(list);
+  };
 
-  }, [])
-  
+  useEffect(() => {
+    const initializeLike = async () => {
+      await handleListFavo();
+      if (listFavo && item && item._id) {
+        setLike(listFavo.includes(item._id));
+      }
+    };
+    initializeLike();
+  }, []);
+
+  useEffect(() => {
+    if (listFavo && item && item._id) {
+      setLike(listFavo.includes(item._id));
+    }
+  }, [listFavo]);
+
+  console.log(like);
   return (
     <>
       <TouchableOpacity

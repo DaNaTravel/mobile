@@ -15,6 +15,10 @@ const Profile = () => {
   const getData = async () => {
     let data = JSON.parse(await AsyncStorage.getItem('data'));
     console.log('data ', data);
+    let list = JSON.parse(await AsyncStorage.getItem('listItiFavo'));
+    console.log('listItiFavo ', list);
+    let list2 = JSON.parse(await AsyncStorage.getItem('listLocaFavo'));
+    console.log('listLocaFavo ', list2);
   };
   const getToken = async () => {
     let data = await isUser?.data?.token;
@@ -30,7 +34,7 @@ const Profile = () => {
         <Text>Get token </Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.signOut} onPress={() => handleSignout()}>
-        <Text style={{}}>Signout</Text>
+        <Text style={{}}>Sign out</Text>
       </TouchableOpacity>
       <ConfirmLogout
         handleSignout={handleSignout}

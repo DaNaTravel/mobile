@@ -1,8 +1,22 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import HistoryItem from '../../components/HistoryItem';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const Itineraries = ({data}) => {
+  const saveFavouriteItineraries = async () => {
+    try {
+      const itineraryIds = data?.map(item => item.itineraryId);
+      await AsyncStorage.setItem('listItiFavo', JSON.stringify(itineraryIds));
+      console.log('Lưu trữ danh sách itineraryId thành công');
+    } catch (error) {
+      console.log('Lưu trữ thất bại:', error);
+    }
+  };
+  useEffect(() => {
+    saveFavouriteItineraries();
+  }, [data]);
+
   return (
     <View style={styles.viewParent}>
       {data?.length === 0 ? (

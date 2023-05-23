@@ -7,7 +7,7 @@ import {GetFavo} from '../../apis/favorite';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Itineraries from '../../components/FavoriteItems/Itineraries';
 import Locations from '../../components/FavoriteItems/Locations';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -26,24 +26,25 @@ const TabView = ({isUser}) => {
       }}>
       <Tab.Screen
         name={'Itineraries'}
-        children={() => <Itineraries data={data} />}
-        listeners={{
-          focus: () => handleData('itinerary'),
-        }}
+        children={() => (
+          <Itineraries
+            data={data}
+            listeners={{
+              focus: () => handleData('itinerary'),
+            }}
+          />
+        )}
       />
       <Tab.Screen
         name={'Locations'}
-        children={() => <Locations data={data} />}
-        listeners={{
-          focus: () => handleData('location'),
-        }}
+        children={() => <Locations dataCate={'location'} />}
       />
     </Tab.Navigator>
   );
 };
 const Favorite = () => {
   const isUser = useSelector(state => state.auth.login);
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   return (
     <View style={styles.viewParent}>
       {isUser?.message === null ? (
@@ -60,7 +61,9 @@ const Favorite = () => {
           <Text style={styles.textAlert}>
             If you want to use this function, you have to log in to use it.
           </Text>
-          <TouchableOpacity style={styles.viewLogin} onPress={()=>navigation.replace('LoginNav')}>
+          <TouchableOpacity
+            style={styles.viewLogin}
+            onPress={() => navigation.replace('LoginNav')}>
             <Text style={styles.textSignin}>Go to Sign in</Text>
           </TouchableOpacity>
         </>

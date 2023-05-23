@@ -12,10 +12,9 @@ import PlaceDetail from '../../screens/PlaceDetailScreen';
 import SearchAllScreen from '../../screens/SearchAllScreen';
 import WeatherDetail from '../../screens/WeatherDetailScreen';
 import Weather from '../../screens/WeatherScreen';
-import AboutCommonNavigation from '../AboutCommonNav';
 import BottomTab from '../BottomTab';
-import LoginNav from '../LoginNav';
 import LocationDetail from '../../screens/LocationDetailScreen';
+import ListItinerariesScreen from '../../screens/ListItinerariesScreen';
 const Stack = createNativeStackNavigator();
 
 export const HomeNav = () => {
@@ -130,8 +129,8 @@ export const HomeNav = () => {
         options={{
           headerShown: false,
         }}
-        name="AboutCommon"
-        component={AboutCommonNavigation}
+        name="ListItineraries"
+        component={ListItinerariesScreen}
       />
     </Stack.Navigator>
   );
