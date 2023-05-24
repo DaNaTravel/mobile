@@ -1,5 +1,5 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Modal from 'react-native-modal';
 import {colors, heightScreen, widthScreen} from '../../../utility';
 import LottieView from 'lottie-react-native';
@@ -19,15 +19,22 @@ const ConfirmLogout = ({
 }) => {
   const dispatch = useDispatch();
   const isUser = useSelector(state => state.auth.login);
+  const [result, setResult] = useState();
   const handleConLogout = async () => {
     isUser?.data?._id === undefined ? navigation.replace('LoginNav') : null;
     Logout(dispatch);
     await AsyncStorage.clear();
   };
+  const updateListItiFavo = async id => {
+    let listItiFavo = await AsyncStorage.getItem('itineraryIds');
+    let updatedlist = JSON.parse(listItiFavo)?.filter(item => item !== id);
+    await AsyncStorage.setItem('itineraryIds', JSON.stringify(updatedlist));
+  };
   const handleDelete = async () => {
     type === 'delete'
       ? DeleteFavo(isUser?.data?._id, dataId)
-      : DeleteItineraryFavo(isUser?.data?._id, dataId);
+      : DeleteItineraryFavo(isUser?.data?._id, dataId, setResult);
+    result === undefined ? updateListItiFavo(dataId) : null;
     setModalVisible(!isModalVisible);
   };
   return (

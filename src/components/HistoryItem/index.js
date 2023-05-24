@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -38,8 +38,15 @@ const HistoryItem = ({item, type, listFavo, setListFavo}) => {
     setDataImg(result);
   };
   const handleExist = id => {
-    const updatedListFavo = listFavo.filter(item => item !== id);
+    const updatedListFavo = listFavo?.filter(item => item !== id);
     setListFavo(updatedListFavo);
+    DeleteItineraryFavo(isUser?.data?._id, id);
+  };
+  const handleNotExist = id => {
+    const updatedListFavo = listFavo ? [...listFavo, id] : [id];
+    setListFavo(updatedListFavo);
+    console.log('listFavo', listFavo);
+    AddItineraryFavorite(isUser?.data?._id, id);
   };
   useEffect(() => {
     CreateListImg(item?.routes);
@@ -48,7 +55,7 @@ const HistoryItem = ({item, type, listFavo, setListFavo}) => {
     <View style={styles.viewParent}>
       <View style={styles.viewContainer1}>
         <FlatList
-          data={dataImgs}
+          data={dataImg}
           renderItem={({item, index}) => (
             <Image
               style={styles.viewImg}
@@ -124,7 +131,7 @@ const HistoryItem = ({item, type, listFavo, setListFavo}) => {
             onPress={() =>
               listFavo?.includes(item?._id)
                 ? handleExist(item?._id)
-                : AddItineraryFavorite(isUser?.data?._id, item?._id)
+                : handleNotExist(item?._id)
             }>
             <FontAwesome
               name="heart"

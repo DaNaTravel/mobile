@@ -1,16 +1,26 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import HistoryItem from '../../components/HistoryItem';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const Itineraries = ({dataIti}) => {
   const saveDataToStorage = async () => {
     try {
-      const ids = dataIti.map(item => item.itineraryId);
-      await AsyncStorage.setItem('itineraryIds', JSON.stringify(ids));
-      console.log('Itinerary IDs saved to AsyncStorage successfully.');
+      if (dataIti) {
+        const ids = dataIti.map(item => item.itineraryId);
+        if (ids.length > 0) {
+          await AsyncStorage.setItem('itineraryIds', JSON.stringify(ids));
+          console.log('Itinerary IDs saved to AsyncStorage successfully.');
+        } else {
+          await AsyncStorage.removeItem('itineraryIds');
+          console.log('Itinerary IDs removed from AsyncStorage.');
+        }
+      }
     } catch (error) {
-      console.log('Error saving itinerary IDs to AsyncStorage:', error);
+      console.log(
+        'Error saving/removing itinerary IDs to/from AsyncStorage:',
+        error,
+      );
     }
   };
   useEffect(() => {

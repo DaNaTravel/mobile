@@ -21,9 +21,13 @@ const FilterItem = ({item, setItems, setArrTypes, arrTypes}) => {
       ]}
       onPress={() => handleFilter(item)}
       key={item?.name}>
-      <Text style={[styles.textitem, active
-          ? {color: colors.WHITE}
-          : {color: colors.BLACK}]}>{item?.name}</Text>
+      <Text
+        style={[
+          styles.textitem,
+          active ? {color: colors.WHITE} : {color: colors.BLACK},
+        ]}>
+        {item?.name}
+      </Text>
     </TouchableOpacity>
   );
 };
@@ -36,8 +40,7 @@ const styles = StyleSheet.create({
     color: colors.BLACK,
   },
   viewType: {
-    width: widthScreen * 0.2,
-    height: heightScreen * 0.05,
+    flex: 1,
     borderRadius: 20,
     marginHorizontal: widthScreen * 0.006,
     justifyContent: 'center',
@@ -50,10 +53,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 6,
-    padding:3
+    padding: 3,
+    minWidth: widthScreen * 0.2,
+    maxHeight: heightScreen * 0.05,
   },
-  textitem:{
+  textitem: {
     fontWeight: 500,
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+    marginHorizontal: widthScreen * 0.02,
+  },
 });

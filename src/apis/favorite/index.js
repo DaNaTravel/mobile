@@ -113,6 +113,7 @@ export const DeleteItineraryFavo = (accountId, itineraryId, setResult) => {
   axios
     .request(config)
     .then(async response => {
+      console.log('delete:', response?.data?.message);
       setResult(await response?.data?.message);
     })
     .catch(error => {
