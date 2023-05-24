@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   viewList: {
+    marginTop: heightScreen * 0.01,
     paddingBottom: heightScreen * 0.1,
   },
 });

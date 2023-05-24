@@ -8,7 +8,7 @@ import axios from 'axios';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FieldButton from '../../components/FieldButton';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GOOGLE_PLACES_API_KEY = 'AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU';
@@ -36,12 +36,12 @@ const ChoosePosition = () => {
   useEffect(() => {
     requestLocationPermission();
   }, []);
-  const handlePosition = async (lati, longi) =>{
+  const handlePosition = async (lati, longi) => {
     let data = JSON.parse(await AsyncStorage.getItem('data'));
     data.latitude = lati;
     data.longitude = longi;
     await AsyncStorage.setItem('data', JSON.stringify(data));
-  }
+  };
   const requestLocationPermission = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -65,11 +65,11 @@ const ChoosePosition = () => {
   const getCurrentLocation = async () => {
     try {
       const position = await new Promise((resolve, reject) => {
-        Geolocation.getCurrentPosition(
-          resolve,
-          reject,
-          {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-        );
+        Geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 15000,
+          maximumAge: 10000,
+        });
       });
       const {latitude, longitude} = position.coords;
       console.log(latitude, longitude);
@@ -89,7 +89,7 @@ const ChoosePosition = () => {
       if (results.length > 0) {
         const {lat, lng} = results[0].geometry.location;
         console.log(lat, lng);
-        handlePosition(lat, lng)      
+        handlePosition(lat, lng);
       } else {
         throw new Error('No results found');
       }
@@ -98,7 +98,7 @@ const ChoosePosition = () => {
     }
   };
   const [selectedItem, setSelectedItem] = useState(2);
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewTitle}>
@@ -111,18 +111,39 @@ const ChoosePosition = () => {
         <View style={styles.viewSpace}></View>
       </View>
       <TouchableOpacity
-        style={[styles.viewMyPosition, selectedItem === 1 ? {backgroundColor: colors.MAINCOLOR} : {backgroundColor: colors.WHITE}]}
+        style={[
+          styles.viewMyPosition,
+          selectedItem === 1
+            ? {backgroundColor: colors.MAINCOLOR}
+            : {backgroundColor: colors.WHITE},
+        ]}
         onPress={() => {
-        setSelectedItem(1)}}>
-        <MaterialIcons name="location-searching" size={70} color={selectedItem === 1 ? colors.WHITE :colors.BLACK} />
+          setSelectedItem(1);
+        }}>
+        <MaterialIcons
+          name="location-searching"
+          size={70}
+          color={selectedItem === 1 ? colors.WHITE : colors.BLACK}
+        />
       </TouchableOpacity>
       <Text style={styles.textCurrent}>Use your input position</Text>
       {selectedItem === 1 ? <PlaceSearch setAddress={setAddress} /> : null}
       <TouchableOpacity
-        style={[styles.viewMyPosition, selectedItem === 2 ? {backgroundColor: colors.MAINCOLOR} : {backgroundColor: colors.WHITE}]}
-        onPress={() => {getCurrentLocation()
-        setSelectedItem(2)}}>
-        <MaterialIcons name="my-location" size={70} color={selectedItem === 2 ? colors.WHITE :colors.BLACK} />
+        style={[
+          styles.viewMyPosition,
+          selectedItem === 2
+            ? {backgroundColor: colors.MAINCOLOR}
+            : {backgroundColor: colors.WHITE},
+        ]}
+        onPress={() => {
+          getCurrentLocation();
+          setSelectedItem(2);
+        }}>
+        <MaterialIcons
+          name="my-location"
+          size={70}
+          color={selectedItem === 2 ? colors.WHITE : colors.BLACK}
+        />
       </TouchableOpacity>
       <Text style={styles.textCurrent}>Use your current position</Text>
       <FieldButton
@@ -133,11 +154,15 @@ const ChoosePosition = () => {
         size2={30}
         color2={colors.WHITE}
         onPress={() => {
-          address !== null ? getCoordinatesFromAddress(address) : selectedItem === 1 ? Alert.alert('Failed', 'Please choose your input position!', [
-            {
-              text: 'Try again',
-            },
-          ]) : getCurrentLocation();
+          address !== null
+            ? getCoordinatesFromAddress(address)
+            : selectedItem === 1
+            ? Alert.alert('Failed', 'Please choose your input position!', [
+                {
+                  text: 'Try again',
+                },
+              ])
+            : getCurrentLocation();
           navigation.navigate('Home');
         }}
       />
@@ -216,11 +241,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     marginTop: heightScreen * 0.02,
-    marginBottom: heightScreen*0.01
+    marginBottom: heightScreen * 0.01,
   },
-  textCurrent:{
+  textCurrent: {
     textAlign: 'center',
-    color: colors.BLACK
+    color: colors.BLACK,
   },
   buttonNext: {
     position: 'absolute',

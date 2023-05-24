@@ -23,19 +23,34 @@ const Itineraries = ({dataIti}) => {
       );
     }
   };
+  const [data, setData] = useState([]);
+  const [tempDataIti, setTempDataIti] = useState([]);
+
   useEffect(() => {
     saveDataToStorage();
+    setTempDataIti(dataIti);
   }, [dataIti]);
+
+  useEffect(() => {
+    setData(tempDataIti);
+  }, [tempDataIti]);
+
+  useEffect(() => {}, [data]);
   return (
     <View style={styles.viewParent}>
-      {dataIti?.length === 0 ? (
+      {data?.length === 0 ? (
         <Text>You don't have any favorite itinerary items</Text>
       ) : (
         <View style={styles.viewList}>
           <FlatList
-            data={dataIti}
+            data={data}
             renderItem={({item, index}) => (
-              <HistoryItem item={item} type={'favorite'} />
+              <HistoryItem
+                item={item}
+                type={'favorite'}
+                data={data}
+                setData={setData}
+              />
             )}
             keyExtractor={item => item._id}
             showsHorizontalScrollIndicator={false}

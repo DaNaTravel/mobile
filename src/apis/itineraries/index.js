@@ -8,11 +8,12 @@ export const ItineraryRoutes = async (
   idType,
   setData,
 ) => {
+  console.log('data position: ', latitude, longitude);
   let config = {
-    method: 'get',
+    method: 'post',
     maxBodyLength: Infinity,
     // url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/routes?latitude=16.019270292540877&longitude=108.22904382514184&startDate=${startDate}&endDate=${endDate}&type=${idType}`,
-    url: 'http://192.168.21.63:5000/routes/check?latitude=16.019110655988168&longitude=108.22903420822459&startDate=2023-05-17&endDate=2023-05-19&type=5',
+    url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/routes?latitude=${latitude}&longitude=${longitude}&startDate=${startDate}&endDate=${endDate}&type=${idType}`,
     headers: {
       'Content-Type': 'application/json',
     },

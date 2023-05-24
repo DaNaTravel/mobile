@@ -14,7 +14,7 @@ import {useNavigation} from '@react-navigation/native';
 import {AddItineraryFavorite, DeleteItineraryFavo} from '../../apis/favorite';
 import {useSelector} from 'react-redux';
 import ConfirmLogout from '../Modal/ConfirmLogout';
-const HistoryItem = ({item, type, listFavo, setListFavo}) => {
+const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
   const navigation = useNavigation();
   const [dataImg, setDataImg] = useState([]);
   const dataImgs = [
@@ -150,6 +150,8 @@ const HistoryItem = ({item, type, listFavo, setListFavo}) => {
         type={'deleteIti'}
         dataId={item?.itinerary?._id}
         setModalVisible={setModalVisible}
+        data={data}
+        setData={setData}
       />
     </View>
   );

@@ -16,6 +16,8 @@ const ConfirmLogout = ({
   type,
   dataId,
   setModalVisible,
+  data,
+  setData,
 }) => {
   const dispatch = useDispatch();
   const isUser = useSelector(state => state.auth.login);
@@ -32,9 +34,13 @@ const ConfirmLogout = ({
   };
   const handleDelete = async () => {
     type === 'delete'
-      ? DeleteFavo(isUser?.data?._id, dataId)
+      ? DeleteFavo(isUser?.data?._id, dataId, setResult)
       : DeleteItineraryFavo(isUser?.data?._id, dataId, setResult);
     result === undefined ? updateListItiFavo(dataId) : null;
+    if (result === undefined) {
+      const updatedData = data?.filter(item => item?.itineraryId !== dataId);
+      setData(updatedData);
+    }
     setModalVisible(!isModalVisible);
   };
   return (

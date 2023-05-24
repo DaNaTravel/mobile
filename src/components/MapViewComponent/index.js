@@ -8,6 +8,7 @@ import MapView, {
 } from 'react-native-maps';
 import {heightScreen, widthScreen} from '../../utility';
 import MapViewDirections from 'react-native-maps-directions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 enableLatestRenderer();
 const ASPECT_RATIO = widthScreen / (heightScreen * 0.5);
@@ -45,9 +46,17 @@ const positions = [
 const MapViewComponent = ({dataHT, index, dataMap, selectedItem}) => {
   const [data, setData] = useState(positions);
   const [dataHotel, setDataHotel] = useState(dataHT);
+  const [lat, setLat] = useState();
+  const [lng, setLng] = useState();
+  const getInitialRegion = async () => {
+    let data = await AsyncStorage.getItem('data');
+    setLat(parseFloat(data.latitude));
+    setLng(parseFloat(data.longitude));
+  };
   useEffect(() => {
     const selectedRoutes = dataMap?.[`routes${selectedItem}`];
     setData(selectedRoutes);
+    getInitialRegion();
   }, [dataMap, selectedItem]);
 
   const mapView = useRef(null);
