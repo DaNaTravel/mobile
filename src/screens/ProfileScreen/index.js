@@ -15,6 +15,8 @@ const Profile = () => {
   const getData = async () => {
     let data = JSON.parse(await AsyncStorage.getItem('data'));
     console.log('data ', data);
+    let listIti = JSON.parse(await AsyncStorage.getItem('itineraryIds'));
+    console.log('itineraryIds ', listIti);
   };
   const getToken = async () => {
     let data = await isUser?.data?.token;

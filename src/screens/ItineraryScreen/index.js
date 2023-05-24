@@ -75,12 +75,12 @@ const ViewFunction = ({navigation}) => {
               color="#2EAD80"
             />
           </TouchableOpacity>
-          <Text style={styles.textTitle}>Route</Text>
+          <Text style={styles.textTitle}>Trip</Text>
         </View>
         <View style={styles.viewFuncSon}>
           <TouchableOpacity
             style={styles.viewLogo2}
-            onPress={() => navigation.navigate('AboutCommon')}>
+            onPress={() => navigation.navigate('ListItineraries')}>
             <FontAwesome5 name="route" size={28} color="#B9AA20" />
           </TouchableOpacity>
           <Text style={styles.textTitle}>Itineraries</Text>

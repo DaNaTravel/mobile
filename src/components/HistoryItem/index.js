@@ -11,8 +11,10 @@ import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
-import {DeleteFavo} from '../../apis/favorite';
-const HistoryItem = ({item, type}) => {
+import {AddItineraryFavorite, DeleteItineraryFavo} from '../../apis/favorite';
+import {useSelector} from 'react-redux';
+import ConfirmLogout from '../Modal/ConfirmLogout';
+const HistoryItem = ({item, type, listFavo, setListFavo}) => {
   const navigation = useNavigation();
   const [dataImg, setDataImg] = useState([]);
   const dataImgs = [
@@ -21,21 +23,27 @@ const HistoryItem = ({item, type}) => {
     require('../../assets/images/mariamaria.jpeg'),
     require('../../assets/images/booking.jpg'),
   ];
-  // const CreateListImg = () => {
-  //   item?.itinerary?.people === undefined
-  //     ? null
-  //     : setDataImg(
-  //         item?.itinerary?.routes
-  //           ? item?.itinerary?.routes
-  //               .map(route => route?.description?.photos)
-  //               .filter(photo => photo !== null)
-  //           : null,
-  //       );
-  //   console.log(dataImg[0]?.photo_reference);
-  // };
-  // useEffect(() => {
-  //   CreateListImg();
-  // }, []);
+  const isUser = useSelector(state => state.auth.login);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const handleSure = async () => {
+    setModalVisible(!isModalVisible);
+  };
+  const handleDelete = id => {
+    setModalVisible(!isModalVisible);
+  };
+  const CreateListImg = routes => {
+    const result = routes
+      ?.map(route => route.photos)
+      .filter(photo => photo !== null);
+    setDataImg(result);
+  };
+  const handleExist = id => {
+    const updatedListFavo = listFavo.filter(item => item !== id);
+    setListFavo(updatedListFavo);
+  };
+  useEffect(() => {
+    CreateListImg(item?.routes);
+  }, []);
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewContainer1}>
@@ -44,14 +52,9 @@ const HistoryItem = ({item, type}) => {
           renderItem={({item, index}) => (
             <Image
               style={styles.viewImg}
-              source={
-                // item
-                //   ? {
-                //       uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=${item}&key=AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU`,
-                //     }
-                //   : null
-                item ? item : null
-              }
+              source={{
+                uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=${item}&key=AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU`,
+              }}
               resizeMode="cover"
             />
           )}
@@ -71,7 +74,7 @@ const HistoryItem = ({item, type}) => {
               {item?.itinerary?.days !== undefined
                 ? item?.itinerary?.days
                 : item?.days}{' '}
-              Days
+              {item?.itinerary?.days <= 1 || item?.days <= 1 ? 'Day' : 'Days'}
             </Text>
             <Text style={styles.textDetailDate}>10/04 - 15/04</Text>
           </View>
@@ -83,7 +86,9 @@ const HistoryItem = ({item, type}) => {
               {item?.itinerary?.people !== undefined
                 ? item?.itinerary?.people
                 : item?.people}{' '}
-              peoples
+              {item?.itinerary?.people <= 1 || item?.people <= 1
+                ? 'person'
+                : 'people'}
             </Text>
             <Text style={styles.textDetailDate}>Join</Text>
           </View>
@@ -110,17 +115,35 @@ const HistoryItem = ({item, type}) => {
         {type === 'favorite' ? (
           <TouchableOpacity
             style={styles.Heart}
-            onPress={() => DeleteFavo(item?._id)}>
+            onPress={() => handleDelete(item?._id)}>
             <FontAwesome name="heart" size={32} color={colors.RED} />
           </TouchableOpacity>
         ) : type === 'itineraries' ? (
           <TouchableOpacity
             style={styles.Heart}
-            onPress={() => DeleteFavo(item?._id)}>
-            <FontAwesome name="heart" size={32} color={colors.STRONGGRAY} />
+            onPress={() =>
+              listFavo?.includes(item?._id)
+                ? handleExist(item?._id)
+                : AddItineraryFavorite(isUser?.data?._id, item?._id)
+            }>
+            <FontAwesome
+              name="heart"
+              size={32}
+              color={
+                listFavo?.includes(item?._id) ? colors.RED : colors.STRONGGRAY
+              }
+            />
           </TouchableOpacity>
         ) : null}
       </View>
+      <ConfirmLogout
+        handleSignout={handleSure}
+        isModalVisible={isModalVisible}
+        navigation={navigation}
+        type={'deleteIti'}
+        dataId={item?.itinerary?._id}
+        setModalVisible={setModalVisible}
+      />
     </View>
   );
 };

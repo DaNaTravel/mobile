@@ -17,6 +17,7 @@ import BookingDetail from '../../screens/BookingDetailScreen';
 import SearchAllScreen from '../../screens/SearchAllScreen';
 import ChoosePosition from '../../screens/ChoosePositionScreen';
 import LocationDetail from '../../screens/LocationDetailScreen';
+import ListItinerariesScreen from '../../screens/ListItinerariesScreen';
 
 const Stack = createNativeStackNavigator();
 const AboutNav = () => {
@@ -128,6 +129,13 @@ const AboutNav = () => {
           }}
           name="ChoosePosition"
           component={ChoosePosition}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="ListItineraries"
+          component={ListItinerariesScreen}
         />
         <Stack.Screen
           options={{

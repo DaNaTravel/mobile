@@ -3,15 +3,15 @@ import React from 'react';
 import FavoriteItem from '../FavoriteItem';
 import {colors, heightScreen, widthScreen} from '../../utility';
 
-const Locations = ({data}) => {
+const Locations = ({dataLoca}) => {
   return (
     <View style={styles.viewParent}>
-      {data === null ? (
+      {dataLoca?.length === 0 ? (
         <Text>You don't have any favorite location items</Text>
       ) : (
         <View style={styles.viewList}>
           <FlatList
-            data={data}
+            data={dataLoca}
             renderItem={({item, index}) => <FavoriteItem item={item} />}
             keyExtractor={item => item._id}
             showsHorizontalScrollIndicator={false}
