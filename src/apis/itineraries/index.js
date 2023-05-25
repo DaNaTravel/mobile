@@ -8,7 +8,6 @@ export const ItineraryRoutes = async (
   idType,
   setData,
 ) => {
-  console.log('data position: ', latitude, longitude);
   let config = {
     method: 'post',
     maxBodyLength: Infinity,

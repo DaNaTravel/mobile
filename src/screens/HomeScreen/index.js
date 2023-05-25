@@ -71,7 +71,8 @@ const TabView = ({data}) => {
     </Tab.Navigator>
   );
 };
-const HomeScreen = () => {
+const HomeScreen = ({route}) => {
+  const {coordinates} = route.params;
   const refRBSheet = useRef();
   const navigation = useNavigation();
   const isCarousel = useRef(null);
@@ -81,17 +82,11 @@ const HomeScreen = () => {
   const [dataMap, setDataMap] = useState();
   const [days, setDays] = useState([1]);
   const [mainGoal, setMainGoal] = useState(0);
-  const [lat, setLat] = useState();
-  const [long, setLong] = useState();
   const handleTime = async () => {
     const data = JSON.parse(await AsyncStorage.getItem('data'));
     setTime(data?.time);
     setDays(data?.days);
     setMainGoal(data?.mainGoal);
-    console.log(data?.latitude);
-    console.log(data?.longitude);
-    setLat(parseFloat(data?.latitude));
-    setLong(parseFloat(data?.longitude));
   };
 
   useLayoutEffect(() => {
@@ -104,8 +99,8 @@ const HomeScreen = () => {
   useEffect(() => {
     if (time?.startDate && time?.endDate) {
       ItineraryRoutes(
-        lat,
-        long,
+        coordinates.latitude,
+        coordinates.longitude,
         time.startDate,
         time.endDate,
         mainGoal,
@@ -130,7 +125,7 @@ const HomeScreen = () => {
         },
       );
     }
-  }, [time?.startDate, time?.endDate, lat, long]);
+  }, [time?.startDate, time?.endDate]);
   const isUser = useSelector(state => state.auth.login);
   const [selectedItem, setSelectedItem] = useState(1);
   const renderItem = ({item}) => (
@@ -164,6 +159,7 @@ const HomeScreen = () => {
           index={index}
           dataMap={dataMap}
           selectedItem={selectedItem}
+          coordinates={coordinates}
         />
       </View>
       <View style={styles.viewRow}>

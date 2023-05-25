@@ -33,6 +33,7 @@ const PlaceSearch = ({setAddress}) => {
 };
 const ChoosePosition = () => {
   const [address, setAddress] = useState(null);
+  const [coordinates, setCoordinates] = useState(null);
   useEffect(() => {
     requestLocationPermission();
   }, []);
@@ -41,6 +42,7 @@ const ChoosePosition = () => {
     data.latitude = lati;
     data.longitude = longi;
     await AsyncStorage.setItem('data', JSON.stringify(data));
+    setCoordinates({latitude: lati, longitude: longi});
   };
   const requestLocationPermission = async () => {
     try {
@@ -99,6 +101,10 @@ const ChoosePosition = () => {
   };
   const [selectedItem, setSelectedItem] = useState(2);
   const navigation = useNavigation();
+  useEffect(() => {
+    coordinates !== null ? navigation.navigate('Home', {coordinates}) : null;
+  }, [coordinates]);
+
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewTitle}>
@@ -163,7 +169,6 @@ const ChoosePosition = () => {
                 },
               ])
             : getCurrentLocation();
-          navigation.navigate('Home');
         }}
       />
     </View>

@@ -43,7 +43,13 @@ const positions = [
     description: 'Tran Thi Ly Bridge',
   },
 ];
-const MapViewComponent = ({dataHT, index, dataMap, selectedItem}) => {
+const MapViewComponent = ({
+  dataHT,
+  index,
+  dataMap,
+  selectedItem,
+  coordinates,
+}) => {
   const [data, setData] = useState(positions);
   const [dataHotel, setDataHotel] = useState(dataHT);
   const [lat, setLat] = useState();
@@ -69,8 +75,8 @@ const MapViewComponent = ({dataHT, index, dataMap, selectedItem}) => {
   return (
     <MapView
       initialRegion={{
-        latitude: positions[0].latitude,
-        longitude: positions[0].longitude,
+        latitude: coordinates.latitude,
+        longitude: coordinates.longitude,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       }}
