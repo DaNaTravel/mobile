@@ -15,6 +15,7 @@ import Weather from '../../screens/WeatherScreen';
 import BottomTab from '../BottomTab';
 import LocationDetail from '../../screens/LocationDetailScreen';
 import ListItinerariesScreen from '../../screens/ListItinerariesScreen';
+import EditItinerary from '../../screens/EditItineraryScreen';
 const Stack = createNativeStackNavigator();
 
 export const HomeNav = () => {
@@ -131,6 +132,13 @@ export const HomeNav = () => {
         }}
         name="ListItineraries"
         component={ListItinerariesScreen}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="EditItinerary"
+        component={EditItinerary}
       />
     </Stack.Navigator>
   );

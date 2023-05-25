@@ -10,9 +10,10 @@ import {useNavigation} from '@react-navigation/native';
 const ItineraryPlace = ({item}) => {
   const navigation = useNavigation();
   return (
-    <TouchableOpacity
+    <View
       style={styles.viewParent}
-      onPress={() => navigation.navigate('LocationDetail', {item: item})}>
+      // onPress={() => navigation.navigate('LocationDetail', {item: item})}
+    >
       <View style={styles.viewTime}>
         <View style={styles.circleParent}>
           <View style={styles.circleSon}></View>
@@ -63,15 +64,23 @@ const ItineraryPlace = ({item}) => {
                 <Text style={styles.textStar}>Sun</Text>
               </View>
               <View style={styles.viewTem}>
-              <FontAwesome5 name="temperature-high" size={17} color={colors.BLACK} />
+                <FontAwesome5
+                  name="temperature-high"
+                  size={17}
+                  color={colors.BLACK}
+                />
                 <Text style={styles.textTem}>33 </Text>
-                <MaterialCommunityIcons name="temperature-celsius" size={17} color={colors.BLACK} />
+                <MaterialCommunityIcons
+                  name="temperature-celsius"
+                  size={17}
+                  color={colors.BLACK}
+                />
               </View>
             </View>
           </View>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
@@ -175,6 +184,6 @@ const styles = StyleSheet.create({
   },
   textTem: {
     color: colors.BLACK,
-    marginLeft: widthScreen*0.01
+    marginLeft: widthScreen * 0.01,
   },
 });

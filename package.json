@@ -41,6 +41,7 @@
     "react-native-screens": "^3.20.0",
     "react-native-select-dropdown": "https://github.com/thanhduong1002/react-native-select-dropdown.git",
     "react-native-snap-carousel": "https://github.com/taurusfbi10/react-native-snap-carousel",
+    "react-native-sortable-list": "https://github.com/thanhduong1002/react-native-sortable-list.git",
     "react-native-tab-view": "^3.5.1",
     "react-native-vector-icons": "^9.2.0",
     "react-native-webview": "^11.26.1",

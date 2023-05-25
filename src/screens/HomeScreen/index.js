@@ -151,7 +151,10 @@ const HomeScreen = ({route}) => {
           <Feather name="home" size={24} color={'#222222'} />
         </TouchableOpacity>
         <Text style={styles.textTitle}>Your trip</Text>
-        <View style={styles.space}></View>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('EditItinerary', {data})}>
+          <Feather name="edit" size={24} color={'#222222'} />
+        </TouchableOpacity>
       </View>
       <View style={styles.map}>
         <MapViewComponent
@@ -250,11 +253,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-  },
-  space: {
-    height: heightScreen * 0.08,
-    width: widthScreen * 0.05,
-    backgroundColor: colors.WHITE,
   },
   textTitle: {
     fontSize: 20,
