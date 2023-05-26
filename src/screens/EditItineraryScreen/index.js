@@ -1,5 +1,12 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {StyleSheet, Text, Platform, View, TouchableOpacity} from 'react-native';
 import SortableList from 'react-native-sortable-list';
 import ItineraryPlace from '../../components/ItineraryPlace';
@@ -55,29 +62,55 @@ const TabView = ({data}) => {
 const EditItinerary = ({route}) => {
   const {data} = route.params;
   const renderRow = useCallback(({data, active}) => {
-    return <ItineraryPlace item={data} active={active} />;
+    return <ItineraryPlace item={data} active={active} type={'edit'} />;
   }, []);
   const [newData, setNewData] = useState();
   const [finalData, setFinalData] = useState();
-  const handleFinal = arr => {
-    let arrFinal = [];
-    for (let i = 0; i < arr.length; i++) {
-      arrFinal.push(data[0]?.route[Number.parseInt(arr[i])]);
+  const rearrangeArrayOrder = (array, order) => {
+    const newArray = [];
+    for (let i = 0; i < order?.length; i++) {
+      const index = order[i];
+      newArray?.push(array[index]);
     }
-    setFinalData(arrFinal);
+    const result = [null, ...newArray.filter(item => item !== null), null];
+    setFinalData(result);
   };
+  const initialValue = () => {
+    let arr = [];
+    for (let i = 0; i < data[0]?.route.length; i++) {
+      arr.push(i);
+    }
+    setNewData(arr);
+  };
+  function extractIds(inputArray) {
+    const idArray = inputArray.map(item => item.description._id || null);
+    setFinalData(idArray);
+  }
+  useEffect(() => {
+    extractIds(data[0]?.route);
+    initialValue();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>React Native Sortable List</Text>
       <TouchableOpacity
         onPress={() => {
           console.log(newData);
-          handleFinal(newData);
         }}>
         <Text>Get</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => console.log(finalData)}>
-        <Text>Final</Text>
+      <TouchableOpacity
+        onPress={() => {
+          console.log(finalData);
+        }}>
+        <Text>Generate</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          rearrangeArrayOrder(finalData, newData);
+        }}>
+        <Text>Save</Text>
       </TouchableOpacity>
       <SortableList
         data={data[0]?.route}
@@ -86,7 +119,11 @@ const EditItinerary = ({route}) => {
         renderRow={renderRow}
         sortingEnabled={true}
         orderEnabled={true}
-        onChangeOrder={newOrder => setNewData(newOrder)}
+        onChangeOrder={newOrder =>
+          setNewData(newOrder.map(item => parseInt(item)))
+        }
+        finalData={finalData}
+        setFinalData={setFinalData}
       />
     </View>
   );
@@ -97,7 +134,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#eee',
+    backgroundColor: colors.WHITE,
     ...Platform.select({
       ios: {
         paddingTop: 20,
@@ -111,6 +148,8 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
+    justifyContent: 'center',
+    backgroundColor: colors.WHITE,
   },
   contentContainer: {
     width: widthScreen,

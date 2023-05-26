@@ -1,17 +1,22 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {useNavigation} from '@react-navigation/native';
+import ConfirmDelete from '../Modal/ConfirmDelete';
 
-const ItineraryPlace = ({item}) => {
+const ItineraryPlace = ({item, type, finalData, setFinalData}) => {
   const navigation = useNavigation();
+  const [isModalVisible, setModalVisible] = useState(false);
+  const handleDelete = () => {
+    setModalVisible(!isModalVisible);
+  };
   return (
     <View
-      style={styles.viewParent}
+      style={type === 'edit' ? styles.viewParentEdit : styles.viewParent}
       // onPress={() => navigation.navigate('LocationDetail', {item: item})}
     >
       <View style={styles.viewTime}>
@@ -22,8 +27,12 @@ const ItineraryPlace = ({item}) => {
           {item?.travelTime?.arrival} - {item?.travelTime?.departure}
         </Text>
       </View>
-      <View style={styles.viewContent}>
-        <View style={styles.viewInformation}>
+      <View
+        style={type === 'edit' ? styles.viewContentEdit : styles.viewContent}>
+        <View
+          style={
+            type === 'edit' ? styles.viewInfoEdit : styles.viewInformation
+          }>
           <Image
             style={styles.viewImg}
             source={
@@ -34,7 +43,12 @@ const ItineraryPlace = ({item}) => {
                 : require('../../assets/images/bana.jpg')
             }
           />
-          <View style={styles.viewDetail}>
+          <View
+            style={
+              type === 'edit' && item?.description?._id === undefined
+                ? styles.viewDetailEdit
+                : styles.viewDetail
+            }>
             <Text style={styles.textTitle} numberOfLines={1}>
               {item?.description?.name}
             </Text>
@@ -78,6 +92,20 @@ const ItineraryPlace = ({item}) => {
               </View>
             </View>
           </View>
+          {type === 'edit' && item?.description?._id !== undefined ? (
+            <TouchableOpacity
+              style={{justifyContent: 'center'}}
+              onPress={() => handleDelete()}>
+              <FontAwesome name="trash-o" size={30} color={colors.BLACK} />
+            </TouchableOpacity>
+          ) : null}
+          <ConfirmDelete
+            isModalVisible={isModalVisible}
+            setModalVisible={setModalVisible}
+            data={finalData}
+            dataId={item?.description?._id}
+            setFinalData={setFinalData}
+          />
         </View>
       </View>
     </View>
@@ -90,6 +118,13 @@ const styles = StyleSheet.create({
   viewParent: {
     height: heightScreen * 0.2,
     width: widthScreen * 0.85,
+    marginVertical: heightScreen * 0.008,
+    justifyContent: 'space-between',
+    backgroundColor: colors.WHITE,
+  },
+  viewParentEdit: {
+    height: heightScreen * 0.2,
+    width: widthScreen,
     marginVertical: heightScreen * 0.008,
     justifyContent: 'space-between',
     backgroundColor: colors.WHITE,
@@ -125,6 +160,14 @@ const styles = StyleSheet.create({
     borderColor: colors.STRONGGRAY,
     alignSelf: 'center',
   },
+  viewContentEdit: {
+    width: widthScreen * 0.96,
+    height: heightScreen * 0.16,
+    borderLeftWidth: 1.5,
+    borderStyle: 'dashed',
+    borderColor: colors.STRONGGRAY,
+    alignSelf: 'center',
+  },
   viewInformation: {
     width: widthScreen * 0.74,
     alignSelf: 'flex-end',
@@ -132,6 +175,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  viewInfoEdit: {
+    marginLeft: widthScreen * 0.05,
+    alignSelf: 'flex-start',
+    height: heightScreen * 0.14,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: widthScreen * 0.85,
   },
   viewImg: {
     height: heightScreen * 0.13,
@@ -142,6 +193,12 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.44,
     height: heightScreen * 0.13,
     justifyContent: 'space-between',
+  },
+  viewDetailEdit: {
+    width: widthScreen * 0.44,
+    height: heightScreen * 0.13,
+    justifyContent: 'space-between',
+    marginRight: widthScreen * 0.084,
   },
   textTitle: {
     fontSize: 18,
