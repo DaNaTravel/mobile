@@ -16,7 +16,8 @@ const EditItinerary = ({route}) => {
   const [initialData, setInitialData] = useState(data[0]?.route);
   const [newData, setNewData] = useState();
   const [finalData, setFinalData] = useState([]);
-  console.log(finalData);
+  const sortableListRef = useRef(null);
+
   const rearrangeArrayOrder = (array, order) => {
     const newArray = [];
     for (let i = 0; i < order?.length; i++) {
@@ -26,6 +27,7 @@ const EditItinerary = ({route}) => {
     const result = [null, ...newArray?.filter(item => item !== null), null];
     setFinalData(result);
   };
+
   const initialValue = () => {
     let arr = [];
     for (let i = 0; i < initialData?.length; i++) {
@@ -33,22 +35,32 @@ const EditItinerary = ({route}) => {
     }
     setNewData(arr);
   };
+
   const extractIds = inputArray => {
     const idArray = inputArray?.map(item => item.description._id || null);
     setFinalData(idArray);
   };
+
   const fetchData = async () => {
     await extractIds(initialData);
     initialValue();
   };
+
   useEffect(() => {
     fetchData();
   }, []);
+
   useEffect(() => {
     if (finalData.length !== 0) {
       handleDeleted();
     }
   }, [finalData]);
+
+  useEffect(() => {
+    if (newData) {
+      rearrangeArrayOrder(finalData, newData);
+    }
+  }, [newData]);
 
   const handleDeleted = () => {
     const result = initialData?.filter(
@@ -69,6 +81,21 @@ const EditItinerary = ({route}) => {
     );
     setInitialData(sortedArray);
   };
+
+  const updateSortableListOrder = newOrder => {
+    const sortableList = sortableListRef.current;
+    if (sortableList && sortableList.updateOrder) {
+      sortableList.updateOrder(newOrder);
+    }
+  };
+
+  useEffect(() => {
+    const saveData = () => {
+      updateSortableListOrder(newData);
+    };
+
+    saveData();
+  }, [newData]);
 
   return (
     <View style={styles.container}>
@@ -101,6 +128,7 @@ const EditItinerary = ({route}) => {
         data={initialData}
         style={styles.list}
         contentContainerStyle={styles.contentContainer}
+        ref={sortableListRef}
         renderRow={({data, active}) => {
           return (
             <ItineraryPlace
