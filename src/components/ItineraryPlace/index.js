@@ -95,7 +95,9 @@ const ItineraryPlace = ({item, type, finalData, setFinalData}) => {
           {type === 'edit' && item?.description?._id !== undefined ? (
             <TouchableOpacity
               style={{justifyContent: 'center'}}
-              onPress={() => handleDelete()}>
+              onPress={() => {
+                handleDelete();
+              }}>
               <FontAwesome name="trash-o" size={30} color={colors.BLACK} />
             </TouchableOpacity>
           ) : null}

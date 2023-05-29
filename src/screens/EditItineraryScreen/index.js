@@ -1,4 +1,3 @@
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import React, {
   useCallback,
   useEffect,
@@ -12,84 +11,64 @@ import SortableList from 'react-native-sortable-list';
 import ItineraryPlace from '../../components/ItineraryPlace';
 import {colors, widthScreen, heightScreen} from '../../utility';
 
-const Tab = createMaterialTopTabNavigator();
-
-const Day = ({data, index}) => {
-  return (
-    <View style={styles.viewDetailDaily}>
-      <FlatList
-        data={data?.route}
-        renderItem={({item, index}) => <ItineraryPlace item={item} />}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={item => item?.description?.name}
-        style={styles.detailDay}
-      />
-    </View>
-  );
-};
-const TabView = ({data}) => {
-  const [days, setDays] = useState([1]);
-  const handleDays = async () => {
-    const data = JSON.parse(await AsyncStorage.getItem('data'));
-    setDays(data?.days);
-  };
-  useLayoutEffect(() => {
-    handleDays();
-  }, []);
-  return (
-    <Tab.Navigator
-      screenOptions={{
-        tabBarLabelStyle: styles.textLabel,
-        tabBarItemStyle: styles.tabBarItem,
-        tabBarStyle: styles.tabBar,
-        tabBarScrollEnabled: true,
-      }}>
-      {days.length !== 0
-        ? days?.map((day, index) => {
-            return (
-              <Tab.Screen
-                name={`Day ${day}`}
-                children={() => <Day data={data[index]} index={index} />}
-                key={index}
-              />
-            );
-          })
-        : null}
-    </Tab.Navigator>
-  );
-};
 const EditItinerary = ({route}) => {
   const {data} = route.params;
-  const renderRow = useCallback(({data, active}) => {
-    return <ItineraryPlace item={data} active={active} type={'edit'} />;
-  }, []);
+  const [initialData, setInitialData] = useState(data[0]?.route);
   const [newData, setNewData] = useState();
-  const [finalData, setFinalData] = useState();
+  const [finalData, setFinalData] = useState([]);
+  console.log(finalData);
   const rearrangeArrayOrder = (array, order) => {
     const newArray = [];
     for (let i = 0; i < order?.length; i++) {
       const index = order[i];
       newArray?.push(array[index]);
     }
-    const result = [null, ...newArray.filter(item => item !== null), null];
+    const result = [null, ...newArray?.filter(item => item !== null), null];
     setFinalData(result);
   };
   const initialValue = () => {
     let arr = [];
-    for (let i = 0; i < data[0]?.route.length; i++) {
+    for (let i = 0; i < initialData?.length; i++) {
       arr.push(i);
     }
     setNewData(arr);
   };
-  function extractIds(inputArray) {
-    const idArray = inputArray.map(item => item.description._id || null);
+  const extractIds = inputArray => {
+    const idArray = inputArray?.map(item => item.description._id || null);
     setFinalData(idArray);
-  }
-  useEffect(() => {
-    extractIds(data[0]?.route);
+  };
+  const fetchData = async () => {
+    await extractIds(initialData);
     initialValue();
+  };
+  useEffect(() => {
+    fetchData();
   }, []);
+  useEffect(() => {
+    if (finalData.length !== 0) {
+      handleDeleted();
+    }
+  }, [finalData]);
+
+  const handleDeleted = () => {
+    const result = initialData?.filter(
+      item =>
+        finalData?.includes(item?.description?._id) ||
+        item.description._id === undefined,
+    );
+    const updatedArr = finalData.map(item =>
+      item === null ? undefined : item,
+    );
+    const sortedArray = updatedArr.map(id =>
+      result.find(item => item.description?._id === id),
+    );
+    sortedArray.splice(
+      sortedArray.length - 1,
+      1,
+      initialData[initialData.length - 1],
+    );
+    setInitialData(sortedArray);
+  };
 
   return (
     <View style={styles.container}>
@@ -99,6 +78,12 @@ const EditItinerary = ({route}) => {
           console.log(newData);
         }}>
         <Text>Get</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          console.log(initialData);
+        }}>
+        <Text>Get data</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
@@ -113,17 +98,25 @@ const EditItinerary = ({route}) => {
         <Text>Save</Text>
       </TouchableOpacity>
       <SortableList
-        data={data[0]?.route}
+        data={initialData}
         style={styles.list}
         contentContainerStyle={styles.contentContainer}
-        renderRow={renderRow}
+        renderRow={({data, active}) => {
+          return (
+            <ItineraryPlace
+              item={data}
+              active={active}
+              type={'edit'}
+              finalData={finalData}
+              setFinalData={setFinalData}
+            />
+          );
+        }}
         sortingEnabled={true}
         orderEnabled={true}
         onChangeOrder={newOrder =>
           setNewData(newOrder.map(item => parseInt(item)))
         }
-        finalData={finalData}
-        setFinalData={setFinalData}
       />
     </View>
   );
