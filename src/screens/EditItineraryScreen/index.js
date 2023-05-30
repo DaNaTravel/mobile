@@ -85,7 +85,7 @@ const EditItinerary = ({route}) => {
   const updateSortableListOrder = newOrder => {
     const sortableList = sortableListRef.current;
     if (sortableList && sortableList.updateOrder) {
-      sortableList.updateOrder(newOrder);
+      sortableList.updateOrder(newOrder.map(item => parseInt(item)));
     }
   };
 
