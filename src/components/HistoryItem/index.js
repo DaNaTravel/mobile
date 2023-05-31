@@ -40,13 +40,12 @@ const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
   const handleExist = id => {
     const updatedListFavo = listFavo?.filter(item => item !== id);
     setListFavo(updatedListFavo);
-    DeleteItineraryFavo(isUser?.data?._id, id);
+    DeleteItineraryFavo(isUser?.data?.token, id);
   };
   const handleNotExist = id => {
     const updatedListFavo = listFavo ? [...listFavo, id] : [id];
     setListFavo(updatedListFavo);
-    console.log('listFavo', listFavo);
-    AddItineraryFavorite(isUser?.data?._id, id);
+    AddItineraryFavorite(isUser?.data?.token, id);
   };
   useEffect(() => {
     CreateListImg(item?.routes);

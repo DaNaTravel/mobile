@@ -15,8 +15,8 @@ const ASPECT_RATIO = widthScreen / (heightScreen * 0.5);
 const LATITUDE_DELTA = 0.072;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-// const GOOGLE_MAPS_APIKEY = 'AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU';
-const GOOGLE_MAPS_APIKEY = '';
+const GOOGLE_MAPS_APIKEY = 'AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU';
+// const GOOGLE_MAPS_APIKEY = '';
 const positions = [
   {
     latitude: 16.019110655988168,

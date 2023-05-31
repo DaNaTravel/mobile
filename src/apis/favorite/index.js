@@ -1,8 +1,7 @@
 import axios from 'axios';
 import {BASE_URL} from '@env';
-export const AddLocationFavorite = (accountId, locationId, setResult) => {
+export const AddLocationFavorite = (token, locationId, setResult) => {
   let data = JSON.stringify({
-    accountId: accountId,
     locationId: locationId,
   });
   let config = {
@@ -11,6 +10,7 @@ export const AddLocationFavorite = (accountId, locationId, setResult) => {
     url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/favorites`,
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
     data: data,
   };
@@ -25,9 +25,8 @@ export const AddLocationFavorite = (accountId, locationId, setResult) => {
     });
 };
 
-export const AddItineraryFavorite = (accountId, itineraryId, setResult) => {
+export const AddItineraryFavorite = (token, itineraryId, setResult) => {
   let data = JSON.stringify({
-    accountId: accountId,
     itineraryId: itineraryId,
   });
   let config = {
@@ -36,6 +35,7 @@ export const AddItineraryFavorite = (accountId, itineraryId, setResult) => {
     url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/favorites`,
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
     data: data,
   };
@@ -50,13 +50,14 @@ export const AddItineraryFavorite = (accountId, itineraryId, setResult) => {
     });
 };
 
-export const GetFavo = (category, accountId, setData) => {
+export const GetFavo = (category, token, setData) => {
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/favorites?category=${category}&accountId=${accountId}`,
+    url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/favorites?category=${category}`,
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
   };
 
@@ -70,9 +71,8 @@ export const GetFavo = (category, accountId, setData) => {
     });
 };
 
-export const DeleteFavo = (accountId, locationId, setResult) => {
+export const DeleteFavo = (token, locationId, setResult) => {
   let data = JSON.stringify({
-    accountId: accountId,
     locationId: locationId,
   });
   let config = {
@@ -81,6 +81,7 @@ export const DeleteFavo = (accountId, locationId, setResult) => {
     url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/favorites`,
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
     data: data,
   };
@@ -95,9 +96,8 @@ export const DeleteFavo = (accountId, locationId, setResult) => {
     });
 };
 
-export const DeleteItineraryFavo = (accountId, itineraryId, setResult) => {
+export const DeleteItineraryFavo = (token, itineraryId, setResult) => {
   let data = JSON.stringify({
-    accountId: accountId,
     itineraryId: itineraryId,
   });
   let config = {
@@ -106,6 +106,7 @@ export const DeleteItineraryFavo = (accountId, itineraryId, setResult) => {
     url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/favorites`,
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
     data: data,
   };

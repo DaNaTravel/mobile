@@ -152,7 +152,7 @@ const HomeScreen = ({route}) => {
         </TouchableOpacity>
         <Text style={styles.textTitle}>Your trip</Text>
         <TouchableOpacity
-          onPress={() => navigation.navigate('EditItinerary', {data})}>
+          onPress={() => navigation.navigate('EditItinerary', {dataIti: data})}>
           <Feather name="edit" size={24} color={'#222222'} />
         </TouchableOpacity>
       </View>

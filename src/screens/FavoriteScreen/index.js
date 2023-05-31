@@ -16,8 +16,8 @@ const TabView = ({isUser}) => {
   const [dataLoca, setDataLoca] = useState(null);
   const handleData = category => {
     category === 'itinerary'
-      ? GetFavo(category, isUser?.data?._id, setDataIti)
-      : GetFavo(category, isUser?.data?._id, setDataLoca);
+      ? GetFavo(category, isUser?.data?.token, setDataIti)
+      : GetFavo(category, isUser?.data?.token, setDataLoca);
   };
   return (
     <Tab.Navigator

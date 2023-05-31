@@ -9,12 +9,13 @@ const ConfirmDelete = ({
   setModalVisible,
   data,
   dataId,
-  setFinalData,
+  setData,
 }) => {
   const handleDelete = () => {
     console.log(dataId);
+    console.log(data);
     const result = data?.filter(data => data !== dataId);
-    setFinalData(result);
+    setData(result);
     setModalVisible(!isModalVisible);
   };
   const handleCancel = () => {

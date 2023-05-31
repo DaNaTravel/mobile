@@ -1,151 +1,224 @@
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import {StyleSheet, Text, Platform, View, TouchableOpacity} from 'react-native';
-import SortableList from 'react-native-sortable-list';
-import ItineraryPlace from '../../components/ItineraryPlace';
-import {colors, widthScreen, heightScreen} from '../../utility';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+// import React, {
+//   useCallback,
+//   useEffect,
+//   useLayoutEffect,
+//   useMemo,
+//   useRef,
+//   useState,
+// } from 'react';
+// import {
+//   StyleSheet,
+//   Text,
+//   Platform,
+//   View,
+//   TouchableOpacity,
+//   FlatList,
+// } from 'react-native';
+// import DayItem from '../../components/DayItem';
+// import SortableListComponent from '../../components/SortableList';
+// import {colors, widthScreen, heightScreen} from '../../utility';
+
+// const EditItinerary = ({route}) => {
+//   const {data} = route.params;
+//   const [selectedItem, setSelectedItem] = useState(1);
+//   const renderItem = ({item}) => (
+//     <DayItem
+//       item={item}
+//       selected={item === selectedItem}
+//       onSelect={setSelectedItem}
+//     />
+//   );
+
+//   const [day, setDay] = useState([1]);
+//   const handleDays = async () => {
+//     const data = JSON.parse(await AsyncStorage.getItem('data'));
+//     setDay(data?.days);
+//   };
+//   useEffect(() => {
+//     handleDays();
+//   }, []);
+
+//   return (
+//     <View style={styles.container}>
+//       <Text style={styles.title}>React Native Sortable List</Text>
+//       {/* <TouchableOpacity
+//         onPress={() => {
+//           console.log(newData);
+//         }}>
+//         <Text>Get</Text>
+//       </TouchableOpacity>
+//       <TouchableOpacity
+//         onPress={() => {
+//           console.log(initialData);
+//         }}>
+//         <Text>Get data</Text>
+//       </TouchableOpacity>
+//       <TouchableOpacity
+//         onPress={() => {
+//           console.log(day);
+//         }}>
+//         <Text>Generate</Text>
+//       </TouchableOpacity>*/}
+//       <TouchableOpacity
+//         onPress={() => {
+//           rearrangeArrayOrder(finalData, newData);
+//         }}>
+//         <Text>Save</Text>
+//       </TouchableOpacity>
+//       <View style={styles.viewLists}>
+//         <FlatList
+//           data={day}
+//           renderItem={renderItem}
+//           keyExtractor={item => item.toString()}
+//           showsHorizontalScrollIndicator={false}
+//           showsVerticalScrollIndicator={false}
+//           horizontal
+//           style={styles.listDays}
+//         />
+//       </View>
+//       {/* <SortableList
+//         data={initialData}
+//         style={styles.list}
+//         contentContainerStyle={styles.contentContainer}
+//         ref={sortableListRef}
+//         renderRow={({data, active}) => {
+//           return (
+//             <ItineraryPlace
+//               item={data}
+//               active={active}
+//               type={'edit'}
+//               finalData={finalData}
+//               setFinalData={setFinalData}
+//             />
+//           );
+//         }}
+//         sortingEnabled={true}
+//         orderEnabled={true}
+//         onChangeOrder={newOrder =>
+//           setNewData(newOrder.map(item => parseInt(item)))
+//         }
+//       /> */}
+//       <SortableListComponent data={data} selectedItem={selectedItem} />
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: colors.WHITE,
+//     ...Platform.select({
+//       ios: {
+//         paddingTop: 20,
+//       },
+//     }),
+//   },
+//   title: {
+//     fontSize: 20,
+//     paddingVertical: 20,
+//     color: '#999999',
+//   },
+//   viewLists: {
+//     height: heightScreen * 0.1,
+//     width: widthScreen * 0.9,
+//     justifyContent: 'center',
+//   },
+//   listDays: {
+//     alignSelf: 'center',
+//     marginTop: 13,
+//   },
+// });
+
+// export default EditItinerary;
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {useEffect, useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  Platform,
+  View,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
+import DayItem from '../../components/DayItem';
+import SortableListComponent from '../../components/SortableList';
+import {colors, heightScreen, widthScreen} from '../../utility';
 
 const EditItinerary = ({route}) => {
-  const {data} = route.params;
-  const [initialData, setInitialData] = useState(data[0]?.route);
-  const [newData, setNewData] = useState();
-  const [finalData, setFinalData] = useState([]);
-  const sortableListRef = useRef(null);
-
-  const rearrangeArrayOrder = (array, order) => {
-    const newArray = [];
-    for (let i = 0; i < order?.length; i++) {
-      const index = order[i];
-      newArray?.push(array[index]);
-    }
-    const result = [null, ...newArray?.filter(item => item !== null), null];
-    setFinalData(result);
+  const [day, setDay] = useState([1]);
+  const [selectedItem, setSelectedItem] = useState(1);
+  const [data, setData] = useState([]);
+  const renderItem = ({item}) => (
+    <DayItem
+      item={item}
+      selected={item === selectedItem}
+      onSelect={setSelectedItem}
+    />
+  );
+  const handleDays = async () => {
+    const data = JSON.parse(await AsyncStorage.getItem('data'));
+    setDay(data?.days);
   };
-
-  const initialValue = () => {
-    let arr = [];
-    for (let i = 0; i < initialData?.length; i++) {
-      arr.push(i);
-    }
-    setNewData(arr);
-  };
-
-  const extractIds = inputArray => {
-    const idArray = inputArray?.map(item => item.description._id || null);
-    setFinalData(idArray);
-  };
-
-  const fetchData = async () => {
-    await extractIds(initialData);
-    initialValue();
-  };
-
   useEffect(() => {
-    fetchData();
+    handleDays();
   }, []);
-
   useEffect(() => {
-    if (finalData.length !== 0) {
-      handleDeleted();
-    }
-  }, [finalData]);
-
-  useEffect(() => {
-    if (newData) {
-      rearrangeArrayOrder(finalData, newData);
-    }
-  }, [newData]);
-
-  const handleDeleted = () => {
-    const result = initialData?.filter(
-      item =>
-        finalData?.includes(item?.description?._id) ||
-        item.description._id === undefined,
-    );
-    const updatedArr = finalData.map(item =>
-      item === null ? undefined : item,
-    );
-    const sortedArray = updatedArr.map(id =>
-      result.find(item => item.description?._id === id),
-    );
-    sortedArray.splice(
-      sortedArray.length - 1,
-      1,
-      initialData[initialData.length - 1],
-    );
-    setInitialData(sortedArray);
+    setData(dataIti?.[selectedItem - 1]?.route);
+  }, [selectedItem]);
+  const {dataIti} = route.params;
+  const [dataDay, setDataDay] = useState([]);
+  const [newArray, setNewArray] = useState([]);
+  const getDataDay = () => {
+    const arrNew = dataDay.map(str => parseInt(str));
+    // console.log(arrNew);
+    setNewArray(arrNew);
   };
-
-  const updateSortableListOrder = newOrder => {
-    const sortableList = sortableListRef.current;
-    if (sortableList && sortableList.updateOrder) {
-      sortableList.updateOrder(newOrder.map(item => parseInt(item)));
-    }
+  const generateData = () => {
+    const sortedArray = newArray.map(
+      index => data[index]?.description?._id || null,
+    );
+    console.log(sortedArray);
   };
-
-  useEffect(() => {
-    const saveData = () => {
-      updateSortableListOrder(newData);
-    };
-
-    saveData();
-  }, [newData]);
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>React Native Sortable List</Text>
-      <TouchableOpacity
-        onPress={() => {
-          console.log(newData);
-        }}>
-        <Text>Get</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => {
-          console.log(initialData);
-        }}>
-        <Text>Get data</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => {
-          console.log(finalData);
-        }}>
-        <Text>Generate</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => {
-          rearrangeArrayOrder(finalData, newData);
-        }}>
-        <Text>Save</Text>
-      </TouchableOpacity>
-      <SortableList
-        data={initialData}
-        style={styles.list}
-        contentContainerStyle={styles.contentContainer}
-        ref={sortableListRef}
-        renderRow={({data, active}) => {
-          return (
-            <ItineraryPlace
-              item={data}
-              active={active}
-              type={'edit'}
-              finalData={finalData}
-              setFinalData={setFinalData}
-            />
-          );
-        }}
-        sortingEnabled={true}
-        orderEnabled={true}
-        onChangeOrder={newOrder =>
-          setNewData(newOrder.map(item => parseInt(item)))
-        }
+      <View style={styles.viewLists}>
+        <FlatList
+          data={day}
+          renderItem={renderItem}
+          keyExtractor={item => item.toString()}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          horizontal
+          style={styles.listDays}
+        />
+      </View>
+      <SortableListComponent
+        dataIti={dataIti}
+        selectedItem={selectedItem}
+        setDataDay={setDataDay}
+        data={data}
+        setData={setData}
       />
+      <View style={styles.viewButton}>
+        <TouchableOpacity
+          style={styles.viewSave}
+          onPress={() => {
+            getDataDay();
+          }}>
+          <Text>Save</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.viewSave}
+          onPress={() => {
+            generateData();
+          }}>
+          <Text>Generate</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -167,46 +240,25 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     color: '#999999',
   },
-  list: {
-    flex: 1,
+  viewLists: {
+    height: heightScreen * 0.1,
+    width: widthScreen * 0.9,
     justifyContent: 'center',
-    backgroundColor: colors.WHITE,
   },
-  contentContainer: {
-    width: widthScreen,
-    ...Platform.select({
-      ios: {
-        paddingHorizontal: 30,
-      },
-      android: {
-        paddingHorizontal: 0,
-      },
-    }),
-  },
-  textLabel: {
-    fontSize: 16,
-    color: colors.BLACK,
-    fontWeight: 600,
-  },
-  tabBarItem: {
-    width: 90,
-  },
-  tabBar: {
-    backgroundColor: colors.WHITE,
-    width: widthScreen,
+  listDays: {
     alignSelf: 'center',
+    marginTop: 13,
   },
-  textDate: {
-    fontSize: 18,
-    fontWeight: 600,
-    color: colors.BLACK,
-    textAlign: 'center',
+  viewSave: {
+    height: heightScreen * 0.06,
+    width: widthScreen * 0.4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.MAINCOLOR,
+    borderRadius: 20,
   },
-  viewDetailDaily: {
-    paddingBottom: heightScreen * 0.02,
-    backgroundColor: colors.WHITE,
-    width: widthScreen,
-    paddingLeft: widthScreen * 0.05,
+  viewButton: {
+    flexDirection: 'row',
   },
 });
 
