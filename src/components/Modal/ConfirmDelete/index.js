@@ -7,15 +7,15 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 const ConfirmDelete = ({
   isModalVisible,
   setModalVisible,
-  data,
+  listLoca,
   dataId,
-  setData,
+  setListLoca,
 }) => {
   const handleDelete = () => {
     console.log(dataId);
-    console.log(data);
-    const result = data?.filter(data => data !== dataId);
-    setData(result);
+    console.log('listLoca', listLoca);
+    const result = listLoca?.filter(data => data?.description?._id !== dataId);
+    setListLoca(result);
     setModalVisible(!isModalVisible);
   };
   const handleCancel = () => {

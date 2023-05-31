@@ -173,7 +173,6 @@ const EditItinerary = ({route}) => {
   const [newArray, setNewArray] = useState([]);
   const getDataDay = () => {
     const arrNew = dataDay.map(str => parseInt(str));
-    // console.log(arrNew);
     setNewArray(arrNew);
   };
   const generateData = () => {
@@ -200,8 +199,6 @@ const EditItinerary = ({route}) => {
         dataIti={dataIti}
         selectedItem={selectedItem}
         setDataDay={setDataDay}
-        data={data}
-        setData={setData}
       />
       <View style={styles.viewButton}>
         <TouchableOpacity

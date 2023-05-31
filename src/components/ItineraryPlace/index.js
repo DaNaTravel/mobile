@@ -8,7 +8,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {useNavigation} from '@react-navigation/native';
 import ConfirmDelete from '../Modal/ConfirmDelete';
 
-const ItineraryPlace = ({item, type, data, setData, handleGetId}) => {
+const ItineraryPlace = ({item, type, listLoca, setListLoca, handleGetId}) => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
   const handleDelete = () => {
@@ -104,9 +104,9 @@ const ItineraryPlace = ({item, type, data, setData, handleGetId}) => {
           <ConfirmDelete
             isModalVisible={isModalVisible}
             setModalVisible={setModalVisible}
-            data={data}
+            listLoca={listLoca}
             dataId={item?.description?._id}
-            setData={setData}
+            setListLoca={setListLoca}
           />
         </View>
       </View>

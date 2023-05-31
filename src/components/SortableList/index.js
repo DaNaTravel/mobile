@@ -156,26 +156,28 @@ const SortableListComponent = ({
   dataIti,
   selectedItem,
   setDataDay,
-  data,
-  setData,
 }) => {
   const handleRowOrderChange = useCallback(newOrder => {
-    console.log('newOrder: ', newOrder);
     setDataDay(newOrder);
   }, []);
+  const [listLoca, setListLoca] = useState(dataIti?.[0]?.route);
+  useEffect(() => {
+    setListLoca(dataIti?.[selectedItem-1]?.route)
+  }, [selectedItem])
+  
   return (
     <>
       <SortableList
         style={styles.list}
         contentContainerStyle={styles.contentContainer}
-        data={data}
+        data={listLoca}
         renderRow={useCallback(({data, active}) => {
           return (
             <ItineraryPlace
               item={data}
               type={'edit'}
-              data={data}
-              setData={setData}
+              listLoca={listLoca}
+              setListLoca={setListLoca}
             />
           );
         }, [])}
