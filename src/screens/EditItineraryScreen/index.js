@@ -1,138 +1,3 @@
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-// import React, {
-//   useCallback,
-//   useEffect,
-//   useLayoutEffect,
-//   useMemo,
-//   useRef,
-//   useState,
-// } from 'react';
-// import {
-//   StyleSheet,
-//   Text,
-//   Platform,
-//   View,
-//   TouchableOpacity,
-//   FlatList,
-// } from 'react-native';
-// import DayItem from '../../components/DayItem';
-// import SortableListComponent from '../../components/SortableList';
-// import {colors, widthScreen, heightScreen} from '../../utility';
-
-// const EditItinerary = ({route}) => {
-//   const {data} = route.params;
-//   const [selectedItem, setSelectedItem] = useState(1);
-//   const renderItem = ({item}) => (
-//     <DayItem
-//       item={item}
-//       selected={item === selectedItem}
-//       onSelect={setSelectedItem}
-//     />
-//   );
-
-//   const [day, setDay] = useState([1]);
-//   const handleDays = async () => {
-//     const data = JSON.parse(await AsyncStorage.getItem('data'));
-//     setDay(data?.days);
-//   };
-//   useEffect(() => {
-//     handleDays();
-//   }, []);
-
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.title}>React Native Sortable List</Text>
-//       {/* <TouchableOpacity
-//         onPress={() => {
-//           console.log(newData);
-//         }}>
-//         <Text>Get</Text>
-//       </TouchableOpacity>
-//       <TouchableOpacity
-//         onPress={() => {
-//           console.log(initialData);
-//         }}>
-//         <Text>Get data</Text>
-//       </TouchableOpacity>
-//       <TouchableOpacity
-//         onPress={() => {
-//           console.log(day);
-//         }}>
-//         <Text>Generate</Text>
-//       </TouchableOpacity>*/}
-//       <TouchableOpacity
-//         onPress={() => {
-//           rearrangeArrayOrder(finalData, newData);
-//         }}>
-//         <Text>Save</Text>
-//       </TouchableOpacity>
-//       <View style={styles.viewLists}>
-//         <FlatList
-//           data={day}
-//           renderItem={renderItem}
-//           keyExtractor={item => item.toString()}
-//           showsHorizontalScrollIndicator={false}
-//           showsVerticalScrollIndicator={false}
-//           horizontal
-//           style={styles.listDays}
-//         />
-//       </View>
-//       {/* <SortableList
-//         data={initialData}
-//         style={styles.list}
-//         contentContainerStyle={styles.contentContainer}
-//         ref={sortableListRef}
-//         renderRow={({data, active}) => {
-//           return (
-//             <ItineraryPlace
-//               item={data}
-//               active={active}
-//               type={'edit'}
-//               finalData={finalData}
-//               setFinalData={setFinalData}
-//             />
-//           );
-//         }}
-//         sortingEnabled={true}
-//         orderEnabled={true}
-//         onChangeOrder={newOrder =>
-//           setNewData(newOrder.map(item => parseInt(item)))
-//         }
-//       /> */}
-//       <SortableListComponent data={data} selectedItem={selectedItem} />
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: colors.WHITE,
-//     ...Platform.select({
-//       ios: {
-//         paddingTop: 20,
-//       },
-//     }),
-//   },
-//   title: {
-//     fontSize: 20,
-//     paddingVertical: 20,
-//     color: '#999999',
-//   },
-//   viewLists: {
-//     height: heightScreen * 0.1,
-//     width: widthScreen * 0.9,
-//     justifyContent: 'center',
-//   },
-//   listDays: {
-//     alignSelf: 'center',
-//     marginTop: 13,
-//   },
-// });
-
-// export default EditItinerary;
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect, useState} from 'react';
 import {
@@ -146,6 +11,7 @@ import {
 import DayItem from '../../components/DayItem';
 import SortableListComponent from '../../components/SortableList';
 import {colors, heightScreen, widthScreen} from '../../utility';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const EditItinerary = ({route}) => {
   const [day, setDay] = useState([1]);
@@ -171,19 +37,76 @@ const EditItinerary = ({route}) => {
   const {dataIti} = route.params;
   const [dataDay, setDataDay] = useState([]);
   const [newArray, setNewArray] = useState([]);
+  const [newArrayById, setNewArrayById] = useState([]);
+  const [finalData, setFinalData] = useState([]);
   const getDataDay = () => {
     const arrNew = dataDay.map(str => parseInt(str));
+    console.log('arrNew', arrNew);
     setNewArray(arrNew);
   };
+  const sortArrayByOrder = (arr1, arr2) => {
+    const filteredArr2 = arr2.filter(item => item !== null);
+
+    const sortedArr = [];
+    for (const index of filteredArr2) {
+      if (index >= 0 && index < arr1.length) {
+        sortedArr.push(arr1[index]);
+      }
+    }
+    return sortedArr;
+  };
+  const setFinalDT = async () => {
+    await AsyncStorage.setItem('finalDT', JSON.stringify(finalData));
+  };
+  useEffect(() => {
+    setFinalDT();
+  }, [finalData]);
+  useEffect(() => {
+    generateData();
+  }, [newArray]);
+
+  useEffect(() => handleDatatoSent(dataIti), []);
   const generateData = () => {
     const sortedArray = newArray.map(
       index => data[index]?.description?._id || null,
     );
-    console.log(sortedArray);
+    console.log('sortedArray', sortedArray);
+    setNewArrayById(sortedArray);
+    const sortArrByOrder = sortArrayByOrder(data, newArray);
+    console.log('sortArrByOrder', sortArrByOrder);
+    setFinalData(sortArrByOrder);
+  };
+  const handleDatatoSent = arr1 => {
+    const arr2 = {routes: []};
+
+    for (const obj of arr1) {
+      const route = [];
+      for (const routeObj of obj.route) {
+        const newObj = {};
+        if (!routeObj.description._id) {
+          newObj.latitude = routeObj.description.latitude;
+          newObj.longitude = routeObj.description.longitude;
+        } else {
+          newObj._id = routeObj.description._id;
+        }
+        route.push(newObj);
+      }
+      arr2.routes.push(route);
+    }
+
+    console.log(JSON.stringify(arr2, null, 2));
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>React Native Sortable List</Text>
+      <View style={styles.viewTitle}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.buttonBack}>
+          <FontAwesome name="angle-left" size={24} color="black" />
+        </TouchableOpacity>
+        <Text style={styles.textTitle}>Edit Travel Itinerary</Text>
+        <View style={styles.viewSpace}></View>
+      </View>
       <View style={styles.viewLists}>
         <FlatList
           data={day}
@@ -199,6 +122,7 @@ const EditItinerary = ({route}) => {
         dataIti={dataIti}
         selectedItem={selectedItem}
         setDataDay={setDataDay}
+        finalData={finalData}
       />
       <View style={styles.viewButton}>
         <TouchableOpacity
@@ -206,14 +130,7 @@ const EditItinerary = ({route}) => {
           onPress={() => {
             getDataDay();
           }}>
-          <Text>Save</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.viewSave}
-          onPress={() => {
-            generateData();
-          }}>
-          <Text>Generate</Text>
+          <Text style={styles.textDay}>Save day {selectedItem}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -246,16 +163,58 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 13,
   },
+  viewButton: {
+    height: heightScreen * 0.1,
+    width: widthScreen,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   viewSave: {
-    height: heightScreen * 0.06,
-    width: widthScreen * 0.4,
+    height: heightScreen * 0.08,
+    width: widthScreen * 0.8,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.MAINCOLOR,
     borderRadius: 20,
   },
-  viewButton: {
+  textDay: {
+    fontSize: 24,
+    color: colors.WHITE,
+    fontWeight: 600,
+  },
+  textTitle: {
+    fontSize: 24,
+    fontWeight: 700,
+    color: colors.BLACK,
+  },
+  viewSpace: {
+    height: heightScreen * 0.05,
+    width: widthScreen * 0.1,
+    backgroundColor: colors.WHITE,
+  },
+  viewTitle: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: widthScreen * 0.9,
+    alignSelf: 'center',
+    marginTop: heightScreen * 0.035,
+    alignItems: 'center',
+  },
+  buttonBack: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.GRAY,
+    height: 50,
+    width: 50,
+    borderRadius: 50 / 2,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: heightScreen * 0.001,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
   },
 });
 

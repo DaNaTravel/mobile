@@ -4,17 +4,18 @@ import Modal from 'react-native-modal';
 import {colors, heightScreen, widthScreen} from '../../../utility';
 import LottieView from 'lottie-react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const ConfirmDelete = ({
   isModalVisible,
   setModalVisible,
-  listLoca,
   dataId,
   setListLoca,
 }) => {
-  const handleDelete = () => {
+  const handleDelete = async () => {
     console.log(dataId);
-    console.log('listLoca', listLoca);
-    const result = listLoca?.filter(data => data?.description?._id !== dataId);
+    let finalData = JSON.parse(await AsyncStorage.getItem('finalDT'));
+    const result = finalData?.filter(data => data?.description?._id !== dataId);
     setListLoca(result);
     setModalVisible(!isModalVisible);
   };

@@ -1,5 +1,5 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -8,7 +8,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {useNavigation} from '@react-navigation/native';
 import ConfirmDelete from '../Modal/ConfirmDelete';
 
-const ItineraryPlace = ({item, type, listLoca, setListLoca, handleGetId}) => {
+const ItineraryPlace = ({item, type, listLoca, setListLoca}) => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
   const handleDelete = () => {
