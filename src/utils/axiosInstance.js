@@ -12,7 +12,6 @@ axiosInstance.interceptors.request.use(async req => {
   const accessToken = await AsyncStorage.getItem('token');
   let refreshToken = await AsyncStorage.getItem('refreshToken');
   const expireInRefreshToken = await jwtDecode(refreshToken).exp;
-  console.log('expireInRefreshToken', expireInRefreshToken);
   const isExpiredRefresh = dayjs(new Date()).unix();
   const isTrueRefresh = Boolean(expireInRefreshToken - isExpiredRefresh > 5);
   if (isTrueRefresh) {
@@ -26,7 +25,6 @@ axiosInstance.interceptors.request.use(async req => {
     const isTrue = Boolean(expireInToken - isExpired > 5);
     if (isTrue) return req;
     refreshToken = await AsyncStorage.getItem('refreshToken');
-    console.log('aloalo: ', refreshToken);
     let config = {
       method: 'get',
       maxBodyLength: Infinity,

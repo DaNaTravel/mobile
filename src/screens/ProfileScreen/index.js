@@ -19,8 +19,8 @@ const Profile = () => {
     console.log('itineraryIds ', listIti);
   };
   const getToken = async () => {
-    let data = await isUser?.data?.token;
-    console.log('token ', data);
+    let token = await AsyncStorage.getItem('token');
+    console.log('token ', token);
   };
   return (
     <View>

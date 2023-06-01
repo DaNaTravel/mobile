@@ -12,11 +12,13 @@ import DayItem from '../../components/DayItem';
 import SortableListComponent from '../../components/SortableList';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {useNavigation} from '@react-navigation/native';
 
 const EditItinerary = ({route}) => {
   const [day, setDay] = useState([1]);
   const [selectedItem, setSelectedItem] = useState(1);
   const [data, setData] = useState([]);
+  const navigation = useNavigation();
   const renderItem = ({item}) => (
     <DayItem
       item={item}
@@ -64,6 +66,9 @@ const EditItinerary = ({route}) => {
   useEffect(() => {
     generateData();
   }, [newArray]);
+  useEffect(() => {
+    getDataDay();
+  }, [dataDay]);
 
   useEffect(() => handleDatatoSent(dataIti), []);
   const generateData = () => {
@@ -124,7 +129,8 @@ const EditItinerary = ({route}) => {
         setDataDay={setDataDay}
         finalData={finalData}
       />
-      <View style={styles.viewButton}>
+
+      {/* <View style={styles.viewButton}>
         <TouchableOpacity
           style={styles.viewSave}
           onPress={() => {
@@ -132,7 +138,7 @@ const EditItinerary = ({route}) => {
           }}>
           <Text style={styles.textDay}>Save day {selectedItem}</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 };

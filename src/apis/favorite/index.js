@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {BASE_URL} from '@env';
+import axiosInstance from '../../utils/axiosInstance';
 export const AddLocationFavorite = (token, locationId, setResult) => {
   let data = JSON.stringify({
     locationId: locationId,
@@ -61,9 +62,10 @@ export const GetFavo = (category, token, setData) => {
     },
   };
 
-  axios
+  axiosInstance
     .request(config)
     .then(response => {
+      console.log(response?.data?.data);
       setData(response?.data?.data);
     })
     .catch(error => {

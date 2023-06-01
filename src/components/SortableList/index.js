@@ -39,7 +39,6 @@ export default SortableListComponent;
 const styles = StyleSheet.create({
   list: {
     flex: 1,
-    justifyContent: 'center',
     backgroundColor: colors.WHITE,
   },
   contentContainer: {

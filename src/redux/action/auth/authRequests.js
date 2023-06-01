@@ -1,4 +1,6 @@
 import {SignInTest} from '../../../apis/controller/accounts/SignIn';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {
   loginStart,
   loginSuccess,
@@ -9,11 +11,14 @@ import {
 export const Login = (dispatch, email, password) => {
   dispatch(loginStart());
   SignInTest(email, password)
-    .then(res => {
+    .then(async res => {
+      await AsyncStorage.setItem('token', res.data?.data?.token);
+      await AsyncStorage.setItem('refreshToken', res.data?.data?.refreshToken);
       dispatch(loginSuccess(res.data));
     })
     .catch(err => {
-      dispatch(loginFailure(err.response.message));
+      console.log(err);
+      dispatch(loginFailure(err.response));
     });
 };
 

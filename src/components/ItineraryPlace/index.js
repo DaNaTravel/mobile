@@ -63,7 +63,10 @@ const ItineraryPlace = ({item, type, listLoca, setListLoca}) => {
               </Text>
             </View>
 
-            <Text style={styles.textPrice}>${item?.cost}</Text>
+            <Text style={styles.textPrice}>
+              {item?.cost !== 0 ? item?.cost : 'FREE'}{' '}
+              {item?.cost !== 0 ? 'VNĐ' : null}
+            </Text>
             <View style={styles.viewStarWeather}>
               <View style={styles.viewStar}>
                 <FontAwesome name="star" size={17} color="#E8AD16" />
@@ -126,10 +129,20 @@ const styles = StyleSheet.create({
   },
   viewParentEdit: {
     height: heightScreen * 0.2,
-    width: widthScreen,
+    width: widthScreen * 0.95,
     marginVertical: heightScreen * 0.008,
     justifyContent: 'space-between',
     backgroundColor: colors.WHITE,
+    alignSelf: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: heightScreen * 0.001,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+    borderRadius: 10,
   },
   viewTime: {
     flexDirection: 'row',
@@ -163,7 +176,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   viewContentEdit: {
-    width: widthScreen * 0.96,
+    width: widthScreen * 0.905,
     height: heightScreen * 0.16,
     borderLeftWidth: 1.5,
     borderStyle: 'dashed',
