@@ -7,6 +7,7 @@ import {
   loginFailure,
   logoutSuccess,
 } from '../../features/auth/authSlice';
+import axiosInstance from '../../../utils/axiosInstance';
 
 export const Login = (dispatch, email, password) => {
   dispatch(loginStart());

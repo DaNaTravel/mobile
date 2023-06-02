@@ -50,6 +50,7 @@ const Itineraries = ({dataIti}) => {
                 type={'favorite'}
                 data={data}
                 setData={setData}
+                key={item._id}
               />
             )}
             keyExtractor={item => item._id}

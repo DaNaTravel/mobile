@@ -3,22 +3,34 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import dayjs from 'dayjs';
 import jwtDecode from 'jwt-decode';
 import {BASE_URL} from '@env';
-const accessToken = AsyncStorage.getItem('token');
-const axiosInstance = axios.create({
-  BASE_URL,
-  headers: {Authorization: `Bearer ${accessToken}`},
-});
-axiosInstance.interceptors.request.use(async req => {
+
+const getToken = async () => {
   const accessToken = await AsyncStorage.getItem('token');
+  return accessToken;
+};
+
+console.log(getToken());
+
+const axiosInstance = axios.create({
+  baseURL: 'http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000',
+  headers: {
+    Authorization: `Bearer ${getToken()}`,
+    'Content-Type': 'application/json',
+  },
+});
+
+axiosInstance.interceptors.request.use(async req => {
+  const token = await AsyncStorage.getItem('token');
+  console.log('token', token);
   let refreshToken = await AsyncStorage.getItem('refreshToken');
   const expireInRefreshToken = await jwtDecode(refreshToken).exp;
   const isExpiredRefresh = dayjs(new Date()).unix();
   const isTrueRefresh = Boolean(expireInRefreshToken - isExpiredRefresh > 5);
   if (isTrueRefresh) {
-    if (!accessToken) {
-      req.headers.Authorization = `Bearer ${accessToken}`;
+    if (!token) {
+      req.headers.Authorization = `Bearer ${token}`;
     }
-    const expireInToken = await jwtDecode(accessToken).exp;
+    const expireInToken = await jwtDecode(token).exp;
     console.log('expireInToken', expireInToken);
     const isExpired = dayjs(new Date()).unix();
     console.log('isExpired', isExpired);
@@ -45,7 +57,7 @@ axiosInstance.interceptors.request.use(async req => {
         return req;
       })
       .catch(error => {
-        console.log(error);
+        console.log('error', error);
         return req;
       });
     return req;

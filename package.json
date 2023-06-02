@@ -29,6 +29,7 @@
     "react-native-calendar-picker": "^7.1.4",
     "react-native-collapsible": "^1.6.1",
     "react-native-dotenv": "^3.4.8",
+    "react-native-dropdown-picker": "^5.4.6",
     "react-native-geolocation-service": "^5.3.1",
     "react-native-google-places-autocomplete": "^2.5.1",
     "react-native-linear-gradient": "^2.6.2",

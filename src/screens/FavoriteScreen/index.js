@@ -1,5 +1,5 @@
 import {StyleSheet, Text, TouchableOpacity, View, FlatList} from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import LottieView from 'lottie-react-native';
 import {useSelector} from 'react-redux';
@@ -8,16 +8,18 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import Itineraries from '../../components/FavoriteItems/Itineraries';
 import Locations from '../../components/FavoriteItems/Locations';
 import {useNavigation} from '@react-navigation/native';
+import {AxiosContext} from '../../context/AxiosContext';
 
 const Tab = createMaterialTopTabNavigator();
 
-const TabView = ({isUser}) => {
+const TabView = ({}) => {
   const [dataIti, setDataIti] = useState(null);
   const [dataLoca, setDataLoca] = useState(null);
+  const axiosContext = useContext(AxiosContext);
   const handleData = category => {
     category === 'itinerary'
-      ? GetFavo(category, isUser?.data?.token, setDataIti)
-      : GetFavo(category, isUser?.data?.token, setDataLoca);
+      ? axiosContext.GetFavo(category, setDataIti)
+      : axiosContext.GetFavo(category, setDataLoca);
   };
   return (
     <Tab.Navigator
@@ -50,7 +52,7 @@ const Favorite = () => {
   return (
     <View style={styles.viewParent}>
       {isUser?.message === null ? (
-        <TabView isUser={isUser} />
+        <TabView />
       ) : (
         <>
           <LottieView

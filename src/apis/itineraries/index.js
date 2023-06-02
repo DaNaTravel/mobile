@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {BASE_URL} from '@env';
+import axiosInstance from '../../utils/axiosInstance';
 export const ItineraryRoutes = async (
   latitude,
   longitude,
@@ -11,7 +12,6 @@ export const ItineraryRoutes = async (
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    // url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/routes?latitude=16.019270292540877&longitude=108.22904382514184&startDate=${startDate}&endDate=${endDate}&type=${idType}`,
     url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/routes?latitude=${latitude}&longitude=${longitude}&startDate=${startDate}&endDate=${endDate}&type=${idType}`,
     headers: {
       'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ export const GetItineraries = async setData => {
       'Content-Type': 'application/json',
     },
   };
-  await axios
+  await axiosInstance
     .request(config)
     .then(async response => {
       setData(response?.data?.data?.output);

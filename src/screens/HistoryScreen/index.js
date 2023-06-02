@@ -1,31 +1,107 @@
-import {FlatList, Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import React from 'react';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import HistoryItem from '../../components/HistoryItem';
 import {useSelector} from 'react-redux';
 import LottieView from 'lottie-react-native';
+import {useIsFocused} from '@react-navigation/native';
+import DropDownPicker from 'react-native-dropdown-picker';
+import {AxiosContext} from '../../context/AxiosContext';
 
 const History = () => {
   const isUser = useSelector(state => state.auth.login);
+  const isFocused = useIsFocused();
+  const axiosContext = useContext(AxiosContext);
+  const [data, setData] = useState([]);
+  const [initialData, setInitialData] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    {
+      label: 'All',
+      value: 'all',
+      icon: () => (
+        <Image
+          source={require('../../assets/images/all.png')}
+          style={{height: 32, width: 32}}
+        />
+      ),
+    },
+    {
+      label: 'Public',
+      value: true,
+      icon: () => (
+        <Image
+          source={require('../../assets/images/public.png')}
+          style={{height: 32, width: 32}}
+        />
+      ),
+    },
+    {
+      label: 'Private',
+      value: false,
+      icon: () => (
+        <Image
+          source={require('../../assets/images/private.png')}
+          style={{height: 32, width: 32}}
+        />
+      ),
+    },
+  ]);
+  const hanldeData = () => {
+    console.log(value);
+    value === 'all'
+      ? setData(initialData)
+      : setData(initialData.filter(item => item?.isPublic === value));
+  };
+  useEffect(() => {
+    hanldeData();
+  }, [value]);
+
+  useEffect(() => {
+    if (isFocused) {
+      axiosContext.GetHistories(setInitialData);
+    }
+  }, [isFocused]);
   return (
     <View style={styles.viewParent}>
       {isUser?.message === null ? (
         <>
           <View style={styles.viewWelcome}>
             <Text style={styles.textTitle}>Your Histories</Text>
-            <Image
-              style={styles.viewAvt}
-              source={require('../../assets/images/bana.jpg')}></Image>
+            <DropDownPicker
+              open={open}
+              value={value}
+              items={items}
+              setOpen={setOpen}
+              setValue={setValue}
+              setItems={setItems}
+              style={styles.viewFilter}
+              placeholder="Status"
+              placeholderStyle={styles.placeHolder}
+              containerStyle={styles.containerStyle}
+              dropDownContainerStyle={styles.dropDownContainerStyle}
+            />
           </View>
-          <FlatList
-            data={[1, 2, 3, 4, 5, 6, 7]}
-            renderItem={({item, index}) => <HistoryItem item={item} />}
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-            scrollEnabled={true}
-            keyExtractor={index => index}
-            style={styles.viewHistories}
-          />
+          <View style={styles.viewList}>
+            <FlatList
+              data={data}
+              renderItem={({item, index}) => (
+                <HistoryItem item={item} key={item._id} />
+              )}
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+              scrollEnabled={true}
+              keyExtractor={item => item._id}
+            />
+          </View>
         </>
       ) : (
         <>
@@ -57,33 +133,33 @@ const styles = StyleSheet.create({
     width: widthScreen,
     height: heightScreen * 1.2,
     backgroundColor: colors.MEDIUMGRAY,
-    // paddingLeft: widthScreen * 0.05,
-    // paddingTop: heightScreen * 0.025,
-    // paddingRight: widthScreen * 0.05,
   },
   viewWelcome: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: heightScreen * 0.09,
+    width: widthScreen,
+    zIndex: 1,
   },
-  viewAvt: {
-    height: 47,
-    width: 47,
-    borderRadius: 23.5,
-    marginTop: heightScreen * 0.025,
-    marginRight: widthScreen * 0.05,
+  viewFilter: {
+    height: heightScreen * 0.055,
+    width: widthScreen * 0.35,
+    borderRadius: 24,
+    backgroundColor: colors.WHITE,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
   },
   textTitle: {
     fontSize: 30,
     color: colors.BLACK,
     fontWeight: 'bold',
     marginLeft: widthScreen * 0.05,
-    marginTop: heightScreen * 0.025,
-  },
-  viewHistories: {
-    flex: 1,
-    alignSelf: 'center',
-    marginTop: heightScreen * 0.04,
-    marginBottom: heightScreen * 0.29,
   },
   textAlert: {
     width: widthScreen * 0.85,
@@ -91,7 +167,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: colors.BLACK,
     fontWeight: 500,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   viewLogin: {
     height: heightScreen * 0.08,
@@ -101,11 +177,32 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: heightScreen * 0.07,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   textSignin: {
     color: colors.WHITE,
     fontWeight: 500,
     fontSize: 20,
+  },
+  viewList: {
+    width: widthScreen,
+    height: heightScreen,
+    paddingBottom: heightScreen * 0.2,
+    paddingTop: heightScreen * 0.03,
+  },
+  placeHolder: {
+    fontSize: 20,
+    fontWeight: 600,
+  },
+  iconStyle: {
+    height: 30,
+    width: 30,
+  },
+  containerStyle: {
+    width: widthScreen * 0.35,
+    marginLeft: widthScreen * 0.09,
+  },
+  dropDownContainerStyle: {
+    borderRadius: 24,
   },
 });

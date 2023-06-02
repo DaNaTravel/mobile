@@ -6,17 +6,18 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
-import {AddItineraryFavorite, DeleteItineraryFavo} from '../../apis/favorite';
 import {useSelector} from 'react-redux';
 import ConfirmLogout from '../Modal/ConfirmLogout';
+import {AxiosContext} from '../../context/AxiosContext';
 const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
   const navigation = useNavigation();
   const [dataImg, setDataImg] = useState([]);
+  const axiosContext = useContext(AxiosContext);
   const dataImgs = [
     require('../../assets/images/muinghe.png'),
     require('../../assets/images/bana.jpg'),
@@ -40,12 +41,13 @@ const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
   const handleExist = id => {
     const updatedListFavo = listFavo?.filter(item => item !== id);
     setListFavo(updatedListFavo);
-    DeleteItineraryFavo(isUser?.data?.token, id);
+    console.log('id', id);
+    axiosContext.DeleteItineraryFavo(id);
   };
   const handleNotExist = id => {
     const updatedListFavo = listFavo ? [...listFavo, id] : [id];
     setListFavo(updatedListFavo);
-    AddItineraryFavorite(isUser?.data?.token, id);
+    axiosContext.AddItineraryFavorite(id);
   };
   useEffect(() => {
     CreateListImg(item?.routes);
@@ -121,7 +123,7 @@ const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
         {type === 'favorite' ? (
           <TouchableOpacity
             style={styles.Heart}
-            onPress={() => handleDelete(item?._id)}>
+            onPress={() => handleDelete(item?.itineraryId)}>
             <FontAwesome name="heart" size={32} color={colors.RED} />
           </TouchableOpacity>
         ) : type === 'itineraries' ? (
@@ -147,7 +149,7 @@ const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
         isModalVisible={isModalVisible}
         navigation={navigation}
         type={'deleteIti'}
-        dataId={item?.itinerary?._id}
+        dataId={item?.itineraryId}
         setModalVisible={setModalVisible}
         data={data}
         setData={setData}
@@ -176,6 +178,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     alignSelf: 'center',
     marginVertical: heightScreen * 0.015,
+    zIndex: 999,
   },
   viewContainer1: {
     height: heightScreen * 0.103,

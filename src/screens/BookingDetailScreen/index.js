@@ -7,7 +7,13 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
@@ -21,8 +27,10 @@ import SuccessfullyRemoved from '../../components/Modal/SuccessfullyRemoved';
 import RelatedPlace from '../../components/RelatedPlace';
 import CommentItem from '../../components/CommentItem';
 import {useSelector} from 'react-redux';
-import {AddLocationFavorite, DeleteFavo} from '../../apis/favorite';
+import {DeleteFavo} from '../../apis/favorite';
 import NonAccount from '../../components/Modal/NonAccount';
+import {AxiosContext} from '../../context/AxiosContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const dataImage = [
   {
     photo_reference:
@@ -58,25 +66,34 @@ const Header = ({
   const [index, setIndex] = useState(0);
   const [like, setLike] = useState(false);
   const [result, setResult] = useState();
+  const [listFavo, setListFavo] = useState([]);
   const isUser = useSelector(state => state.auth.login);
+  const axiosContext = useContext(AxiosContext);
   const checkFavo = () => {
     isUser?.data?._id === undefined ? setAlert(true) : handleFavo();
   };
   const handleFavo = () => {
     like
-      ? DeleteFavo(isUser?.data?._id, item?._id)
-      : AddLocationFavorite(isUser?.data?._id, item?._id, setResult);
-    console.log(result);
+      ? axiosContext.DeleteFavo(item?._id)
+      : axiosContext.AddLocationFavorite(item?._id);
+    console.log(item?._id);
     OnFavo();
   };
   const OnFavo = () => {
     like ? handleRemove() : handleBook();
     setLike(!like);
   };
+  const handleListFavo = async () => {
+    let LocationIds = JSON.parse(await AsyncStorage.getItem('LocationIds'));
+    setListFavo(LocationIds);
+  };
   useEffect(() => {
+    handleListFavo();
+  }, []);
+  useEffect(() => {
+    setLike(listFavo?.includes(item?._id));
+  }, [listFavo]);
 
-  }, [])
-  
   return (
     <>
       <TouchableOpacity
@@ -88,12 +105,14 @@ const Header = ({
         onPress={() => checkFavo()}
         style={[
           styles.buttonFavo,
-          like ? {borderColor: colors.RED} : {borderColor: colors.WHITE},
+          listFavo?.includes(item?._id)
+            ? {borderColor: colors.RED}
+            : {borderColor: colors.WHITE},
         ]}>
         <FontAwesome
           name="heart"
           size={25}
-          color={!like ? colors.WHITE : colors.RED}
+          color={!listFavo?.includes(item?._id) ? colors.WHITE : colors.RED}
         />
       </TouchableOpacity>
       <View style={styles.viewMainContent}>

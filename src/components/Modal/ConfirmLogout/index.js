@@ -1,5 +1,5 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Modal from 'react-native-modal';
 import {colors, heightScreen, widthScreen} from '../../../utility';
 import LottieView from 'lottie-react-native';
@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import {Logout} from '../../../redux/action/auth/authRequests';
 import {DeleteFavo, DeleteItineraryFavo} from '../../../apis/favorite';
+import {AxiosContext} from '../../../context/AxiosContext';
 
 const ConfirmLogout = ({
   handleSignout,
@@ -19,7 +20,9 @@ const ConfirmLogout = ({
   data,
   setData,
 }) => {
+  console.log('dataId', dataId);
   const dispatch = useDispatch();
+  const axiosContext = useContext(AxiosContext);
   const isUser = useSelector(state => state.auth.login);
   const [result, setResult] = useState();
   const handleConLogout = async () => {
@@ -34,8 +37,8 @@ const ConfirmLogout = ({
   };
   const handleDelete = async () => {
     type === 'delete'
-      ? DeleteFavo(isUser?.data?._id, dataId, setResult)
-      : DeleteItineraryFavo(isUser?.data?._id, dataId, setResult);
+      ? await axiosContext.DeleteFavo(dataId, setResult)
+      : await axiosContext.DeleteItineraryFavo(dataId, setResult);
     result === undefined ? updateListItiFavo(dataId) : null;
     if (result === undefined) {
       const updatedData = data?.filter(item => item?.itineraryId !== dataId);

@@ -17,6 +17,8 @@ const Profile = () => {
     console.log('data ', data);
     let listIti = JSON.parse(await AsyncStorage.getItem('itineraryIds'));
     console.log('itineraryIds ', listIti);
+    let LocationIds = JSON.parse(await AsyncStorage.getItem('LocationIds'));
+    console.log('LocationIds ', LocationIds);
   };
   const getToken = async () => {
     let token = await AsyncStorage.getItem('token');

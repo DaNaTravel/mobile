@@ -2,6 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BASE_URL} from '@env';
 import {useDispatch} from 'react-redux';
+import axiosInstance from '../../../utils/axiosInstance';
 export const SignIn = (email, password) => {
   let data = JSON.stringify({
     email: email,
