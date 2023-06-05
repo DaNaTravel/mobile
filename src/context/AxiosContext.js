@@ -6,7 +6,9 @@ import jwtDecode from 'jwt-decode';
 import {BASE_URL} from '@env';
 import {useDispatch, useSelector} from 'react-redux';
 import {loginSuccess} from '../redux/features/auth/authSlice';
-
+import {NonAccount} from '../components/Modal/NonAccount/index';
+import {useNavigation} from '@react-navigation/native';
+import {Alert} from 'react-native';
 export const AxiosContext = createContext();
 
 const {Provider} = AxiosContext;
@@ -63,6 +65,11 @@ export const AxiosProvider = ({children}) => {
       return req;
     } else {
       console.log('Login session is expired');
+      Alert.alert('Failed', 'Login session is expired', [
+        {
+          text: 'Cancel',
+        },
+      ]);
     }
   });
 

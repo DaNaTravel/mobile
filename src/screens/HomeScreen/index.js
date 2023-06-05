@@ -82,11 +82,17 @@ const HomeScreen = ({route}) => {
   const [dataMap, setDataMap] = useState();
   const [days, setDays] = useState([1]);
   const [mainGoal, setMainGoal] = useState(0);
+  const [cost, setCost] = useState([]);
+  const [number, setNumber] = useState();
+  const [total, setTotal] = useState();
   const handleTime = async () => {
     const data = JSON.parse(await AsyncStorage.getItem('data'));
     setTime(data?.time);
     setDays(data?.days);
     setMainGoal(data?.mainGoal);
+    console.log('data', data);
+    setCost(data?.expense);
+    setNumber(data?.number);
   };
 
   useLayoutEffect(() => {
@@ -104,6 +110,9 @@ const HomeScreen = ({route}) => {
         time.startDate,
         time.endDate,
         mainGoal,
+        cost,
+        number,
+        setTotal,
         responseData => {
           setData(responseData);
           var transformedData = {};
@@ -135,10 +144,6 @@ const HomeScreen = ({route}) => {
       onSelect={setSelectedItem}
     />
   );
-  // const handleData = async () => {
-  //   let data = JSON.parse(await AsyncStorage.getItem('data'));
-  //   console.log('data ', data);
-  // };
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewHeader}>
@@ -171,11 +176,6 @@ const HomeScreen = ({route}) => {
           onPress={() => refRBSheet.current.open()}>
           <AntDesign name="profile" size={28} color={colors.WHITE} />
         </TouchableOpacity>
-        {/* <TouchableOpacity
-          style={styles.buttonBottom}
-          onPress={() => handleData()}>
-          <AntDesign name="profile" size={28} color={colors.WHITE} />
-        </TouchableOpacity> */}
         <View style={styles.viewLists}>
           <FlatList
             data={days}
@@ -233,7 +233,10 @@ const HomeScreen = ({route}) => {
         }}>
         <View style={styles.viewTour}>
           <Text style={styles.textTour}>Tour details</Text>
-          <Text style={styles.priceTour}>$500</Text>
+          <View>
+            <Text style={styles.textTotal}>Total</Text>
+            <Text style={styles.priceTour}>{total ? total : null} VNĐ</Text>
+          </View>
         </View>
         <TabView data={data} />
       </RBSheet>
@@ -371,5 +374,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'center',
     marginTop: 13,
+  },
+  textTotal: {
+    fontSize: 16,
   },
 });

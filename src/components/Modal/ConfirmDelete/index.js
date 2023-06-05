@@ -13,7 +13,6 @@ const ConfirmDelete = ({
   setListLoca,
 }) => {
   const handleDelete = async () => {
-    console.log(dataId);
     let finalData = JSON.parse(await AsyncStorage.getItem('finalDT'));
     const result = finalData?.filter(data => data?.description?._id !== dataId);
     setListLoca(result);

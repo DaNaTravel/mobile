@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {BASE_URL} from '@env';
-export const Search = (keyword, type, page, take, setData) => {
+export const Search = (keyword, type, page, take, setData, setIsLoading) => {
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
@@ -14,12 +14,13 @@ export const Search = (keyword, type, page, take, setData) => {
     .request(config)
     .then(async response => {
       setData(response?.data?.listLocations);
+      setIsLoading(false);
     })
     .catch(error => {
       return error.response.data;
     });
 };
-export const Filter = (type, page, take, setData) => {
+export const Filter = (type, page, take, setData, setIsLoading) => {
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
@@ -33,6 +34,7 @@ export const Filter = (type, page, take, setData) => {
     .request(config)
     .then(async response => {
       setData(response?.data?.listLocations);
+      setIsLoading(false);
     })
     .catch(error => {
       return error.response.data;

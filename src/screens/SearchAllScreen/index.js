@@ -13,6 +13,8 @@ import HotelItems from '../../components/HotelItems';
 import {useNavigation} from '@react-navigation/native';
 import {Filter, Search} from '../../apis/search';
 import FilterItem from '../../components/FilterItem';
+import LottieView from 'lottie-react-native';
+
 const types = [
   {type: 'restaurant', name: 'Restaurant'},
   {type: 'cafe', name: 'Cafe'},
@@ -24,17 +26,56 @@ const types = [
   {type: 'church', name: 'Church'},
   {type: 'natural_feature', name: 'Natural Feature'},
 ];
-const Header = ({search, setSearch, setFilter, items, setItems}) => {
+const SearchAllScreen = () => {
+  const [search, setSearch] = useState('');
+  const [items, setItems] = useState([]);
+  const [newData, setNewData] = useState([]);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const handleSearch = word => {
-    Search(word, arrTypes.join(), 1, 10, setItems);
+    Search(word, arrTypes.join(), 1, 10, setItems, setIsLoading);
   };
   const [arrTypes, setArrTypes] = useState([]);
   const navigation = useNavigation();
   useEffect(() => {
-    Filter(arrTypes.join(), 1, 10, setItems);
+    Filter(arrTypes.join(), 1, 10, setItems, setIsLoading);
   }, [arrTypes]);
+  const handleLoadMore = () => {
+    if (isLoading || items.length === 0) {
+      return;
+    }
+    setPage(prevPage => prevPage + 1);
+  };
+  const renderFooter = () => {
+    return (
+      <LottieView
+        source={require('../../assets/animations/loading1.json')}
+        autoPlay
+        loop
+        style={{
+          height: widthScreen * 0.2,
+          width: widthScreen * 0.2,
+          alignSelf: 'center',
+        }}
+      />
+    );
+  };
+  useEffect(() => {
+    if (page !== 1) {
+      console.log('page', page);
+      if (search !== '') {
+        setIsLoading(true);
+        Search(search, arrTypes.join(), page, 10, setNewData, setIsLoading);
+      } else {
+        setIsLoading(true);
+        Filter(arrTypes.join(), page, 10, setNewData, setIsLoading);
+      }
+    }
+    setItems(prevItems => [...prevItems, ...newData]);
+  }, [page]);
+
   return (
-    <>
+    <View style={styles.viewParent}>
       <View style={styles.viewTitle}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
@@ -54,7 +95,6 @@ const Header = ({search, setSearch, setFilter, items, setItems}) => {
           placeholder="Search place where you want to go"
           onChangeText={txt => {
             setSearch(txt);
-            // handleFilterName(search, items);
           }}
           onSubmitEditing={() => handleSearch(search)}
           autoFocus={true}></TextInput>
@@ -77,43 +117,25 @@ const Header = ({search, setSearch, setFilter, items, setItems}) => {
           style={styles.viewFilter}
         />
       </View>
-    </>
-  );
-};
-const Body = ({filter, items}) => {
-  return (
-    <View style={styles.viewResult}>
-      <FlatList
-        data={items}
-        renderItem={({item, index}) => (
-          <View style={styles.viewHotelItem}>
-            <HotelItems item={item} />
-          </View>
-        )}
-        numColumns={2}
-        keyExtractor={item => item?._id}
-        style={styles.result}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        nestedScrollEnabled
-      />
-    </View>
-  );
-};
-const SearchAllScreen = () => {
-  const [search, setSearch] = useState('');
-  const [items, setItems] = useState([]);
-  const [filter, setFilter] = useState([]);
-  return (
-    <View style={styles.viewParent}>
-      <Header
-        search={search}
-        setSearch={setSearch}
-        items={items}
-        setFilter={setFilter}
-        setItems={setItems}
-      />
-      <Body filter={filter} items={items} search={search} />
+      <View style={styles.viewResult}>
+        <FlatList
+          data={items}
+          renderItem={({item, index}) => (
+            <View style={styles.viewHotelItem}>
+              <HotelItems item={item} />
+            </View>
+          )}
+          numColumns={2}
+          keyExtractor={item => item?._id}
+          style={styles.result}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          nestedScrollEnabled
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.35}
+          ListFooterComponent={renderFooter}
+        />
+      </View>
     </View>
   );
 };
@@ -182,7 +204,7 @@ const styles = StyleSheet.create({
     height: heightScreen * 0.75,
     width: widthScreen * 0.9,
     alignSelf: 'center',
-    paddingBottom: heightScreen*0.03
+    paddingBottom: heightScreen * 0.03,
   },
   input: {
     marginLeft: widthScreen * 0.03,

@@ -20,7 +20,6 @@ const ConfirmLogout = ({
   data,
   setData,
 }) => {
-  console.log('dataId', dataId);
   const dispatch = useDispatch();
   const axiosContext = useContext(AxiosContext);
   const isUser = useSelector(state => state.auth.login);
