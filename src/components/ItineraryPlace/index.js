@@ -45,7 +45,7 @@ const ItineraryPlace = ({item, type, listLoca, setListLoca}) => {
           />
           <View
             style={
-              type === 'edit' && item?.description?._id === undefined
+              type === 'edit' && item?.description?._id === null
                 ? styles.viewDetailEdit
                 : styles.viewDetail
             }>
@@ -95,7 +95,7 @@ const ItineraryPlace = ({item, type, listLoca, setListLoca}) => {
               </View>
             </View>
           </View>
-          {type === 'edit' && item?.description?._id !== undefined ? (
+          {type === 'edit' && item?.description?._id !== null ? (
             <TouchableOpacity
               style={{justifyContent: 'center'}}
               onPress={() => {
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.44,
     height: heightScreen * 0.13,
     justifyContent: 'space-between',
-    marginRight: widthScreen * 0.084,
+    marginRight: widthScreen * 0.087,
   },
   textTitle: {
     fontSize: 18,

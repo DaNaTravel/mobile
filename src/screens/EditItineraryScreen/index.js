@@ -41,6 +41,7 @@ const EditItinerary = ({route}) => {
   const [newArray, setNewArray] = useState([]);
   const [newArrayById, setNewArrayById] = useState([]);
   const [finalData, setFinalData] = useState([]);
+  const [dataToSent, setDataToSent] = useState(null);
   const getDataDay = () => {
     const arrNew = dataDay.map(str => parseInt(str));
     console.log('arrNew', arrNew);
@@ -98,9 +99,25 @@ const EditItinerary = ({route}) => {
       }
       arr2.routes.push(route);
     }
-
+    setDataToSent(arr2, null, 2);
     console.log(JSON.stringify(arr2, null, 2));
   };
+  const handleGenerateButton = () =>{
+    if (newArrayById.length !== 0){
+      dataToSent.routes[selectedItem-1] = newArrayById.map(i => i === null ? {
+        "latitude": 16.0683088,
+        "longitude": 108.1490164
+      } : i);
+    }
+    const result = dataToSent?.routes?.map(subArr => subArr.slice(0, subArr.length - 1));
+    const Reresult = result.map(subArr => subArr.map(item => {
+      if (typeof item === 'string') {
+        return { _id: item };
+      }
+      return item;
+    }));  
+    console.log(Reresult);
+  }
   return (
     <View style={styles.container}>
       <View style={styles.viewTitle}>
@@ -130,15 +147,15 @@ const EditItinerary = ({route}) => {
         finalData={finalData}
       />
 
-      {/* <View style={styles.viewButton}>
+      <View style={styles.viewButton}>
         <TouchableOpacity
           style={styles.viewSave}
           onPress={() => {
-            getDataDay();
+            handleGenerateButton();
           }}>
-          <Text style={styles.textDay}>Save day {selectedItem}</Text>
+          <Text style={styles.textDay}>Generate</Text>
         </TouchableOpacity>
-      </View> */}
+      </View>
     </View>
   );
 };
