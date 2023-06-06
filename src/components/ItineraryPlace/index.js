@@ -45,7 +45,7 @@ const ItineraryPlace = ({item, type, listLoca, setListLoca}) => {
           />
           <View
             style={
-              type === 'edit' && item?.description?._id === null
+              (type === 'edit') === null
                 ? styles.viewDetailEdit
                 : styles.viewDetail
             }>
@@ -65,7 +65,7 @@ const ItineraryPlace = ({item, type, listLoca, setListLoca}) => {
 
             <Text style={styles.textPrice}>
               {item?.cost !== 0 ? item?.cost : 'FREE'}{' '}
-              {item?.cost !== 0 ? 'VNĐ' : null}
+              {item?.cost !== 0 ? 'VND' : null}
             </Text>
             <View style={styles.viewStarWeather}>
               <View style={styles.viewStar}>
@@ -95,7 +95,7 @@ const ItineraryPlace = ({item, type, listLoca, setListLoca}) => {
               </View>
             </View>
           </View>
-          {type === 'edit' && item?.description?._id !== null ? (
+          {type === 'edit' ? (
             <TouchableOpacity
               style={{justifyContent: 'center'}}
               onPress={() => {

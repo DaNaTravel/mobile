@@ -4,6 +4,7 @@ import React, {
   useLayoutEffect,
   useEffect,
   useCallback,
+  useContext,
 } from 'react';
 import {Text, TouchableOpacity, View, StyleSheet, FlatList} from 'react-native';
 import {colors, heightScreen, widthScreen} from '../../utility';
@@ -22,8 +23,9 @@ import CarouselItinerary, {
 } from '../../components/CarouselItinerary';
 import Carousel from 'react-native-snap-carousel';
 import {useSelector} from 'react-redux';
-import {ItineraryRoutes} from '../../apis/itineraries';
+import {ItineraryRoutes, ItineraryRoutesTest} from '../../apis/itineraries';
 import DayItem from '../../components/DayItem';
+import {AxiosContext} from '../../context/AxiosContext';
 
 const Tab = createMaterialTopTabNavigator();
 const Day = ({data, index}) => {
@@ -85,12 +87,13 @@ const HomeScreen = ({route}) => {
   const [cost, setCost] = useState([]);
   const [number, setNumber] = useState();
   const [total, setTotal] = useState();
+  const [Id, setId] = useState();
+  const axiosContext = useContext(AxiosContext);
   const handleTime = async () => {
     const data = JSON.parse(await AsyncStorage.getItem('data'));
     setTime(data?.time);
     setDays(data?.days);
     setMainGoal(data?.mainGoal);
-    console.log('data', data);
     setCost(data?.expense);
     setNumber(data?.number);
   };
@@ -104,35 +107,69 @@ const HomeScreen = ({route}) => {
 
   useEffect(() => {
     if (time?.startDate && time?.endDate) {
-      ItineraryRoutes(
-        coordinates.latitude,
-        coordinates.longitude,
-        time.startDate,
-        time.endDate,
-        mainGoal,
-        cost,
-        number,
-        setTotal,
-        responseData => {
-          setData(responseData);
-          var transformedData = {};
-          responseData.forEach(function (item, index) {
-            var key = `routes${index + 1}`;
-            transformedData[key] = [];
+      console.log(isUser?.data?._id !== undefined);
+      isUser?.data?._id === undefined
+        ? ItineraryRoutes(
+            coordinates.latitude,
+            coordinates.longitude,
+            time.startDate,
+            time.endDate,
+            mainGoal,
+            cost,
+            number,
+            setTotal,
+            setId,
+            responseData => {
+              setData(responseData);
+              var transformedData = {};
+              responseData.forEach(function (item, index) {
+                var key = `routes${index + 1}`;
+                transformedData[key] = [];
 
-            item.route.forEach(function (routeItem) {
-              var place = {
-                latitude: routeItem.description.latitude,
-                longitude: routeItem.description.longitude,
-                name: routeItem.description.name,
-                address: routeItem.description.address,
-              };
-              transformedData[key].push(place);
-            });
-          });
-          setDataMap(transformedData);
-        },
-      );
+                item.route.forEach(function (routeItem) {
+                  var place = {
+                    latitude: routeItem.description.latitude,
+                    longitude: routeItem.description.longitude,
+                    name: routeItem.description.name,
+                    address: routeItem.description.address,
+                  };
+                  transformedData[key].push(place);
+                });
+              });
+              setDataMap(transformedData);
+            },
+          )
+        : ItineraryRoutesTest(
+            coordinates.latitude,
+            coordinates.longitude,
+            time.startDate,
+            time.endDate,
+            mainGoal,
+            cost,
+            number,
+            isUser?.data?.token,
+            setTotal,
+            setId,
+            responseData => {
+              setData(responseData);
+              var transformedData = {};
+              responseData.forEach(function (item, index) {
+                var key = `routes${index + 1}`;
+                transformedData[key] = [];
+
+                item.route.forEach(function (routeItem) {
+                  var place = {
+                    latitude: routeItem.description.latitude,
+                    longitude: routeItem.description.longitude,
+                    name: routeItem.description.name,
+                    address: routeItem.description.address,
+                  };
+                  transformedData[key].push(place);
+                });
+              });
+              setDataMap(transformedData);
+            },
+          );
     }
   }, [time?.startDate, time?.endDate]);
   const isUser = useSelector(state => state.auth.login);
@@ -157,7 +194,9 @@ const HomeScreen = ({route}) => {
         </TouchableOpacity>
         <Text style={styles.textTitle}>Your trip</Text>
         <TouchableOpacity
-          onPress={() => navigation.navigate('EditItinerary', {dataIti: data})}>
+          onPress={() =>
+            navigation.navigate('EditItinerary', {dataIti: data, Id: Id})
+          }>
           <Feather name="edit" size={24} color={'#222222'} />
         </TouchableOpacity>
       </View>
@@ -235,7 +274,7 @@ const HomeScreen = ({route}) => {
           <Text style={styles.textTour}>Tour details</Text>
           <View>
             <Text style={styles.textTotal}>Total</Text>
-            <Text style={styles.priceTour}>{total ? total : null} VNĐ</Text>
+            <Text style={styles.priceTour}>{total ? total : null} VND</Text>
           </View>
         </View>
         <TabView data={data} />
@@ -376,6 +415,7 @@ const styles = StyleSheet.create({
     marginTop: 13,
   },
   textTotal: {
-    fontSize: 16,
+    fontSize: 13,
+    color: colors.STRONGGRAY,
   },
 });

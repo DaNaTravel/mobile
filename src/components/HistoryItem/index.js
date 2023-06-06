@@ -2,6 +2,7 @@ import {
   FlatList,
   Image,
   StyleSheet,
+  Switch,
   Text,
   TouchableOpacity,
   View,
@@ -49,11 +50,47 @@ const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
     setListFavo(updatedListFavo);
     axiosContext.AddItineraryFavorite(id);
   };
+  const handleDate = day => {
+    const date = new Date(day);
+    const formattedDate = `${(date.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`;
+    return formattedDate;
+  };
+  const CreateListImgForFavo = routes => {
+    const photoArray = routes
+      .filter(item => item.description.photos !== null)
+      .map(item => item.description.photos);
+    setDataImg(photoArray);
+  };
+  const [isEnabled, setIsEnabled] = useState(item?.isPublic);
+
+  const toggleSwitch = () => {
+    axiosContext.ChangeStatusForIti(item?._id, !isEnabled);
+    setIsEnabled(previousState => !previousState);
+  };
   useEffect(() => {
-    CreateListImg(item?.routes);
+    type === 'favorite'
+      ? CreateListImgForFavo(item?.routes?.[0]?.route)
+      : CreateListImg(item?.routes);
   }, []);
   return (
     <View style={styles.viewParent}>
+      <View style={styles.viewContainer0}>
+        <Text style={styles.textName} numberOfLines={1}>
+          {item?.name !== undefined ? item?.name : 'Unnamed Journey'}
+        </Text>
+        {type === 'history' ? (
+          <Switch
+            trackColor={{false: '#C4C4C4', true: '#4059F2'}}
+            thumbColor={isEnabled ? '#FEFEFE' : '#FEFEFE'}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleSwitch}
+            value={isEnabled}
+            style={styles.switch}
+          />
+        ) : null}
+      </View>
       <View style={styles.viewContainer1}>
         <FlatList
           data={dataImg}
@@ -84,7 +121,9 @@ const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
                 : item?.days}{' '}
               {item?.itinerary?.days <= 1 || item?.days <= 1 ? 'Day' : 'Days'}
             </Text>
-            <Text style={styles.textDetailDate}>10/04 - 15/04</Text>
+            <Text style={styles.textDetailDate}>
+              {handleDate(item?.startDate)} - {handleDate(item?.endDate)}
+            </Text>
           </View>
         </View>
         <View style={styles.viewPeople}>
@@ -106,13 +145,10 @@ const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
         <View style={styles.viewPrice}>
           <Text style={styles.textDetailDate}>Total</Text>
           <Text style={styles.textPrice}>
-            $
             {item?.itinerary?.cost !== undefined
               ? item?.itinerary?.cost
-              : item?.cost === '0'
-              ? item?.cost
-              : '20'}
-            .00
+              : item?.cost}{' '}
+            <Text style={styles.textUnit}>VND</Text>
           </Text>
         </View>
         <TouchableOpacity
@@ -163,7 +199,7 @@ export default HistoryItem;
 const styles = StyleSheet.create({
   viewParent: {
     width: widthScreen * 0.9,
-    height: heightScreen * 0.34,
+    height: heightScreen * 0.41,
     backgroundColor: colors.WHITE,
     borderRadius: 25,
     paddingVertical: heightScreen * 0.015,
@@ -262,5 +298,26 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 600,
     color: colors.BLACK,
+  },
+  textUnit: {
+    fontSize: 21,
+    fontWeight: 600,
+    color: colors.BLACK,
+  },
+  viewContainer0: {
+    height: heightScreen * 0.07,
+    width: widthScreen * 0.83,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  textName: {
+    fontSize: 23,
+    color: colors.BLACK,
+    fontWeight: 600,
+    maxWidth: 250,
+  },
+  switch: {
+    transform: [{scaleX: 1.25}, {scaleY: 1.25}],
   },
 });

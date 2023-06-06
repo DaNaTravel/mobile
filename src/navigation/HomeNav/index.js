@@ -16,6 +16,7 @@ import BottomTab from '../BottomTab';
 import LocationDetail from '../../screens/LocationDetailScreen';
 import ListItinerariesScreen from '../../screens/ListItinerariesScreen';
 import EditItinerary from '../../screens/EditItineraryScreen';
+import ResultEditScreen from '../../screens/ResultEditScreen';
 const Stack = createNativeStackNavigator();
 
 export const HomeNav = () => {
@@ -139,6 +140,13 @@ export const HomeNav = () => {
         }}
         name="EditItinerary"
         component={EditItinerary}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="ResultEdit"
+        component={ResultEditScreen}
       />
     </Stack.Navigator>
   );

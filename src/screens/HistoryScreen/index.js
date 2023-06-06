@@ -67,6 +67,7 @@ const History = () => {
 
   useEffect(() => {
     if (isFocused) {
+      console.log('load lai get history');
       axiosContext.GetHistories(setInitialData);
     }
   }, [isFocused]);
@@ -94,7 +95,7 @@ const History = () => {
             <FlatList
               data={data}
               renderItem={({item, index}) => (
-                <HistoryItem item={item} key={item._id} />
+                <HistoryItem item={item} key={item._id} type="history" />
               )}
               showsHorizontalScrollIndicator={false}
               showsVerticalScrollIndicator={false}

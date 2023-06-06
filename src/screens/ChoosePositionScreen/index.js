@@ -69,12 +69,16 @@ const ChoosePosition = () => {
   }, [address]);
   useEffect(() => {
     if (coordinates !== null && mapRef.current) {
-      mapRef.current.animateToRegion({
-        latitude: coordinates.latitude,
-        longitude: coordinates.longitude,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      });
+      mapRef.current.animateCamera(
+        {
+          center: {
+            latitude: coordinates.latitude,
+            longitude: coordinates.longitude,
+          },
+          zoom: 15,
+        },
+        1000,
+      );
     }
   }, [coordinates]);
   const handlePosition = async (lati, longi) => {

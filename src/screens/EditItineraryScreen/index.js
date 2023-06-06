@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -13,6 +13,9 @@ import SortableListComponent from '../../components/SortableList';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
+import {AxiosContext} from '../../context/AxiosContext';
+import {GenerateItiTest} from '../../apis/itineraries';
+import {useSelector} from 'react-redux';
 
 const EditItinerary = ({route}) => {
   const [day, setDay] = useState([1]);
@@ -36,12 +39,14 @@ const EditItinerary = ({route}) => {
   useEffect(() => {
     setData(dataIti?.[selectedItem - 1]?.route);
   }, [selectedItem]);
-  const {dataIti} = route.params;
+  const {dataIti, Id} = route.params;
+  console.log('Id', Id);
   const [dataDay, setDataDay] = useState([]);
   const [newArray, setNewArray] = useState([]);
   const [newArrayById, setNewArrayById] = useState([]);
   const [finalData, setFinalData] = useState([]);
   const [dataToSent, setDataToSent] = useState(null);
+  const [dataToSentMap, setDataToSentMap] = useState(null);
   const getDataDay = () => {
     const arrNew = dataDay.map(str => parseInt(str));
     console.log('arrNew', arrNew);
@@ -72,6 +77,7 @@ const EditItinerary = ({route}) => {
   }, [dataDay]);
 
   useEffect(() => handleDatatoSent(dataIti), []);
+  const axiosContext = useContext(AxiosContext);
   const generateData = () => {
     const sortedArray = newArray.map(
       index => data[index]?.description?._id || null,
@@ -102,22 +108,39 @@ const EditItinerary = ({route}) => {
     setDataToSent(arr2, null, 2);
     console.log(JSON.stringify(arr2, null, 2));
   };
-  const handleGenerateButton = () =>{
-    if (newArrayById.length !== 0){
-      dataToSent.routes[selectedItem-1] = newArrayById.map(i => i === null ? {
-        "latitude": 16.0683088,
-        "longitude": 108.1490164
-      } : i);
+  const isUser = useSelector(state => state.auth.login);
+  const handleGenerateButton = () => {
+    if (newArrayById.length !== 0) {
+      dataToSent.routes[selectedItem - 1] = newArrayById.map(i =>
+        i === null
+          ? {
+              latitude: 16.0683088,
+              longitude: 108.1490164,
+            }
+          : i,
+      );
     }
-    const result = dataToSent?.routes?.map(subArr => subArr.slice(0, subArr.length - 1));
-    const Reresult = result.map(subArr => subArr.map(item => {
-      if (typeof item === 'string') {
-        return { _id: item };
-      }
-      return item;
-    }));  
+    const result = dataToSent?.routes?.map(subArr =>
+      subArr.slice(0, subArr.length - 1),
+    );
+    const Reresult = result.map(subArr =>
+      subArr.map(item => {
+        if (typeof item === 'string') {
+          return {_id: item};
+        }
+        return item;
+      }),
+    );
     console.log(Reresult);
-  }
+    // axiosContext.GenerateNewIti(Id, Reresult);
+    GenerateItiTest(Id, isUser?.data?.token, setDataToSentMap);
+  };
+  useEffect(() => {
+    if (dataToSentMap !== null) {
+      navigation.navigate('ResultEdit', {data: dataToSentMap});
+    }
+  }, [dataToSentMap]);
+
   return (
     <View style={styles.container}>
       <View style={styles.viewTitle}>
@@ -148,6 +171,13 @@ const EditItinerary = ({route}) => {
       />
 
       <View style={styles.viewButton}>
+        <TouchableOpacity
+          style={styles.viewSave}
+          onPress={() => {
+            console.log('update');
+          }}>
+          <Text style={styles.textDay}>Update</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.viewSave}
           onPress={() => {
@@ -189,12 +219,13 @@ const styles = StyleSheet.create({
   viewButton: {
     height: heightScreen * 0.1,
     width: widthScreen,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
+    flexDirection: 'row',
   },
   viewSave: {
     height: heightScreen * 0.08,
-    width: widthScreen * 0.8,
+    width: widthScreen * 0.4,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.MAINCOLOR,

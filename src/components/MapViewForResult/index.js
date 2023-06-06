@@ -14,8 +14,8 @@ enableLatestRenderer();
 const ASPECT_RATIO = widthScreen / (heightScreen * 0.5);
 const LATITUDE_DELTA = 0.072;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-
 // const GOOGLE_MAPS_APIKEY = 'AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU';
+
 const GOOGLE_MAPS_APIKEY = '';
 const positions = [
   {
@@ -43,13 +43,7 @@ const positions = [
     description: 'Tran Thi Ly Bridge',
   },
 ];
-const MapViewComponent = ({
-  dataHT,
-  index,
-  dataMap,
-  selectedItem,
-  coordinates,
-}) => {
+const MapViewForResult = ({dataHT, index, dataMap, selectedItem}) => {
   const [data, setData] = useState(positions);
   const [dataHotel, setDataHotel] = useState(dataHT);
   const [lat, setLat] = useState();
@@ -75,8 +69,8 @@ const MapViewComponent = ({
   return (
     <MapView
       initialRegion={{
-        latitude: coordinates.latitude,
-        longitude: coordinates.longitude,
+        latitude: lat,
+        longitude: lng,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       }}
@@ -119,7 +113,7 @@ const MapViewComponent = ({
   );
 };
 
-export default MapViewComponent;
+export default MapViewForResult;
 
 const styles = StyleSheet.create({
   map: {

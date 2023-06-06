@@ -162,6 +162,73 @@ export const AxiosProvider = ({children}) => {
         console.log(error);
       });
   };
+  const ChangeStatusForIti = (ItiId, isPublic) => {
+    axiosInstance
+      .patch(`/routes/${ItiId}`, {isPublic: isPublic})
+      .then(response => {
+        console.log(response?.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+  const ItineraryRoutesUser = async (
+    latitude,
+    longitude,
+    startDate,
+    endDate,
+    idType,
+    cost,
+    number,
+    setTotal,
+    setId,
+    setData,
+  ) => {
+    let data = {
+      latitude: latitude,
+      longitude: longitude,
+      startDate: startDate,
+      endDate: endDate,
+      type: idType,
+      minCost: cost[0] * 1000000,
+      maxCost: cost[1] * 1000000,
+      people: number,
+      points: ['64742bec9a86f189a3bfe52a', '64742bed9a86f189a3bfe52c'],
+    };
+    await axiosInstance
+      .post(`/routes`, {data})
+      .then(response => {
+        console.log(response?.data?.data);
+        setData(response?.data?.data?.routes);
+        setTotal(response?.data?.data?.cost);
+        setId(response?.data?.data?._id);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+  const GenerateNewIti = (ItiId, routes) => {
+    console.log('ItiId', ItiId);
+    console.log('routes', routes.length);
+    let data = {
+      routes: [
+        [
+          {latitude: 16.0683088, longitude: 108.1490164},
+          {_id: '64742bec9a86f189a3bfe52a'},
+          {_id: '64742bed9a86f189a3bfe52c'},
+          {_id: '64742bf29a86f189a3bfe570'},
+          {_id: '64742bf49a86f189a3bfe582'},
+          {_id: '64742bf39a86f189a3bfe578'},
+          {_id: '64742bf79a86f189a3bfe5b6'},
+          {_id: '64742bfe9a86f189a3bfe610'},
+        ],
+      ],
+    };
+    axiosInstance
+      .post(`/routes/${ItiId}/generate`, {data})
+      .then(response => console.log(response.data))
+      .catch(err => console.log(err));
+  };
   return (
     <Provider
       value={{
@@ -171,6 +238,9 @@ export const AxiosProvider = ({children}) => {
         DeleteItineraryFavo,
         DeleteFavo,
         GetHistories,
+        ChangeStatusForIti,
+        ItineraryRoutesUser,
+        GenerateNewIti,
       }}>
       {children}
     </Provider>
