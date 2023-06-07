@@ -92,44 +92,8 @@ export const ItineraryRoutesTest = async (
     });
 };
 
-export const GenerateItiTest = (IdIti, token, setDataToSentMap) => {
-  let data = JSON.stringify({
-    routes: [
-      [
-        {
-          latitude: 16.0683088,
-          longitude: 108.1490164,
-        },
-        {
-          _id: '64742bfd9a86f189a3bfe605',
-        },
-        {
-          _id: '64742bf99a86f189a3bfe5c9',
-        },
-        {
-          _id: '64742bec9a86f189a3bfe52a',
-        },
-        {
-          _id: '64742bfd9a86f189a3bfe604',
-        },
-        {
-          _id: '64742bf29a86f189a3bfe56b',
-        },
-        {
-          _id: '64742bed9a86f189a3bfe52c',
-        },
-        {
-          _id: '64742bfc9a86f189a3bfe5f2',
-        },
-        {
-          _id: '64742bf89a86f189a3bfe5c1',
-        },
-        {
-          _id: '64742bfa9a86f189a3bfe5dd',
-        },
-      ],
-    ],
-  });
+export const GenerateItiTest = (IdIti, token, arr, setDataToSentMap) => {
+  let data = {routes: arr};
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
@@ -144,8 +108,33 @@ export const GenerateItiTest = (IdIti, token, setDataToSentMap) => {
   axios
     .request(config)
     .then(response => {
-      console.log(JSON.stringify(response.data));
+      console.log('response.data', response.data);
       setDataToSentMap(response?.data?.data);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};
+
+export const UpdateItiTest = (IdIti, token, arr, status) => {
+  let data = {routes: arr};
+  console.log('data', data);
+  console.log('Id', IdIti);
+  let config = {
+    method: 'patch',
+    maxBodyLength: Infinity,
+    url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/routes/${IdIti}?checked=true`,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    data: data,
+  };
+
+  axios
+    .request(config)
+    .then(response => {
+      console.log('response.data', response.data);
     })
     .catch(error => {
       console.log(error);

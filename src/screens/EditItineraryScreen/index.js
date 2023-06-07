@@ -120,10 +120,7 @@ const EditItinerary = ({route}) => {
           : i,
       );
     }
-    const result = dataToSent?.routes?.map(subArr =>
-      subArr.slice(0, subArr.length - 1),
-    );
-    const Reresult = result.map(subArr =>
+    const Reresult = dataToSent?.routes?.map(subArr =>
       subArr.map(item => {
         if (typeof item === 'string') {
           return {_id: item};
@@ -133,11 +130,11 @@ const EditItinerary = ({route}) => {
     );
     console.log(Reresult);
     // axiosContext.GenerateNewIti(Id, Reresult);
-    GenerateItiTest(Id, isUser?.data?.token, setDataToSentMap);
+    GenerateItiTest(Id, isUser?.data?.token, Reresult, setDataToSentMap);
   };
   useEffect(() => {
     if (dataToSentMap !== null) {
-      navigation.navigate('ResultEdit', {data: dataToSentMap});
+      navigation.navigate('ResultEdit', {data: dataToSentMap, Id: Id});
     }
   }, [dataToSentMap]);
 

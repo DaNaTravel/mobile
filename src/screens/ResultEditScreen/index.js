@@ -1,5 +1,5 @@
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import DayItem from '../../components/DayItem';
@@ -14,9 +14,10 @@ import CarouselItinerary, {
 } from '../../components/CarouselItinerary';
 import Carousel from 'react-native-snap-carousel';
 import {colors, heightScreen, widthScreen} from '../../utility';
-import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import MapViewForResult from '../../components/MapViewForResult';
+import ViewMapResult from '../../components/ViewMapResult';
+import {UpdateItiTest} from '../../apis/itineraries';
 const Tab = createMaterialTopTabNavigator();
 const Day = ({data, index}) => {
   return (
@@ -35,8 +36,8 @@ const Day = ({data, index}) => {
 const TabView = ({data}) => {
   const [days, setDays] = useState([1]);
   const handleDays = async () => {
-    const data = JSON.parse(await AsyncStorage.getItem('data'));
-    setDays(data?.days);
+    const dataDay = JSON.parse(await AsyncStorage.getItem('data'));
+    setDays(dataDay?.days);
   };
   useLayoutEffect(() => {
     handleDays();
@@ -54,7 +55,9 @@ const TabView = ({data}) => {
             return (
               <Tab.Screen
                 name={`Day ${day}`}
-                children={() => <Day data={data[index]} index={index} />}
+                children={() => (
+                  <Day data={data?.routes[index]} index={index} />
+                )}
                 key={index}
               />
             );
@@ -64,16 +67,50 @@ const TabView = ({data}) => {
   );
 };
 const ResultEditScreen = ({route}) => {
-  const {data} = route.params;
+  const {data, Id} = route.params;
+  console.log('data', data);
   const refRBSheet = useRef();
   const navigation = useNavigation();
   const isCarousel = useRef(null);
   const [index, setIndex] = useState(0);
   const [days, setDays] = useState([1]);
   const [dataMap, setDataMap] = useState();
+  const [time, setTime] = useState();
+  const [coordinates, setCoordinates] = useState(null);
+  const [dataToUpdate, setDataToUpdate] = useState(null);
+  const handleDataToSent = arr1 => {
+    let newArray = arr1.map(obj =>
+      obj.route.map(item => {
+        if (item.description._id !== null) {
+          return {_id: item.description._id};
+        } else {
+          return {
+            latitude: item.description.latitude,
+            longitude: item.description.longitude,
+          };
+        }
+      }),
+    );
+
+    console.log(newArray);
+    UpdateItiTest(Id, isUser?.data?.token, newArray, true);
+  };
+  const handleTime = async () => {
+    const data = JSON.parse(await AsyncStorage.getItem('data'));
+    setTime(data?.time);
+    setDays(data?.days);
+    setCoordinates({latitude: data?.latitude, longitude: data?.longitude});
+  };
+
+  useLayoutEffect(() => {
+    handleTime();
+    if (refRBSheet.current) {
+      refRBSheet.current.open();
+    }
+  }, []);
   useEffect(() => {
     var transformedData = {};
-    data?.route?.forEach(function (item, index) {
+    data?.routes.forEach(function (item, index) {
       var key = `routes${index + 1}`;
       transformedData[key] = [];
 
@@ -88,7 +125,7 @@ const ResultEditScreen = ({route}) => {
       });
     });
     setDataMap(transformedData);
-  }, []);
+  }, [time?.startDate && time?.endDate]);
   const isUser = useSelector(state => state.auth.login);
   const [selectedItem, setSelectedItem] = useState(1);
   const renderItem = ({item}) => (
@@ -101,19 +138,27 @@ const ResultEditScreen = ({route}) => {
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewHeader}>
-        <TouchableOpacity
-          onPress={() =>
-            isUser?.data?._id !== undefined
-              ? navigation.navigate('BottomTab')
-              : navigation.navigate('BottomTabGuess')
-          }>
-          <Feather name="home" size={24} color={'#222222'} />
-        </TouchableOpacity>
-        <Text style={styles.textTitle}>Your trip</Text>
-        <View style={styles.viewSpace}></View>
+        <View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate('Home', {coordinates})}>
+            <FontAwesome name="undo" size={24} color={'#222222'} />
+          </TouchableOpacity>
+          <Text style={styles.textReset}>Reset</Text>
+        </View>
+
+        <Text style={styles.textTitle}>Your new trip</Text>
+        <View>
+          <TouchableOpacity
+            onPress={() => handleDataToSent(data)}
+            style={styles.button}>
+            <FontAwesome name="save" size={24} color={'#222222'} />
+          </TouchableOpacity>
+          <Text style={styles.textReset}>Save</Text>
+        </View>
       </View>
       <View style={styles.map}>
-        <MapViewForResult
+        <ViewMapResult
           dataHT={dataHT}
           index={index}
           dataMap={dataMap}
@@ -183,6 +228,12 @@ const ResultEditScreen = ({route}) => {
         }}>
         <View style={styles.viewTour}>
           <Text style={styles.textTour}>Tour details</Text>
+          <View>
+            <Text style={styles.textTotal}>Total</Text>
+            <Text style={styles.priceTour}>
+              {data?.cost ? data?.cost : null} VND
+            </Text>
+          </View>
         </View>
         <TabView data={data} />
       </RBSheet>
@@ -232,9 +283,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.WHITE,
   },
   viewHeader: {
-    height: heightScreen * 0.08,
+    height: heightScreen * 0.1,
     width: widthScreen,
-    backgroundColor: colors.WHITE,
+    backgroundColor: '#F1F0F0',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
@@ -247,6 +298,7 @@ const styles = StyleSheet.create({
   map: {
     height: heightScreen * 0.5,
     width: widthScreen,
+    backgroundColor: colors.RED,
   },
   viewRow: {
     flexDirection: 'row',
@@ -301,5 +353,16 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     color: colors.GREEN,
+  },
+  button: {
+    height: heightScreen * 0.05,
+    width: widthScreen * 0.18,
+    backgroundColor: colors.WHITE,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 15,
+  },
+  textReset: {
+    textAlign: 'center',
   },
 });

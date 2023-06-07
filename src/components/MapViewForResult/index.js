@@ -1,16 +1,14 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import MapView, {
-  PROVIDER_GOOGLE,
-  enableLatestRenderer,
-  Marker,
-  Callout,
-} from 'react-native-maps';
+import MapView, {enableLatestRenderer, Marker} from 'react-native-maps';
 import {heightScreen, widthScreen} from '../../utility';
 import MapViewDirections from 'react-native-maps-directions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 enableLatestRenderer();
+
+// Rest of your code...
+
 const ASPECT_RATIO = widthScreen / (heightScreen * 0.5);
 const LATITUDE_DELTA = 0.072;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
@@ -50,8 +48,11 @@ const MapViewForResult = ({dataHT, index, dataMap, selectedItem}) => {
   const [lng, setLng] = useState();
   const getInitialRegion = async () => {
     let data = await AsyncStorage.getItem('data');
-    setLat(parseFloat(data.latitude));
-    setLng(parseFloat(data.longitude));
+    if (data) {
+      const parsedData = JSON.parse(data);
+      setLat(parseFloat(parsedData.latitude));
+      setLng(parseFloat(parsedData.longitude));
+    }
   };
   useEffect(() => {
     const selectedRoutes = dataMap?.[`routes${selectedItem}`];
@@ -60,56 +61,15 @@ const MapViewForResult = ({dataHT, index, dataMap, selectedItem}) => {
   }, [dataMap, selectedItem]);
 
   const mapView = useRef(null);
-  mapView.current?.animateToRegion({
-    latitude: dataHT[index].lat,
-    longitude: dataHT[index].lon,
-    latitudeDelta: 0.025,
-    longitudeDelta: 0.025,
-  });
+  console.log('data', data);
   return (
     <MapView
       initialRegion={{
         latitude: lat,
         longitude: lng,
-        latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
-      }}
-      style={styles.map}
-      ref={mapView}>
-      {data?.map((coordinate, index) => (
-        <Marker
-          key={`coordinate_${index}`}
-          coordinate={coordinate}
-          description={coordinate?.address?.slice(0, 40)}
-          title={coordinate?.name}
-        />
-      ))}
-      {dataHotel.map((coordinate, index) => (
-        <Marker
-          key={`coordinate_${index}`}
-          coordinate={{latitude: coordinate.lat, longitude: coordinate.lon}}
-          description={coordinate.address}
-          title={coordinate.title}>
-          <Image
-            source={require('../../assets/images/building.png')}
-            style={styles.img}
-          />
-        </Marker>
-      ))}
-      {data?.length >= 2 && (
-        <MapViewDirections
-          origin={data?.[0]}
-          waypoints={data?.length > 2 ? data?.slice(1, -1) : undefined}
-          destination={data?.[data?.length - 1]}
-          apikey={GOOGLE_MAPS_APIKEY}
-          strokeWidth={3}
-          strokeColor="hotpink"
-          onError={errorMessage => {
-            console.log('GOT AN ERROR');
-          }}
-        />
-      )}
-    </MapView>
+        latitudeDelta: LATITUDE_DELTA,
+      }}></MapView>
   );
 };
 
