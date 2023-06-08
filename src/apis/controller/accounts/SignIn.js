@@ -11,7 +11,7 @@ export const SignIn = (email, password) => {
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/accounts/signin`,
+    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/accounts/signin`,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -34,7 +34,7 @@ export const SignIn = (email, password) => {
 };
 export function SignInTest(email, password) {
   return axios.post(
-    `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/accounts/signin`,
+    `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/accounts/signin`,
     {
       email: email,
       password: password,

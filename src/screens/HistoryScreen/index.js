@@ -23,6 +23,9 @@ const History = () => {
   const [initialData, setInitialData] = useState([]);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
+  const [page, setPage] = useState(1);
+  const [newData, setNewData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [items, setItems] = useState([
     {
       label: 'All',
@@ -56,7 +59,6 @@ const History = () => {
     },
   ]);
   const hanldeData = () => {
-    console.log(value);
     value === 'all'
       ? setData(initialData)
       : setData(initialData.filter(item => item?.isPublic === value));
@@ -68,9 +70,37 @@ const History = () => {
   useEffect(() => {
     if (isFocused) {
       console.log('load lai get history');
-      axiosContext.GetHistories(setInitialData);
+      axiosContext.GetHistories(page, setInitialData);
     }
+    setData(initialData);
   }, [isFocused]);
+  // const handleLoadMore = () => {
+  //   if (isLoading || items.length === 0) {
+  //     return;
+  //   }
+  //   setPage(prevPage => prevPage + 1);
+  // };
+  // const renderFooter = () => {
+  //   return (
+  //     <LottieView
+  //       source={require('../../assets/animations/loading1.json')}
+  //       autoPlay
+  //       loop
+  //       style={{
+  //         height: widthScreen * 0.2,
+  //         width: widthScreen * 0.2,
+  //         alignSelf: 'center',
+  //       }}
+  //     />
+  //   );
+  // };
+  // useEffect(() => {
+  //   if (page !== 1) {
+  //     console.log('page', page);
+  //     axiosContext.GetHistories(page, setNewData);
+  //   }
+  //   setInitialData(prevItems => [...prevItems, ...newData]);
+  // }, [page]);
   return (
     <View style={styles.viewParent}>
       {isUser?.message === null ? (
@@ -101,6 +131,9 @@ const History = () => {
               showsVerticalScrollIndicator={false}
               scrollEnabled={true}
               keyExtractor={item => item._id}
+              // onEndReached={handleLoadMore}
+              // onEndReachedThreshold={0.35}
+              // ListFooterComponent={renderFooter}
             />
           </View>
         </>

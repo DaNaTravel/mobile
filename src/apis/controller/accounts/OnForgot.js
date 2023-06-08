@@ -7,7 +7,7 @@ export const OnForgot = async email => {
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: `${BASE_URL}/accounts/forgot-password`,
+    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/accounts/forgot-password`,
     headers: {
       'Content-Type': 'application/json',
     },

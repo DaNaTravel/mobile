@@ -4,7 +4,7 @@ export const Related = (type, id, setData) => {
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `${BASE_URL}/locations/related?type=${type}&locationId=${id}`,
+    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/locations/related?type=${type}&locationId=${id}`,
     headers: {
       'Content-Type': 'application/json',
     },

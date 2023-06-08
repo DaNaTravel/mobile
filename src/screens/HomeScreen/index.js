@@ -106,8 +106,8 @@ const HomeScreen = ({route}) => {
   }, []);
 
   useEffect(() => {
-    if (time?.startDate && time?.endDate) {
-      console.log(isUser?.data?._id !== undefined);
+    if (time?.startDate && time?.endDate && cost.length !== 0) {
+      console.log(cost);
       isUser?.data?._id === undefined
         ? ItineraryRoutes(
             coordinates.latitude,
@@ -171,7 +171,7 @@ const HomeScreen = ({route}) => {
             },
           );
     }
-  }, [time?.startDate, time?.endDate]);
+  }, [time?.startDate, time?.endDate, cost]);
   const isUser = useSelector(state => state.auth.login);
   const [selectedItem, setSelectedItem] = useState(1);
   const renderItem = ({item}) => (

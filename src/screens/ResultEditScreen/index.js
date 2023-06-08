@@ -1,4 +1,11 @@
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
@@ -68,7 +75,6 @@ const TabView = ({data}) => {
 };
 const ResultEditScreen = ({route}) => {
   const {data, Id} = route.params;
-  console.log('data', data);
   const refRBSheet = useRef();
   const navigation = useNavigation();
   const isCarousel = useRef(null);
@@ -77,7 +83,7 @@ const ResultEditScreen = ({route}) => {
   const [dataMap, setDataMap] = useState();
   const [time, setTime] = useState();
   const [coordinates, setCoordinates] = useState(null);
-  const [dataToUpdate, setDataToUpdate] = useState(null);
+  const [dataReturn, setDataReturn] = useState(null);
   const handleDataToSent = arr1 => {
     let newArray = arr1.map(obj =>
       obj.route.map(item => {
@@ -93,7 +99,25 @@ const ResultEditScreen = ({route}) => {
     );
 
     console.log(newArray);
-    UpdateItiTest(Id, isUser?.data?.token, newArray, true);
+    UpdateItiTest(Id, isUser?.data?.token, newArray, true, setDataReturn);
+  };
+  const handleDataStillSave = arr1 => {
+    let newArray = arr1.map(obj =>
+      obj.route.map(item => {
+        if (item.description._id !== null) {
+          return {_id: item.description._id};
+        } else {
+          return {
+            latitude: item.description.latitude,
+            longitude: item.description.longitude,
+          };
+        }
+      }),
+    );
+
+    console.log(newArray);
+    UpdateItiTest(Id, isUser?.data?.token, newArray, false);
+    navigation.navigate('BottomTab');
   };
   const handleTime = async () => {
     const data = JSON.parse(await AsyncStorage.getItem('data'));
@@ -135,6 +159,34 @@ const ResultEditScreen = ({route}) => {
       onSelect={setSelectedItem}
     />
   );
+  useEffect(() => {
+    if (dataReturn !== null) {
+      if (dataReturn === 'Success') {
+        Alert.alert('Success', 'Your itinerary has been saved successfully!', [
+          {
+            text: 'Back to Home',
+            onPress: () => navigation.navigate('BottomTab'),
+          },
+        ]);
+      } else {
+        Alert.alert(
+          'Warning',
+          `Your trip requires careful attention due to some encountered issues: 
+          ${dataReturn}`,
+          [
+            {
+              text: 'Cancel',
+            },
+            {
+              text: 'Still save',
+              onPress: () => handleDataStillSave(data?.routes),
+            },
+          ],
+        );
+      }
+    }
+  }, [dataReturn]);
+
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewHeader}>
@@ -150,7 +202,7 @@ const ResultEditScreen = ({route}) => {
         <Text style={styles.textTitle}>Your new trip</Text>
         <View>
           <TouchableOpacity
-            onPress={() => handleDataToSent(data)}
+            onPress={() => handleDataToSent(data?.routes)}
             style={styles.button}>
             <FontAwesome name="save" size={24} color={'#222222'} />
           </TouchableOpacity>

@@ -18,7 +18,7 @@ export const AxiosProvider = ({children}) => {
   const isUser = useSelector(state => state.auth.login);
   const axiosInstance = axios.create({
     baseURL:
-      'http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000',
+      'http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000',
     headers: {
       Authorization: `Bearer ${isUser?.data?.token}`,
       'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ export const AxiosProvider = ({children}) => {
       let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: `${BASE_URL}/accounts/refresh`,
+        url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/accounts/refresh`,
         headers: {
           Authorization: `Bearer ${refreshToken}`,
         },
@@ -121,7 +121,7 @@ export const AxiosProvider = ({children}) => {
     let config = {
       method: 'delete',
       maxBodyLength: Infinity,
-      url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/favorites`,
+      url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/favorites`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${isUser?.data?.token}`,
@@ -152,9 +152,10 @@ export const AxiosProvider = ({children}) => {
       });
   };
 
-  const GetHistories = setData => {
+  const GetHistories = (page, setData) => {
+    console.log(page);
     axiosInstance
-      .get('/routes?access=private')
+      .get(`/routes?access=private&page=${page}`)
       .then(response => {
         setData(response?.data?.data?.output);
       })
@@ -208,21 +209,8 @@ export const AxiosProvider = ({children}) => {
       });
   };
   const GenerateNewIti = (ItiId, routes) => {
-    console.log('ItiId', ItiId);
-    console.log('routes', routes.length);
     let data = {
-      routes: [
-        [
-          {latitude: 16.0683088, longitude: 108.1490164},
-          {_id: '64742bec9a86f189a3bfe52a'},
-          {_id: '64742bed9a86f189a3bfe52c'},
-          {_id: '64742bf29a86f189a3bfe570'},
-          {_id: '64742bf49a86f189a3bfe582'},
-          {_id: '64742bf39a86f189a3bfe578'},
-          {_id: '64742bf79a86f189a3bfe5b6'},
-          {_id: '64742bfe9a86f189a3bfe610'},
-        ],
-      ],
+      routes: routes,
     };
     axiosInstance
       .post(`/routes/${ItiId}/generate`, {data})

@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     color: colors.BLACK,
     marginTop: heightScreen * -0.03,
     marginBottom: heightScreen * 0.01,
+    textAlign: 'center',
   },
   buttonClose: {
     height: 50,

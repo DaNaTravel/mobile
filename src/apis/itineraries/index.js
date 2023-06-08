@@ -27,7 +27,7 @@ export const ItineraryRoutes = async (
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/routes`,
+    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/routes`,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -58,21 +58,22 @@ export const ItineraryRoutesTest = async (
   setId,
   setData,
 ) => {
+  console.log(typeof cost[0]);
   let data = {
     latitude: latitude,
     longitude: longitude,
     startDate: startDate,
     endDate: endDate,
     type: idType,
-    minCost: cost[0] * 1000000,
-    maxCost: cost[1] * 1000000,
+    minCost: Number.parseInt(cost[0]) * 1000000,
+    maxCost: Number.parseInt(cost[1]) * 1000000,
     people: number,
     points: ['64742bec9a86f189a3bfe52a', '64742bed9a86f189a3bfe52c'],
   };
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/routes`,
+    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/routes`,
     headers: {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + token,
@@ -97,7 +98,7 @@ export const GenerateItiTest = (IdIti, token, arr, setDataToSentMap) => {
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/routes/${IdIti}/generate`,
+    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/routes/${IdIti}/generate`,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -116,14 +117,14 @@ export const GenerateItiTest = (IdIti, token, arr, setDataToSentMap) => {
     });
 };
 
-export const UpdateItiTest = (IdIti, token, arr, status) => {
+export const UpdateItiTest = (IdIti, token, arr, status, setDataReturn) => {
   let data = {routes: arr};
   console.log('data', data);
   console.log('Id', IdIti);
   let config = {
     method: 'patch',
     maxBodyLength: Infinity,
-    url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/routes/${IdIti}?checked=true`,
+    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/routes/${IdIti}?checked=${status}`,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -135,9 +136,11 @@ export const UpdateItiTest = (IdIti, token, arr, status) => {
     .request(config)
     .then(response => {
       console.log('response.data', response.data);
+      setDataReturn(response?.data?.message);
     })
     .catch(error => {
-      console.log(error);
+      console.log(error?.response?.data?.message);
+      setDataReturn(error?.response?.data?.message);
     });
 };
 
@@ -145,7 +148,7 @@ export const GetItineraries = async setData => {
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `http://ec2-3-112-251-136.ap-northeast-1.compute.amazonaws.com:5000/routes?isPublic=true`,
+    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/routes?isPublic=true`,
     headers: {
       'Content-Type': 'application/json',
     },
