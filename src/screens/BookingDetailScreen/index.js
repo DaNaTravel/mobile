@@ -76,7 +76,6 @@ const Header = ({
     like
       ? axiosContext.DeleteFavo(item?._id)
       : axiosContext.AddLocationFavorite(item?._id);
-    console.log(item?._id);
     OnFavo();
   };
   const OnFavo = () => {
@@ -93,7 +92,13 @@ const Header = ({
   useEffect(() => {
     setLike(listFavo?.includes(item?._id));
   }, [listFavo]);
-
+  const handleTotal = num => {
+    let formattedNum = num
+      .toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
+      .replace(',00', '')
+      .slice(0, -1);
+    return formattedNum;
+  };
   return (
     <>
       <TouchableOpacity
@@ -137,7 +142,11 @@ const Header = ({
             <Text style={styles.name} numberOfLines={1}>
               {item?.name ? item?.name : 'BaNa Hills'}
             </Text>
-            <Text style={styles.price}>${item?.cost ? item?.cost : '20'}</Text>
+            <Text style={styles.price}>
+              {' '}
+              {item?.cost !== 0 ? handleTotal(item?.cost) : 'FREE'}{' '}
+              {item?.cost !== 0 ? 'VND' : null}
+            </Text>
           </View>
           <View style={styles.viewPosStar}>
             <View style={styles.viewPos}>
@@ -207,9 +216,6 @@ const BookingDetail = ({route}) => {
   };
   const {item} = route.params;
   const [data, setData] = useState([]);
-  // useEffect(() => {
-  //   Related(item?.types[0], item?._id, setData);
-  // }, [item]);
   useEffect(() => {
     setData(item?.relatedLocations);
   }, [item]);
@@ -309,6 +315,7 @@ const styles = StyleSheet.create({
   viewNamePrice: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   viewPosStar: {
     flexDirection: 'row',
@@ -322,7 +329,7 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.4,
   },
   price: {
-    fontSize: 25,
+    fontSize: 16,
     fontWeight: 600,
     color: colors.MAINCOLOR,
   },

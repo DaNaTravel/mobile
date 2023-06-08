@@ -53,7 +53,6 @@ export const SearchByID = (id, setData) => {
   axios
     .request(config)
     .then(async response => {
-      console.log('LocaData', response?.data?.data);
       setData(response?.data?.data);
     })
     .catch(error => {

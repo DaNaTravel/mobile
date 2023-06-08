@@ -14,6 +14,13 @@ const ItineraryPlace = ({item, type, listLoca, setListLoca}) => {
   const handleDelete = () => {
     setModalVisible(!isModalVisible);
   };
+  const handleTotal = num => {
+    let formattedNum = num
+      .toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
+      .replace(',00', '')
+      .slice(0, -1);
+    return formattedNum;
+  };
   return (
     <View
       style={type === 'edit' ? styles.viewParentEdit : styles.viewParent}
@@ -64,7 +71,7 @@ const ItineraryPlace = ({item, type, listLoca, setListLoca}) => {
             </View>
 
             <Text style={styles.textPrice}>
-              {item?.cost !== 0 ? item?.cost : 'FREE'}{' '}
+              {item?.cost !== 0 ? handleTotal(item?.cost) : 'FREE'}{' '}
               {item?.cost !== 0 ? 'VND' : null}
             </Text>
             <View style={styles.viewStarWeather}>

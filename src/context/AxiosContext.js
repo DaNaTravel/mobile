@@ -140,15 +140,18 @@ export const AxiosProvider = ({children}) => {
       });
   };
 
-  const DeleteFavo = (locationId, setResult) => {
+  const DeleteFavo = locationId => {
+    let data = JSON.stringify({
+      locationId: locationId,
+    });
     axiosInstance
-      .delete('/favorites', {locationId: locationId})
-      .then(async response => {
+      .delete('/favorites/', {data: data})
+      .then(response => {
         console.log(response?.data?.message);
-        setResult(await response?.data?.message);
       })
       .catch(error => {
-        console.log(error);
+        console.log('hi');
+        console.log(error?.response);
       });
   };
 
@@ -163,6 +166,7 @@ export const AxiosProvider = ({children}) => {
         console.log(error);
       });
   };
+
   const ChangeStatusForIti = (ItiId, isPublic) => {
     axiosInstance
       .patch(`/routes/${ItiId}`, {isPublic: isPublic})
@@ -173,6 +177,7 @@ export const AxiosProvider = ({children}) => {
         console.log(error);
       });
   };
+
   const ItineraryRoutesUser = async (
     latitude,
     longitude,
@@ -208,6 +213,7 @@ export const AxiosProvider = ({children}) => {
         console.log(error);
       });
   };
+
   const GenerateNewIti = (ItiId, routes) => {
     let data = {
       routes: routes,

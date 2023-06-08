@@ -7,6 +7,7 @@ import {
   View,
   FlatList,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import DayItem from '../../components/DayItem';
 import SortableListComponent from '../../components/SortableList';
@@ -14,7 +15,7 @@ import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 import {AxiosContext} from '../../context/AxiosContext';
-import {GenerateItiTest} from '../../apis/itineraries';
+import {GenerateItiTest, UpdateItiTest} from '../../apis/itineraries';
 import {useSelector} from 'react-redux';
 
 const EditItinerary = ({route}) => {
@@ -47,6 +48,7 @@ const EditItinerary = ({route}) => {
   const [finalData, setFinalData] = useState([]);
   const [dataToSent, setDataToSent] = useState(null);
   const [dataToSentMap, setDataToSentMap] = useState(null);
+  const [dataReturn, setDataReturn] = useState(null);
   const getDataDay = () => {
     const arrNew = dataDay.map(str => parseInt(str));
     console.log('arrNew', arrNew);
@@ -109,6 +111,28 @@ const EditItinerary = ({route}) => {
     console.log(JSON.stringify(arr2, null, 2));
   };
   const isUser = useSelector(state => state.auth.login);
+  const handleUpdateButton = status => {
+    if (newArrayById.length !== 0) {
+      dataToSent.routes[selectedItem - 1] = newArrayById.map(i =>
+        i === null
+          ? {
+              latitude: 16.0683088,
+              longitude: 108.1490164,
+            }
+          : i,
+      );
+    }
+    const Reresult = dataToSent?.routes?.map(subArr =>
+      subArr.map(item => {
+        if (typeof item === 'string') {
+          return {_id: item};
+        }
+        return item;
+      }),
+    );
+    console.log(Reresult);
+    UpdateItiTest(Id, isUser?.data?.token, Reresult, status, setDataReturn);
+  };
   const handleGenerateButton = () => {
     if (newArrayById.length !== 0) {
       dataToSent.routes[selectedItem - 1] = newArrayById.map(i =>
@@ -137,7 +161,34 @@ const EditItinerary = ({route}) => {
       navigation.navigate('ResultEdit', {data: dataToSentMap, Id: Id});
     }
   }, [dataToSentMap]);
-
+  useEffect(() => {
+    if (dataReturn !== null) {
+      if (dataReturn === 'Success') {
+        Alert.alert('Success', 'Your itinerary has been saved successfully!', [
+          {
+            text: 'Go to Map',
+            onPress: () =>
+              navigation.navigate('ResultEdit', {data: finalData, Id: Id}),
+          },
+        ]);
+      } else {
+        Alert.alert(
+          'Warning',
+          `Your trip requires careful attention due to some encountered issues: 
+          ${dataReturn}`,
+          [
+            {
+              text: 'Cancel',
+            },
+            {
+              text: 'Still save',
+              onPress: () => handleUpdateButton(false),
+            },
+          ],
+        );
+      }
+    }
+  }, [dataReturn]);
   return (
     <View style={styles.container}>
       <View style={styles.viewTitle}>
@@ -171,7 +222,7 @@ const EditItinerary = ({route}) => {
         <TouchableOpacity
           style={styles.viewSave}
           onPress={() => {
-            console.log('update');
+            handleUpdateButton(true);
           }}>
           <Text style={styles.textDay}>Update</Text>
         </TouchableOpacity>

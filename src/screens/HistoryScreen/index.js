@@ -33,7 +33,7 @@ const History = () => {
       icon: () => (
         <Image
           source={require('../../assets/images/all.png')}
-          style={{height: 32, width: 32}}
+          style={{height: 24, width: 24}}
         />
       ),
     },
@@ -43,7 +43,7 @@ const History = () => {
       icon: () => (
         <Image
           source={require('../../assets/images/public.png')}
-          style={{height: 32, width: 32}}
+          style={{height: 24, width: 24}}
         />
       ),
     },
@@ -53,7 +53,7 @@ const History = () => {
       icon: () => (
         <Image
           source={require('../../assets/images/private.png')}
-          style={{height: 32, width: 32}}
+          style={{height: 24, width: 24}}
         />
       ),
     },
@@ -119,6 +119,7 @@ const History = () => {
               placeholderStyle={styles.placeHolder}
               containerStyle={styles.containerStyle}
               dropDownContainerStyle={styles.dropDownContainerStyle}
+              labelStyle={styles.labelStyle}
             />
           </View>
           <View style={styles.viewList}>
@@ -132,7 +133,7 @@ const History = () => {
               scrollEnabled={true}
               keyExtractor={item => item._id}
               // onEndReached={handleLoadMore}
-              // onEndReachedThreshold={0.35}
+              // onEndReachedThreshold={0.36}
               // ListFooterComponent={renderFooter}
             />
           </View>
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
   },
   viewFilter: {
     height: heightScreen * 0.055,
-    width: widthScreen * 0.35,
+    width: widthScreen * 0.36,
     borderRadius: 24,
     backgroundColor: colors.WHITE,
     shadowColor: '#000',
@@ -233,10 +234,16 @@ const styles = StyleSheet.create({
     width: 30,
   },
   containerStyle: {
-    width: widthScreen * 0.35,
-    marginLeft: widthScreen * 0.09,
+    width: widthScreen * 0.36,
+    marginLeft: widthScreen * 0.08,
   },
   dropDownContainerStyle: {
     borderRadius: 24,
+  },
+  labelStyle: {
+    fontSize: 16,
+    fontWeight: 600,
+    color: colors.BLACK,
+    marginLeft: widthScreen * 0.02,
   },
 });

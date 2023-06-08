@@ -81,14 +81,24 @@ const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
           {item?.name !== undefined ? item?.name : 'Unnamed Journey'}
         </Text>
         {type === 'history' ? (
-          <Switch
-            trackColor={{false: '#C4C4C4', true: '#4059F2'}}
-            thumbColor={isEnabled ? '#FEFEFE' : '#FEFEFE'}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleSwitch}
-            value={isEnabled}
-            style={styles.switch}
-          />
+          <View style={styles.viewSwitch}>
+            <Image
+              source={
+                item?.isPublic
+                  ? require('../../assets/images/public.png')
+                  : require('../../assets/images/private.png')
+              }
+              style={{height: 24, width: 24, marginRight: widthScreen * 0.02}}
+            />
+            <Switch
+              trackColor={{false: '#C4C4C4', true: '#4059F2'}}
+              thumbColor={isEnabled ? '#FEFEFE' : '#FEFEFE'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch}
+              value={isEnabled}
+              style={styles.switch}
+            />
+          </View>
         ) : null}
       </View>
       <View style={styles.viewContainer1}>
@@ -319,5 +329,8 @@ const styles = StyleSheet.create({
   },
   switch: {
     transform: [{scaleX: 1.25}, {scaleY: 1.25}],
+  },
+  viewSwitch: {
+    flexDirection: 'row',
   },
 });

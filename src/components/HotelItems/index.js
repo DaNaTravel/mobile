@@ -19,6 +19,13 @@ const HotelItems = ({item}) => {
   useLayoutEffect(() => {
     SearchByID(item?._id, setData);
   }, []);
+  const handleTotal = num => {
+    let formattedNum = num
+      .toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
+      .replace(',00', '')
+      .slice(0, -1);
+    return formattedNum;
+  };
   return (
     <TouchableOpacity
       style={styles.container}
@@ -49,8 +56,8 @@ const HotelItems = ({item}) => {
         </View>
         <View style={styles.viewStarPrice}>
           <Text style={styles.price}>
-            {/* {item?.price ? item?.price : '$20.00'} */}
-            $20
+            {item?.cost !== 0 ? handleTotal(item?.cost) : 'FREE'}{' '}
+            {item?.cost !== 0 ? 'VND' : null}
           </Text>
           <View style={styles.viewStar}>
             <FontAwesome
@@ -59,9 +66,7 @@ const HotelItems = ({item}) => {
               color={colors.YELLOW}
               style={styles.viewAStar}
             />
-            <Text style={styles.price}>
-              {data?.rating ? data?.rating : '5'}
-            </Text>
+            <Text style={styles.star}>{data?.rating ? data?.rating : '5'}</Text>
           </View>
         </View>
       </LinearGradient>
@@ -102,6 +107,11 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.3768,
   },
   price: {
+    fontWeight: 600,
+    fontSize: 15,
+    color: colors.WHITE,
+  },
+  star: {
     fontWeight: 600,
     fontSize: 18,
     color: colors.WHITE,

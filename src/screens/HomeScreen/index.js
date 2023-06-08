@@ -89,6 +89,13 @@ const HomeScreen = ({route}) => {
   const [total, setTotal] = useState();
   const [Id, setId] = useState();
   const axiosContext = useContext(AxiosContext);
+  const handleTotal = num => {
+    let formattedNum = num
+      .toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
+      .replace(',00', '')
+      .slice(0, -1);
+    return formattedNum;
+  };
   const handleTime = async () => {
     const data = JSON.parse(await AsyncStorage.getItem('data'));
     setTime(data?.time);
@@ -274,7 +281,9 @@ const HomeScreen = ({route}) => {
           <Text style={styles.textTour}>Tour details</Text>
           <View>
             <Text style={styles.textTotal}>Total</Text>
-            <Text style={styles.priceTour}>{total ? total : null} VND</Text>
+            <Text style={styles.priceTour}>
+              {total ? handleTotal(total) : null} VND
+            </Text>
           </View>
         </View>
         <TabView data={data} />

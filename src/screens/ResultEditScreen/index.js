@@ -134,11 +134,11 @@ const ResultEditScreen = ({route}) => {
   }, []);
   useEffect(() => {
     var transformedData = {};
-    data?.routes.forEach(function (item, index) {
+    data?.routes?.forEach(function (item, index) {
       var key = `routes${index + 1}`;
       transformedData[key] = [];
 
-      item.route.forEach(function (routeItem) {
+      item?.route?.forEach(function (routeItem) {
         var place = {
           latitude: routeItem.description.latitude,
           longitude: routeItem.description.longitude,
@@ -152,6 +152,13 @@ const ResultEditScreen = ({route}) => {
   }, [time?.startDate && time?.endDate]);
   const isUser = useSelector(state => state.auth.login);
   const [selectedItem, setSelectedItem] = useState(1);
+  const handleTotal = num => {
+    let formattedNum = num
+      .toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
+      .replace(',00', '')
+      .slice(0, -1);
+    return formattedNum;
+  };
   const renderItem = ({item}) => (
     <DayItem
       item={item}
@@ -283,7 +290,7 @@ const ResultEditScreen = ({route}) => {
           <View>
             <Text style={styles.textTotal}>Total</Text>
             <Text style={styles.priceTour}>
-              {data?.cost ? data?.cost : null} VND
+              {data?.cost ? handleTotal(data?.cost) : null} VND
             </Text>
           </View>
         </View>

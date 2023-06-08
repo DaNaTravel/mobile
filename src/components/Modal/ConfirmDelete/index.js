@@ -14,6 +14,7 @@ const ConfirmDelete = ({
 }) => {
   const handleDelete = async () => {
     let finalData = JSON.parse(await AsyncStorage.getItem('finalDT'));
+    console.log('finalData', finalData);
     const result = finalData?.filter(data => data?.description?._id !== dataId);
     setListLoca(result);
     setModalVisible(!isModalVisible);
