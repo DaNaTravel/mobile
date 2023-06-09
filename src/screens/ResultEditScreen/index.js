@@ -23,6 +23,7 @@ import Carousel from 'react-native-snap-carousel';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Feather from 'react-native-vector-icons/Feather';
 import ViewMapResult from '../../components/ViewMapResult';
 import {UpdateItiTest} from '../../apis/itineraries';
 const Tab = createMaterialTopTabNavigator();
@@ -74,7 +75,8 @@ const TabView = ({data}) => {
   );
 };
 const ResultEditScreen = ({route}) => {
-  const {data, Id} = route.params;
+  const {data, Id, type} = route.params;
+  console.log('data in Result Edit Screen: ', data);
   const refRBSheet = useRef();
   const navigation = useNavigation();
   const isCarousel = useRef(null);
@@ -168,7 +170,7 @@ const ResultEditScreen = ({route}) => {
   );
   useEffect(() => {
     if (dataReturn !== null) {
-      if (dataReturn === 'Success') {
+      if (dataReturn?.message === 'Success') {
         Alert.alert('Success', 'Your itinerary has been saved successfully!', [
           {
             text: 'Back to Home',
@@ -179,7 +181,7 @@ const ResultEditScreen = ({route}) => {
         Alert.alert(
           'Warning',
           `Your trip requires careful attention due to some encountered issues: 
-          ${dataReturn}`,
+          ${dataReturn?.message}`,
           [
             {
               text: 'Cancel',
@@ -197,24 +199,45 @@ const ResultEditScreen = ({route}) => {
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewHeader}>
-        <View>
+        {type === 'update' ? (
           <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('Home', {coordinates})}>
-            <FontAwesome name="undo" size={24} color={'#222222'} />
+            onPress={() =>
+              isUser?.data?._id !== undefined
+                ? navigation.navigate('BottomTab')
+                : navigation.navigate('BottomTabGuess')
+            }>
+            <Feather name="home" size={24} color={'#222222'} />
           </TouchableOpacity>
-          <Text style={styles.textReset}>Reset</Text>
-        </View>
-
-        <Text style={styles.textTitle}>Your new trip</Text>
-        <View>
+        ) : (
+          <View>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('Home', {coordinates})}>
+              <FontAwesome name="undo" size={24} color={'#222222'} />
+            </TouchableOpacity>
+            <Text style={styles.textReset}>Reset</Text>
+          </View>
+        )}
+        <Text style={styles.textTitle}>
+          {type === 'update' ? 'Your trip' : 'Your new trip'}
+        </Text>
+        {type === 'update' ? (
           <TouchableOpacity
-            onPress={() => handleDataToSent(data?.routes)}
-            style={styles.button}>
-            <FontAwesome name="save" size={24} color={'#222222'} />
+            onPress={() =>
+              navigation.navigate('EditItinerary', {dataIti: data, Id: Id})
+            }>
+            <Feather name="edit" size={24} color={'#222222'} />
           </TouchableOpacity>
-          <Text style={styles.textReset}>Save</Text>
-        </View>
+        ) : (
+          <View>
+            <TouchableOpacity
+              onPress={() => handleDataToSent(data?.routes)}
+              style={styles.button}>
+              <FontAwesome name="save" size={24} color={'#222222'} />
+            </TouchableOpacity>
+            <Text style={styles.textReset}>Save</Text>
+          </View>
+        )}
       </View>
       <View style={styles.map}>
         <ViewMapResult

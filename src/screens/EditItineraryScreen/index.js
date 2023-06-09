@@ -158,24 +158,32 @@ const EditItinerary = ({route}) => {
   };
   useEffect(() => {
     if (dataToSentMap !== null) {
-      navigation.navigate('ResultEdit', {data: dataToSentMap, Id: Id});
+      navigation.navigate('ResultEdit', {
+        data: dataToSentMap,
+        Id: Id,
+      });
     }
   }, [dataToSentMap]);
   useEffect(() => {
     if (dataReturn !== null) {
-      if (dataReturn === 'Success') {
+      console.log('dataReturn', dataReturn);
+      if (dataReturn?.message === undefined) {
         Alert.alert('Success', 'Your itinerary has been saved successfully!', [
           {
             text: 'Go to Map',
             onPress: () =>
-              navigation.navigate('ResultEdit', {data: finalData, Id: Id}),
+              navigation.navigate('ResultEdit', {
+                data: dataReturn,
+                Id: Id,
+                type: 'update',
+              }),
           },
         ]);
       } else {
         Alert.alert(
           'Warning',
           `Your trip requires careful attention due to some encountered issues: 
-          ${dataReturn}`,
+          ${dataReturn?.message}`,
           [
             {
               text: 'Cancel',

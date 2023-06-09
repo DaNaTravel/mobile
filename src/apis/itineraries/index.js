@@ -136,11 +136,11 @@ export const UpdateItiTest = (IdIti, token, arr, status, setDataReturn) => {
     .request(config)
     .then(response => {
       console.log('response.data', response.data);
-      setDataReturn(response?.data?.message);
+      setDataReturn(response?.data);
     })
     .catch(error => {
       console.log(error?.response?.data?.message);
-      setDataReturn(error?.response?.data?.message);
+      setDataReturn(error?.response?.data);
     });
 };
 
