@@ -15,41 +15,50 @@ import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import ConfirmLogout from '../Modal/ConfirmLogout';
 import {AxiosContext} from '../../context/AxiosContext';
+import ConfirmPublic from '../Modal/ConfirmPublic';
 const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
   const navigation = useNavigation();
   const [dataImg, setDataImg] = useState([]);
   const axiosContext = useContext(AxiosContext);
+
   const dataImgs = [
     require('../../assets/images/muinghe.png'),
     require('../../assets/images/bana.jpg'),
     require('../../assets/images/mariamaria.jpeg'),
     require('../../assets/images/booking.jpg'),
   ];
+
   const isUser = useSelector(state => state.auth.login);
   const [isModalVisible, setModalVisible] = useState(false);
+
   const handleSure = async () => {
     setModalVisible(!isModalVisible);
   };
+
   const handleDelete = id => {
     setModalVisible(!isModalVisible);
   };
+
   const CreateListImg = routes => {
     const result = routes
       ?.map(route => route.photos)
       .filter(photo => photo !== null);
     setDataImg(result);
   };
+
   const handleExist = id => {
     const updatedListFavo = listFavo?.filter(item => item !== id);
     setListFavo(updatedListFavo);
     console.log('id', id);
     axiosContext.DeleteItineraryFavo(id);
   };
+
   const handleNotExist = id => {
     const updatedListFavo = listFavo ? [...listFavo, id] : [id];
     setListFavo(updatedListFavo);
     axiosContext.AddItineraryFavorite(id);
   };
+
   const handleDate = day => {
     const date = new Date(day);
     const formattedDate = `${(date.getMonth() + 1)
@@ -57,23 +66,30 @@ const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
       .padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`;
     return formattedDate;
   };
+
   const CreateListImgForFavo = routes => {
     const photoArray = routes
       .filter(item => item.description.photos !== null)
       .map(item => item.description.photos);
     setDataImg(photoArray);
   };
+
   const [isEnabled, setIsEnabled] = useState(item?.isPublic);
 
   const toggleSwitch = () => {
-    axiosContext.ChangeStatusForIti(item?._id, !isEnabled);
-    setIsEnabled(previousState => !previousState);
+    if (!isEnabled) setModalVisible(!isModalVisible);
+    else {
+      axiosContext.ChangeStatusForIti(item?._id, !isEnabled);
+      setIsEnabled(previousState => !previousState);
+    }
   };
+
   useEffect(() => {
     type === 'favorite'
       ? CreateListImgForFavo(item?.routes?.[0]?.route)
       : CreateListImg(item?.routes);
   }, []);
+
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewContainer0}>
@@ -199,6 +215,13 @@ const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
         setModalVisible={setModalVisible}
         data={data}
         setData={setData}
+      />
+      <ConfirmPublic
+        isModalVisible={isModalVisible}
+        setModalVisible={setModalVisible}
+        dataId={item?._id}
+        setIsEnabled={setIsEnabled}
+        isEnabled={isEnabled}
       />
     </View>
   );

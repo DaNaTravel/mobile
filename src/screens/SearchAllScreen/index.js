@@ -26,26 +26,32 @@ const types = [
   {type: 'church', name: 'Church'},
   {type: 'natural_feature', name: 'Natural Feature'},
 ];
+
 const SearchAllScreen = () => {
   const [search, setSearch] = useState('');
   const [items, setItems] = useState([]);
   const [newData, setNewData] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+
   const handleSearch = word => {
     Search(word, arrTypes.join(), 1, 10, setItems, setIsLoading);
   };
+
   const [arrTypes, setArrTypes] = useState([]);
   const navigation = useNavigation();
+
   useEffect(() => {
     Filter(arrTypes.join(), 1, 10, setItems, setIsLoading);
   }, [arrTypes]);
+
   const handleLoadMore = () => {
     if (isLoading || items.length === 0) {
       return;
     }
     setPage(prevPage => prevPage + 1);
   };
+
   const renderFooter = () => {
     return (
       <LottieView
@@ -60,6 +66,7 @@ const SearchAllScreen = () => {
       />
     );
   };
+
   useEffect(() => {
     if (page !== 1) {
       console.log('page', page);
@@ -71,8 +78,11 @@ const SearchAllScreen = () => {
         Filter(arrTypes.join(), page, 10, setNewData, setIsLoading);
       }
     }
-    setItems(prevItems => [...prevItems, ...newData]);
   }, [page]);
+
+  useEffect(() => {
+    setItems(prevItems => [...prevItems, ...newData]);
+  }, [newData]);
 
   return (
     <View style={styles.viewParent}>
@@ -97,7 +107,8 @@ const SearchAllScreen = () => {
             setSearch(txt);
           }}
           onSubmitEditing={() => handleSearch(search)}
-          autoFocus={true}></TextInput>
+          autoFocus={true}>
+        </TextInput>
       </View>
       <View style={styles.viewList}>
         <FlatList

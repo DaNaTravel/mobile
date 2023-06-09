@@ -103,9 +103,6 @@ const History = () => {
               showsVerticalScrollIndicator={false}
               scrollEnabled={true}
               keyExtractor={item => item._id}
-              // onEndReached={handleLoadMore}
-              // onEndReachedThreshold={0.36}
-              // ListFooterComponent={renderFooter}
             />
           </View>
         </>
