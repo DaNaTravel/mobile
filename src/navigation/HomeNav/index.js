@@ -17,6 +17,7 @@ import LocationDetail from '../../screens/LocationDetailScreen';
 import ListItinerariesScreen from '../../screens/ListItinerariesScreen';
 import EditItinerary from '../../screens/EditItineraryScreen';
 import ResultEditScreen from '../../screens/ResultEditScreen';
+import PlaceSelectionScreen from '../../screens/PlaceSelectionScreen';
 const Stack = createNativeStackNavigator();
 
 export const HomeNav = () => {
@@ -147,6 +148,13 @@ export const HomeNav = () => {
         }}
         name="ResultEdit"
         component={ResultEditScreen}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="PlaceSelection"
+        component={PlaceSelectionScreen}
       />
     </Stack.Navigator>
   );

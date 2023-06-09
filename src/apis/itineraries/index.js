@@ -53,12 +53,13 @@ export const ItineraryRoutesTest = async (
   idType,
   cost,
   number,
+  point,
   token,
   setTotal,
   setId,
   setData,
 ) => {
-  console.log(typeof cost[0]);
+  console.log('point', point);
   let data = {
     latitude: latitude,
     longitude: longitude,
@@ -68,7 +69,7 @@ export const ItineraryRoutesTest = async (
     minCost: Number.parseInt(cost[0]) * 1000000,
     maxCost: Number.parseInt(cost[1]) * 1000000,
     people: number,
-    points: ['64742bec9a86f189a3bfe52a', '64742bed9a86f189a3bfe52c'],
+    points: point,
   };
   let config = {
     method: 'post',
@@ -157,6 +158,25 @@ export const GetItineraries = async setData => {
     .request(config)
     .then(async response => {
       setData(response?.data?.data?.output);
+    })
+    .catch(error => {
+      return error.response.data;
+    });
+};
+
+export const GetItineraryById = (Id, setData) => {
+  let config = {
+    method: 'get',
+    maxBodyLength: Infinity,
+    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/routes/${Id}`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  axios
+    .request(config)
+    .then(response => {
+      setData(response?.data?.data);
     })
     .catch(error => {
       return error.response.data;

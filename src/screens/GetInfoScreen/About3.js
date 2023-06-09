@@ -48,7 +48,7 @@ const SliderContainer = props => {
     data.expense = value;
     data.mainGoal = selectedIndex;
     await AsyncStorage.setItem('data', JSON.stringify(data));
-    navigation.navigate('ChoosePosition');
+    navigation.navigate('PlaceSelection');
   };
   return (
     <View style={styles.sliderContainer}>
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   result: {
     fontWeight: 700,
     fontSize: 24,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   viewMoney: {
     marginTop: heightScreen * 0.07,

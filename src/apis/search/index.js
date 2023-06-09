@@ -12,7 +12,7 @@ export const Search = (keyword, type, page, take, setData, setIsLoading) => {
 
   axios
     .request(config)
-    .then(async response => {
+    .then(response => {
       setData(response?.data?.listLocations);
       setIsLoading(false);
     })
@@ -20,6 +20,28 @@ export const Search = (keyword, type, page, take, setData, setIsLoading) => {
       return error.response.data;
     });
 };
+
+export const SearchLoca = (keyword, page, take, setData, setIsLoading) => {
+  let config = {
+    method: 'get',
+    maxBodyLength: Infinity,
+    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/locations?keyword=${keyword}&page=${page}&take=${take}`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  axios
+    .request(config)
+    .then(response => {
+      setData(response?.data?.listLocations);
+      setIsLoading(false);
+    })
+    .catch(error => {
+      return error.response.data;
+    });
+};
+
 export const Filter = (type, page, take, setData, setIsLoading) => {
   let config = {
     method: 'get',

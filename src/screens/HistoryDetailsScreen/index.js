@@ -6,29 +6,30 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import ItineraryPlace from '../../components/ItineraryPlace';
+import {GetItineraryById} from '../../apis/itineraries';
 const Tab = createMaterialTopTabNavigator();
-const Day = ({data}) => {
+const Day = ({dataDay}) => {
   return (
     <View style={styles.viewDetailDaily}>
       <FlatList
-        data={data}
+        data={dataDay?.route}
         renderItem={({item, index}) => <ItineraryPlace item={item} />}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        keyExtractor={index => index}
+        keyExtractor={(item, index) => index.toString()}
         style={{marginTop: heightScreen * 0.02}}
       />
     </View>
   );
 };
-const TabView = ({item}) => {
+const TabView = ({item, data}) => {
   const days = [];
   for (let i = 1; i <= item?.days; i++) {
     days.push(i);
@@ -45,7 +46,7 @@ const TabView = ({item}) => {
         return (
           <Tab.Screen
             name={`Day ${day}`}
-            children={() => <Day data={item[index]} />}
+            children={() => <Day dataDay={data?.routes[index]} />}
             key={index}
           />
         );
@@ -56,6 +57,11 @@ const TabView = ({item}) => {
 const HistoryDetaislScreen = ({route}) => {
   const {item} = route.params;
   const navigation = useNavigation();
+  const [data, setData] = useState();
+  useEffect(() => {
+    GetItineraryById(item?._id, setData);
+  }, []);
+
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewWelcome}>
@@ -64,6 +70,9 @@ const HistoryDetaislScreen = ({route}) => {
           style={styles.buttonBack}>
           <FontAwesome name="angle-left" size={24} color="black" />
         </TouchableOpacity>
+        <Text style={styles.textTitle}>
+          {item?.name !== undefined ? item?.name : 'Unnamed Journey'}
+        </Text>
         <Image
           style={styles.viewAvt}
           source={require('../../assets/images/bana.jpg')}></Image>
@@ -71,14 +80,14 @@ const HistoryDetaislScreen = ({route}) => {
       <View style={styles.viewPeoDate}>
         <View style={styles.viewPeo}>
           <Ionicons name="person" size={30} color={colors.BLACK} />
-          <Text style={styles.textPeoDate}>2 people</Text>
+          <Text style={styles.textPeoDate}>{data?.people} people</Text>
         </View>
         <View style={styles.viewDate}>
           <FontAwesome name="calendar" size={30} color={colors.BLACK} />
-          <Text style={styles.textPeoDate}>6 days</Text>
+          <Text style={styles.textPeoDate}>{item?.days} days</Text>
         </View>
       </View>
-      <TabView item={item} />
+      <TabView item={item} data={data} />
     </View>
   );
 };
@@ -97,6 +106,7 @@ const styles = StyleSheet.create({
   viewWelcome: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   viewAvt: {
     height: 47,
@@ -179,5 +189,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 4,
+  },
+  textTitle: {
+    fontSize: 24,
+    fontWeight: 700,
+    color: colors.BLACK,
   },
 });

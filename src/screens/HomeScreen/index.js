@@ -86,6 +86,7 @@ const HomeScreen = ({route}) => {
   const [mainGoal, setMainGoal] = useState(0);
   const [cost, setCost] = useState([]);
   const [number, setNumber] = useState();
+  const [point, setPoint] = useState(null);
   const [total, setTotal] = useState();
   const [Id, setId] = useState();
   const axiosContext = useContext(AxiosContext);
@@ -103,6 +104,7 @@ const HomeScreen = ({route}) => {
     setMainGoal(data?.mainGoal);
     setCost(data?.expense);
     setNumber(data?.number);
+    setPoint(data?.point);
   };
 
   useLayoutEffect(() => {
@@ -113,8 +115,12 @@ const HomeScreen = ({route}) => {
   }, []);
 
   useEffect(() => {
-    if (time?.startDate && time?.endDate && cost.length !== 0) {
-      console.log(cost);
+    if (
+      time?.startDate &&
+      time?.endDate &&
+      cost.length !== 0 &&
+      point !== null
+    ) {
       isUser?.data?._id === undefined
         ? ItineraryRoutes(
             coordinates.latitude,
@@ -124,6 +130,7 @@ const HomeScreen = ({route}) => {
             mainGoal,
             cost,
             number,
+            point,
             setTotal,
             setId,
             responseData => {
@@ -154,6 +161,7 @@ const HomeScreen = ({route}) => {
             mainGoal,
             cost,
             number,
+            point,
             isUser?.data?.token,
             setTotal,
             setId,
@@ -178,7 +186,7 @@ const HomeScreen = ({route}) => {
             },
           );
     }
-  }, [time?.startDate, time?.endDate, cost]);
+  }, [time?.startDate, time?.endDate, cost, point]);
   const isUser = useSelector(state => state.auth.login);
   const [selectedItem, setSelectedItem] = useState(1);
   const renderItem = ({item}) => (

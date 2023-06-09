@@ -210,7 +210,6 @@ const styles = StyleSheet.create({
     marginLeft: widthScreen * 0.03,
   },
   viewHotelItem: {
-    marginRight: widthScreen * 0.02,
     marginBottom: heightScreen * 0.02,
   },
   result: {

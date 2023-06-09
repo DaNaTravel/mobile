@@ -9,11 +9,12 @@ import {
 import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Entypo from 'react-native-vector-icons/Entypo';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import {SearchByID} from '../../apis/search';
 
-const HotelItems = ({item}) => {
+const HotelItems = ({item, type, setDataAdded}) => {
   const navigation = useNavigation();
   const [data, setData] = useState({});
   useLayoutEffect(() => {
@@ -70,6 +71,15 @@ const HotelItems = ({item}) => {
           </View>
         </View>
       </LinearGradient>
+      {type === 'select' ? (
+        <TouchableOpacity
+          style={styles.viewSelect}
+          onPress={() => setDataAdded(prevData => [...prevData, data])}>
+          <Entypo name="plus" size={28} color={colors.BLACK} />
+        </TouchableOpacity>
+      ) : (
+        <></>
+      )}
     </TouchableOpacity>
   );
 };
@@ -152,5 +162,17 @@ const styles = StyleSheet.create({
   },
   viewAStar: {
     marginRight: widthScreen * 0.007,
+  },
+  viewSelect: {
+    height: heightScreen * 0.05,
+    width: widthScreen * 0.1,
+    borderTopRightRadius: 17,
+    borderBottomLeftRadius: 17,
+    backgroundColor: colors.WHITE,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
