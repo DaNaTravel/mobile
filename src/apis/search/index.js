@@ -63,7 +63,6 @@ export const Filter = (type, page, take, setData, setIsLoading) => {
     });
 };
 export const SearchByID = (id, setData) => {
-  console.log(id);
   let config = {
     method: 'get',
     maxBodyLength: Infinity,

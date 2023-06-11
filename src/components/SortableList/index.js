@@ -1,19 +1,27 @@
 import {StyleSheet, Platform} from 'react-native';
 import SortableList from 'react-native-sortable-list';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import ItineraryPlace from '../ItineraryPlace';
 import {colors, widthScreen} from '../../utility';
 
-const SortableListComponent = ({dataIti, selectedItem, setDataDay}) => {
+const SortableListComponent = ({dataIti, selectedItem, setDataDay, temp, dataPlace}) => {
   const handleRowOrderChange = useCallback(newOrder => {
     setDataDay(newOrder);
   }, []);
   const [listLoca, setListLoca] = useState(dataIti?.[0]?.route);
   useEffect(() => {
-    setListLoca(dataIti?.[selectedItem - 1]?.route);
-  }, [selectedItem]);
+    console.log('load lai 2');
+    setListLoca(dataIti?.[selectedItem - 1]?.route)
+  }, [selectedItem])
+  useEffect(() => {
+    if(dataPlace !== null){
+      let newData = listLoca.push(dataPlace);
+      setListLoca(newData);
+    }
+    console.log('lisstLoca', listLoca);
+  }, [dataPlace])
+  
   return (
-    <>
       <SortableList
         style={styles.list}
         contentContainerStyle={styles.contentContainer}
@@ -27,10 +35,9 @@ const SortableListComponent = ({dataIti, selectedItem, setDataDay}) => {
               setListLoca={setListLoca}
             />
           );
-        }, [])}
+        }, [listLoca])}
         onChangeOrder={handleRowOrderChange}
       />
-    </>
   );
 };
 

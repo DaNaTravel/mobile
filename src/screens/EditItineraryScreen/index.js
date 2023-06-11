@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState, useRef} from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,6 +8,7 @@ import {
   FlatList,
   TouchableOpacity,
   Alert,
+  TextInput
 } from 'react-native';
 import DayItem from '../../components/DayItem';
 import SortableListComponent from '../../components/SortableList';
@@ -17,12 +18,48 @@ import {useNavigation} from '@react-navigation/native';
 import {AxiosContext} from '../../context/AxiosContext';
 import {GenerateItiTest, UpdateItiTest} from '../../apis/itineraries';
 import {useSelector} from 'react-redux';
+import RBSheet from 'react-native-raw-bottom-sheet';
+import HotelItems from '../../components/HotelItems';
 
+const IdHard = [
+  {
+    _id: "64742bec9a86f189a3bfe52a"
+  },
+  {
+    _id: "64742bed9a86f189a3bfe52c"
+  },
+  {
+    _id: "64742bee9a86f189a3bfe52d"
+  },
+  {
+    _id: "64742bee9a86f189a3bfe52e"
+  },
+  {
+    _id: "64742bee9a86f189a3bfe52f"
+  },
+  {
+    _id: "64742bee9a86f189a3bfe530"
+  },
+  {
+    _id: "64742bee9a86f189a3bfe531"
+  },
+  {
+    _id: "64742bee9a86f189a3bfe532"
+  },
+  {
+    _id: "64742bee9a86f189a3bfe533"
+  },
+  {
+    _id: "64742bee9a86f189a3bfe534"
+  },
+  
+]
 const EditItinerary = ({route}) => {
   const [day, setDay] = useState([1]);
   const [selectedItem, setSelectedItem] = useState(1);
   const [data, setData] = useState([]);
   const navigation = useNavigation();
+  const [search, setSearch] = useState(null)
   const renderItem = ({item}) => (
     <DayItem
       item={item}
@@ -97,11 +134,11 @@ const EditItinerary = ({route}) => {
       const route = [];
       for (const routeObj of obj.route) {
         const newObj = {};
-        if (!routeObj.description._id) {
-          newObj.latitude = routeObj.description.latitude;
-          newObj.longitude = routeObj.description.longitude;
+        if (!routeObj?.description._id) {
+          newObj.latitude = routeObj?.description?.latitude;
+          newObj.longitude = routeObj?.description?.longitude;
         } else {
-          newObj._id = routeObj.description._id;
+          newObj._id = routeObj?.description._id;
         }
         route.push(newObj);
       }
@@ -197,6 +234,16 @@ const EditItinerary = ({route}) => {
       }
     }
   }, [dataReturn]);
+  const refRBSheet = useRef();
+  const [dataPlace, setDataPlace] = useState(null);
+  const [temp, setTemp] = useState(true)
+  // useEffect(() => {
+  //   console.log('daIti Truoc', dataIti?.[selectedItem - 1]?.route);
+  //   dataIti?.[selectedItem - 1]?.route.push(dataPlace);
+  //   console.log('dataIti sau :', dataIti?.[selectedItem - 1]?.route);
+  //   setTemp(!temp)
+  // }, [dataPlace])
+  
   return (
     <View style={styles.container}>
       <View style={styles.viewTitle}>
@@ -224,6 +271,8 @@ const EditItinerary = ({route}) => {
         selectedItem={selectedItem}
         setDataDay={setDataDay}
         finalData={finalData}
+        temp={temp}
+        dataPlace={dataPlace}
       />
 
       <View style={styles.viewButton}>
@@ -242,6 +291,71 @@ const EditItinerary = ({route}) => {
           <Text style={styles.textDay}>Generate</Text>
         </TouchableOpacity>
       </View>
+      <TouchableOpacity style={styles.viewAdd} onPress={() => refRBSheet.current.open()}>
+        <FontAwesome name="plus" size={24} color={colors.WHITE} />
+      </TouchableOpacity>
+      <RBSheet
+        ref={refRBSheet}
+        closeOnDragDown={true}
+        closeOnPressMask={false}
+        animationType="slide"
+        openDuration={400}
+        height={heightScreen * 0.7}
+        dragFromTopOnly={true}
+        customStyles={{
+          wrapper: {
+            backgroundColor: 'transparent',
+          },
+          draggableIcon: {
+            backgroundColor: '#000',
+          },
+          container: {
+            borderTopLeftRadius: 30,
+            borderTopRightRadius: 30,
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 1,
+            },
+            shadowOpacity: 0.22,
+            shadowRadius: 2.22,
+            elevation: 5,
+          },
+        }}>
+      <View style={styles.viewSearch}>
+        <TouchableOpacity onPress={() => handleSearch(search)}>
+          <FontAwesome name="search" size={24} color={colors.STRONGGRAY} />
+        </TouchableOpacity>
+        <TextInput
+          value={search}
+          style={styles.input}
+          placeholder="Search location where you want to add"
+          onChangeText={txt => {
+            setSearch(txt);
+          }}
+          autoFocus={true}></TextInput>
+      </View>
+      <View style={styles.viewResult}>
+      <FlatList
+          data={IdHard}
+          renderItem={({item, index}) => (
+            <View style={styles.viewHotelItem}>
+              <HotelItems
+                item={item}
+                type="add"
+                setDataPlace={setDataPlace}
+              />
+            </View>
+          )}
+          numColumns={2}
+          keyExtractor={item => item?._id}
+          style={styles.result}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          nestedScrollEnabled
+        />
+      </View>
+      </RBSheet>
     </View>
   );
 };
@@ -326,6 +440,56 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
     elevation: 4,
   },
+  viewAdd:{
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.MAINCOLOR,
+    height: 70,
+    width: 70,
+    borderRadius: 70 / 2,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: heightScreen * 0.001,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+    position: 'absolute',
+    bottom: heightScreen * 0.1,
+    right: widthScreen * 0.05
+  },
+  viewSearch: {
+    height: heightScreen * 0.065,
+    width: widthScreen * 0.9,
+    backgroundColor: colors.WHITE,
+    borderRadius: 45,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: heightScreen * 0.001,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+    alignSelf: 'center',
+    marginTop: heightScreen * 0.02,
+    alignItems: 'center',
+    paddingHorizontal: widthScreen * 0.07,
+    flexDirection: 'row',
+  },
+  input: {
+    marginLeft: widthScreen * 0.03,
+  },
+  viewResult:{
+    width: widthScreen,
+    height: heightScreen*0.55,
+    marginTop: heightScreen*0.02,
+    alignItems: 'center'
+  },
+  viewHotelItem:{
+    marginBottom: heightScreen*0.02
+  }
 });
 
 export default EditItinerary;

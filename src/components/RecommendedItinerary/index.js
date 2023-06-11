@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -14,15 +14,34 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 
 const RecommendedItinerary = ({item}) => {
-  const navigation = useNavigation();
+  const handleImg = () => {
+    const photosArr = item?.routes[0]?.route?.filter(
+      ({item}) => item?.description?.photos,
+    );
+    console.log(photosArr);
+  };
+
   const dataImg = [
     require('../../assets/images/muinghe.png'),
     require('../../assets/images/bana.jpg'),
     require('../../assets/images/mariamaria.jpeg'),
     require('../../assets/images/booking.jpg'),
   ];
+  const handleTotal = num => {
+    let formattedNum = num
+      .toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
+      .replace(',00', '')
+      .slice(0, -1);
+    return formattedNum;
+  };
+  const navigation = useNavigation()
   return (
     <View style={styles.viewParent}>
+      <View style={styles.viewContainer0}>
+        <Text style={styles.textName} numberOfLines={1}>
+          {item?.name !== undefined ? item?.name : 'Unnamed Journey'}
+        </Text>
+      </View>
       <View style={styles.viewContainer1}>
         <FlatList
           data={dataImg}
@@ -40,26 +59,29 @@ const RecommendedItinerary = ({item}) => {
       <View style={styles.viewContainer2}>
         <View style={styles.viewDate}>
           <FontAwesome name="calendar" size={30} color={colors.MAINCOLOR} />
-          <Text style={styles.textDate}>6 Days</Text>
+          <Text style={styles.textDate}>{item?.days} Days</Text>
         </View>
-        <View style={styles.viewPeople}>
-          <View style={styles.viewDetailDate}>
-            <FontAwesome5
-              name="dollar-sign"
-              size={25}
-              color={colors.MAINCOLOR}
-            />
-            <Ionicons name="person" size={25} color={colors.MAINCOLOR} />
+        <View>
+          <View style={styles.viewPeople}>
+            <View style={styles.viewDetailDate}>
+              <FontAwesome5
+                name="dollar-sign"
+                size={25}
+                color={colors.MAINCOLOR}
+              />
+              <Ionicons name="person" size={25} color={colors.MAINCOLOR} />
+            </View>
+            <Text style={styles.textDate}>
+              {handleTotal(item?.cost / item?.people)} VND
+            </Text>
           </View>
-          <Text style={styles.textDate}>
-            $100.00<Text style={styles.textPerson}>/person</Text>
-          </Text>
+          <Text style={styles.textPerson}>/person</Text>
         </View>
       </View>
       <View style={styles.viewContainer3}>
         <View style={styles.viewUsed}>
-          <Text style={styles.textPeople}>2.3k</Text>
-          <Text>A number of people used</Text>
+          <Text style={styles.textPeople}>{item?.favoriteCount}</Text>
+          <Text>A number of people liked</Text>
         </View>
         <TouchableOpacity
           style={styles.buttonDetails}
@@ -76,7 +98,7 @@ export default RecommendedItinerary;
 const styles = StyleSheet.create({
   viewParent: {
     width: widthScreen * 0.9,
-    height: heightScreen * 0.34,
+    height: heightScreen * 0.41,
     backgroundColor: colors.WHITE,
     marginBottom: heightScreen * 0.017,
     borderRadius: 25,
@@ -138,6 +160,7 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     color: colors.BLACK,
     marginLeft: widthScreen * 0.025,
+    maxWidth: widthScreen*0.29,
   },
   textDetailDate: {
     fontSize: 13,
@@ -177,6 +200,9 @@ const styles = StyleSheet.create({
   textPerson: {
     fontSize: 13,
     color: colors.BLACK,
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
   },
   viewUsed: {
     justifyContent: 'center',
@@ -186,5 +212,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: colors.BLACK,
     fontWeight: 600,
+  },
+  viewContainer0: {
+    height: heightScreen * 0.07,
+    width: widthScreen * 0.83,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  textName: {
+    fontSize: 23,
+    color: colors.BLACK,
+    fontWeight: 600,
+    maxWidth: 250,
   },
 });

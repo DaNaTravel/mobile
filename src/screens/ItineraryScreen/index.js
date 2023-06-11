@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useLayoutEffect, useRef, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import Carousel from 'react-native-snap-carousel';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -22,6 +22,7 @@ import FavoritePlace from '../../components/FavoritePlace';
 import {useNavigation} from '@react-navigation/native';
 import RecommendedItinerary from '../../components/RecommendedItinerary';
 import {useSelector} from 'react-redux';
+import { GetItineraryRecommend } from '../../apis/itineraries';
 const Header = ({name}) => {
   return (
     <View style={styles.viewWelcome}>
@@ -106,17 +107,22 @@ const ViewFunction = ({navigation}) => {
   );
 };
 const ViewRecommend = () => {
+  const [data, setData] = useState([]);
+  useLayoutEffect(() => {
+    GetItineraryRecommend(setData);
+  }, [])
+  
   return (
     <>
       <Text style={styles.textFavo}>Recommended itinerary</Text>
       <View style={styles.viewRecommendList}>
         <FlatList
-          data={[1, 2, 3, 4, 5, 6, 7]}
+          data={data}
           renderItem={({item, index}) => <RecommendedItinerary item={item} />}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           scrollEnabled={false}
-          keyExtractor={index => index}
+          keyExtractor={(item) => item._id}
           style={styles.viewHistories}
         />
       </View>

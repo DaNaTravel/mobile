@@ -36,7 +36,7 @@ const Day = ({data, index}) => {
         renderItem={({item, index}) => <ItineraryPlace item={item} />}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        keyExtractor={item => item?.description?.name}
+        keyExtractor={(item, index) => `${item?.description?.name}_${index}`}
         style={styles.detailDay}
       />
     </View>

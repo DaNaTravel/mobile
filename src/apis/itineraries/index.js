@@ -182,3 +182,23 @@ export const GetItineraryById = (Id, setData) => {
       return error.response.data;
     });
 };
+
+export const GetItineraryRecommend = (setData) => {
+  let config = {
+    method: 'get',
+    maxBodyLength: Infinity,
+    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/routes/recommended`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  axios
+    .request(config)
+    .then(response => {
+      setData(response?.data?.data);
+    })
+    .catch(error => {
+      console.log(error?.response?.data);
+      return error.response.data;
+    });
+};

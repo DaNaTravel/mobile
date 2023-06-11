@@ -14,7 +14,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import {SearchByID} from '../../apis/search';
 
-const HotelItems = ({item, type, setDataAdded}) => {
+const HotelItems = ({item, type, setDataAdded, setDataPlace}) => {
   const navigation = useNavigation();
   const [data, setData] = useState({});
   useLayoutEffect(() => {
@@ -22,9 +22,9 @@ const HotelItems = ({item, type, setDataAdded}) => {
   }, []);
   const handleTotal = num => {
     let formattedNum = num
-      .toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
-      .replace(',00', '')
-      .slice(0, -1);
+      ?.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
+      ?.replace(',00', '')
+      ?.slice(0, -1);
     return formattedNum;
   };
   return (
@@ -74,12 +74,32 @@ const HotelItems = ({item, type, setDataAdded}) => {
       {type === 'select' ? (
         <TouchableOpacity
           style={styles.viewSelect}
-          onPress={() => setDataAdded(prevData => [...prevData, data])}>
+          onPress={() => {
+            setDataAdded(prevData => [...prevData, data]);
+          }}>
           <Entypo name="plus" size={28} color={colors.BLACK} />
         </TouchableOpacity>
-      ) : (
-        <></>
-      )}
+      ) : type === 'add' ? (
+        <TouchableOpacity
+          style={styles.viewSelect}
+          onPress={() => {
+            let newData = {
+              description:{
+                _id: data?._id,
+                photos: data?.photos?.[0]?.photo_reference,
+                name: data?.name,
+                address: data?.formatted_address,
+                rating: data?.rating,
+                latitude: data?.latitude,
+                longitude: data?.longitude,
+              },
+              cost: data?.cost,
+            };
+            setDataPlace(newData);
+          }}>
+          <Entypo name="plus" size={28} color={colors.BLACK} />
+        </TouchableOpacity>
+      ) : <></>}
     </TouchableOpacity>
   );
 };
