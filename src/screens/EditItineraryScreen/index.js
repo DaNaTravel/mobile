@@ -8,7 +8,7 @@ import {
   FlatList,
   TouchableOpacity,
   Alert,
-  TextInput
+  TextInput,
 } from 'react-native';
 import DayItem from '../../components/DayItem';
 import SortableListComponent from '../../components/SortableList';
@@ -23,43 +23,42 @@ import HotelItems from '../../components/HotelItems';
 
 const IdHard = [
   {
-    _id: "64742bec9a86f189a3bfe52a"
+    _id: '64742bec9a86f189a3bfe52a',
   },
   {
-    _id: "64742bed9a86f189a3bfe52c"
+    _id: '64742bed9a86f189a3bfe52c',
   },
   {
-    _id: "64742bee9a86f189a3bfe52d"
+    _id: '64742bee9a86f189a3bfe52d',
   },
   {
-    _id: "64742bee9a86f189a3bfe52e"
+    _id: '64742bee9a86f189a3bfe52e',
   },
   {
-    _id: "64742bee9a86f189a3bfe52f"
+    _id: '64742bee9a86f189a3bfe52f',
   },
   {
-    _id: "64742bee9a86f189a3bfe530"
+    _id: '64742bee9a86f189a3bfe530',
   },
   {
-    _id: "64742bee9a86f189a3bfe531"
+    _id: '64742bee9a86f189a3bfe531',
   },
   {
-    _id: "64742bee9a86f189a3bfe532"
+    _id: '64742bee9a86f189a3bfe532',
   },
   {
-    _id: "64742bee9a86f189a3bfe533"
+    _id: '64742bee9a86f189a3bfe533',
   },
   {
-    _id: "64742bee9a86f189a3bfe534"
+    _id: '64742bee9a86f189a3bfe534',
   },
-  
-]
+];
 const EditItinerary = ({route}) => {
   const [day, setDay] = useState([1]);
   const [selectedItem, setSelectedItem] = useState(1);
   const [data, setData] = useState([]);
   const navigation = useNavigation();
-  const [search, setSearch] = useState(null)
+  const [search, setSearch] = useState(null);
   const renderItem = ({item}) => (
     <DayItem
       item={item}
@@ -236,14 +235,6 @@ const EditItinerary = ({route}) => {
   }, [dataReturn]);
   const refRBSheet = useRef();
   const [dataPlace, setDataPlace] = useState(null);
-  const [temp, setTemp] = useState(true)
-  // useEffect(() => {
-  //   console.log('daIti Truoc', dataIti?.[selectedItem - 1]?.route);
-  //   dataIti?.[selectedItem - 1]?.route.push(dataPlace);
-  //   console.log('dataIti sau :', dataIti?.[selectedItem - 1]?.route);
-  //   setTemp(!temp)
-  // }, [dataPlace])
-  
   return (
     <View style={styles.container}>
       <View style={styles.viewTitle}>
@@ -271,7 +262,6 @@ const EditItinerary = ({route}) => {
         selectedItem={selectedItem}
         setDataDay={setDataDay}
         finalData={finalData}
-        temp={temp}
         dataPlace={dataPlace}
       />
 
@@ -291,7 +281,9 @@ const EditItinerary = ({route}) => {
           <Text style={styles.textDay}>Generate</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.viewAdd} onPress={() => refRBSheet.current.open()}>
+      <TouchableOpacity
+        style={styles.viewAdd}
+        onPress={() => refRBSheet.current.open()}>
         <FontAwesome name="plus" size={24} color={colors.WHITE} />
       </TouchableOpacity>
       <RBSheet
@@ -322,39 +314,39 @@ const EditItinerary = ({route}) => {
             elevation: 5,
           },
         }}>
-      <View style={styles.viewSearch}>
-        <TouchableOpacity onPress={() => handleSearch(search)}>
-          <FontAwesome name="search" size={24} color={colors.STRONGGRAY} />
-        </TouchableOpacity>
-        <TextInput
-          value={search}
-          style={styles.input}
-          placeholder="Search location where you want to add"
-          onChangeText={txt => {
-            setSearch(txt);
-          }}
-          autoFocus={true}></TextInput>
-      </View>
-      <View style={styles.viewResult}>
-      <FlatList
-          data={IdHard}
-          renderItem={({item, index}) => (
-            <View style={styles.viewHotelItem}>
-              <HotelItems
-                item={item}
-                type="add"
-                setDataPlace={setDataPlace}
-              />
-            </View>
-          )}
-          numColumns={2}
-          keyExtractor={item => item?._id}
-          style={styles.result}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          nestedScrollEnabled
-        />
-      </View>
+        <View style={styles.viewSearch}>
+          <TouchableOpacity onPress={() => handleSearch(search)}>
+            <FontAwesome name="search" size={24} color={colors.STRONGGRAY} />
+          </TouchableOpacity>
+          <TextInput
+            value={search}
+            style={styles.input}
+            placeholder="Search location where you want to add"
+            onChangeText={txt => {
+              setSearch(txt);
+            }}
+            autoFocus={true}></TextInput>
+        </View>
+        <View style={styles.viewResult}>
+          <FlatList
+            data={IdHard}
+            renderItem={({item, index}) => (
+              <View style={styles.viewHotelItem}>
+                <HotelItems
+                  item={item}
+                  type="add"
+                  setDataPlace={setDataPlace}
+                />
+              </View>
+            )}
+            numColumns={2}
+            keyExtractor={item => item?._id}
+            style={styles.result}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            nestedScrollEnabled
+          />
+        </View>
       </RBSheet>
     </View>
   );
@@ -440,7 +432,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
     elevation: 4,
   },
-  viewAdd:{
+  viewAdd: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.MAINCOLOR,
@@ -457,7 +449,7 @@ const styles = StyleSheet.create({
     elevation: 4,
     position: 'absolute',
     bottom: heightScreen * 0.1,
-    right: widthScreen * 0.05
+    right: widthScreen * 0.05,
   },
   viewSearch: {
     height: heightScreen * 0.065,
@@ -481,15 +473,15 @@ const styles = StyleSheet.create({
   input: {
     marginLeft: widthScreen * 0.03,
   },
-  viewResult:{
+  viewResult: {
     width: widthScreen,
-    height: heightScreen*0.55,
-    marginTop: heightScreen*0.02,
-    alignItems: 'center'
+    height: heightScreen * 0.55,
+    marginTop: heightScreen * 0.02,
+    alignItems: 'center',
   },
-  viewHotelItem:{
-    marginBottom: heightScreen*0.02
-  }
+  viewHotelItem: {
+    marginBottom: heightScreen * 0.02,
+  },
 });
 
 export default EditItinerary;
