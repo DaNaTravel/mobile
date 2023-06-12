@@ -24,7 +24,6 @@ const SortableListComponent = ({
       dataIti = newData;
       setListLoca(newData);
     }
-    console.log('lisstLoca', listLoca);
   }, [dataPlace]);
 
   return (
@@ -32,19 +31,16 @@ const SortableListComponent = ({
       style={styles.list}
       contentContainerStyle={styles.contentContainer}
       data={listLoca}
-      renderRow={useCallback(
-        ({data, active}) => {
-          return (
-            <ItineraryPlace
-              item={data}
-              type={'edit'}
-              listLoca={listLoca}
-              setListLoca={setListLoca}
-            />
-          );
-        },
-        [listLoca],
-      )}
+      renderRow={useCallback(({data, active}) => {
+        return (
+          <ItineraryPlace
+            item={data}
+            type={'edit'}
+            listLoca={listLoca}
+            setListLoca={setListLoca}
+          />
+        );
+      }, [])}
       onChangeOrder={handleRowOrderChange}
     />
   );

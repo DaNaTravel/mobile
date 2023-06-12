@@ -22,6 +22,8 @@ const FieldTextInput = ({
   pattern,
   icon,
   styleIcon,
+  editable,
+  value,
 }) => {
   let [state, setState] = useState(secureTextEntry);
   const [isFocus, setIsFocus] = useState(false);
@@ -42,6 +44,8 @@ const FieldTextInput = ({
         }}
         pattern={pattern}
         autoCorrect={false}
+        editable={editable}
+        value={value}
         onSubmitEditing={onSubmitEditing}></TextInput>
       {error && <Text style={[styles.errortxt, errortxt]}>{error}</Text>}
       {secureTextEntry ? (

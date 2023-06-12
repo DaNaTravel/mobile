@@ -26,19 +26,33 @@ import {useSelector} from 'react-redux';
 import {ItineraryRoutes, ItineraryRoutesTest} from '../../apis/itineraries';
 import DayItem from '../../components/DayItem';
 import {AxiosContext} from '../../context/AxiosContext';
+import LottieView from 'lottie-react-native';
 
 const Tab = createMaterialTopTabNavigator();
 const Day = ({data, index}) => {
   return (
     <View style={styles.viewDetailDaily}>
-      <FlatList
-        data={data?.route}
-        renderItem={({item, index}) => <ItineraryPlace item={item} />}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={(item, index) => `${item?.description?.name}_${index}`}
-        style={styles.detailDay}
-      />
+      {data?.route === undefined ? (
+        <LottieView
+          source={require('../../assets/animations/loading.json')}
+          autoPlay
+          loop
+          style={{
+            height: heightScreen * 0.58,
+            width: widthScreen,
+            alignSelf: 'center',
+          }}
+        />
+      ) : (
+        <FlatList
+          data={data?.route}
+          renderItem={({item, index}) => <ItineraryPlace item={item} />}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(item, index) => `${item?.description?.name}_${index}`}
+          style={styles.detailDay}
+        />
+      )}
     </View>
   );
 };

@@ -63,6 +63,21 @@ const PlaceSelectionScreen = () => {
     await AsyncStorage.setItem('data', JSON.stringify(data));
     navigation.navigate('ChoosePosition');
   };
+
+  const renderFooter = () => {
+    return (
+      <LottieView
+        source={require('../../assets/animations/loading1.json')}
+        autoPlay
+        loop
+        style={{
+          height: widthScreen * 0.2,
+          width: widthScreen * 0.2,
+          alignSelf: 'center',
+        }}
+      />
+    );
+  };
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewTitle}>
@@ -142,7 +157,7 @@ const PlaceSelectionScreen = () => {
           nestedScrollEnabled
           //   onEndReached={handleLoadMore}
           //   onEndReachedThreshold={0.35}
-          //   ListFooterComponent={renderFooter}
+          ListFooterComponent={renderFooter}
         />
       </View>
     </View>

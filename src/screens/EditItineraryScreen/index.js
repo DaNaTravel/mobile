@@ -105,6 +105,10 @@ const EditItinerary = ({route}) => {
     await AsyncStorage.setItem('finalDT', JSON.stringify(finalData));
   };
   useEffect(() => {
+    console.log('load lan dau');
+    setFinalDT();
+  }, []);
+  useEffect(() => {
     setFinalDT();
   }, [finalData]);
   useEffect(() => {
@@ -114,7 +118,9 @@ const EditItinerary = ({route}) => {
     getDataDay();
   }, [dataDay]);
 
-  useEffect(() => handleDatatoSent(dataIti), []);
+  useEffect(() => {
+    handleDatatoSent(dataIti);
+  }, []);
   const axiosContext = useContext(AxiosContext);
   const generateData = () => {
     const sortedArray = newArray.map(
@@ -166,11 +172,11 @@ const EditItinerary = ({route}) => {
         return item;
       }),
     );
-    console.log(Reresult);
+    console.log('Reresult', Reresult);
     UpdateItiTest(Id, isUser?.data?.token, Reresult, status, setDataReturn);
   };
   const handleGenerateButton = () => {
-    if (newArrayById.length !== 0) {
+    if (dataToSent && dataToSent.routes && newArrayById.length !== 0) {
       dataToSent.routes[selectedItem - 1] = newArrayById.map(i =>
         i === null
           ? {
@@ -181,14 +187,14 @@ const EditItinerary = ({route}) => {
       );
     }
     const Reresult = dataToSent?.routes?.map(subArr =>
-      subArr.map(item => {
+      subArr?.map(item => {
         if (typeof item === 'string') {
           return {_id: item};
         }
         return item;
       }),
     );
-    console.log(Reresult);
+    console.log('Reresult', Reresult);
     // axiosContext.GenerateNewIti(Id, Reresult);
     GenerateItiTest(Id, isUser?.data?.token, Reresult, setDataToSentMap);
   };
@@ -336,6 +342,10 @@ const EditItinerary = ({route}) => {
                   item={item}
                   type="add"
                   setDataPlace={setDataPlace}
+                  selectedItem={selectedItem}
+                  dataToSent={dataToSent}
+                  setDataToSent={setDataToSent}
+                  setData={setData}
                 />
               </View>
             )}

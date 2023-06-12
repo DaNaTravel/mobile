@@ -15,11 +15,15 @@ import {useNavigation} from '@react-navigation/native';
 
 const RecommendedItinerary = ({item}) => {
   const handleImg = () => {
-    const photosArr = item?.routes[0]?.route?.filter(
-      ({item}) => item?.description?.photos,
-    );
-    console.log(photosArr);
+    console.log('item', item);
+    // const photosArr = item?.routes[0]?.route?.filter(
+    //   ({item}) => item?.description?.photos,
+    // );
+    // console.log(photosArr);
   };
+  useEffect(() => {
+    handleImg();
+  }, []);
 
   const dataImg = [
     require('../../assets/images/muinghe.png'),
@@ -34,7 +38,7 @@ const RecommendedItinerary = ({item}) => {
       .slice(0, -1);
     return formattedNum;
   };
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewContainer0}>
@@ -160,7 +164,7 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     color: colors.BLACK,
     marginLeft: widthScreen * 0.025,
-    maxWidth: widthScreen*0.29,
+    maxWidth: widthScreen * 0.29,
   },
   textDetailDate: {
     fontSize: 13,

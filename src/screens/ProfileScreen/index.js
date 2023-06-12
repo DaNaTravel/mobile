@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import ConfirmLogout from '../../components/Modal/ConfirmLogout';
 import {useSelector} from 'react-redux';
 import {colors, heightScreen, widthScreen} from '../../utility';
@@ -22,23 +21,12 @@ const Profile = () => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
   const isUser = useSelector(state => state.auth.login);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+  const [name, setName] = useState('Nguyen Thanh Duke');
+  const [email, setEmail] = useState('nguyenthanhduong1002@gmail.com');
+  const [phone, setPhone] = useState('0336364692');
+  const [isEdit, setIsEdit] = useState(false);
   const handleSignout = async () => {
     setModalVisible(!isModalVisible);
-  };
-  const getData = async () => {
-    let data = JSON.parse(await AsyncStorage.getItem('data'));
-    console.log('data ', data);
-    let listIti = JSON.parse(await AsyncStorage.getItem('itineraryIds'));
-    console.log('itineraryIds ', listIti);
-    let LocationIds = JSON.parse(await AsyncStorage.getItem('LocationIds'));
-    console.log('LocationIds ', LocationIds);
-  };
-  const getToken = async () => {
-    let token = await AsyncStorage.getItem('token');
-    console.log('token ', token);
   };
   const headerMotion = useRef(new Animated.Value(0)).current;
   const animatedKeyBoard = (motion, value, duration) => {
@@ -66,36 +54,29 @@ const Profile = () => {
     };
   }, []);
   return (
-    // <View>
-    //   <Text>Profile</Text>
-    //   <TouchableOpacity onPress={() => getData()}>
-    //     <Text>Get data </Text>
-    //   </TouchableOpacity>
-    //   <TouchableOpacity onPress={() => getToken()}>
-    //     <Text>Get token </Text>
-    //   </TouchableOpacity>
-    //   <TouchableOpacity style={styles.signOut} onPress={() => handleSignout()}>
-    //     <Text style={{}}>Signout</Text>
-    //   </TouchableOpacity>
-    //   <ConfirmLogout
-    //     handleSignout={handleSignout}
-    //     isModalVisible={isModalVisible}
-    //     navigation={navigation}
-    //   />
-    // </View>
     <Animated.View style={[styles.viewParent, {marginTop: headerMotion}]}>
       <View style={styles.viewWelcome}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.buttonBack}>
-          <FontAwesome name="angle-left" size={24} color="black" />
-        </TouchableOpacity>
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.buttonBack2}>
+            <FontAwesome name="angle-left" size={24} color="black" />
+          </TouchableOpacity>
+          <View style={styles.viewSpace}></View>
+        </View>
         <Text style={styles.textTitle}>Profile</Text>
-        <TouchableOpacity
-          onPress={() => console.log('Profile')}
-          style={styles.buttonBack}>
-          <Feather name="edit-3" size={24} color="black" />
-        </TouchableOpacity>
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity
+            onPress={() => setIsEdit(!isEdit)}
+            style={styles.buttonBack}>
+            <Feather name="edit-3" size={24} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => handleSignout()}
+            style={styles.buttonBack3}>
+            <Feather name="log-out" size={24} color="black" />
+          </TouchableOpacity>
+        </View>
       </View>
       <View>
         <Image
@@ -105,7 +86,7 @@ const Profile = () => {
         <TouchableOpacity style={styles.cameraButton}>
           <Feather name="camera" size={13} color={colors.WHITE} />
         </TouchableOpacity>
-        <Text style={styles.textName}>Nguyen Thanh Duke</Text>
+        <Text style={styles.textName}>{name}</Text>
       </View>
       <View>
         <Text style={styles.textField}>Full Name</Text>
@@ -114,6 +95,9 @@ const Profile = () => {
           placeholder={'Enter your full name'}
           onChangeText={txt => setName(txt)}
           onSubmitEditing={Keyboard.dismiss}
+          editable={isEdit}
+          value={name}
+          stylesInput={styles.stylesInput}
         />
         <Text style={styles.textField}>Email Address</Text>
         <FieldTextInput
@@ -121,6 +105,9 @@ const Profile = () => {
           placeholder={'Enter your email address'}
           onChangeText={txt => setEmail(txt)}
           onSubmitEditing={Keyboard.dismiss}
+          editable={isEdit}
+          value={email}
+          stylesInput={styles.stylesInput}
         />
         <Text style={styles.textField}>Phone Number</Text>
         <FieldTextInput
@@ -128,11 +115,20 @@ const Profile = () => {
           placeholder={'Enter your phone number'}
           onChangeText={txt => setPhone(txt)}
           onSubmitEditing={Keyboard.dismiss}
+          editable={isEdit}
+          value={phone}
+          stylesInput={styles.stylesInput}
         />
       </View>
-      <TouchableOpacity style={styles.signOut} onPress={() => handleSignout()}>
-        <Text style={styles.textSignout}>Sign out</Text>
-      </TouchableOpacity>
+      {isEdit ? (
+        <TouchableOpacity
+          style={styles.signOut}
+          onPress={() => console.log('Save')}>
+          <Text style={styles.textSignout}>Save</Text>
+        </TouchableOpacity>
+      ) : (
+        <></>
+      )}
       <ConfirmLogout
         handleSignout={handleSignout}
         isModalVisible={isModalVisible}
@@ -189,6 +185,42 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
     elevation: 4,
   },
+  buttonBack2: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.GRAY,
+    height: 50,
+    width: 50,
+    borderRadius: 50 / 2,
+    bottom: 0,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: heightScreen * 0.001,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+    marginRight: widthScreen * 0.01,
+  },
+  buttonBack3: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.GRAY,
+    height: 50,
+    width: 50,
+    borderRadius: 50 / 2,
+    bottom: 0,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: heightScreen * 0.001,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+    marginLeft: widthScreen * 0.01,
+  },
   textTitle: {
     fontSize: 24,
     fontWeight: 700,
@@ -234,5 +266,8 @@ const styles = StyleSheet.create({
     color: colors.WHITE,
     fontSize: 18,
     fontWeight: 600,
+  },
+  stylesInput: {
+    fontSize: 16,
   },
 });

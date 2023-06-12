@@ -22,7 +22,7 @@ import FavoritePlace from '../../components/FavoritePlace';
 import {useNavigation} from '@react-navigation/native';
 import RecommendedItinerary from '../../components/RecommendedItinerary';
 import {useSelector} from 'react-redux';
-import { GetItineraryRecommend } from '../../apis/itineraries';
+import {GetItineraryRecommend} from '../../apis/itineraries';
 const Header = ({name}) => {
   return (
     <View style={styles.viewWelcome}>
@@ -110,8 +110,8 @@ const ViewRecommend = () => {
   const [data, setData] = useState([]);
   useLayoutEffect(() => {
     GetItineraryRecommend(setData);
-  }, [])
-  
+  }, []);
+
   return (
     <>
       <Text style={styles.textFavo}>Recommended itinerary</Text>
@@ -122,7 +122,7 @@ const ViewRecommend = () => {
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           scrollEnabled={false}
-          keyExtractor={(item) => item._id}
+          keyExtractor={item => item._id}
           style={styles.viewHistories}
         />
       </View>
@@ -152,7 +152,7 @@ const Itinerary = () => {
   const navigation = useNavigation();
   const isUser = useSelector(state => state.auth.login);
   const loadName = async () => {
-    isUser?.message === null ? setName('Gracie') : setName('Guess');
+    isUser?.message === null ? setName('Duke') : setName('Guest');
   };
   useLayoutEffect(() => {
     loadName();

@@ -14,11 +14,20 @@ import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import {SearchByID} from '../../apis/search';
 
-const HotelItems = ({item, type, setDataAdded, setDataPlace}) => {
+const HotelItems = ({
+  item,
+  type,
+  setDataAdded,
+  setDataPlace,
+  selectedItem,
+  dataToSent,
+  setDataToSent,
+  setData,
+}) => {
   const navigation = useNavigation();
-  const [data, setData] = useState({});
+  const [dataHT, setDataHT] = useState({});
   useLayoutEffect(() => {
-    SearchByID(item?._id, setData);
+    SearchByID(item?._id, setDataHT);
   }, []);
   const handleTotal = num => {
     let formattedNum = num
@@ -27,16 +36,38 @@ const HotelItems = ({item, type, setDataAdded, setDataPlace}) => {
       ?.slice(0, -1);
     return formattedNum;
   };
+  const handleAdd = async () => {
+    let newData = {
+      description: {
+        _id: dataHT?._id,
+        photos: dataHT?.photos?.[0]?.photo_reference,
+        name: dataHT?.name,
+        address: dataHT?.formatted_address,
+        rating: dataHT?.rating,
+        latitude: dataHT?.latitude,
+        longitude: dataHT?.longitude,
+      },
+      cost: dataHT?.cost,
+    };
+    console.log('dataId', dataHT?._id);
+    console.log('dataToSent', dataToSent?.routes);
+    let result = [...dataToSent?.routes[selectedItem - 1], {_id: dataHT?._id}];
+    console.log('result', result);
+    dataToSent.routes[selectedItem - 1] = result;
+    setDataToSent({...dataToSent});
+    setData(preData => [...preData, newData]);
+    setDataPlace(newData);
+  };
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => navigation.navigate('BookingDetail', {item: data})}>
+      onPress={() => navigation.navigate('BookingDetail', {item: dataHT})}>
       <Image
         style={styles.image}
         source={
-          data?.photos?.[0].photo_reference
+          dataHT?.photos?.[0].photo_reference
             ? {
-                uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=${data?.photos?.[0].photo_reference}&key=AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU`,
+                uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=${dataHT?.photos?.[0].photo_reference}&key=AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU`,
               }
             : require('../../assets/images/booking.jpg')
         }
@@ -45,13 +76,13 @@ const HotelItems = ({item, type, setDataAdded, setDataPlace}) => {
         colors={['rgba(255,255,255,0.01)', 'rgba(10,10,10,0.7)']}
         style={styles.viewBlur}>
         <Text numberOfLines={1} style={styles.name}>
-          {data?.name ? data?.name : 'Symphony'}
+          {dataHT?.name ? dataHT?.name : 'Symphony'}
         </Text>
         <View style={styles.viewPos}>
           <FontAwesome name="map-marker" size={28} color={colors.MEDIUMGRAY} />
           <Text style={styles.position} numberOfLines={1}>
-            {data?.formatted_address
-              ? data?.formatted_address
+            {dataHT?.formatted_address
+              ? dataHT?.formatted_address
               : 'Hai Chau, Da Nang'}
           </Text>
         </View>
@@ -67,7 +98,9 @@ const HotelItems = ({item, type, setDataAdded, setDataPlace}) => {
               color={colors.YELLOW}
               style={styles.viewAStar}
             />
-            <Text style={styles.star}>{data?.rating ? data?.rating : '5'}</Text>
+            <Text style={styles.star}>
+              {dataHT?.rating ? dataHT?.rating : '5'}
+            </Text>
           </View>
         </View>
       </LinearGradient>
@@ -75,31 +108,17 @@ const HotelItems = ({item, type, setDataAdded, setDataPlace}) => {
         <TouchableOpacity
           style={styles.viewSelect}
           onPress={() => {
-            setDataAdded(prevData => [...prevData, data]);
+            setDataAdded(prevData => [...prevData, dataHT]);
           }}>
           <Entypo name="plus" size={28} color={colors.BLACK} />
         </TouchableOpacity>
       ) : type === 'add' ? (
-        <TouchableOpacity
-          style={styles.viewSelect}
-          onPress={() => {
-            let newData = {
-              description:{
-                _id: data?._id,
-                photos: data?.photos?.[0]?.photo_reference,
-                name: data?.name,
-                address: data?.formatted_address,
-                rating: data?.rating,
-                latitude: data?.latitude,
-                longitude: data?.longitude,
-              },
-              cost: data?.cost,
-            };
-            setDataPlace(newData);
-          }}>
+        <TouchableOpacity style={styles.viewSelect} onPress={() => handleAdd()}>
           <Entypo name="plus" size={28} color={colors.BLACK} />
         </TouchableOpacity>
-      ) : <></>}
+      ) : (
+        <></>
+      )}
     </TouchableOpacity>
   );
 };

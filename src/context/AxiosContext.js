@@ -78,7 +78,7 @@ export const AxiosProvider = ({children}) => {
       axiosInstance
         .get(`/favorites?category=${category}`)
         .then(response => {
-          setData(response?.data?.data);
+          setData(response?.data?.data?.data);
         })
         .catch(error => {
           console.log('error', error);
