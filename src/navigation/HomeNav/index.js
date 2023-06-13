@@ -18,6 +18,9 @@ import ListItinerariesScreen from '../../screens/ListItinerariesScreen';
 import EditItinerary from '../../screens/EditItineraryScreen';
 import ResultEditScreen from '../../screens/ResultEditScreen';
 import PlaceSelectionScreen from '../../screens/PlaceSelectionScreen';
+import TotalProfileScreen from '../../screens/TotalProfileScreen';
+import ChangePassword from '../../screens/ChangePasswordScreen';
+import Profile from '../../screens/ProfileScreen';
 const Stack = createNativeStackNavigator();
 
 export const HomeNav = () => {
@@ -155,6 +158,27 @@ export const HomeNav = () => {
         }}
         name="PlaceSelection"
         component={PlaceSelectionScreen}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="TotalProfile"
+        component={TotalProfileScreen}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="ChangePassword"
+        component={ChangePassword}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="EditProfile"
+        component={Profile}
       />
     </Stack.Navigator>
   );

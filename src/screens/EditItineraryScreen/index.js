@@ -396,15 +396,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   viewSave: {
-    height: heightScreen * 0.08,
-    width: widthScreen * 0.4,
+    height: heightScreen * 0.06,
+    width: widthScreen * 0.3,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.MAINCOLOR,
     borderRadius: 20,
   },
   textDay: {
-    fontSize: 24,
+    fontSize: 18,
     color: colors.WHITE,
     fontWeight: 600,
   },

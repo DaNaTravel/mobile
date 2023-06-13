@@ -1,10 +1,10 @@
 import {AnimatedTabBarNavigator} from 'react-native-animated-nav-tab-bar';
 import Favorite from '../screens/FavoriteScreen';
-import Profile from '../screens/ProfileScreen';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {colors} from '../utility';
 import History from '../screens/HistoryScreen';
 import Itinerary from '../screens/ItineraryScreen';
+import TotalProfileScreen from '../screens/TotalProfileScreen';
 
 const Tabs = AnimatedTabBarNavigator();
 
@@ -13,7 +13,6 @@ export default () => (
     tabBarOptions={{
       inactiveTintColor: '#ECF2FF',
       activeBackgroundColor: '#ECF2FF',
-
     }}
     appearance={{
       activeColors: colors.WHITE,
@@ -67,7 +66,7 @@ export default () => (
     />
     <Tabs.Screen
       name="Profile"
-      component={Profile}
+      component={TotalProfileScreen}
       options={{
         tabBarIcon: ({focused, color, size}) => (
           <FontAwesome

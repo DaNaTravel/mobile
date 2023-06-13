@@ -1,6 +1,4 @@
 import axios from 'axios';
-import {BASE_URL} from '@env';
-import {useSelector} from 'react-redux';
 export const ItineraryRoutes = async (
   latitude,
   longitude,
@@ -9,8 +7,8 @@ export const ItineraryRoutes = async (
   idType,
   cost,
   number,
+  point,
   setTotal,
-  setId,
   setData,
 ) => {
   let data = {
@@ -19,10 +17,10 @@ export const ItineraryRoutes = async (
     startDate: startDate,
     endDate: endDate,
     type: idType,
-    minCost: cost[0] * 1000000,
-    maxCost: cost[1] * 1000000,
+    minCost: Number.parseInt(cost[0]) * 1000000,
+    maxCost: Number.parseInt(cost[1]) * 1000000,
     people: number,
-    points: ['64742bec9a86f189a3bfe52a', '64742bed9a86f189a3bfe52c'],
+    points: point,
   };
   let config = {
     method: 'post',
@@ -114,7 +112,7 @@ export const GenerateItiTest = (IdIti, token, arr, setDataToSentMap) => {
       setDataToSentMap(response?.data?.data);
     })
     .catch(error => {
-      console.log(error);
+      console.log(error.response.data.message);
     });
 };
 
@@ -183,7 +181,7 @@ export const GetItineraryById = (Id, setData) => {
     });
 };
 
-export const GetItineraryRecommend = (setData) => {
+export const GetItineraryRecommend = setData => {
   let config = {
     method: 'get',
     maxBodyLength: Infinity,

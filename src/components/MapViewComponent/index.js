@@ -15,8 +15,8 @@ const ASPECT_RATIO = widthScreen / (heightScreen * 0.5);
 const LATITUDE_DELTA = 0.072;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-// const GOOGLE_MAPS_APIKEY = 'AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU';
-const GOOGLE_MAPS_APIKEY = '';
+const GOOGLE_MAPS_APIKEY = 'AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU';
+// const GOOGLE_MAPS_APIKEY = '';
 const positions = [
   {
     latitude: 16.019110655988168,
@@ -77,7 +77,7 @@ const MapViewComponent = ({
       <Image
         style={styles.markerImage}
         source={{
-          uri: `https://dummyimage.com/50x50/0000ff/ffffff&text=${number}`,
+          uri: `https://dummyimage.com/50x50/df2027/ffffff&text=${number}`,
         }}
         resizeMode="contain"
       />
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'white',
     borderWidth: 1,
-    borderColor: 'blue',
+    borderColor: '#DF2027',
   },
   markerImage: {
     width: 30,

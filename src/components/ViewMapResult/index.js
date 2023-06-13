@@ -10,6 +10,7 @@ const LATITUDE_DELTA = 0.072;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const GOOGLE_MAPS_APIKEY = 'AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU';
 // const GOOGLE_MAPS_APIKEY = '';
+
 const ViewMapResult = ({dataHT, index, dataMap, selectedItem, coordinates}) => {
   const [data, setData] = useState(null);
   const [dataHotel, setDataHotel] = useState(dataHT);
@@ -34,6 +35,17 @@ const ViewMapResult = ({dataHT, index, dataMap, selectedItem, coordinates}) => {
     latitudeDelta: 0.025,
     longitudeDelta: 0.025,
   });
+  const markerImage = number => (
+    <View style={styles.marker}>
+      <Image
+        style={styles.markerImage}
+        source={{
+          uri: `https://dummyimage.com/50x50/df2027/ffffff&text=${number}`,
+        }}
+        resizeMode="contain"
+      />
+    </View>
+  );
   return (
     <MapView
       style={styles.map}
@@ -49,8 +61,9 @@ const ViewMapResult = ({dataHT, index, dataMap, selectedItem, coordinates}) => {
           key={`coordinate_${index}`}
           coordinate={coordinate}
           description={coordinate?.address?.slice(0, 40)}
-          title={coordinate?.name}
-        />
+          title={coordinate?.name}>
+          {markerImage(index)}
+        </Marker>
       ))}
       {dataHotel.map((coordinate, index) => (
         <Marker
@@ -90,5 +103,20 @@ const styles = StyleSheet.create({
   img: {
     height: 40,
     width: 40,
+  },
+  marker: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#DF2027',
+  },
+  markerImage: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
   },
 });

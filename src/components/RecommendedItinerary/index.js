@@ -14,17 +14,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 
 const RecommendedItinerary = ({item}) => {
-  const handleImg = () => {
-    console.log('item', item);
-    // const photosArr = item?.routes[0]?.route?.filter(
-    //   ({item}) => item?.description?.photos,
-    // );
-    // console.log(photosArr);
-  };
-  useEffect(() => {
-    handleImg();
-  }, []);
-
   const dataImg = [
     require('../../assets/images/muinghe.png'),
     require('../../assets/images/bana.jpg'),
@@ -48,9 +37,19 @@ const RecommendedItinerary = ({item}) => {
       </View>
       <View style={styles.viewContainer1}>
         <FlatList
-          data={dataImg}
+          data={item?.photos}
           renderItem={({item, index}) => (
-            <Image style={styles.viewImg} source={item} resizeMode="cover" />
+            <Image
+              style={styles.viewImg}
+              source={
+                item
+                  ? {
+                      uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=${item}&key=AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU`,
+                    }
+                  : require('../../assets/images/bana.jpg')
+              }
+              resizeMode="cover"
+            />
           )}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}

@@ -146,7 +146,6 @@ const HomeScreen = ({route}) => {
             number,
             point,
             setTotal,
-            setId,
             responseData => {
               setData(responseData);
               var transformedData = {};

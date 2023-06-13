@@ -6,7 +6,7 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useLayoutEffect, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import HistoryItem from '../../components/HistoryItem';
 import {useSelector} from 'react-redux';
@@ -57,20 +57,21 @@ const History = () => {
     },
   ]);
   const hanldeData = () => {
-    value === 'all'
+    value === 'all' || value === null
       ? setData(initialData)
       : setData(initialData.filter(item => item?.isPublic === value));
   };
-  useEffect(() => {
+  useLayoutEffect(() => {
     hanldeData();
   }, [value]);
 
   useEffect(() => {
     if (isFocused) {
-      console.log('load lai get history');
-      axiosContext.GetHistories(page, setInitialData);
+      axiosContext.GetHistories(page, data => {
+        setInitialData(data);
+        setData(data);
+      });
     }
-    setData(initialData);
   }, [isFocused]);
   return (
     <View style={styles.viewParent}>
