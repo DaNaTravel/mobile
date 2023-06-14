@@ -24,6 +24,7 @@ const Locations = ({dataLoca}) => {
       );
     }
   };
+
   const [data, setData] = useState([]);
   const [tempDataLoca, setTempDataLoca] = useState([]);
 
@@ -37,16 +38,17 @@ const Locations = ({dataLoca}) => {
   }, [tempDataLoca]);
 
   useEffect(() => {}, [data]);
+  
   return (
     <View style={styles.viewParent}>
-      {dataLoca?.length === 0 ? (
+      {data?.length === 0 ? (
         <Text>You don't have any favorite location items</Text>
       ) : (
         <View style={styles.viewList}>
           <FlatList
-            data={dataLoca}
+            data={data}
             renderItem={({item, index}) => (
-              <FavoriteItem item={item} key={item._id} />
+              <FavoriteItem item={item} key={item._id} data={data} setData={setData}/>
             )}
             keyExtractor={item => item._id}
             showsHorizontalScrollIndicator={false}

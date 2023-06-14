@@ -54,6 +54,45 @@ const dataImage = [
       'AUjq9jmPatLo6leE2kXBkW9wjsQnp2EU2dvRmiu6GESpW-nxFgtOEkIZzBNTYWGN4qt3HkkzosXUw4mfPd4Z9lFzdU_AuyAgcCvD8pID6xene_NfsFNNa64xfuc_Hrm1wmuFlpm9Hn4df-QibLT_-UZrNny_r_dV0cKtssmZZ1UnqtRFmZov',
   },
 ];
+
+const reviewHard = [
+  {
+    author_name: 'Greg Sharpe',
+    profile_photo_url:
+      'https://cdn.discordapp.com/attachments/1031111327172796426/1118578903519346748/348382331_648561420450638_6379610820145108739_n.jpg',
+    rating: 4,
+    text: "Nice, it's beautiful place.",
+  },
+  {
+    author_name: 'Joshua Mayhew',
+    profile_photo_url:
+      'https://cdn.discordapp.com/attachments/1031111327172796426/1118578903724855477/61549748_869767946704986_3574108909981401088_n.jpg',
+    rating: 5,
+    text: "Wow, It's a nice place to explore.",
+  },
+  {
+    author_name: 'Spiegel P',
+    profile_photo_url:
+      'https://cdn.discordapp.com/attachments/1031111327172796426/1118578904005881966/z3231885310897_22fc361afc218e985b09af235e821a11.jpg',
+    rating: 5,
+    text: 'Love this place.',
+  },
+  {
+    author_name: 'Tín  Nguyễn Quang',
+    profile_photo_url:
+      'https://cdn.discordapp.com/attachments/1031111327172796426/1118578904354013184/firefly_on_Twitter.jpg',
+    rating: 5,
+    text: "Nice, It's good for try",
+  },
+  {
+    author_name: 'TanixT',
+    profile_photo_url:
+      'https://cdn.discordapp.com/attachments/1031111327172796426/1118578995185844295/Avatar-Facebook-trang.jpg',
+    rating: 5,
+    text: 'Ok for me',
+  },
+];
+
 const Header = ({
   navigation,
   item,
@@ -66,33 +105,57 @@ const Header = ({
   const isCarousel = useRef(null);
   const [index, setIndex] = useState(0);
   const [like, setLike] = useState(false);
-  const [result, setResult] = useState();
   const [listFavo, setListFavo] = useState([]);
   const isUser = useSelector(state => state.auth.login);
   const axiosContext = useContext(AxiosContext);
+
   const checkFavo = () => {
     isUser?.data?._id === undefined ? setAlert(true) : handleFavo();
   };
+
   const handleFavo = () => {
-    like
-      ? axiosContext.DeleteFavo(item?._id)
-      : axiosContext.AddLocationFavorite(item?._id);
+    like ? handleDeleFavo() : handleAddFavo();
     OnFavo();
   };
+
   const OnFavo = () => {
     like ? handleRemove() : handleBook();
-    setLike(!like);
   };
+
+  const handleDeleFavo = async () => {
+    const updatedListFavo = listFavo?.filter(item => item !== item?._id);
+    setListFavo(updatedListFavo);
+    let LocationIds = await AsyncStorage.getItem('LocationIds');
+    let updatedlist = JSON.parse(LocationIds)?.filter(
+      list => list !== item?._id,
+    );
+    await AsyncStorage.setItem('LocationIds', JSON.stringify(updatedlist));
+    axiosContext.DeleteFavo(item?._id);
+  };
+
+  const handleAddFavo = async () => {
+    const updatedListFavo = listFavo ? [...listFavo, item?._id] : [item?._id];
+    setListFavo(updatedListFavo);
+    let LocationIds = await AsyncStorage.getItem('LocationIds');
+    let updatelist = JSON.parse(LocationIds);
+    let updatedList = [...updatelist, item?._id];
+    await AsyncStorage.setItem('LocationIds', JSON.stringify(updatedList));
+    axiosContext.AddLocationFavorite(item?._id);
+  };
+
   const handleListFavo = async () => {
     let LocationIds = JSON.parse(await AsyncStorage.getItem('LocationIds'));
     setListFavo(LocationIds);
   };
+
   useEffect(() => {
     handleListFavo();
   }, []);
+
   useEffect(() => {
     setLike(listFavo?.includes(item?._id));
   }, [listFavo]);
+
   const handleTotal = num => {
     let formattedNum = num
       .toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
@@ -100,6 +163,7 @@ const Header = ({
       .slice(0, -1);
     return formattedNum;
   };
+
   return (
     <>
       <TouchableOpacity
@@ -177,7 +241,7 @@ const Header = ({
 const PaginationCarousel = ({data, index}) => {
   return (
     <Pagination
-      dotsLength={data?.length}
+      dotsLength={data?.length || dataImage.length}
       activeDotIndex={index}
       containerStyle={{
         backgroundColor: 'transparent',
@@ -209,23 +273,26 @@ const BookingDetail = ({route}) => {
   const [booked, setBooked] = useState(false);
   const [removed, setRemoved] = useState(false);
   const [alert, setAlert] = useState(false);
+
   const handleBook = () => {
     setBooked(!booked);
   };
+
   const handleRemove = () => {
     setRemoved(!removed);
   };
+
   const {item} = route.params;
   const [data, setData] = useState([]);
   const [newDT, setNewDT] = useState(null);
+
   useEffect(() => {
     console.log('itemid', item?._id);
     SearchRelatedByID(item?._id, setNewDT);
   }, [item]);
+  
   useEffect(() => {
     if (newDT !== null) {
-      console.log('doi Related');
-      console.log(newDT);
       setData(newDT);
     }
   }, [newDT]);
@@ -254,7 +321,7 @@ const BookingDetail = ({route}) => {
       </View>
       <Text style={styles.textRelate}>Some reviews</Text>
       <FlatList
-        data={item?.reviews}
+        data={item?.reviews === null ? reviewHard : item?.reviews}
         renderItem={({item, index}) => (
           <CommentItem item={item} index={index} key={item.author_name} />
         )}

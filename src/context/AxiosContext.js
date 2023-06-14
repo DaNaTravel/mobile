@@ -140,18 +140,19 @@ export const AxiosProvider = ({children}) => {
       });
   };
 
-  const DeleteFavo = locationId => {
+  const DeleteFavo = (locationId, setResult) => {
     let data = JSON.stringify({
       locationId: locationId,
     });
     axiosInstance
       .delete('/favorites/', {data: data})
       .then(response => {
+        setResult(response?.data?.message);
         console.log(response?.data?.message);
       })
       .catch(error => {
         console.log('hi');
-        console.log(error?.response);
+        console.log(error?.response?.data?.message);
       });
   };
 

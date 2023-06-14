@@ -49,7 +49,6 @@ const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
   const handleExist = id => {
     const updatedListFavo = listFavo?.filter(item => item !== id);
     setListFavo(updatedListFavo);
-    console.log('id', id);
     axiosContext.DeleteItineraryFavo(id);
   };
 

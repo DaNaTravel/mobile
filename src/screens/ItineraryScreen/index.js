@@ -43,6 +43,7 @@ const Header = ({name}) => {
 const ViewCarousel = () => {
   const isCarousel = useRef(null);
   const [index, setIndex] = useState(0);
+
   return (
     <View style={styles.viewForCarousel}>
       <Carousel
@@ -110,9 +111,11 @@ const ViewFunction = ({navigation}) => {
 };
 const ViewRecommend = () => {
   const [data, setData] = useState([]);
+
   useLayoutEffect(() => {
     GetItineraryRecommend(setData);
   }, []);
+
   return (
     <>
       <Text style={styles.textFavo}>Recommended itinerary</Text>
@@ -132,9 +135,11 @@ const ViewRecommend = () => {
 };
 const ViewFavorites = () => {
   const [listLoca, setListLoca] = useState([]);
+
   useLayoutEffect(() => {
     GetLocationRecommend(setListLoca);
   }, []);
+
   return (
     <>
       <Text style={styles.textFavo}>Favorite places</Text>
@@ -145,7 +150,7 @@ const ViewFavorites = () => {
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           scrollEnabled={true}
-          keyExtractor={item => item?.img}
+          keyExtractor={item => item?._id}
           horizontal
         />
       </View>
@@ -156,12 +161,15 @@ const Itinerary = () => {
   const [name, setName] = useState('');
   const navigation = useNavigation();
   const isUser = useSelector(state => state.auth.login);
+
   const loadName = async () => {
     isUser?.message === null ? setName('Duke') : setName('Guest');
   };
+
   useLayoutEffect(() => {
     loadName();
   }, []);
+  
   return (
     <ScrollView
       style={styles.viewParent}

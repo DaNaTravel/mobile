@@ -3,33 +3,40 @@ import React, {useEffect, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {SearchByID} from '../../apis/search';
 import {useNavigation} from '@react-navigation/native';
 import ConfirmLogout from '../Modal/ConfirmLogout';
 
-const FavoriteItem = ({item}) => {
-  const [data, setData] = useState();
-  useEffect(() => {
-    SearchByID(item?.locationId, setData);
-  }, []);
+const FavoriteItem = ({item, data, setData}) => {
   const [isModalVisible, setModalVisible] = useState(false);
+
   const handleSure = async () => {
     setModalVisible(!isModalVisible);
   };
+
   const handleDelete = id => {
     console.log('id', id);
     setModalVisible(!isModalVisible);
   };
+
+  const handleTotal = num => {
+    let formattedNum = num
+      .toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
+      .replace(',00', '')
+      .slice(0, -1);
+    return formattedNum;
+  };
+
   const navigation = useNavigation();
+  
   return (
     <TouchableOpacity
       style={styles.viewParent}
-      onPress={() => navigation.navigate('BookingDetail', {item: data})}>
+      onPress={() => navigation.navigate('BookingDetail', {item: item})}>
       <Image
         source={
-          data?.photos?.[0].photo_reference
+          item?.photos?.[0].photo_reference
             ? {
-                uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=${data?.photos?.[0].photo_reference}&key=AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU`,
+                uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=${item?.photos?.[0].photo_reference}&key=AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU`,
               }
             : require('../../assets/images/booking.jpg')
         }
@@ -40,26 +47,27 @@ const FavoriteItem = ({item}) => {
         style={styles.viewBlur}>
         <View style={styles.content}>
           <Text style={styles.textName} numberOfLines={1}>
-            {data?.name}
+            {item?.name}
           </Text>
           <View style={styles.viewPos}>
             <FontAwesome name="map-marker" size={26} color={colors.WHITE} />
             <Text style={styles.textPos} numberOfLines={1}>
-              {data?.formatted_address}
+              {item?.formatted_address}
             </Text>
           </View>
           <View style={styles.viewRatingPrice}>
-            <Text style={styles.textPrice}>$5</Text>
+            <Text style={styles.textPrice}>{item?.cost !== 0 && item?.cost !== undefined ? `${handleTotal(item?.cost)}VND` : 
+            item?.cost === 0 ?  'FREE' : ''}</Text>
             <View style={styles.viewRating}>
               <FontAwesome name="star" size={18} color={colors.WHITE} />
-              <Text style={styles.textPrice}>{data?.rating}</Text>
+              <Text style={styles.textPrice}>{item?.rating}</Text>
             </View>
           </View>
         </View>
         <View style={styles.viewLike}>
           <TouchableOpacity
             style={styles.Heart}
-            onPress={() => handleDelete(data?._id)}>
+            onPress={() => handleDelete(item?.locationId)}>
             <FontAwesome name="heart" size={32} color={colors.RED} />
           </TouchableOpacity>
         </View>
@@ -69,8 +77,10 @@ const FavoriteItem = ({item}) => {
         isModalVisible={isModalVisible}
         navigation={navigation}
         type={'delete'}
-        dataId={data?._id}
+        dataId={item?.locationId}
         setModalVisible={setModalVisible}
+        data={data}
+        setData={setData}
       />
     </TouchableOpacity>
   );

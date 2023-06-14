@@ -213,7 +213,6 @@ export const GetLocationRecommend = setData => {
   axios
     .request(config)
     .then(response => {
-      console.log(response?.data?.data);
       setData(response?.data?.data);
     })
     .catch(error => {

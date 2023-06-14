@@ -23,7 +23,7 @@ const SuccessfulBooking = ({booked, setBooked}) => {
           <TouchableOpacity
             style={styles.buttonClose}
             onPress={() => setBooked(false)}>
-            <Text style={styles.textHome}>Cancel</Text>
+            <Text style={styles.textHome}>Close</Text>
           </TouchableOpacity>
         </View>
       </View>

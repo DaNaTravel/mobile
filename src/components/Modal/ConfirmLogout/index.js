@@ -7,7 +7,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import {Logout} from '../../../redux/action/auth/authRequests';
-import {DeleteFavo, DeleteItineraryFavo} from '../../../apis/favorite';
 import {AxiosContext} from '../../../context/AxiosContext';
 
 const ConfirmLogout = ({
@@ -24,27 +23,50 @@ const ConfirmLogout = ({
   const axiosContext = useContext(AxiosContext);
   const isUser = useSelector(state => state.auth.login);
   const [result, setResult] = useState();
+
   const handleConLogout = async () => {
     isUser?.data?._id === undefined ? navigation.replace('LoginNav') : null;
     Logout(dispatch);
     await AsyncStorage.clear();
   };
+
   const updateListItiFavo = async id => {
     let listItiFavo = await AsyncStorage.getItem('itineraryIds');
     let updatedlist = JSON.parse(listItiFavo)?.filter(item => item !== id);
     await AsyncStorage.setItem('itineraryIds', JSON.stringify(updatedlist));
   };
-  const handleDelete = async () => {
-    type === 'delete'
-      ? await axiosContext.DeleteFavo(dataId, setResult)
-      : await axiosContext.DeleteItineraryFavo(dataId, setResult);
-    result === undefined ? updateListItiFavo(dataId) : null;
-    if (result === undefined) {
-      const updatedData = data?.filter(item => item?.itineraryId !== dataId);
-      setData(updatedData);
-    }
-    setModalVisible(!isModalVisible);
+
+  const updateListLocaFavo = async id => {
+    let LocationIds = await AsyncStorage.getItem('LocationIds');
+    let updatedlist = JSON.parse(LocationIds)?.filter(item => item !== id);
+    await AsyncStorage.setItem('LocationIds', JSON.stringify(updatedlist));
   };
+
+  const handleDelete = async () => {
+    try {
+      if (type === 'delete') {
+        let result = await axiosContext.DeleteFavo(dataId, setResult);
+        console.log('result LOca', result);
+        updateListLocaFavo(dataId);
+        const updatedData = data?.filter(item => item?.locationId !== dataId);
+        setData(updatedData);
+      } else {
+        let result = await axiosContext.DeleteItineraryFavo(dataId, setResult);
+        if (result === undefined) {
+          updateListItiFavo(dataId);
+          const updatedData = data?.filter(
+            item => item?.itineraryId !== dataId,
+          );
+          setData(updatedData);
+        }
+      }
+
+      setModalVisible(!isModalVisible);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
   return (
     <Modal isVisible={isModalVisible}>
       <View style={styles.viewAlert}>
