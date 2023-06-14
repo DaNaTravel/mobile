@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Keyboard,
   ScrollView,
+  Image,
 } from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -81,16 +82,14 @@ const Body = ({email, setEmail, password, setPassword}) => {
       />
       <Text style={styles.textOtherSign}>Or</Text>
       <View style={styles.viewOther}>
-        <FieldButton
-          stylesContainer={styles.viewButtonGG}
-          title={'Google'}
-          stylesTitle={styles.textGG}
-          icon={'google'}
-          size={30}
+        <TouchableOpacity
           onPress={() => {
             handleSignInWithGG();
           }}
-        />
+          style={styles.viewButtonGG}>
+          <Image source={require('../../assets/images/google.png')} style={styles.img} />
+          <Text style={styles.title}>Google</Text>
+        </TouchableOpacity>
         <FieldButton
           stylesContainer={styles.viewButtonFB}
           title={'Login as Guest'}
@@ -139,9 +138,6 @@ const styles = StyleSheet.create({
     height: heightScreen,
     width: widthScreen,
     backgroundColor: colors.WHITE,
-  },
-  img: {
-    tintColor: 'gray',
   },
   viewBack: {
     height: heightScreen * 0.12,
@@ -195,6 +191,19 @@ const styles = StyleSheet.create({
   viewButtonGG: {
     width: widthScreen * 0.4,
     backgroundColor: colors.WHITE,
+    height: heightScreen * 0.07,
+    flexDirection: 'row',
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: heightScreen * 0.001,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
   },
   textGG: {
     color: '#000',
@@ -223,4 +232,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: colors.MAINCOLOR,
   },
+  title: {
+    fontSize: 13,
+    fontWeight: 600,
+    alignSelf: 'center',
+    color: colors.BLACK,
+    marginLeft: widthScreen*0.02
+  },
+  img:{
+    height: 35,
+    width: 35
+  }
 });
