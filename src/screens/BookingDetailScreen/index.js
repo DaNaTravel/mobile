@@ -31,6 +31,7 @@ import {DeleteFavo} from '../../apis/favorite';
 import NonAccount from '../../components/Modal/NonAccount';
 import {AxiosContext} from '../../context/AxiosContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {SearchByID, SearchRelatedByID} from '../../apis/search';
 const dataImage = [
   {
     photo_reference:
@@ -216,9 +217,19 @@ const BookingDetail = ({route}) => {
   };
   const {item} = route.params;
   const [data, setData] = useState([]);
+  const [newDT, setNewDT] = useState(null);
   useEffect(() => {
-    setData(item?.relatedLocations);
+    console.log('itemid', item?._id);
+    SearchRelatedByID(item?._id, setNewDT);
   }, [item]);
+  useEffect(() => {
+    if (newDT !== null) {
+      console.log('doi Related');
+      console.log(newDT);
+      setData(newDT);
+    }
+  }, [newDT]);
+
   return (
     <ScrollView style={styles.viewParent} showsVerticalScrollIndicator={false}>
       <Header

@@ -20,14 +20,6 @@ const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
   const navigation = useNavigation();
   const [dataImg, setDataImg] = useState([]);
   const axiosContext = useContext(AxiosContext);
-
-  const dataImgs = [
-    require('../../assets/images/muinghe.png'),
-    require('../../assets/images/bana.jpg'),
-    require('../../assets/images/mariamaria.jpeg'),
-    require('../../assets/images/booking.jpg'),
-  ];
-
   const isUser = useSelector(state => state.auth.login);
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -37,6 +29,14 @@ const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
 
   const handleDelete = id => {
     setModalVisible(!isModalVisible);
+  };
+
+  const handleTotal = num => {
+    let formattedNum = num
+      ?.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
+      ?.replace(',00', '')
+      ?.slice(0, -1);
+    return formattedNum;
   };
 
   const CreateListImg = routes => {
@@ -172,8 +172,8 @@ const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
           <Text style={styles.textDetailDate}>Total</Text>
           <Text style={styles.textPrice}>
             {item?.itinerary?.cost !== undefined
-              ? item?.itinerary?.cost
-              : item?.cost}{' '}
+              ? handleTotal(item?.itinerary?.cost)
+              : handleTotal(item?.cost)}{' '}
             <Text style={styles.textUnit}>VND</Text>
           </Text>
         </View>
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
     color: colors.WHITE,
   },
   textPrice: {
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: 600,
     color: colors.BLACK,
   },

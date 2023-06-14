@@ -19,8 +19,12 @@ import {Login} from '../../redux/action/auth/authRequests';
 const Header = () => {
   return (
     <View>
-      <View style={styles.viewBack}></View>
+      {/* <View style={styles.viewBack}></View> */}
       <View style={styles.viewHello}>
+        <Image
+          source={require('../../assets/images/img-logo.png')}
+          style={styles.logo}
+        />
         <Text style={styles.textHello}>Welcome, DaNaTravel</Text>
       </View>
     </View>
@@ -87,7 +91,10 @@ const Body = ({email, setEmail, password, setPassword}) => {
             handleSignInWithGG();
           }}
           style={styles.viewButtonGG}>
-          <Image source={require('../../assets/images/google.png')} style={styles.img} />
+          <Image
+            source={require('../../assets/images/google.png')}
+            style={styles.img}
+          />
           <Text style={styles.title}>Google</Text>
         </TouchableOpacity>
         <FieldButton
@@ -145,8 +152,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.WHITE,
   },
   viewHello: {
-    width: widthScreen * 0.59,
     alignSelf: 'center',
+    width: widthScreen * 0.59,
   },
   textHello: {
     fontWeight: 'bold',
@@ -176,7 +183,7 @@ const styles = StyleSheet.create({
   viewSignup: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: heightScreen * 0.15,
+    marginTop: heightScreen * 0.12,
   },
   inputMail: {
     marginTop: heightScreen * 0.05,
@@ -237,10 +244,15 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     alignSelf: 'center',
     color: colors.BLACK,
-    marginLeft: widthScreen*0.02
+    marginLeft: widthScreen * 0.02,
   },
-  img:{
+  img: {
     height: 35,
-    width: 35
-  }
+    width: 35,
+  },
+  logo: {
+    height: 150,
+    width: 180,
+    alignSelf: 'center',
+  },
 });

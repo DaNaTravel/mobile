@@ -4,6 +4,8 @@ import {colors, heightScreen, widthScreen} from '../../utility';
 import Feather from 'react-native-vector-icons/Feather';
 import ConfirmLogout from '../../components/Modal/ConfirmLogout';
 import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+import NonAccount from '../../components/Modal/NonAccount';
 
 const FunctionTouch = ({
   nameIcon,
@@ -12,8 +14,8 @@ const FunctionTouch = ({
   press,
   navigation,
   handleSignout,
+  isUser,
 }) => {
-  console.log(press);
   const handlePress = () => {
     !isLogout ? navigation.navigate(press) : handleSignout();
   };
@@ -45,23 +47,35 @@ const TotalProfileScreen = () => {
     setModalVisible(!isModalVisible);
   };
   const navigation = useNavigation();
+  const isUser = useSelector(state => state.auth.login);
+  const [alert, setAlert] = useState(false);
+
   return (
     <View style={styles.viewParent}>
       <Text style={styles.textTitle}>My Profile</Text>
       <View style={styles.viewParentAvt}>
         <Image
-          source={require('../../assets/images/get3.jpg')}
+          source={
+            isUser?.data?.token === undefined
+              ? require('../../assets/images/traveller.png')
+              : require('../../assets/images/get3.jpg')
+          }
           style={styles.viewAvt}
         />
       </View>
-      <Text style={styles.textName}>Nguyen Thanh Duke</Text>
-      <Text style={styles.textPhone}>+84 336 364 692</Text>
+      <Text style={styles.textName}>
+        {isUser?.data?.token === undefined ? 'Anonymous' : 'Nguyen Thanh Duke'}
+      </Text>
+      <Text style={styles.textPhone}>
+        {isUser?.data?.token === undefined ? '' : '+84 336 364 692'}
+      </Text>
       <FunctionTouch
         nameIcon={'edit-3'}
         nameTitle={'Edit Profile'}
         isLogout={false}
         press={'EditProfile'}
         navigation={navigation}
+        isUser={isUser}
       />
       <FunctionTouch
         nameIcon={'lock'}
@@ -69,6 +83,7 @@ const TotalProfileScreen = () => {
         press={'ChangePassword'}
         isLogout={false}
         navigation={navigation}
+        isUser={isUser}
       />
       <FunctionTouch
         nameIcon={'log-out'}

@@ -81,3 +81,23 @@ export const SearchByID = (id, setData) => {
       return error.response.data;
     });
 };
+
+export const SearchRelatedByID = (id, setData) => {
+  let config = {
+    method: 'get',
+    maxBodyLength: Infinity,
+    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/locations/${id}`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  axios
+    .request(config)
+    .then(async response => {
+      setData(response?.data?.data?.relatedLocations);
+    })
+    .catch(error => {
+      console.log(error?.response?.data);
+      return error.response.data;
+    });
+};

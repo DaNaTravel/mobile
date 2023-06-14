@@ -200,3 +200,24 @@ export const GetItineraryRecommend = setData => {
       return error.response.data;
     });
 };
+
+export const GetLocationRecommend = setData => {
+  let config = {
+    method: 'get',
+    maxBodyLength: Infinity,
+    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/locations/recommended`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  axios
+    .request(config)
+    .then(response => {
+      console.log(response?.data?.data);
+      setData(response?.data?.data);
+    })
+    .catch(error => {
+      console.log(error?.response?.data);
+      return error.response.data;
+    });
+};

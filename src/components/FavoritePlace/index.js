@@ -26,7 +26,13 @@ const FavoritePlace = ({item}) => {
       style={styles.viewContainer}
       onPress={() => navigation.navigate('PlaceDetail', {data: item})}>
       <Image
-        source={{uri: item?.img}}
+        source={
+          item?.photo
+            ? {
+                uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=${item?.photo}&key=AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU`,
+              }
+            : require('../../assets/images/booking.jpg')
+        }
         resizeMethod="scale"
         style={styles.viewImg}
       />
@@ -35,18 +41,25 @@ const FavoritePlace = ({item}) => {
           <Text style={styles.textName} numberOfLines={1}>
             {item?.name}
           </Text>
+          <Text style={styles.textAddress} numberOfLines={1}>
+            {item?.formatted_address}
+          </Text>
+        </View>
+        <View style={styles.viewStarLike}>
           <View style={styles.viewStar}>
-            <FontAwesome name="star" size={17} color={colors.WHITE} />
-            <Text style={styles.textRating}>{item?.rating}</Text>
+            <FontAwesome name="star" size={17} color={colors.YELLOW} />
+            <Text style={styles.textRating}>
+              {item?.rating === null ? '5' : item?.rating}
+            </Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.viewLike} onPress={() => handleLike()}>
-          <FontAwesome
-            name="heart"
-            size={23}
-            color={like ? colors.RED : colors.STRONGGRAY}
-          />
-        </TouchableOpacity>
+      </View>
+      <View style={styles.viewLove}>
+        <Image
+          source={require('../../assets/images/lover.png')}
+          style={styles.imgLove}
+        />
+        <Text style={styles.textLove}>{item?.favoriteCount}</Text>
       </View>
       {alert ? <NonAccount alert={alert} setAlert={setAlert} /> : null}
     </TouchableOpacity>
@@ -57,11 +70,12 @@ export default FavoritePlace;
 
 const styles = StyleSheet.create({
   viewContainer: {
-    width: widthScreen * 0.5,
-    height: heightScreen * 0.23,
-    borderRadius: 12,
+    width: widthScreen * 0.6,
+    height: heightScreen * 0.3,
+    borderRadius: 15,
     backgroundColor: colors.WHITE,
     marginHorizontal: widthScreen * 0.02,
+    marginTop: heightScreen * 0.01,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -70,41 +84,39 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
     elevation: 5,
+    paddingHorizontal: widthScreen * 0.02,
+    paddingVertical: widthScreen * 0.02,
+    justifyContent: 'space-between',
   },
   viewImg: {
-    height: heightScreen * 0.162,
-    width: widthScreen * 0.5,
+    height: heightScreen * 0.2,
+    width: widthScreen * 0.56,
     backgroundColor: colors.STRONGGRAY,
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
+    borderRadius: 15,
   },
   viewInfo: {
-    height: heightScreen * 0.065,
-    width: widthScreen * 0.45,
+    height: heightScreen * 0.07,
+    width: widthScreen * 0.56,
     alignSelf: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   viewName: {
-    height: heightScreen * 0.065,
-    width: widthScreen * 0.32,
+    height: heightScreen * 0.07,
+    width: widthScreen * 0.35,
     justifyContent: 'space-around',
-    paddingBottom: 5,
   },
-  viewLike: {
-    height: heightScreen * 0.065,
-    width: widthScreen * 0.1,
-    justifyContent: 'center',
+  viewStarLike: {
+    height: heightScreen * 0.07,
+    width: widthScreen * 0.15,
+    justifyContent: 'space-around',
     alignItems: 'center',
   },
   viewStar: {
     flexDirection: 'row',
     justifyContent: 'center',
     width: widthScreen * 0.15,
-    backgroundColor: colors.YELLOW,
-    borderRadius: 20,
     alignItems: 'center',
-    marginTop: heightScreen * 0.01,
   },
   textName: {
     fontSize: 16,
@@ -113,8 +125,31 @@ const styles = StyleSheet.create({
   },
   textRating: {
     marginLeft: widthScreen * 0.015,
-    fontWeight: 600,
-    color: colors.WHITE,
     fontSize: 16,
+  },
+  textAddress: {
+    fontSize: 14,
+  },
+  imgLove: {
+    height: 22,
+    width: 22,
+    marginHorizontal: widthScreen * 0.015,
+  },
+  viewLove: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: widthScreen * 0.15,
+    alignItems: 'center',
+    position: 'absolute',
+    backgroundColor: colors.WHITE,
+    borderTopRightRadius: 15,
+    borderBottomLeftRadius: 15,
+    right: widthScreen * 0.02,
+    top: widthScreen * 0.02,
+    padding: 5,
+  },
+  textLove: {
+    fontSize: 18,
+    marginRight: widthScreen * 0.015,
   },
 });

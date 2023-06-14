@@ -12,7 +12,6 @@ import {colors, heightScreen, widthScreen} from '../../utility';
 import Carousel from 'react-native-snap-carousel';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import data from '../../assets/data/dataCarouselHome/index';
-import dataFavorite from '../../assets/data/dataFavo/index';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import CarouselItem, {
   ITEM_WIDTH,
@@ -22,7 +21,10 @@ import FavoritePlace from '../../components/FavoritePlace';
 import {useNavigation} from '@react-navigation/native';
 import RecommendedItinerary from '../../components/RecommendedItinerary';
 import {useSelector} from 'react-redux';
-import {GetItineraryRecommend} from '../../apis/itineraries';
+import {
+  GetItineraryRecommend,
+  GetLocationRecommend,
+} from '../../apis/itineraries';
 const Header = ({name}) => {
   return (
     <View style={styles.viewWelcome}>
@@ -34,7 +36,7 @@ const Header = ({name}) => {
       </View>
       <Image
         style={styles.viewAvt}
-        source={require('../../assets/images/bana.jpg')}></Image>
+        source={require('../../assets/images/get3.jpg')}></Image>
     </View>
   );
 };
@@ -111,7 +113,6 @@ const ViewRecommend = () => {
   useLayoutEffect(() => {
     GetItineraryRecommend(setData);
   }, []);
-
   return (
     <>
       <Text style={styles.textFavo}>Recommended itinerary</Text>
@@ -129,13 +130,17 @@ const ViewRecommend = () => {
     </>
   );
 };
-const ViewFavorites = ({dataFavo}) => {
+const ViewFavorites = () => {
+  const [listLoca, setListLoca] = useState([]);
+  useLayoutEffect(() => {
+    GetLocationRecommend(setListLoca);
+  }, []);
   return (
     <>
       <Text style={styles.textFavo}>Favorite places</Text>
       <View style={styles.viewFavo}>
         <FlatList
-          data={dataFavo}
+          data={listLoca}
           renderItem={({item, index}) => <FavoritePlace item={item} />}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
@@ -157,15 +162,15 @@ const Itinerary = () => {
   useLayoutEffect(() => {
     loadName();
   }, []);
-  const [dataFavo, setDataFavo] = useState(dataFavorite);
   return (
     <ScrollView
       style={styles.viewParent}
-      contentContainerStyle={styles.contentContainerStyle}>
+      contentContainerStyle={styles.contentContainerStyle}
+      showsVerticalScrollIndicator={false}>
       <Header name={name} />
       <ViewCarousel />
       <ViewFunction navigation={navigation} />
-      <ViewFavorites dataFavo={dataFavo} />
+      <ViewFavorites />
       <ViewRecommend />
     </ScrollView>
   );
@@ -272,7 +277,7 @@ const styles = StyleSheet.create({
     marginLeft: widthScreen * 0.05,
   },
   viewFavo: {
-    height: heightScreen * 0.24,
+    height: heightScreen * 0.32,
     marginLeft: widthScreen * 0.05,
   },
   viewRecommendList: {

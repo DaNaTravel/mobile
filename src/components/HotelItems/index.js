@@ -25,10 +25,6 @@ const HotelItems = ({
   setData,
 }) => {
   const navigation = useNavigation();
-  const [dataHT, setDataHT] = useState({});
-  useLayoutEffect(() => {
-    SearchByID(item?._id, setDataHT);
-  }, []);
   const handleTotal = num => {
     let formattedNum = num
       ?.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
@@ -39,19 +35,19 @@ const HotelItems = ({
   const handleAdd = async () => {
     let newData = {
       description: {
-        _id: dataHT?._id,
-        photos: dataHT?.photos?.[0]?.photo_reference,
-        name: dataHT?.name,
-        address: dataHT?.formatted_address,
-        rating: dataHT?.rating,
-        latitude: dataHT?.latitude,
-        longitude: dataHT?.longitude,
+        _id: item?._id,
+        photos: item?.photos?.[0]?.photo_reference,
+        name: item?.name,
+        address: item?.formatted_address,
+        rating: item?.rating,
+        latitude: item?.latitude,
+        longitude: item?.longitude,
       },
-      cost: dataHT?.cost,
+      cost: item?.cost,
     };
-    console.log('dataId', dataHT?._id);
+    console.log('dataId', item?._id);
     console.log('dataToSent', dataToSent?.routes);
-    let result = [...dataToSent?.routes[selectedItem - 1], {_id: dataHT?._id}];
+    let result = [...dataToSent?.routes[selectedItem - 1], {_id: item?._id}];
     console.log('result', result);
     dataToSent.routes[selectedItem - 1] = result;
     setDataToSent({...dataToSent});
@@ -61,13 +57,13 @@ const HotelItems = ({
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => navigation.navigate('BookingDetail', {item: dataHT})}>
+      onPress={() => navigation.navigate('BookingDetail', {item: item})}>
       <Image
         style={styles.image}
         source={
-          dataHT?.photos?.[0].photo_reference
+          item?.photos?.[0].photo_reference
             ? {
-                uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=${dataHT?.photos?.[0].photo_reference}&key=AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU`,
+                uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=${item?.photos?.[0].photo_reference}&key=AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU`,
               }
             : require('../../assets/images/booking.jpg')
         }
@@ -76,19 +72,19 @@ const HotelItems = ({
         colors={['rgba(255,255,255,0.01)', 'rgba(10,10,10,0.7)']}
         style={styles.viewBlur}>
         <Text numberOfLines={1} style={styles.name}>
-          {dataHT?.name ? dataHT?.name : 'Symphony'}
+          {item?.name ? item?.name : 'Symphony'}
         </Text>
         <View style={styles.viewPos}>
           <FontAwesome name="map-marker" size={28} color={colors.MEDIUMGRAY} />
           <Text style={styles.position} numberOfLines={1}>
-            {dataHT?.formatted_address
-              ? dataHT?.formatted_address
+            {item?.formatted_address
+              ? item?.formatted_address
               : 'Hai Chau, Da Nang'}
           </Text>
         </View>
         <View style={styles.viewStarPrice}>
           <Text style={styles.price}>
-            {item?.cost !== 0 ? handleTotal(item?.cost) : 'FREE'}{' '}
+            {item?.cost !== 0 ? handleTotal(item?.cost) : 'FREE'}
             {item?.cost !== 0 ? 'VND' : null}
           </Text>
           <View style={styles.viewStar}>
@@ -98,9 +94,7 @@ const HotelItems = ({
               color={colors.YELLOW}
               style={styles.viewAStar}
             />
-            <Text style={styles.star}>
-              {dataHT?.rating ? dataHT?.rating : '5'}
-            </Text>
+            <Text style={styles.star}>{item?.rating ? item?.rating : '5'}</Text>
           </View>
         </View>
       </LinearGradient>
@@ -108,7 +102,7 @@ const HotelItems = ({
         <TouchableOpacity
           style={styles.viewSelect}
           onPress={() => {
-            setDataAdded(prevData => [...prevData, dataHT]);
+            setDataAdded(prevData => [...prevData, item]);
           }}>
           <Entypo name="plus" size={28} color={colors.BLACK} />
         </TouchableOpacity>
@@ -139,6 +133,7 @@ const styles = StyleSheet.create({
     elevation: 3,
     marginRight: widthScreen * 0.035,
     borderRadius: 17,
+    marginLeft: widthScreen * 0.0175,
   },
   image: {
     height: heightScreen * 0.3,

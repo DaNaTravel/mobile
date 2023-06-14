@@ -75,7 +75,7 @@ const HistoryDetaislScreen = ({route}) => {
         </Text>
         <Image
           style={styles.viewAvt}
-          source={require('../../assets/images/bana.jpg')}></Image>
+          source={require('../../assets/images/get3.jpg')}></Image>
       </View>
       <View style={styles.viewPeoDate}>
         <View style={styles.viewPeo}>

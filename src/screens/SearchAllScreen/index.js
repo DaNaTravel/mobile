@@ -107,8 +107,7 @@ const SearchAllScreen = () => {
             setSearch(txt);
           }}
           onSubmitEditing={() => handleSearch(search)}
-          autoFocus={true}>
-        </TextInput>
+          autoFocus={true}></TextInput>
       </View>
       <View style={styles.viewList}>
         <FlatList
@@ -222,6 +221,7 @@ const styles = StyleSheet.create({
   },
   viewHotelItem: {
     marginBottom: heightScreen * 0.02,
+    alignContent: 'space-around',
   },
   result: {
     marginTop: heightScreen * 0.02,
