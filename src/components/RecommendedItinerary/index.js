@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.9,
     height: heightScreen * 0.41,
     backgroundColor: colors.WHITE,
-    marginBottom: heightScreen * 0.017,
+    marginBottom: heightScreen * 0.01,
     borderRadius: 25,
     paddingVertical: heightScreen * 0.015,
     paddingHorizontal: widthScreen * 0.035,
@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
     elevation: 5,
     alignSelf: 'center',
+    marginTop: heightScreen * 0.01,
   },
   viewContainer1: {
     height: heightScreen * 0.103,

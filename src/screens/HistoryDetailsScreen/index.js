@@ -14,6 +14,7 @@ import {useNavigation} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import ItineraryPlace from '../../components/ItineraryPlace';
 import {GetItineraryById} from '../../apis/itineraries';
+import {useSelector} from 'react-redux';
 const Tab = createMaterialTopTabNavigator();
 const Day = ({dataDay}) => {
   return (
@@ -61,6 +62,7 @@ const HistoryDetaislScreen = ({route}) => {
   useEffect(() => {
     GetItineraryById(item?._id, setData);
   }, []);
+  const isUser = useSelector(state => state.auth.login);
 
   return (
     <View style={styles.viewParent}>
@@ -73,9 +75,16 @@ const HistoryDetaislScreen = ({route}) => {
         <Text style={styles.textTitle}>
           {item?.name !== undefined ? item?.name : 'Unnamed Journey'}
         </Text>
-        <Image
-          style={styles.viewAvt}
-          source={require('../../assets/images/get3.jpg')}></Image>
+        <View style={styles.viewParentAvt}>
+          <Image
+            style={styles.viewAvt}
+            source={
+              isUser?.data?.token !== undefined
+                ? require('../../assets/images/get3.jpg')
+                : require('../../assets/images/img-logo.png')
+            }
+          />
+        </View>
       </View>
       <View style={styles.viewPeoDate}>
         <View style={styles.viewPeo}>
@@ -194,5 +203,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 700,
     color: colors.BLACK,
+  },
+  viewParentAvt: {
+    height: 52,
+    width: 52,
+    borderRadius: 26,
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

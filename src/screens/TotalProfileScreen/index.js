@@ -15,30 +15,38 @@ const FunctionTouch = ({
   navigation,
   handleSignout,
   isUser,
+  setAlert,
 }) => {
   const handlePress = () => {
-    !isLogout ? navigation.navigate(press) : handleSignout();
+    if (!isLogout) {
+      if (isUser?.data?.token !== undefined) {
+        navigation.navigate(press);
+      }
+      return setAlert(true);
+    } else handleSignout();
   };
   return (
-    <TouchableOpacity style={styles.viewTouch} onPress={() => handlePress()}>
-      <View
-        style={[
-          styles.viewCircle,
-          isLogout
-            ? {backgroundColor: '#FF3333'}
-            : {backgroundColor: colors.MAINCOLOR},
-        ]}>
-        <Feather
-          name={nameIcon}
-          size={24}
-          color={isLogout ? colors.BLACK : colors.WHITE}
-        />
-      </View>
-      <View style={styles.viewSubTitle}>
-        <Text style={styles.textSubTitle}>{nameTitle}</Text>
-      </View>
-      <Feather name="chevron-right" size={30} color={colors.BLACK} />
-    </TouchableOpacity>
+    <>
+      <TouchableOpacity style={styles.viewTouch} onPress={() => handlePress()}>
+        <View
+          style={[
+            styles.viewCircle,
+            isLogout
+              ? {backgroundColor: '#FF3333'}
+              : {backgroundColor: colors.MAINCOLOR},
+          ]}>
+          <Feather
+            name={nameIcon}
+            size={24}
+            color={isLogout ? colors.BLACK : colors.WHITE}
+          />
+        </View>
+        <View style={styles.viewSubTitle}>
+          <Text style={styles.textSubTitle}>{nameTitle}</Text>
+        </View>
+        <Feather name="chevron-right" size={30} color={colors.BLACK} />
+      </TouchableOpacity>
+    </>
   );
 };
 const TotalProfileScreen = () => {
@@ -57,7 +65,7 @@ const TotalProfileScreen = () => {
         <Image
           source={
             isUser?.data?.token === undefined
-              ? require('../../assets/images/traveller.png')
+              ? require('../../assets/images/img-logo.png')
               : require('../../assets/images/get3.jpg')
           }
           style={styles.viewAvt}
@@ -75,6 +83,7 @@ const TotalProfileScreen = () => {
         isLogout={false}
         press={'EditProfile'}
         navigation={navigation}
+        setAlert={setAlert}
         isUser={isUser}
       />
       <FunctionTouch
@@ -83,6 +92,7 @@ const TotalProfileScreen = () => {
         press={'ChangePassword'}
         isLogout={false}
         navigation={navigation}
+        setAlert={setAlert}
         isUser={isUser}
       />
       <FunctionTouch
@@ -96,6 +106,7 @@ const TotalProfileScreen = () => {
         isModalVisible={isModalVisible}
         navigation={navigation}
       />
+      {alert ? <NonAccount setAlert={setAlert} /> : <></>}
     </View>
   );
 };

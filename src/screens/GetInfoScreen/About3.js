@@ -7,6 +7,7 @@ import WelcomeAbout from '../../components/WelcomeAbout';
 import WheelPicker from 'react-native-wheely';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useSelector} from 'react-redux';
 
 const DEFAULT_VALUE = 0.2;
 const SliderContainer = props => {
@@ -43,12 +44,19 @@ const SliderContainer = props => {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const options = ['All', 'Art', 'Historical', 'Culinary', 'Relax', 'Natural'];
   const navigation = useNavigation();
+  const isUser = useSelector(state => state.auth.login);
   const handleNext = async () => {
     let data = JSON.parse(await AsyncStorage.getItem('data'));
     data.expense = value;
     data.mainGoal = selectedIndex;
     await AsyncStorage.setItem('data', JSON.stringify(data));
-    navigation.navigate('PlaceSelection');
+    if (isUser?.data?.token !== undefined) {
+      navigation.navigate('PlaceSelection');
+    } else {
+      data.point = [];
+      await AsyncStorage.setItem('data', JSON.stringify(data));
+      navigation.navigate('ChoosePosition');
+    }
   };
   return (
     <View style={styles.sliderContainer}>

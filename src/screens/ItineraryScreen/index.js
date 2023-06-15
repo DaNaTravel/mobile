@@ -25,7 +25,7 @@ import {
   GetItineraryRecommend,
   GetLocationRecommend,
 } from '../../apis/itineraries';
-const Header = ({name}) => {
+const Header = ({name, isUser}) => {
   return (
     <View style={styles.viewWelcome}>
       <View style={styles.viewHello}>
@@ -34,9 +34,16 @@ const Header = ({name}) => {
           LET'S START <Text style={styles.textHello2}>YOUR JOURNEY</Text>
         </Text>
       </View>
-      <Image
-        style={styles.viewAvt}
-        source={require('../../assets/images/get3.jpg')}></Image>
+      <View style={styles.viewParentAvt}>
+        <Image
+          style={styles.viewAvt}
+          source={
+            isUser?.data?.token !== undefined
+              ? require('../../assets/images/get3.jpg')
+              : require('../../assets/images/img-logo.png')
+          }
+        />
+      </View>
     </View>
   );
 };
@@ -118,7 +125,7 @@ const ViewRecommend = () => {
 
   return (
     <>
-      <Text style={styles.textFavo}>Recommended itinerary</Text>
+      <Text style={styles.textRecom}>Recommended itinerary</Text>
       <View style={styles.viewRecommendList}>
         <FlatList
           data={data}
@@ -169,13 +176,13 @@ const Itinerary = () => {
   useLayoutEffect(() => {
     loadName();
   }, []);
-  
+
   return (
     <ScrollView
       style={styles.viewParent}
       contentContainerStyle={styles.contentContainerStyle}
       showsVerticalScrollIndicator={false}>
-      <Header name={name} />
+      <Header name={name} isUser={isUser} />
       <ViewCarousel />
       <ViewFunction navigation={navigation} />
       <ViewFavorites />
@@ -228,6 +235,7 @@ const styles = StyleSheet.create({
     color: colors.BLACK,
     marginBottom: heightScreen * 0.02,
     marginLeft: widthScreen * 0.05,
+    fontWeight: 600,
   },
   viewFunctions: {
     height: heightScreen * 0.085,
@@ -280,9 +288,10 @@ const styles = StyleSheet.create({
   textFavo: {
     fontSize: 24,
     color: colors.BLACK,
-    marginBottom: heightScreen * 0.02,
-    marginTop: heightScreen * 0.02,
+    marginBottom: heightScreen * 0.01,
+    marginTop: heightScreen * 0.03,
     marginLeft: widthScreen * 0.05,
+    fontWeight: 600,
   },
   viewFavo: {
     height: heightScreen * 0.32,
@@ -292,5 +301,21 @@ const styles = StyleSheet.create({
     marginBottom: heightScreen * 0.12,
     width: widthScreen * 0.92,
     alignSelf: 'center',
+  },
+  textRecom: {
+    fontSize: 24,
+    color: colors.BLACK,
+    marginBottom: heightScreen * 0.01,
+    marginTop: heightScreen * 0.03,
+    marginLeft: widthScreen * 0.05,
+    fontWeight: 600,
+  },
+  viewParentAvt: {
+    height: 52,
+    width: 52,
+    borderRadius: 26,
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

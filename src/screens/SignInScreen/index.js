@@ -25,7 +25,7 @@ const Header = () => {
           source={require('../../assets/images/img-logo.png')}
           style={styles.logo}
         />
-        <Text style={styles.textHello}>Welcome, DaNaTravel</Text>
+        <Text style={styles.textHello}>Welcome</Text>
       </View>
     </View>
   );
@@ -154,6 +154,7 @@ const styles = StyleSheet.create({
   viewHello: {
     alignSelf: 'center',
     width: widthScreen * 0.59,
+    marginTop: heightScreen * 0.05,
   },
   textHello: {
     fontWeight: 'bold',

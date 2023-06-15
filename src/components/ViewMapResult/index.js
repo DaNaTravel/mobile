@@ -36,15 +36,18 @@ const ViewMapResult = ({dataHT, index, dataMap, selectedItem, coordinates}) => {
     longitudeDelta: 0.025,
   });
   const markerImage = number => (
-    <View style={styles.marker}>
+    <>
+      <Image
+        style={styles.marker}
+        source={require('../../assets/images/placeholder.png')}></Image>
       <Image
         style={styles.markerImage}
         source={{
-          uri: `https://dummyimage.com/50x50/df2027/ffffff&text=${number}`,
+          uri: `https://dummyimage.com/50x50/fd003a/ffffff&text=${number}`,
         }}
         resizeMode="contain"
       />
-    </View>
+    </>
   );
   return (
     <MapView
@@ -105,18 +108,15 @@ const styles = StyleSheet.create({
     width: 40,
   },
   marker: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: '#DF2027',
-  },
-  markerImage: {
     width: 30,
     height: 30,
-    borderRadius: 15,
+  },
+  markerImage: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    position: 'absolute',
+    left: 5,
+    top: 1,
   },
 });

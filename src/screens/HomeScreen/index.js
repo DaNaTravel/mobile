@@ -221,12 +221,16 @@ const HomeScreen = ({route}) => {
           <Feather name="home" size={24} color={'#222222'} />
         </TouchableOpacity>
         <Text style={styles.textTitle}>Your trip</Text>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('EditItinerary', {dataIti: data, Id: Id})
-          }>
-          <Feather name="edit" size={24} color={'#222222'} />
-        </TouchableOpacity>
+        {isUser?.data?._id !== undefined ? (
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('EditItinerary', {dataIti: data, Id: Id})
+            }>
+            <Feather name="edit" size={24} color={'#222222'} />
+          </TouchableOpacity>
+        ) : (
+          <Feather name="edit" size={24} color={colors.WHITE} />
+        )}
       </View>
       <View style={styles.map}>
         <MapViewComponent
@@ -241,7 +245,7 @@ const HomeScreen = ({route}) => {
         <TouchableOpacity
           style={styles.buttonBottom}
           onPress={() => refRBSheet.current.open()}>
-          <AntDesign name="profile" size={28} color={colors.WHITE} />
+          <AntDesign name="profile" size={24} color={colors.WHITE} />
         </TouchableOpacity>
         <View style={styles.viewLists}>
           <FlatList
@@ -358,9 +362,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   buttonBottom: {
-    height: 60,
-    width: 60,
-    borderRadius: 30,
+    height: 50,
+    width: 50,
+    borderRadius: 25,
     backgroundColor: colors.MAINCOLOR,
     justifyContent: 'center',
     alignItems: 'center',
