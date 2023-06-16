@@ -42,7 +42,7 @@ const SliderContainer = props => {
     });
   };
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const options = ['All', 'Art', 'Historical', 'Culinary', 'Relax', 'Natural'];
+  const options = ['All', 'Art', 'History', 'Culinary', 'Relax', 'Landscape'];
   const navigation = useNavigation();
   const isUser = useSelector(state => state.auth.login);
   const handleNext = async () => {
@@ -62,7 +62,7 @@ const SliderContainer = props => {
     <View style={styles.sliderContainer}>
       <View>
         <Text style={styles.textWelcome}>
-          1. What is the main purpose of your trip to Da Nang?
+          1. Why do you want to visit Da Nang?
         </Text>
         <WheelPicker
           selectedIndex={selectedIndex}
@@ -74,15 +74,13 @@ const SliderContainer = props => {
       </View>
       <View style={styles.viewMoney}>
         <Text style={styles.textWelcome}>
-          2. What is your anticipated budget for expenses during the trip?
-          (Unit: million VND)
+          2. What is your budget for the trip? (Unit: million VND)
         </Text>
         <Text style={styles.result}>
           {Array.isArray(value) ? value.join(' - ') : value}
         </Text>
         {renderChildren()}
       </View>
-
       <FieldButton
         stylesContainer={styles.buttonNext}
         title={'Next'}
@@ -128,7 +126,8 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.35,
     backgroundColor: colors.MAINCOLOR,
     alignSelf: 'center',
-    marginTop: heightScreen * 0.113,
+    position: 'absolute',
+    bottom: heightScreen * -0.2,
   },
   sliderContainer: {
     width: widthScreen * 0.85,

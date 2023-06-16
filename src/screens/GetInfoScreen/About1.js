@@ -15,9 +15,7 @@ const About1 = () => {
   }
   return (
     <View style={styles.viewParent}>
-      <WelcomeAbout
-        title={'How many individuals are participating in this trip?'}
-      />
+      <WelcomeAbout title={'How many people are participating in this trip?'} />
       <WheelPicker
         selectedIndex={selectedIndex - 1}
         options={wheelPickerNumbers}
@@ -59,7 +57,8 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.35,
     backgroundColor: colors.MAINCOLOR,
     alignSelf: 'center',
-    marginTop: heightScreen * 0.07,
+    position: 'absolute',
+    bottom: heightScreen * 0.03,
   },
   textNext: {
     color: colors.WHITE,

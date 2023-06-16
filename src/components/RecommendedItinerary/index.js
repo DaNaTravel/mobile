@@ -32,7 +32,7 @@ const RecommendedItinerary = ({item}) => {
     <View style={styles.viewParent}>
       <View style={styles.viewContainer0}>
         <Text style={styles.textName} numberOfLines={1}>
-          {item?.name !== undefined ? item?.name : 'Unnamed Journey'}
+          {item?.name !== undefined ? item?.name : 'Unknown trip'}
         </Text>
       </View>
       <View style={styles.viewContainer1}>
@@ -75,7 +75,7 @@ const RecommendedItinerary = ({item}) => {
               <Ionicons name="person" size={25} color={colors.MAINCOLOR} />
             </View>
             <Text style={styles.textDate}>
-              {handleTotal(item?.cost / item?.people)} VND
+              {handleTotal(item?.cost / item?.people)}VND
             </Text>
           </View>
           <Text style={styles.textPerson}>/person</Text>
@@ -83,8 +83,11 @@ const RecommendedItinerary = ({item}) => {
       </View>
       <View style={styles.viewContainer3}>
         <View style={styles.viewUsed}>
+          <Image
+            source={require('../../assets/images/lover.png')}
+            style={styles.imgLove}
+          />
           <Text style={styles.textPeople}>{item?.favoriteCount}</Text>
-          <Text>A number of people liked</Text>
         </View>
         <TouchableOpacity
           style={styles.buttonDetails}
@@ -160,7 +163,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textDate: {
-    fontSize: 18,
+    fontSize: 13,
     fontWeight: 600,
     color: colors.BLACK,
     marginLeft: widthScreen * 0.025,
@@ -197,12 +200,12 @@ const styles = StyleSheet.create({
     color: colors.WHITE,
   },
   textPrice: {
-    fontSize: 25,
+    fontSize: 18,
     fontWeight: 600,
     color: colors.BLACK,
   },
   textPerson: {
-    fontSize: 13,
+    fontSize: 12,
     color: colors.BLACK,
     position: 'absolute',
     bottom: 0,
@@ -211,9 +214,10 @@ const styles = StyleSheet.create({
   viewUsed: {
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row',
   },
   textPeople: {
-    fontSize: 18,
+    fontSize: 15,
     color: colors.BLACK,
     fontWeight: 600,
   },
@@ -225,9 +229,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   textName: {
-    fontSize: 23,
+    fontSize: 20,
     color: colors.BLACK,
     fontWeight: 600,
     maxWidth: 250,
+  },
+  imgLove: {
+    height: 30,
+    width: 30,
+    marginHorizontal: widthScreen * 0.015,
   },
 });

@@ -22,7 +22,6 @@ const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
   const axiosContext = useContext(AxiosContext);
   const isUser = useSelector(state => state.auth.login);
   const [isModalVisible, setModalVisible] = useState(false);
-
   const handleSure = async () => {
     setModalVisible(!isModalVisible);
   };
@@ -172,7 +171,7 @@ const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
           <Text style={styles.textPrice}>
             {item?.itinerary?.cost !== undefined
               ? handleTotal(item?.itinerary?.cost)
-              : handleTotal(item?.cost)}{' '}
+              : handleTotal(item?.cost)}
             <Text style={styles.textUnit}>VND</Text>
           </Text>
         </View>
@@ -327,12 +326,12 @@ const styles = StyleSheet.create({
     color: colors.WHITE,
   },
   textPrice: {
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: 600,
     color: colors.BLACK,
   },
   textUnit: {
-    fontSize: 21,
+    fontSize: 18,
     fontWeight: 600,
     color: colors.BLACK,
   },
@@ -344,7 +343,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   textName: {
-    fontSize: 23,
+    fontSize: 20,
     color: colors.BLACK,
     fontWeight: 600,
     maxWidth: 250,

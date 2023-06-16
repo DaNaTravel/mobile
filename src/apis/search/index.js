@@ -4,7 +4,7 @@ export const Search = (keyword, type, page, take, setData, setIsLoading) => {
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/locations?keyword=${keyword}&types=${type}&page=${page}&take=${take}`,
+    url: `http://ec2-13-114-139-244.ap-northeast-1.compute.amazonaws.com:5000/locations?keyword=${keyword}&types=${type}&page=${page}&take=${take}`,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -13,6 +13,7 @@ export const Search = (keyword, type, page, take, setData, setIsLoading) => {
   axios
     .request(config)
     .then(response => {
+      console.log(response?.data?.listLocations);
       setData(response?.data?.listLocations);
       setIsLoading(false);
     })
@@ -25,7 +26,7 @@ export const SearchLoca = (keyword, page, take, setData, setIsLoading) => {
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/locations?keyword=${keyword}&page=${page}&take=${take}`,
+    url: `http://ec2-13-114-139-244.ap-northeast-1.compute.amazonaws.com:5000/locations?keyword=${keyword}&page=${page}&take=${take}`,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -46,7 +47,7 @@ export const Filter = (type, page, take, setData, setIsLoading) => {
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/locations?types=${type}&page=${page}&take=${take}`,
+    url: `http://ec2-13-114-139-244.ap-northeast-1.compute.amazonaws.com:5000/locations?types=${type}&page=${page}&take=${take}`,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -66,7 +67,7 @@ export const SearchByID = (id, setData) => {
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/locations/${id}`,
+    url: `http://ec2-13-114-139-244.ap-northeast-1.compute.amazonaws.com:5000/locations/${id}`,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -86,7 +87,7 @@ export const SearchRelatedByID = (id, setData) => {
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/locations/${id}`,
+    url: `http://ec2-13-114-139-244.ap-northeast-1.compute.amazonaws.com:5000/locations/${id}`,
     headers: {
       'Content-Type': 'application/json',
     },

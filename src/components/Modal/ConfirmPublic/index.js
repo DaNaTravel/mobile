@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     color: colors.WHITE,
   },
   textSure: {
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: 700,
     color: colors.BLACK,
     marginTop: heightScreen * -0.03,

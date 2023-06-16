@@ -10,7 +10,7 @@ export const SignUp = async (email, name, password) => {
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/accounts`,
+    url: `http://ec2-13-114-139-244.ap-northeast-1.compute.amazonaws.com:5000/accounts`,
     headers: {
       'Content-Type': 'application/json',
     },

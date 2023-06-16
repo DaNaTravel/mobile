@@ -15,14 +15,12 @@ const FunctionTouch = ({
   navigation,
   handleSignout,
   isUser,
-  setAlert,
 }) => {
   const handlePress = () => {
     if (!isLogout) {
       if (isUser?.data?.token !== undefined) {
         navigation.navigate(press);
       }
-      return setAlert(true);
     } else handleSignout();
   };
   return (
@@ -56,7 +54,6 @@ const TotalProfileScreen = () => {
   };
   const navigation = useNavigation();
   const isUser = useSelector(state => state.auth.login);
-  const [alert, setAlert] = useState(false);
 
   return (
     <View style={styles.viewParent}>
@@ -83,7 +80,6 @@ const TotalProfileScreen = () => {
         isLogout={false}
         press={'EditProfile'}
         navigation={navigation}
-        setAlert={setAlert}
         isUser={isUser}
       />
       <FunctionTouch
@@ -92,7 +88,6 @@ const TotalProfileScreen = () => {
         press={'ChangePassword'}
         isLogout={false}
         navigation={navigation}
-        setAlert={setAlert}
         isUser={isUser}
       />
       <FunctionTouch
@@ -106,7 +101,6 @@ const TotalProfileScreen = () => {
         isModalVisible={isModalVisible}
         navigation={navigation}
       />
-      {alert ? <NonAccount setAlert={setAlert} /> : <></>}
     </View>
   );
 };
@@ -143,13 +137,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textName: {
-    fontSize: 26,
+    fontSize: 20,
     fontWeight: 600,
     color: colors.BLACK,
   },
   textPhone: {
     marginVertical: heightScreen * 0.01,
-    fontSize: 17,
+    fontSize: 15,
   },
   viewTouch: {
     width: widthScreen * 0.87,

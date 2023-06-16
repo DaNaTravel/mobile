@@ -25,7 +25,7 @@ export const ItineraryRoutes = async (
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/routes`,
+    url: `http://ec2-13-114-139-244.ap-northeast-1.compute.amazonaws.com:5000/routes`,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -72,7 +72,7 @@ export const ItineraryRoutesTest = async (
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/routes`,
+    url: `http://ec2-13-114-139-244.ap-northeast-1.compute.amazonaws.com:5000/routes`,
     headers: {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + token,
@@ -97,7 +97,7 @@ export const GenerateItiTest = (IdIti, token, arr, setDataToSentMap) => {
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/routes/${IdIti}/generate`,
+    url: `http://ec2-13-114-139-244.ap-northeast-1.compute.amazonaws.com:5000/routes/${IdIti}/generate`,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -123,7 +123,7 @@ export const UpdateItiTest = (IdIti, token, arr, status, setDataReturn) => {
   let config = {
     method: 'patch',
     maxBodyLength: Infinity,
-    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/routes/${IdIti}?checked=${status}`,
+    url: `http://ec2-13-114-139-244.ap-northeast-1.compute.amazonaws.com:5000/routes/${IdIti}?checked=${status}`,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -147,7 +147,7 @@ export const GetItineraries = async setData => {
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/routes?isPublic=true`,
+    url: `http://ec2-13-114-139-244.ap-northeast-1.compute.amazonaws.com:5000/routes?isPublic=true`,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -166,7 +166,7 @@ export const GetItineraryById = (Id, setData) => {
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/routes/${Id}`,
+    url: `http://ec2-13-114-139-244.ap-northeast-1.compute.amazonaws.com:5000/routes/${Id}`,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -174,6 +174,7 @@ export const GetItineraryById = (Id, setData) => {
   axios
     .request(config)
     .then(response => {
+      console.log(response?.data?.data);
       setData(response?.data?.data);
     })
     .catch(error => {
@@ -185,7 +186,7 @@ export const GetItineraryRecommend = setData => {
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/routes/recommended`,
+    url: `http://ec2-13-114-139-244.ap-northeast-1.compute.amazonaws.com:5000/routes/recommended`,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -205,7 +206,7 @@ export const GetLocationRecommend = setData => {
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `http://ec2-54-199-239-74.ap-northeast-1.compute.amazonaws.com:5000/locations/recommended`,
+    url: `http://ec2-13-114-139-244.ap-northeast-1.compute.amazonaws.com:5000/locations/recommended`,
     headers: {
       'Content-Type': 'application/json',
     },

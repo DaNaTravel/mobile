@@ -15,7 +15,10 @@ const ItineraryPlace = ({item, type, listLoca, setListLoca}) => {
     setModalVisible(!isModalVisible);
   };
   const handleTotal = num => {
-    let formattedNum = num?.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})?.replace(',00', '')?.slice(0, -1);
+    let formattedNum = num
+      ?.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
+      ?.replace(',00', '')
+      ?.slice(0, -1);
     return formattedNum;
   };
   return (
@@ -90,7 +93,7 @@ const ItineraryPlace = ({item, type, listLoca, setListLoca}) => {
                   size={17}
                   color={colors.BLACK}
                 />
-                <Text style={styles.textTem}>33 </Text>
+                <Text style={styles.textTem}>33</Text>
                 <MaterialCommunityIcons
                   name="temperature-celsius"
                   size={17}
@@ -225,12 +228,12 @@ const styles = StyleSheet.create({
     color: colors.BLACK,
   },
   textPos: {
-    fontSize: 14,
+    fontSize: 13,
     color: colors.BLACK,
     marginLeft: widthScreen * 0.02,
   },
   textPrice: {
-    fontSize: 16,
+    fontSize: 13,
     color: colors.GREEN,
   },
   viewStarWeather: {
@@ -246,7 +249,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textStar: {
-    fontSize: 15,
+    fontSize: 11,
     color: colors.BLACK,
     marginLeft: widthScreen * 0.01,
   },
@@ -261,5 +264,6 @@ const styles = StyleSheet.create({
   textTem: {
     color: colors.BLACK,
     marginLeft: widthScreen * 0.01,
+    fontSize: 11,
   },
 });

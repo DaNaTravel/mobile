@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   },
   viewFilter: {
     height: heightScreen * 0.055,
-    width: widthScreen * 0.36,
+    width: widthScreen * 0.4,
     borderRadius: 24,
     backgroundColor: colors.WHITE,
     shadowColor: '#000',
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   textTitle: {
-    fontSize: 30,
+    fontSize: 20,
     color: colors.BLACK,
     fontWeight: 'bold',
     marginLeft: widthScreen * 0.05,
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     paddingTop: heightScreen * 0.03,
   },
   placeHolder: {
-    fontSize: 20,
+    fontSize: 14,
     fontWeight: 600,
   },
   iconStyle: {
@@ -203,14 +203,14 @@ const styles = StyleSheet.create({
     width: 30,
   },
   containerStyle: {
-    width: widthScreen * 0.36,
+    width: widthScreen * 0.4,
     marginLeft: widthScreen * 0.08,
   },
   dropDownContainerStyle: {
     borderRadius: 24,
   },
   labelStyle: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 600,
     color: colors.BLACK,
     marginLeft: widthScreen * 0.02,

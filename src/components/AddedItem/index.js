@@ -57,12 +57,7 @@ const AddedItem = ({item, setDataAdded, dataAdded, setFilterData}) => {
       <TouchableOpacity
         style={styles.viewRemove}
         onPress={() => handleRemove(item?._id)}>
-        <FontAwesome
-          name="remove"
-          size={16}
-          color={colors.WHITE}
-          style={styles.viewAStar}
-        />
+        <FontAwesome name="remove" size={16} color={colors.WHITE} />
       </TouchableOpacity>
     </View>
   );
@@ -128,9 +123,6 @@ const styles = StyleSheet.create({
   viewStar: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  viewAStar: {
-    marginRight: widthScreen * 0.007,
   },
   viewRemove: {
     height: 20,

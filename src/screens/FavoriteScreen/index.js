@@ -37,7 +37,7 @@ const TabView = ({}) => {
         }}
       />
       <Tab.Screen
-        name={'Locations'}
+        name={'Destinations'}
         children={() => <Locations dataLoca={dataLoca} />}
         listeners={{
           focus: () => handleData('location'),

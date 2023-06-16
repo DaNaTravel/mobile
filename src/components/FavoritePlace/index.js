@@ -24,7 +24,7 @@ const FavoritePlace = ({item}) => {
   return (
     <TouchableOpacity
       style={styles.viewContainer}
-      onPress={() => navigation.navigate('PlaceDetail', {data: item})}>
+      onPress={() => console.log('Favo')}>
       <Image
         source={
           item?.photo

@@ -394,12 +394,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   textTour: {
-    fontSize: 28,
+    fontSize: 23,
     fontWeight: 'bold',
     color: colors.BLACK,
   },
   priceTour: {
-    fontSize: 22,
+    fontSize: 16,
     fontWeight: 'bold',
     color: colors.GREEN,
   },

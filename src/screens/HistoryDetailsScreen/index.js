@@ -60,7 +60,9 @@ const HistoryDetaislScreen = ({route}) => {
   const navigation = useNavigation();
   const [data, setData] = useState();
   useEffect(() => {
-    GetItineraryById(item?._id, setData);
+    if (item?.itineraryId !== undefined) {
+      GetItineraryById(item?.itineraryId, setData);
+    } else GetItineraryById(item?._id, setData);
   }, []);
   const isUser = useSelector(state => state.auth.login);
 
@@ -200,7 +202,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   textTitle: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 700,
     color: colors.BLACK,
   },

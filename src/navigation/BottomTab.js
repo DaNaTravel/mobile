@@ -17,7 +17,7 @@ export default () => (
     appearance={{
       activeColors: colors.WHITE,
       activeTabBackgrounds: colors.MAINCOLOR,
-      horizontalPadding: 20,
+      horizontalPadding: 5,
       dotCornerRadius: 15,
       dotSize: 'small',
       floating: true,

@@ -74,6 +74,6 @@ const styles = StyleSheet.create({
   },
   viewList: {
     width: widthScreen,
-    paddingBottom: 185,
+    marginBottom: 150,
   },
 });

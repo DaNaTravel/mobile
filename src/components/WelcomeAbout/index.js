@@ -16,7 +16,7 @@ const WelcomeAbout = ({title, styleButtonBack}) => {
         </TouchableOpacity>
       </View>
       <Text style={styles.textHello}>{title}</Text>
-      <Text style={styles.textWelcome}>This help us create your plan.</Text>
+      <Text style={styles.textWelcome}>This help us to create your plan.</Text>
     </View>
   );
 };
@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   textHello: {
-    fontWeight: '500',
-    fontSize: 35,
+    fontWeight: 500,
+    fontSize: 30,
     color: '#000',
     textAlign: 'center',
     width: widthScreen * 0.9,

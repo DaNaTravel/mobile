@@ -53,7 +53,7 @@ const Body = ({email, setNewPass, newPass}) => {
       <FieldTextInput
         stylesContainer={{marginTop: heightScreen * 0.02}}
         secureTextEntry={true}
-        placeholder={'Enter your new password'}
+        placeholder={'Your new password'}
         onChangeText={newPass => setNewPass(newPass)}
         onSubmitEditing={() => handleSubmit(newPass)}
       />

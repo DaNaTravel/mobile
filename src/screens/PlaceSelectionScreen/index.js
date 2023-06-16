@@ -86,7 +86,7 @@ const PlaceSelectionScreen = () => {
           style={styles.buttonBack}>
           <FontAwesome name="angle-left" size={24} color="black" />
         </TouchableOpacity>
-        <Text style={styles.textTitle}>Select</Text>
+        <Text style={styles.textTitle}>Selection</Text>
         <TouchableOpacity
           onPress={() => handleNext()}
           style={styles.buttonBack}>
@@ -100,7 +100,7 @@ const PlaceSelectionScreen = () => {
         <TextInput
           value={search}
           style={styles.input}
-          placeholder="Search location where you want to go"
+          placeholder="Search destinations"
           onChangeText={txt => {
             setSearch(txt);
             handleSearchInput(search, items);
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   textTitle: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 700,
     color: colors.BLACK,
   },

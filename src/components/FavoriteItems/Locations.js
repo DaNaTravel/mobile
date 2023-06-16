@@ -38,7 +38,7 @@ const Locations = ({dataLoca}) => {
   }, [tempDataLoca]);
 
   useEffect(() => {}, [data]);
-  
+
   return (
     <View style={styles.viewParent}>
       {data?.length === 0 ? (
@@ -48,7 +48,12 @@ const Locations = ({dataLoca}) => {
           <FlatList
             data={data}
             renderItem={({item, index}) => (
-              <FavoriteItem item={item} key={item._id} data={data} setData={setData}/>
+              <FavoriteItem
+                item={item}
+                key={item._id}
+                data={data}
+                setData={setData}
+              />
             )}
             keyExtractor={item => item._id}
             showsHorizontalScrollIndicator={false}
@@ -71,6 +76,6 @@ const styles = StyleSheet.create({
   },
   viewList: {
     width: widthScreen,
-    paddingBottom: 185,
+    marginBottom: 150,
   },
 });

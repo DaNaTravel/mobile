@@ -75,7 +75,7 @@ const HotelItems = ({
           {item?.name ? item?.name : 'Symphony'}
         </Text>
         <View style={styles.viewPos}>
-          <FontAwesome name="map-marker" size={28} color={colors.MEDIUMGRAY} />
+          <FontAwesome name="map-marker" size={20} color={colors.MEDIUMGRAY} />
           <Text style={styles.position} numberOfLines={1}>
             {item?.formatted_address
               ? item?.formatted_address
@@ -90,7 +90,7 @@ const HotelItems = ({
           <View style={styles.viewStar}>
             <FontAwesome
               name="star"
-              size={28}
+              size={20}
               color={colors.YELLOW}
               style={styles.viewAStar}
             />
@@ -143,21 +143,22 @@ const styles = StyleSheet.create({
   position: {
     color: colors.MEDIUMGRAY,
     marginLeft: widthScreen * 0.015,
+    fontSize: 16,
   },
   name: {
     fontWeight: 700,
-    fontSize: 20,
+    fontSize: 18,
     color: colors.WHITE,
     width: widthScreen * 0.3768,
   },
   price: {
     fontWeight: 600,
-    fontSize: 15,
+    fontSize: 12,
     color: colors.WHITE,
   },
   star: {
     fontWeight: 600,
-    fontSize: 18,
+    fontSize: 12,
     color: colors.WHITE,
   },
   icon_like: {

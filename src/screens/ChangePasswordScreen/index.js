@@ -128,14 +128,14 @@ const ChangePassword = () => {
       </View>
       <Text style={styles.textSubTitle}>Current Password</Text>
       <FieldTextInput
-        placeholder={'Enter your password'}
+        placeholder={'Your password'}
         secureTextEntry={true}
         onChangeText={handlePasswordChange}
         onSubmitEditing={Keyboard.dismiss}
       />
       <Text style={styles.textSubTitle}>New Password</Text>
       <FieldTextInput
-        placeholder={'Enter your new password'}
+        placeholder={'Your new password'}
         secureTextEntry={true}
         onChangeText={handleNewPasswordChange}
         onSubmitEditing={Keyboard.dismiss}
@@ -155,7 +155,7 @@ const ChangePassword = () => {
 
       <Text style={styles.textSubTitle}>Confirm Password</Text>
       <FieldTextInput
-        placeholder={'Enter your new password'}
+        placeholder={'Your new password'}
         secureTextEntry={true}
         onChangeText={handleConfirmPasswordChange}
         onSubmitEditing={Keyboard.dismiss}

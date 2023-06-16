@@ -81,9 +81,7 @@ const About2 = ({route}) => {
   };
   return (
     <View style={styles.viewParent}>
-      <WelcomeAbout
-        title={'What is the duration of your exploration in Da Nang?'}
-      />
+      <WelcomeAbout title={'How long do you want to visit Da Nang?'} />
       <CalendarPicker
         startFromMonday={true}
         allowRangeSelection={true}
@@ -127,7 +125,8 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.35,
     backgroundColor: colors.MAINCOLOR,
     alignSelf: 'center',
-    marginTop: heightScreen * 0.13,
+    position: 'absolute',
+    bottom: heightScreen * 0.03,
   },
   titlePreNext: {
     fontSize: 12,

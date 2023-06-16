@@ -24,7 +24,7 @@ const PlaceSearch = ({setAddress, navigation, coordinates}) => {
   return (
     <View style={styles.container}>
       <GooglePlacesAutocomplete
-        placeholder="Search your position"
+        placeholder="Your location"
         onPress={(data, details = null) => {
           console.log(data);
           setAddress(data?.description);
@@ -152,7 +152,7 @@ const ChoosePosition = () => {
           style={styles.buttonBack}>
           <FontAwesome name="angle-left" size={24} color="black" />
         </TouchableOpacity>
-        <Text style={styles.textTitle}>Your Position</Text>
+        <Text style={styles.textTitle}>Map</Text>
         <View style={styles.viewSpace}></View>
       </View>
       <View style={styles.map}>
@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   textTitle: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 700,
     color: colors.BLACK,
   },

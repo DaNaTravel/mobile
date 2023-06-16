@@ -78,7 +78,7 @@ const Profile = () => {
         <Text style={styles.textField}>Full Name</Text>
         <FieldTextInput
           stylesContainer={{marginBottom: 0}}
-          placeholder={'Enter your full name'}
+          placeholder={'Your full name'}
           onChangeText={txt => setName(txt)}
           onSubmitEditing={Keyboard.dismiss}
           editable={isEdit}
@@ -88,7 +88,7 @@ const Profile = () => {
         <Text style={styles.textField}>Email Address</Text>
         <FieldTextInput
           stylesContainer={{marginBottom: 0}}
-          placeholder={'Enter your email address'}
+          placeholder={'Your email address'}
           onChangeText={txt => setEmail(txt)}
           onSubmitEditing={Keyboard.dismiss}
           editable={isEdit}
@@ -98,7 +98,7 @@ const Profile = () => {
         <Text style={styles.textField}>Phone Number</Text>
         <FieldTextInput
           stylesContainer={{marginBottom: 0}}
-          placeholder={'Enter your phone number'}
+          placeholder={'Your phone number'}
           onChangeText={txt => setPhone(txt)}
           onSubmitEditing={Keyboard.dismiss}
           editable={isEdit}

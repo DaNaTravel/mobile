@@ -64,7 +64,7 @@ const Body = ({email, setEmail}) => {
       <Text style={styles.textEnter}>Enter your email address</Text>
       <FieldTextInput
         stylesContainer={{marginTop: heightScreen * 0.02}}
-        placeholder={'Enter your email'}
+        placeholder={'Your email'}
         onChangeText={email => setEmail(email)}
         onSubmitEditing={() => handleSubmit(email)}
       />

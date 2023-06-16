@@ -27,7 +27,7 @@ const FavoriteItem = ({item, data, setData}) => {
   };
 
   const navigation = useNavigation();
-  
+
   return (
     <TouchableOpacity
       style={styles.viewParent}
@@ -50,16 +50,21 @@ const FavoriteItem = ({item, data, setData}) => {
             {item?.name}
           </Text>
           <View style={styles.viewPos}>
-            <FontAwesome name="map-marker" size={26} color={colors.WHITE} />
+            <FontAwesome name="map-marker" size={20} color={colors.WHITE} />
             <Text style={styles.textPos} numberOfLines={1}>
               {item?.formatted_address}
             </Text>
           </View>
           <View style={styles.viewRatingPrice}>
-            <Text style={styles.textPrice}>{item?.cost !== 0 && item?.cost !== undefined ? `${handleTotal(item?.cost)}VND` : 
-            item?.cost === 0 ?  'FREE' : ''}</Text>
+            <Text style={styles.textPrice}>
+              {item?.cost !== 0 && item?.cost !== undefined
+                ? `${handleTotal(item?.cost)}VND`
+                : item?.cost === 0
+                ? 'FREE'
+                : ''}
+            </Text>
             <View style={styles.viewRating}>
-              <FontAwesome name="star" size={18} color={colors.WHITE} />
+              <FontAwesome name="star" size={16} color={colors.WHITE} />
               <Text style={styles.textPrice}>{item?.rating}</Text>
             </View>
           </View>
@@ -124,7 +129,7 @@ const styles = StyleSheet.create({
   textName: {
     fontWeight: 600,
     color: colors.WHITE,
-    fontSize: 22,
+    fontSize: 18,
   },
   content: {
     width: widthScreen * 0.425,
@@ -146,7 +151,7 @@ const styles = StyleSheet.create({
     marginLeft: widthScreen * 0.01,
   },
   textPrice: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: 500,
     color: colors.WHITE,
   },

@@ -86,7 +86,7 @@ const ViewFunction = ({navigation}) => {
               color="#2EAD80"
             />
           </TouchableOpacity>
-          <Text style={styles.textTitle}>Trip</Text>
+          <Text style={styles.textTitle}>Creation</Text>
         </View>
         <View style={styles.viewFuncSon}>
           <TouchableOpacity
@@ -102,7 +102,7 @@ const ViewFunction = ({navigation}) => {
             onPress={() => navigation.navigate('SearchAll')}>
             <FontAwesome5 name="search-location" size={28} color="#D042B9" />
           </TouchableOpacity>
-          <Text style={styles.textTitle}>Locations</Text>
+          <Text style={styles.textTitle}>Destinations</Text>
         </View>
         <View style={styles.viewFuncSon}>
           <TouchableOpacity
@@ -110,7 +110,7 @@ const ViewFunction = ({navigation}) => {
             onPress={() => navigation.navigate('ChoosePosition')}>
             <FontAwesome5 name="calendar" size={24} color="#3E8AC3" />
           </TouchableOpacity>
-          <Text style={styles.textTitle}>Event</Text>
+          <Text style={styles.textTitle}>Events</Text>
         </View>
       </View>
     </>
@@ -125,7 +125,7 @@ const ViewRecommend = () => {
 
   return (
     <>
-      <Text style={styles.textRecom}>Recommended itinerary</Text>
+      <Text style={styles.textRecom}>Suggested trip</Text>
       <View style={styles.viewRecommendList}>
         <FlatList
           data={data}
@@ -149,7 +149,7 @@ const ViewFavorites = () => {
 
   return (
     <>
-      <Text style={styles.textFavo}>Favorite places</Text>
+      <Text style={styles.textFavo}>Popular destinations</Text>
       <View style={styles.viewFavo}>
         <FlatList
           data={listLoca}
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
   },
   textFunc: {
     fontSize: 24,
-    color: colors.BLACK,
+    color: colors.MAINCOLOR,
     marginBottom: heightScreen * 0.02,
     marginLeft: widthScreen * 0.05,
     fontWeight: 600,
@@ -281,13 +281,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textTitle: {
-    fontSize: 12,
+    fontSize: 11,
     color: colors.BLACK,
     textAlign: 'center',
   },
   textFavo: {
     fontSize: 24,
-    color: colors.BLACK,
+    color: colors.MAINCOLOR,
     marginBottom: heightScreen * 0.01,
     marginTop: heightScreen * 0.03,
     marginLeft: widthScreen * 0.05,
@@ -298,13 +298,13 @@ const styles = StyleSheet.create({
     marginLeft: widthScreen * 0.05,
   },
   viewRecommendList: {
-    marginBottom: heightScreen * 0.12,
+    marginBottom: 100,
     width: widthScreen * 0.92,
     alignSelf: 'center',
   },
   textRecom: {
     fontSize: 24,
-    color: colors.BLACK,
+    color: colors.MAINCOLOR,
     marginBottom: heightScreen * 0.01,
     marginTop: heightScreen * 0.03,
     marginLeft: widthScreen * 0.05,

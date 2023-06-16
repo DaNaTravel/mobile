@@ -64,12 +64,12 @@ const Body = ({email, setEmail, password, setPassword}) => {
     <ScrollView style={styles.containerBody}>
       <FieldTextInput
         stylesContainer={styles.inputMail}
-        placeholder={'Enter your email'}
+        placeholder={'Your email'}
         onChangeText={email => setEmail(email)}
         onSubmitEditing={Keyboard.dismiss}
       />
       <FieldTextInput
-        placeholder={'Enter your password'}
+        placeholder={'Your password'}
         secureTextEntry={true}
         onChangeText={password => setPassword(password)}
         onSubmitEditing={Keyboard.dismiss}

@@ -52,21 +52,21 @@ const Body = ({
     <View style={styles.containerBody}>
       <FieldTextInput
         stylesContainer={styles.inputName}
-        placeholder={'Enter your full name'}
+        placeholder={'Your full name'}
         onFocus={() => handleError(null, 'name')}
         onChangeText={e => setName(e)}
         onSubmitEditing={Keyboard.dismiss}
         error={errors.name}
       />
       <FieldTextInput
-        placeholder={'Enter your email'}
+        placeholder={'Your email'}
         onFocus={() => handleError(null, 'email')}
         onChangeText={e => setEmail(e)}
         onSubmitEditing={Keyboard.dismiss}
         error={errors.email}
       />
       <FieldTextInput
-        placeholder={'Enter your password'}
+        placeholder={'Your password'}
         secureTextEntry={true}
         onFocus={() => handleError(null, 'password')}
         onChangeText={e => setPassword(e)}
@@ -74,7 +74,7 @@ const Body = ({
         error={errors.password}
       />
       <FieldTextInput
-        placeholder={'Enter your confirm password'}
+        placeholder={'Your confirm password'}
         secureTextEntry={true}
         onFocus={() => handleError(null, 'cfpassword')}
         onChangeText={e => setCFPassword(e)}
