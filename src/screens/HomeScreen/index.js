@@ -33,16 +33,20 @@ const Day = ({data, index}) => {
   return (
     <View style={styles.viewDetailDaily}>
       {data?.route === undefined ? (
+        <View style={{height: heightScreen * 0.58,
+          width: widthScreen,
+          justifyContent: 'center',
+          alignItems: 'center'}}>
         <LottieView
-          source={require('../../assets/animations/loading.json')}
+          source={require('../../assets/animations/loading1.json')}
           autoPlay
           loop
           style={{
-            height: heightScreen * 0.58,
-            width: widthScreen,
-            alignSelf: 'center',
+            height: widthScreen * 0.3,
+            width: widthScreen *0.3,
           }}
         />
+        </View>
       ) : (
         <FlatList
           data={data?.route}

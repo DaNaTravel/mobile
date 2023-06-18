@@ -22,6 +22,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import HotelItems from '../../components/HotelItems';
 import {SearchLoca} from '../../apis/search';
 import LottieView from 'lottie-react-native';
+import Loading from '../../components/Modal/Loading';
 
 const dataHard = [
   {
@@ -689,7 +690,6 @@ const EditItinerary = ({route}) => {
     setData(dataIti?.[selectedItem - 1]?.route);
   }, [selectedItem]);
   const {dataIti, Id} = route.params;
-  console.log('Id', Id);
   const [dataDay, setDataDay] = useState([]);
   const [newArray, setNewArray] = useState([]);
   const [newArrayById, setNewArrayById] = useState([]);
@@ -697,9 +697,10 @@ const EditItinerary = ({route}) => {
   const [dataToSent, setDataToSent] = useState(null);
   const [dataToSentMap, setDataToSentMap] = useState(null);
   const [dataReturn, setDataReturn] = useState(null);
+  const [isLoading, setIsLoading] = useState(false)
   const getDataDay = () => {
     const arrNew = dataDay.map(str => parseInt(str));
-    console.log('arrNew', arrNew);
+    // console.log('arrNew', arrNew);
     setNewArray(arrNew);
   };
   const sortArrayByOrder = (arr1, arr2) => {
@@ -717,7 +718,6 @@ const EditItinerary = ({route}) => {
     await AsyncStorage.setItem('finalDT', JSON.stringify(finalData));
   };
   useEffect(() => {
-    console.log('load lan dau');
     setFinalDT();
   }, []);
   useEffect(() => {
@@ -738,10 +738,10 @@ const EditItinerary = ({route}) => {
     const sortedArray = newArray.map(
       index => data[index]?.description?._id || null,
     );
-    console.log('sortedArray', sortedArray);
+    // console.log('sortedArray', sortedArray);
     setNewArrayById(sortedArray);
     const sortArrByOrder = sortArrayByOrder(data, newArray);
-    console.log('sortArrByOrder', sortArrByOrder);
+    // console.log('sortArrByOrder', sortArrByOrder);
     setFinalData(sortArrByOrder);
   };
   const handleDatatoSent = arr1 => {
@@ -762,7 +762,7 @@ const EditItinerary = ({route}) => {
       arr2.routes.push(route);
     }
     setDataToSent(arr2, null, 2);
-    console.log(JSON.stringify(arr2, null, 2));
+    // console.log(JSON.stringify(arr2, null, 2));
   };
   const isUser = useSelector(state => state.auth.login);
   const handleUpdateButton = status => {
@@ -784,10 +784,11 @@ const EditItinerary = ({route}) => {
         return item;
       }),
     );
-    console.log('Reresult', Reresult);
-    UpdateItiTest(Id, isUser?.data?.token, Reresult, status, setDataReturn);
+    // console.log('Reresult', Reresult);
+    UpdateItiTest(Id, isUser?.data?.token, Reresult, status, setDataReturn, setIsLoading);
   };
   const handleGenerateButton = () => {
+    setIsLoading(true)
     if (dataToSent && dataToSent.routes && newArrayById.length !== 0) {
       dataToSent.routes[selectedItem - 1] = newArrayById.map(i =>
         i === null
@@ -806,9 +807,9 @@ const EditItinerary = ({route}) => {
         return item;
       }),
     );
-    console.log('Reresult', Reresult);
+    // console.log('Reresult', Reresult);
     // axiosContext.GenerateNewIti(Id, Reresult);
-    GenerateItiTest(Id, isUser?.data?.token, Reresult, setDataToSentMap);
+    GenerateItiTest(Id, isUser?.data?.token, Reresult, setDataToSentMap, setIsLoading);
   };
   useEffect(() => {
     if (dataToSentMap !== null) {
@@ -820,7 +821,7 @@ const EditItinerary = ({route}) => {
   }, [dataToSentMap]);
   useEffect(() => {
     if (dataReturn !== null) {
-      console.log('dataReturn', dataReturn);
+      // console.log('dataReturn', dataReturn);
       if (dataReturn?.message === undefined) {
         Alert.alert('Success', 'Your itinerary has been saved successfully!', [
           {
@@ -833,7 +834,19 @@ const EditItinerary = ({route}) => {
               }),
           },
         ]);
-      } else {
+      } else if(dataReturn?.message === 'Success') {
+        Alert.alert('Success', 'Your itinerary has been saved successfully!', [
+          {
+            text: 'Go to Map',
+            onPress: () =>
+              navigation.navigate('ResultEdit', {
+                data: dataReturn?.data,
+                Id: Id,
+                type: 'update',
+              }),
+          },
+        ]);
+      }else {
         Alert.alert(
           'Warning',
           `Your trip requires careful attention due to some encountered issues: 
@@ -853,31 +866,6 @@ const EditItinerary = ({route}) => {
   }, [dataReturn]);
   const refRBSheet = useRef();
   const [dataPlace, setDataPlace] = useState(null);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [dataAdd, setDataAdd] = useState([]);
-  // const handleSearch = word => {
-  //   Search(word, arrTypes.join(), 1, 10, setDataAdd, setIsLoading);
-  // };
-  // useEffect(() => {
-  //   if (search !== '') {
-  //     setIsLoading(true);
-  //     SearchLoca(search, 1, 10, setDataAdd, setIsLoading);
-  //   }
-  // }, []);
-  // const renderFooter = () => {
-  //   return (
-  //     <LottieView
-  //       source={require('../../assets/animations/loading1.json')}
-  //       autoPlay
-  //       loop
-  //       style={{
-  //         height: widthScreen * 0.2,
-  //         width: widthScreen * 0.2,
-  //         alignSelf: 'center',
-  //       }}
-  //     />
-  //   );
-  // };
   return (
     <View style={styles.container}>
       <View style={styles.viewTitle}>
@@ -964,7 +952,7 @@ const EditItinerary = ({route}) => {
           <TextInput
             value={search}
             style={styles.input}
-            placeholder="Search location where you want to add"
+            placeholder="Search destination"
             onChangeText={txt => {
               setSearch(txt);
             }}
@@ -996,6 +984,7 @@ const EditItinerary = ({route}) => {
           />
         </View>
       </RBSheet>
+      <Loading isLoading={isLoading}/>
     </View>
   );
 };
@@ -1034,7 +1023,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   viewSave: {
-    height: heightScreen * 0.06,
+    height: heightScreen * 0.07,
     width: widthScreen * 0.3,
     justifyContent: 'center',
     alignItems: 'center',
@@ -1042,7 +1031,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   textDay: {
-    fontSize: 18,
+    fontSize: 14,
     color: colors.WHITE,
     fontWeight: 600,
   },

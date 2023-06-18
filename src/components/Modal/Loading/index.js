@@ -3,14 +3,15 @@ import React from 'react';
 import Modal from 'react-native-modal';
 import {colors, heightScreen, widthScreen} from '../../../utility';
 import LottieView from 'lottie-react-native';
-const Loading = () => {
+const Loading = ({isLoading, setIsLoading}) => {
   return (
-    <Modal>
+    <Modal isVisible={isLoading}>
       <View style={styles.viewAlert}>
         <LottieView
-          source={require('../../../assets/animations/loading.json')}
+          source={require('../../../assets/animations/loading1.json')}
           autoPlay
-          style={{height: heightScreen * 0.25, width: widthScreen * 0.9}}
+          style={{height: widthScreen * 0.5, width: widthScreen * 0.5}}
+          loop
         />
       </View>
     </Modal>
@@ -21,10 +22,12 @@ export default Loading;
 
 const styles = StyleSheet.create({
   viewAlert: {
-    height: heightScreen * 0.38,
-    width: widthScreen * 0.9,
+    height: widthScreen * 0.5,
+    width: widthScreen * 0.5,
     backgroundColor: colors.WHITE,
     borderRadius: 30,
     alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center'
   },
 });

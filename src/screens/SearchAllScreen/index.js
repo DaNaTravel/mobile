@@ -92,7 +92,7 @@ const SearchAllScreen = () => {
           style={styles.buttonBack}>
           <FontAwesome name="angle-left" size={24} color="black" />
         </TouchableOpacity>
-        <Text style={styles.textTitle}>Searching</Text>
+        <Text style={styles.textTitle}>Destinations</Text>
         <View style={styles.viewSpace}></View>
       </View>
       <View style={styles.viewSearch}>
@@ -102,7 +102,7 @@ const SearchAllScreen = () => {
         <TextInput
           value={search}
           style={styles.input}
-          placeholder="Search place where you want to go"
+          placeholder="Search destination"
           onChangeText={txt => {
             setSearch(txt);
           }}
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   textTitle: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 700,
     color: colors.BLACK,
   },

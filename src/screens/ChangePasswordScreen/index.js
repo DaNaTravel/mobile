@@ -15,6 +15,9 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FieldTextInput from '../../components/FieldTextInput';
 import FieldButton from '../../components/FieldButton';
 import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+import LottieView from 'lottie-react-native';
+
 const ChangePassword = () => {
   const navigation = useNavigation();
   const [password, setPassword] = useState('');
@@ -115,69 +118,95 @@ const ChangePassword = () => {
       hideSubscription.remove();
     };
   }, []);
+  const isUser = useSelector(state => state.auth.login);
   return (
     <Animated.View style={styles.viewParent}>
-      <View style={styles.viewWelcome}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.buttonBack}>
-          <FontAwesome name="angle-left" size={24} color="black" />
-        </TouchableOpacity>
-        <Text style={styles.textTitle}>Change Password</Text>
-        <View style={styles.viewSpace}></View>
-      </View>
-      <Text style={styles.textSubTitle}>Current Password</Text>
-      <FieldTextInput
-        placeholder={'Your password'}
-        secureTextEntry={true}
-        onChangeText={handlePasswordChange}
-        onSubmitEditing={Keyboard.dismiss}
-      />
-      <Text style={styles.textSubTitle}>New Password</Text>
-      <FieldTextInput
-        placeholder={'Your new password'}
-        secureTextEntry={true}
-        onChangeText={handleNewPasswordChange}
-        onSubmitEditing={Keyboard.dismiss}
-      />
-      {newPass.length > 0 ? (
-        <View
-          style={{
-            height: 10,
-            width: `${getPasswordComplexity()}%`,
-            backgroundColor: getPasswordColor(),
-            marginTop: 10,
-          }}
-        />
+      {isUser?.data?.token === undefined ? (
+        <>
+          <LottieView
+            source={require('../../assets/animations/NonAccount.json')}
+            style={{
+              height: heightScreen * 0.5,
+              width: widthScreen,
+            }}
+            autoPlay
+            loop
+          />
+          <Text style={styles.textAlert}>
+            You are not logged in. Please log in to use this function.
+          </Text>
+          <TouchableOpacity
+            style={styles.viewLogin}
+            onPress={() => navigation.replace('LoginNav')}>
+            <Text style={styles.textSignin}>Go to Sign in</Text>
+          </TouchableOpacity>
+        </>
       ) : (
-        <></>
-      )}
+        <>
+          <View style={styles.viewWelcome}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={styles.buttonBack}>
+              <FontAwesome name="angle-left" size={24} color="black" />
+            </TouchableOpacity>
+            <Text style={styles.textTitle}>Change Password</Text>
+            <View style={styles.viewSpace}></View>
+          </View>
+          <Text style={styles.textSubTitle}>Current Password</Text>
+          <FieldTextInput
+            placeholder={'Your password'}
+            secureTextEntry={true}
+            onChangeText={handlePasswordChange}
+            onSubmitEditing={Keyboard.dismiss}
+          />
+          <Text style={styles.textSubTitle}>New Password</Text>
+          <FieldTextInput
+            placeholder={'Your new password'}
+            secureTextEntry={true}
+            onChangeText={handleNewPasswordChange}
+            onSubmitEditing={Keyboard.dismiss}
+          />
+          {newPass.length > 0 ? (
+            <View
+              style={{
+                height: 10,
+                width: `${getPasswordComplexity()}%`,
+                backgroundColor: getPasswordColor(),
+                marginTop: 10,
+              }}
+            />
+          ) : (
+            <></>
+          )}
 
-      <Text style={styles.textSubTitle}>Confirm Password</Text>
-      <FieldTextInput
-        placeholder={'Your new password'}
-        secureTextEntry={true}
-        onChangeText={handleConfirmPasswordChange}
-        onSubmitEditing={Keyboard.dismiss}
-      />
-      {confirmPass.length > 0 ? (
-        <View
-          style={{
-            height: 10,
-            width: `${getConfirmPasswordComplexity()}%`,
-            backgroundColor: getConfirmPasswordColor(),
-            marginTop: 10,
-          }}
-        />
-      ) : (
-        <></>
-      )}
+          <Text style={styles.textSubTitle}>Confirm Password</Text>
+          <FieldTextInput
+            placeholder={'Your new password'}
+            secureTextEntry={true}
+            onChangeText={handleConfirmPasswordChange}
+            onSubmitEditing={Keyboard.dismiss}
+          />
+          {confirmPass.length > 0 ? (
+            <View
+              style={{
+                height: 10,
+                width: `${getConfirmPasswordComplexity()}%`,
+                backgroundColor: getConfirmPasswordColor(),
+                marginTop: 10,
+              }}
+            />
+          ) : (
+            <></>
+          )}
 
-      <FieldButton
-        stylesContainer={styles.buttonConfirm}
-        title={'Confirm Password'}
-        onPress={() => handleChangePassword()}
-      />
+          <FieldButton
+            stylesContainer={styles.buttonConfirm}
+            title={'Confirm Password'}
+            onPress={() => handleChangePassword()}
+            stylesTitle={{fontSize: 18}}
+          />
+        </>
+      )}
     </Animated.View>
   );
 };
@@ -219,12 +248,12 @@ const styles = StyleSheet.create({
     width: 50,
   },
   textTitle: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 700,
     color: colors.BLACK,
   },
   textSubTitle: {
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: 600,
     color: colors.BLACK,
     marginVertical: heightScreen * 0.02,

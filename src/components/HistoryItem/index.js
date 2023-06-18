@@ -22,6 +22,7 @@ const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
   const axiosContext = useContext(AxiosContext);
   const isUser = useSelector(state => state.auth.login);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isModalVisible1, setModalVisible1] = useState(false);
   const handleSure = async () => {
     setModalVisible(!isModalVisible);
   };
@@ -75,7 +76,7 @@ const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
   const [isEnabled, setIsEnabled] = useState(item?.isPublic);
 
   const toggleSwitch = () => {
-    if (!isEnabled) setModalVisible(!isModalVisible);
+    if (!isEnabled) setModalVisible1(!isModalVisible1);
     else {
       axiosContext.ChangeStatusForIti(item?._id, !isEnabled);
       setIsEnabled(previousState => !previousState);
@@ -92,7 +93,7 @@ const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
     <View style={styles.viewParent}>
       <View style={styles.viewContainer0}>
         <Text style={styles.textName} numberOfLines={1}>
-          {item?.name !== undefined ? item?.name : 'Unnamed Journey'}
+          {item?.name !== undefined ? item?.name : 'Unnamed Trip'}
         </Text>
         {type === 'history' ? (
           <View style={styles.viewSwitch}>
@@ -215,8 +216,8 @@ const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
         setData={setData}
       />
       <ConfirmPublic
-        isModalVisible={isModalVisible}
-        setModalVisible={setModalVisible}
+        isModalVisible1={isModalVisible1}
+        setModalVisible1={setModalVisible1}
         dataId={item?._id}
         setIsEnabled={setIsEnabled}
         isEnabled={isEnabled}
@@ -309,8 +310,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonDetails: {
-    height: 0.06 * heightScreen,
-    width: widthScreen * 0.3,
+    height: 0.055 * heightScreen,
+    width: widthScreen * 0.25,
     backgroundColor: colors.MAINCOLOR,
     justifyContent: 'center',
     alignItems: 'center',
@@ -321,7 +322,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   textDetail: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: 500,
     color: colors.WHITE,
   },

@@ -15,6 +15,7 @@ import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import FieldTextInput from '../../components/FieldTextInput';
+import LottieView from 'lottie-react-native';
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -51,69 +52,93 @@ const Profile = () => {
   }, []);
   return (
     <Animated.View style={[styles.viewParent, {marginTop: headerMotion}]}>
-      <View style={styles.viewWelcome}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.buttonBack}>
-          <FontAwesome name="angle-left" size={24} color="black" />
-        </TouchableOpacity>
-        <Text style={styles.textTitle}>Profile</Text>
-        <TouchableOpacity
-          onPress={() => setIsEdit(!isEdit)}
-          style={styles.buttonBack}>
-          <Feather name="edit-3" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
-      <View>
-        <Image
-          source={require('../../assets/images/get3.jpg')}
-          style={styles.viewAvt}
-        />
-        <TouchableOpacity style={styles.cameraButton}>
-          <Feather name="camera" size={13} color={colors.WHITE} />
-        </TouchableOpacity>
-        <Text style={styles.textName}>{name}</Text>
-      </View>
-      <View>
-        <Text style={styles.textField}>Full Name</Text>
-        <FieldTextInput
-          stylesContainer={{marginBottom: 0}}
-          placeholder={'Your full name'}
-          onChangeText={txt => setName(txt)}
-          onSubmitEditing={Keyboard.dismiss}
-          editable={isEdit}
-          value={name}
-          stylesInput={styles.stylesInput}
-        />
-        <Text style={styles.textField}>Email Address</Text>
-        <FieldTextInput
-          stylesContainer={{marginBottom: 0}}
-          placeholder={'Your email address'}
-          onChangeText={txt => setEmail(txt)}
-          onSubmitEditing={Keyboard.dismiss}
-          editable={isEdit}
-          value={email}
-          stylesInput={styles.stylesInput}
-        />
-        <Text style={styles.textField}>Phone Number</Text>
-        <FieldTextInput
-          stylesContainer={{marginBottom: 0}}
-          placeholder={'Your phone number'}
-          onChangeText={txt => setPhone(txt)}
-          onSubmitEditing={Keyboard.dismiss}
-          editable={isEdit}
-          value={phone}
-          stylesInput={styles.stylesInput}
-        />
-      </View>
-      {isEdit ? (
-        <TouchableOpacity
-          style={styles.signOut}
-          onPress={() => console.log('Save')}>
-          <Text style={styles.textSignout}>Save</Text>
-        </TouchableOpacity>
+      {isUser?.data?.token === undefined ? (
+        <>
+          <LottieView
+            source={require('../../assets/animations/NonAccount.json')}
+            style={{
+              height: heightScreen * 0.5,
+              width: widthScreen,
+            }}
+            autoPlay
+            loop
+          />
+          <Text style={styles.textAlert}>
+            You are not logged in. Please log in to use this function.
+          </Text>
+          <TouchableOpacity
+            style={styles.viewLogin}
+            onPress={() => navigation.replace('LoginNav')}>
+            <Text style={styles.textSignin}>Go to Sign in</Text>
+          </TouchableOpacity>
+        </>
       ) : (
-        <></>
+        <>
+          <View style={styles.viewWelcome}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={styles.buttonBack}>
+              <FontAwesome name="angle-left" size={24} color="black" />
+            </TouchableOpacity>
+            <Text style={styles.textTitle}>Profile</Text>
+            <TouchableOpacity
+              onPress={() => setIsEdit(!isEdit)}
+              style={styles.buttonBack}>
+              <Feather name="edit-3" size={24} color="black" />
+            </TouchableOpacity>
+          </View>
+          <View>
+            <Image
+              source={require('../../assets/images/get3.jpg')}
+              style={styles.viewAvt}
+            />
+            <TouchableOpacity style={styles.cameraButton}>
+              <Feather name="camera" size={13} color={colors.WHITE} />
+            </TouchableOpacity>
+            <Text style={styles.textName}>{name}</Text>
+          </View>
+          <View>
+            <Text style={styles.textField}>Full Name</Text>
+            <FieldTextInput
+              stylesContainer={{marginBottom: 0}}
+              placeholder={'Your full name'}
+              onChangeText={txt => setName(txt)}
+              onSubmitEditing={Keyboard.dismiss}
+              editable={isEdit}
+              value={name}
+              stylesInput={styles.stylesInput}
+            />
+            <Text style={styles.textField}>Email Address</Text>
+            <FieldTextInput
+              stylesContainer={{marginBottom: 0}}
+              placeholder={'Your email address'}
+              onChangeText={txt => setEmail(txt)}
+              onSubmitEditing={Keyboard.dismiss}
+              editable={isEdit}
+              value={email}
+              stylesInput={styles.stylesInput}
+            />
+            <Text style={styles.textField}>Phone Number</Text>
+            <FieldTextInput
+              stylesContainer={{marginBottom: 0}}
+              placeholder={'Your phone number'}
+              onChangeText={txt => setPhone(txt)}
+              onSubmitEditing={Keyboard.dismiss}
+              editable={isEdit}
+              value={phone}
+              stylesInput={styles.stylesInput}
+            />
+          </View>
+          {isEdit ? (
+            <TouchableOpacity
+              style={styles.signOut}
+              onPress={() => console.log('Save')}>
+              <Text style={styles.textSignout}>Save</Text>
+            </TouchableOpacity>
+          ) : (
+            <></>
+          )}
+        </>
       )}
     </Animated.View>
   );
@@ -167,7 +192,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   textTitle: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 700,
     color: colors.BLACK,
   },
@@ -201,7 +226,7 @@ const styles = StyleSheet.create({
     marginTop: heightScreen * 0.02,
   },
   textField: {
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: 600,
     color: colors.BLACK,
     marginTop: heightScreen * 0.02,
@@ -213,6 +238,6 @@ const styles = StyleSheet.create({
     fontWeight: 600,
   },
   stylesInput: {
-    fontSize: 16,
+    fontSize: 13,
   },
 });

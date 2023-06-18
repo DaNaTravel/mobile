@@ -29,19 +29,23 @@ const ConfirmDelete = ({
         <LottieView
           source={require('../../../assets/animations/delete.json')}
           autoPlay
-          style={{height: heightScreen * 0.25, width: widthScreen * 0.9}}
+          style={{height: heightScreen * 0.2, width: widthScreen * 0.7}}
         />
         <Text style={styles.textSure}>
-          Are you sure you want to delete this location from your trip?
+          Are you sure you want to delete this destination from your trip?
         </Text>
-        <TouchableOpacity onPress={() => handleDelete()} style={styles.viewCon}>
-          <Text style={styles.textCon}>Continue delete?</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonClose}
-          onPress={() => handleCancel()}>
-          <FontAwesome name="close" size={30} color={colors.WHITE} />
-        </TouchableOpacity>
+        <View style={styles.viewButtons}>
+          <TouchableOpacity
+            onPress={() => handleCancel()}
+            style={styles.viewCon1}>
+            <Text style={styles.textCon1}>Cancel</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => handleDelete()}
+            style={styles.viewCon}>
+            <Text style={styles.textCon}>Delete</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </Modal>
   );
@@ -59,34 +63,60 @@ const styles = StyleSheet.create({
   },
   viewCon: {
     height: heightScreen * 0.075,
-    width: widthScreen * 0.5,
+    width: widthScreen * 0.25,
     backgroundColor: colors.MAINCOLOR,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 3,
   },
   textCon: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: 600,
     color: colors.WHITE,
   },
   textSure: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 700,
     color: colors.BLACK,
     marginTop: heightScreen * -0.03,
     marginBottom: heightScreen * 0.01,
     textAlign: 'center',
+    width: widthScreen * 0.7,
   },
-  buttonClose: {
-    height: 50,
-    width: 50,
-    borderRadius: 50 / 2,
-    backgroundColor: colors.MAINCOLOR,
+  viewButtons: {
+    width: widthScreen * 0.7,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  viewCon1: {
+    height: heightScreen * 0.075,
+    width: widthScreen * 0.25,
+    backgroundColor: colors.WHITE,
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'absolute',
-    top: heightScreen * -0.035,
-    right: widthScreen * -0.025,
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 3,
+  },
+  textCon1: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: colors.BLACK,
   },
 });

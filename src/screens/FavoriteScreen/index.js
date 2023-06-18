@@ -61,9 +61,11 @@ const Favorite = () => {
               height: heightScreen * 0.5,
               width: widthScreen,
             }}
+            autoPlay
+            loop
           />
           <Text style={styles.textAlert}>
-            If you want to use this function, you have to log in to use it.
+            You are not logged in. Please log in to use this function.
           </Text>
           <TouchableOpacity
             style={styles.viewLogin}

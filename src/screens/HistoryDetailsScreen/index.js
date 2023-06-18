@@ -75,7 +75,7 @@ const HistoryDetaislScreen = ({route}) => {
           <FontAwesome name="angle-left" size={24} color="black" />
         </TouchableOpacity>
         <Text style={styles.textTitle}>
-          {item?.name !== undefined ? item?.name : 'Unnamed Journey'}
+          {item?.name !== undefined ? item?.name : 'Unnamed Trip'}
         </Text>
         <View style={styles.viewParentAvt}>
           <Image
@@ -91,11 +91,11 @@ const HistoryDetaislScreen = ({route}) => {
       <View style={styles.viewPeoDate}>
         <View style={styles.viewPeo}>
           <Ionicons name="person" size={30} color={colors.BLACK} />
-          <Text style={styles.textPeoDate}>{data?.people} people</Text>
+          <Text style={styles.textPeoDate}>{data?.people} {data?.people >= 2 ? 'people' : 'person'}</Text>
         </View>
         <View style={styles.viewDate}>
           <FontAwesome name="calendar" size={30} color={colors.BLACK} />
-          <Text style={styles.textPeoDate}>{item?.days} days</Text>
+          <Text style={styles.textPeoDate}>{item?.days} {item?.day >= 2 ? 'days' : 'day'}</Text>
         </View>
       </View>
       <TabView item={item} data={data} />

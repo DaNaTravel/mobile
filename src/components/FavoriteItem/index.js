@@ -132,11 +132,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   content: {
-    width: widthScreen * 0.425,
+    width: widthScreen * 0.5,
     height: heightScreen * 0.11,
   },
   viewLike: {
-    width: widthScreen * 0.425,
+    width: widthScreen * 0.35,
     height: heightScreen * 0.11,
     alignItems: 'flex-end',
   },

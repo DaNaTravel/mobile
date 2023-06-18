@@ -15,7 +15,7 @@ const NonAccount = ({alert, setAlert}) => {
           autoPlay
           style={styles.viewLottie}
         />
-        <Text style={styles.message}>If you want to use this function, you have to log in to use it.</Text>
+        <Text style={styles.message}>You are not logged in. Please log in to use this function.</Text>
         <TouchableOpacity
           style={styles.buttonBack}
           onPress={() => navigation.navigate('SignIn')}>
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     marginTop: heightScreen*-0.05
   },
   message: {
-    fontSize: 25,
+    fontSize: 20,
     color: colors.BLACK,
     fontWeight: 600,
     textAlign: 'center',
@@ -84,8 +84,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   buttonBack:{
-    height: heightScreen*0.08,
-    width: widthScreen*0.5,
+    height: heightScreen * 0.07,
+    width: widthScreen * 0.8,
+    borderRadius: 30,
     backgroundColor: colors.MAINCOLOR,
     shadowColor: '#000',
     shadowOffset: {
@@ -95,14 +96,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 4,
-    borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: heightScreen*0.04
   },
   textBack:{
     fontWeight: 600,
-    fontSize: 25,
+    fontSize: 20,
     color: colors.WHITE,
   }
 });

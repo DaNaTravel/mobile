@@ -92,7 +92,7 @@ export const ItineraryRoutesTest = async (
     });
 };
 
-export const GenerateItiTest = (IdIti, token, arr, setDataToSentMap) => {
+export const GenerateItiTest = (IdIti, token, arr, setDataToSentMap, setIsLoading) => {
   let data = {routes: arr};
   let config = {
     method: 'post',
@@ -110,16 +110,15 @@ export const GenerateItiTest = (IdIti, token, arr, setDataToSentMap) => {
     .then(response => {
       console.log('response.data', response.data);
       setDataToSentMap(response?.data?.data);
+      setIsLoading(false);
     })
     .catch(error => {
       console.log(error.response.data.message);
     });
 };
 
-export const UpdateItiTest = (IdIti, token, arr, status, setDataReturn) => {
+export const UpdateItiTest = (IdIti, token, arr, status, setDataReturn, setIsLoading) => {
   let data = {routes: arr};
-  console.log('data', data);
-  console.log('Id', IdIti);
   let config = {
     method: 'patch',
     maxBodyLength: Infinity,
@@ -134,8 +133,8 @@ export const UpdateItiTest = (IdIti, token, arr, status, setDataReturn) => {
   axios
     .request(config)
     .then(response => {
-      console.log('response.data', response.data);
       setDataReturn(response?.data);
+      setIsLoading(false);
     })
     .catch(error => {
       console.log(error?.response?.data?.message);
@@ -174,7 +173,6 @@ export const GetItineraryById = (Id, setData) => {
   axios
     .request(config)
     .then(response => {
-      console.log(response?.data?.data);
       setData(response?.data?.data);
     })
     .catch(error => {

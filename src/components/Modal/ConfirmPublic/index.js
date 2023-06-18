@@ -7,8 +7,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {AxiosContext} from '../../../context/AxiosContext';
 
 const ConfirmPublic = ({
-  isModalVisible,
-  setModalVisible,
+  isModalVisible1,
+  setModalVisible1,
   dataId,
   setIsEnabled,
   isEnabled,
@@ -18,34 +18,36 @@ const ConfirmPublic = ({
   const handlePublic = () => {
     axiosContext.ChangeStatusForIti(dataId, !isEnabled);
     setIsEnabled(previousState => !previousState);
-    setModalVisible(!isModalVisible);
+    setModalVisible1(!isModalVisible1);
   };
 
   const handleCancel = () => {
-    setModalVisible(!isModalVisible);
+    setModalVisible1(!isModalVisible1);
   };
 
   return (
-    <Modal isVisible={isModalVisible}>
+    <Modal isVisible={isModalVisible1}>
       <View style={styles.viewAlert}>
         <LottieView
           source={require('../../../assets/animations/logout.json')}
           autoPlay
-          style={{height: heightScreen * 0.25, width: widthScreen * 0.9}}
+          style={{height: heightScreen * 0.23, width: widthScreen * 0.9}}
         />
-
         <Text style={styles.textSure}>
-          Can you confirm that you want to make this itinerary public for
-          everyone?
+          Do you want to pubic your planned trip?
         </Text>
-        <TouchableOpacity onPress={() => handlePublic()} style={styles.viewCon}>
-          <Text style={styles.textCon}>Yes, sure.</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonClose}
-          onPress={() => handleCancel()}>
-          <FontAwesome name="close" size={30} color={colors.WHITE} />
-        </TouchableOpacity>
+        <View style={styles.viewButtons}>
+          <TouchableOpacity
+            onPress={() => handleCancel()}
+            style={styles.viewCon1}>
+            <Text style={styles.textCon1}>Cancel</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => handlePublic()}
+            style={styles.viewCon}>
+            <Text style={styles.textCon}>Yes, sure.</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </Modal>
   );
@@ -63,19 +65,28 @@ const styles = StyleSheet.create({
   },
   viewCon: {
     height: heightScreen * 0.075,
-    width: widthScreen * 0.5,
+    width: widthScreen * 0.25,
     backgroundColor: colors.MAINCOLOR,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 3,
   },
   textCon: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: 600,
     color: colors.WHITE,
   },
   textSure: {
-    fontSize: 15,
+    fontSize: 18,
     fontWeight: 700,
     color: colors.BLACK,
     marginTop: heightScreen * -0.03,
@@ -92,5 +103,32 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: heightScreen * -0.035,
     right: widthScreen * -0.025,
+  },
+  viewButtons: {
+    width: widthScreen * 0.7,
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  },
+  viewCon1: {
+    height: heightScreen * 0.075,
+    width: widthScreen * 0.25,
+    backgroundColor: colors.WHITE,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 3,
+  },
+  textCon1: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: colors.BLACK,
   },
 });

@@ -399,9 +399,9 @@ const styles = StyleSheet.create({
     color: colors.STRONGGRAY,
   },
   buttonBottom: {
-    height: 60,
-    width: 60,
-    borderRadius: 30,
+    height: 50,
+    width: 50,
+    borderRadius: 25,
     backgroundColor: colors.MAINCOLOR,
     justifyContent: 'center',
     alignItems: 'center',
@@ -427,12 +427,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   textTour: {
-    fontSize: 28,
+    fontSize: 23,
     fontWeight: 'bold',
     color: colors.BLACK,
   },
   priceTour: {
-    fontSize: 22,
+    fontSize: 16,
     fontWeight: 'bold',
     color: colors.GREEN,
   },

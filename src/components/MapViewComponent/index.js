@@ -80,7 +80,7 @@ const MapViewComponent = ({
       <Image
         style={styles.markerImage}
         source={{
-          uri: `https://dummyimage.com/50x50/fd003a/ffffff&text=${number}`,
+          uri: `https://dummyimage.com/50x50/fd003a/7cfc00&text=${number}`,
         }}
         resizeMode="contain"
       />

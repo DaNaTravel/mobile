@@ -137,7 +137,7 @@ const Header = ({
     const updatedListFavo = listFavo ? [...listFavo, item?._id] : [item?._id];
     setListFavo(updatedListFavo);
     let LocationIds = await AsyncStorage.getItem('LocationIds');
-    let updatelist = JSON.parse(LocationIds);
+    let updatelist = LocationIds ? JSON.parse(LocationIds) : [];
     let updatedList = [...updatelist, item?._id];
     await AsyncStorage.setItem('LocationIds', JSON.stringify(updatedList));
     axiosContext.AddLocationFavorite(item?._id);

@@ -182,8 +182,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   buttonDetails: {
-    height: 0.06 * heightScreen,
-    width: widthScreen * 0.3,
+    height: 0.055 * heightScreen,
+    width: widthScreen * 0.25,
     backgroundColor: colors.MAINCOLOR,
     justifyContent: 'center',
     alignItems: 'center',
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   textDetail: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: 500,
     color: colors.WHITE,
   },

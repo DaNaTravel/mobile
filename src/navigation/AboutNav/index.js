@@ -19,6 +19,8 @@ import ChoosePosition from '../../screens/ChoosePositionScreen';
 import LocationDetail from '../../screens/LocationDetailScreen';
 import ListItinerariesScreen from '../../screens/ListItinerariesScreen';
 import PlaceSelectionScreen from '../../screens/PlaceSelectionScreen';
+import Profile from '../../screens/ProfileScreen';
+import ChangePassword from '../../screens/ChangePasswordScreen';
 
 const Stack = createNativeStackNavigator();
 const AboutNav = () => {
@@ -152,6 +154,20 @@ const AboutNav = () => {
           name="PlaceSelection"
           component={PlaceSelectionScreen}
         />
+              <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="ChangePassword"
+        component={ChangePassword}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="EditProfile"
+        component={Profile}
+      />
       </>
     </Stack.Navigator>
   );

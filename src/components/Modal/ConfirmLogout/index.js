@@ -3,7 +3,6 @@ import React, {useContext, useState} from 'react';
 import Modal from 'react-native-modal';
 import {colors, heightScreen, widthScreen} from '../../../utility';
 import LottieView from 'lottie-react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import {Logout} from '../../../redux/action/auth/authRequests';
@@ -66,32 +65,38 @@ const ConfirmLogout = ({
       console.log(error);
     }
   };
-  
+
   return (
     <Modal isVisible={isModalVisible}>
       <View style={styles.viewAlert}>
         <LottieView
           source={require('../../../assets/animations/logout.json')}
           autoPlay
-          style={{height: heightScreen * 0.25, width: widthScreen * 0.9}}
+          style={{height: heightScreen * 0.23, width: widthScreen * 0.9}}
         />
-        <Text style={styles.textSure}>Are you sure?</Text>
-        <TouchableOpacity
-          onPress={
-            type === 'delete' || type === 'deleteIti'
-              ? handleDelete
-              : handleConLogout
-          }
-          style={styles.viewCon}>
-          {type === 'delete' || type === 'deleteIti' ? (
-            <Text style={styles.textCon}>Continue delete?</Text>
-          ) : (
-            <Text style={styles.textCon}>Sign out</Text>
-          )}
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonClose} onPress={handleSignout}>
-          <FontAwesome name="close" size={30} color={colors.WHITE} />
-        </TouchableOpacity>
+        <Text style={styles.textSure}>
+          {type === 'delete' || type === 'deleteIti'
+            ? 'Are you sure want to delete it?'
+            : 'Are you sure want to Sign out?'}
+        </Text>
+        <View style={styles.viewButtons}>
+          <TouchableOpacity style={styles.viewCon} onPress={handleSignout}>
+            <Text style={styles.textCon}>Cancel</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={
+              type === 'delete' || type === 'deleteIti'
+                ? handleDelete
+                : handleConLogout
+            }
+            style={styles.viewCon1}>
+            {type === 'delete' || type === 'deleteIti' ? (
+              <Text style={styles.textCon1}>Delete</Text>
+            ) : (
+              <Text style={styles.textCon1}>Sign out</Text>
+            )}
+          </TouchableOpacity>
+        </View>
       </View>
     </Modal>
   );
@@ -109,33 +114,60 @@ const styles = StyleSheet.create({
   },
   viewCon: {
     height: heightScreen * 0.075,
-    width: widthScreen * 0.5,
-    backgroundColor: colors.MAINCOLOR,
+    width: widthScreen * 0.25,
+    backgroundColor: colors.WHITE,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 3,
   },
   textCon: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: 600,
-    color: colors.WHITE,
+    color: colors.BLACK,
   },
   textSure: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 700,
     color: colors.BLACK,
     marginTop: heightScreen * -0.03,
     marginBottom: heightScreen * 0.01,
+    width: widthScreen * 0.7,
+    textAlign: 'center',
   },
-  buttonClose: {
-    height: 50,
-    width: 50,
-    borderRadius: 50 / 2,
+  viewButtons: {
+    flexDirection: 'row',
+    width: widthScreen * 0.7,
+    justifyContent: 'space-around',
+  },
+  viewCon1: {
+    height: heightScreen * 0.075,
+    width: widthScreen * 0.25,
     backgroundColor: colors.MAINCOLOR,
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'absolute',
-    top: heightScreen * -0.035,
-    right: widthScreen * -0.025,
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 3,
+  },
+  textCon1: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: colors.WHITE,
   },
 });

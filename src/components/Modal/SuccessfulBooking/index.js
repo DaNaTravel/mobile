@@ -15,7 +15,7 @@ const SuccessfulBooking = ({booked, setBooked}) => {
         />
         <View style={styles.viewMessage}>
           <Text style={styles.message}>
-            Successfully added to your favorite locations!
+            Successfully added to your favorite destinations!
           </Text>
           <Text style={styles.messageSon}>
             Have a safe and enjoyable journey!
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   message: {
-    fontSize: 25,
+    fontSize: 20,
     color: colors.BLACK,
     fontWeight: 600,
     textAlign: 'center',
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     color: colors.WHITE,
   },
   messageSon: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: 400,
     color: colors.BLACK,
   },

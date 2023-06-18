@@ -15,7 +15,7 @@ const SuccessfullyRemoved = ({removed, setRemoved}) => {
         />
         <View style={styles.viewMessage}>
           <Text style={styles.message}>
-            Successfully removed it from your favorite locations!
+            Successfully removed it from your favorite destinations!
           </Text>
           <Text style={styles.messageSon}>
             Have a safe and enjoyable journey!
@@ -23,7 +23,7 @@ const SuccessfullyRemoved = ({removed, setRemoved}) => {
           <TouchableOpacity
             style={styles.buttonClose}
             onPress={() => setRemoved(false)}>
-            <Text style={styles.textHome}>Cancel</Text>
+            <Text style={styles.textHome}>Close</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   message: {
-    fontSize: 25,
+    fontSize: 20,
     color: colors.BLACK,
     fontWeight: 600,
     textAlign: 'center',
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     color: colors.WHITE,
   },
   messageSon: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: 400,
     color: colors.BLACK,
   },

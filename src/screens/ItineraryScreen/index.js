@@ -11,6 +11,7 @@ import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import Carousel from 'react-native-snap-carousel';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import data from '../../assets/data/dataCarouselHome/index';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import CarouselItem, {
@@ -80,9 +81,9 @@ const ViewFunction = ({navigation}) => {
           <TouchableOpacity
             style={styles.viewLogo}
             onPress={() => navigation.navigate('About1')}>
-            <MaterialCommunityIcons
-              name="google-maps"
-              size={28}
+            <Ionicons
+              name="create-outline"
+              size={32}
               color="#2EAD80"
             />
           </TouchableOpacity>
@@ -102,12 +103,12 @@ const ViewFunction = ({navigation}) => {
             onPress={() => navigation.navigate('SearchAll')}>
             <FontAwesome5 name="search-location" size={28} color="#D042B9" />
           </TouchableOpacity>
-          <Text style={styles.textTitle}>Destinations</Text>
+          <Text style={styles.textTitle} numberOfLines={1}>Destinations</Text>
         </View>
         <View style={styles.viewFuncSon}>
           <TouchableOpacity
             style={styles.viewLogo3}
-            onPress={() => navigation.navigate('ChoosePosition')}>
+            onPress={() => console.log('Event')}>
             <FontAwesome5 name="calendar" size={24} color="#3E8AC3" />
           </TouchableOpacity>
           <Text style={styles.textTitle}>Events</Text>
@@ -231,7 +232,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   textFunc: {
-    fontSize: 24,
+    fontSize: 22,
     color: colors.MAINCOLOR,
     marginBottom: heightScreen * 0.02,
     marginLeft: widthScreen * 0.05,
@@ -286,7 +287,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   textFavo: {
-    fontSize: 24,
+    fontSize: 22,
     color: colors.MAINCOLOR,
     marginBottom: heightScreen * 0.01,
     marginTop: heightScreen * 0.03,
@@ -303,7 +304,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   textRecom: {
-    fontSize: 24,
+    fontSize: 22,
     color: colors.MAINCOLOR,
     marginBottom: heightScreen * 0.01,
     marginTop: heightScreen * 0.03,
