@@ -30,7 +30,7 @@ const TabView = ({}) => {
         tabBarScrollEnabled: true,
       }}>
       <Tab.Screen
-        name={'Itineraries'}
+        name={'Trips'}
         children={() => <Itineraries dataIti={dataIti} />}
         listeners={{
           focus: () => handleData('itinerary'),

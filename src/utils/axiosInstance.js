@@ -13,7 +13,7 @@ console.log(getToken());
 
 const axiosInstance = axios.create({
   baseURL:
-    'http://ec2-13-114-139-244.ap-northeast-1.compute.amazonaws.com:5000',
+    'http://ec2-18-183-180-22.ap-northeast-1.compute.amazonaws.com:5000',
   headers: {
     Authorization: `Bearer ${getToken()}`,
     'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ axiosInstance.interceptors.request.use(async req => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `http://ec2-13-114-139-244.ap-northeast-1.compute.amazonaws.com:5000/accounts/refresh`,
+      url: `http://ec2-18-183-180-22.ap-northeast-1.compute.amazonaws.com:5000/accounts/refresh`,
       headers: {
         Authorization: `Bearer ${refreshToken}`,
       },

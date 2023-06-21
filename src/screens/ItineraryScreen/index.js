@@ -95,7 +95,7 @@ const ViewFunction = ({navigation}) => {
             onPress={() => navigation.navigate('ListItineraries')}>
             <FontAwesome5 name="route" size={28} color="#B9AA20" />
           </TouchableOpacity>
-          <Text style={styles.textTitle}>Itineraries</Text>
+          <Text style={styles.textTitle}>Trips</Text>
         </View>
         <View style={styles.viewFuncSon}>
           <TouchableOpacity
@@ -126,7 +126,7 @@ const ViewRecommend = () => {
 
   return (
     <>
-      <Text style={styles.textRecom}>Suggested trip</Text>
+      <Text style={styles.textRecom}>Suggested trips</Text>
       <View style={styles.viewRecommendList}>
         <FlatList
           data={data}

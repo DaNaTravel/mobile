@@ -93,7 +93,7 @@ const HistoryItem = ({item, type, listFavo, setListFavo, data, setData}) => {
     <View style={styles.viewParent}>
       <View style={styles.viewContainer0}>
         <Text style={styles.textName} numberOfLines={1}>
-          {item?.name !== undefined ? item?.name : 'Unnamed Trip'}
+          {item?.name !== undefined ? item?.name : 'Unknown Trip'}
         </Text>
         {type === 'history' ? (
           <View style={styles.viewSwitch}>

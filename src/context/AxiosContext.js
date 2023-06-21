@@ -18,7 +18,7 @@ export const AxiosProvider = ({children}) => {
   const isUser = useSelector(state => state.auth.login);
   const axiosInstance = axios.create({
     baseURL:
-      'http://ec2-13-114-139-244.ap-northeast-1.compute.amazonaws.com:5000',
+      'http://ec2-18-183-180-22.ap-northeast-1.compute.amazonaws.com:5000',
     headers: {
       Authorization: `Bearer ${isUser?.data?.token}`,
       'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ export const AxiosProvider = ({children}) => {
       let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: `http://ec2-13-114-139-244.ap-northeast-1.compute.amazonaws.com:5000/accounts/refresh`,
+        url: `http://ec2-18-183-180-22.ap-northeast-1.compute.amazonaws.com:5000/accounts/refresh`,
         headers: {
           Authorization: `Bearer ${refreshToken}`,
         },
@@ -121,7 +121,7 @@ export const AxiosProvider = ({children}) => {
     let config = {
       method: 'delete',
       maxBodyLength: Infinity,
-      url: `http://ec2-13-114-139-244.ap-northeast-1.compute.amazonaws.com:5000/favorites`,
+      url: `http://ec2-18-183-180-22.ap-northeast-1.compute.amazonaws.com:5000/favorites`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${isUser?.data?.token}`,

@@ -33,7 +33,7 @@ const ListItinerariesScreen = () => {
           style={styles.buttonBack}>
           <FontAwesome name="angle-left" size={24} color="black" />
         </TouchableOpacity>
-        <Text style={styles.textTitle}>Itineraries</Text>
+        <Text style={styles.textTitle}>Trips</Text>
         <View style={styles.viewSpace}></View>
       </View>
       <View style={styles.viewList}>
