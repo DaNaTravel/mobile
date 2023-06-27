@@ -25,7 +25,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import ViewMapResult from '../../components/ViewMapResult';
-import {UpdateItiTest} from '../../apis/itineraries';
+import {UpdateItiTest, UpdateItiTestArrange} from '../../apis/itineraries';
 const Tab = createMaterialTopTabNavigator();
 const Day = ({data, index}) => {
   return (
@@ -99,9 +99,8 @@ const ResultEditScreen = ({route}) => {
         }
       }),
     );
-
-    console.log(newArray);
-    UpdateItiTest(Id, isUser?.data?.token, newArray, true, setDataReturn);
+    console.log('newnewArray', newArray);
+    UpdateItiTestArrange(Id, isUser?.data?.token, newArray, true, setDataReturn);
   };
   const handleDataStillSave = arr1 => {
     let newArray = arr1.map(obj =>
@@ -170,6 +169,7 @@ const ResultEditScreen = ({route}) => {
   );
   useEffect(() => {
     if (dataReturn !== null) {
+      console.log('dataReturn', dataReturn);
       if (dataReturn?.message === 'Success') {
         Alert.alert('Success', 'Your itinerary has been saved successfully!', [
           {
@@ -177,21 +177,6 @@ const ResultEditScreen = ({route}) => {
             onPress: () => navigation.navigate('BottomTab'),
           },
         ]);
-      } else {
-        Alert.alert(
-          'Warning',
-          `Your trip requires careful attention due to some encountered issues: 
-          ${dataReturn?.message}`,
-          [
-            {
-              text: 'Cancel',
-            },
-            {
-              text: 'Still save',
-              onPress: () => handleDataStillSave(data?.routes),
-            },
-          ],
-        );
       }
     }
   }, [dataReturn]);
@@ -219,7 +204,7 @@ const ResultEditScreen = ({route}) => {
           </View>
         )}
         <Text style={styles.textTitle}>
-          {type === 'update' ? 'Your trip' : 'Your new trip'}
+          {type === 'update' ? 'Your itinerary' : 'Your new itinerary'}
         </Text>
         {type === 'update' ? (
           <TouchableOpacity

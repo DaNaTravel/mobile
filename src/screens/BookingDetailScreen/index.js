@@ -101,6 +101,7 @@ const Header = ({
   setAlert,
   handleRemove,
   removed,
+  dataPlus,
 }) => {
   const isCarousel = useRef(null);
   const [index, setIndex] = useState(0);
@@ -108,7 +109,6 @@ const Header = ({
   const [listFavo, setListFavo] = useState([]);
   const isUser = useSelector(state => state.auth.login);
   const axiosContext = useContext(AxiosContext);
-
   const checkFavo = () => {
     isUser?.data?._id === undefined ? setAlert(true) : handleFavo();
   };
@@ -158,9 +158,9 @@ const Header = ({
 
   const handleTotal = num => {
     let formattedNum = num
-      .toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
-      .replace(',00', '')
-      .slice(0, -1);
+      ?.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
+      ?.replace(',00', '')
+      ?.slice(0, -1);
     return formattedNum;
   };
 
@@ -190,7 +190,11 @@ const Header = ({
           layout="stack"
           layoutCardOffset={9}
           ref={isCarousel}
-          data={item?.photos !== null ? item?.photos : dataImage}
+          data={
+            item?.photos !== null || dataPlus?.photos !== null
+              ? item?.photos || dataPlus?.photos
+              : dataImage
+          }
           renderItem={CarouselBookingItem}
           sliderWidth={SLIDER_WIDTH}
           itemWidth={ITEM_WIDTH}
@@ -201,16 +205,22 @@ const Header = ({
           activeAnimationType="spring"
           key={item => item._id}
         />
-        {<PaginationCarousel data={item?.photos} index={index} />}
+        {
+          <PaginationCarousel
+            data={item?.photos ? item?.photos : dataPlus?.photos}
+            index={index}
+          />
+        }
         <View style={styles.viewName}>
           <View style={styles.viewNamePrice}>
             <Text style={styles.name} numberOfLines={1}>
               {item?.name ? item?.name : 'BaNa Hills'}
             </Text>
             <Text style={styles.price}>
-              {' '}
-              {item?.cost !== 0 ? handleTotal(item?.cost) : 'FREE'}{' '}
-              {item?.cost !== 0 ? 'VND' : null}
+              {item?.cost === 0 || dataPlus?.cost === 0
+                ? 'FREE'
+                : handleTotal(item?.cost) || handleTotal(dataPlus?.cost)}
+              {item?.cost === 0 || dataPlus?.cost === 0 ? null : 'VND'}
             </Text>
           </View>
           <View style={styles.viewPosStar}>
@@ -285,12 +295,14 @@ const BookingDetail = ({route}) => {
   const {item} = route.params;
   const [data, setData] = useState([]);
   const [newDT, setNewDT] = useState(null);
+  const [dataPlus, setDataPlus] = useState(null);
 
   useEffect(() => {
     console.log('itemid', item?._id);
     SearchRelatedByID(item?._id, setNewDT);
+    SearchByID(item?._id, setDataPlus);
   }, [item]);
-  
+
   useEffect(() => {
     if (newDT !== null) {
       setData(newDT);
@@ -307,12 +319,13 @@ const BookingDetail = ({route}) => {
         booked={booked}
         removed={removed}
         setAlert={setAlert}
+        dataPlus={dataPlus}
       />
       <Text style={styles.textDetails}>Details</Text>
       <View style={styles.scroll}>
         <Text style={styles.textDes} numberOfLines={see ? null : 6}>
-          {item?.overview
-            ? item?.overview
+          {item?.overview || dataPlus?.overview
+            ? item?.overview || dataPlus?.overview
             : 'Mui Nghe is one of three mountains associated with the history of the formation of the Son Tra peninsula. The reason it is called Mui Nghe or Hon Nghe comes from the shape of the mountain like a sea lion lying with its head facing the rocky mountain, facing the sea. Mui Nghe Da Nang is famous as a beautiful sunrise spot and most ideal tourists should not miss when visiting Da Nang. It also has a very beautiful natural scenery, so it always attracts a large number of visitors to check-in every day'}
         </Text>
         <TouchableOpacity style={styles.seeMore} onPress={() => setSee(!see)}>
@@ -321,7 +334,11 @@ const BookingDetail = ({route}) => {
       </View>
       <Text style={styles.textRelate}>Some reviews</Text>
       <FlatList
-        data={item?.reviews === null ? reviewHard : item?.reviews}
+        data={
+          item?.reviews === null || dataPlus?.reviews === null
+            ? reviewHard
+            : item?.reviews || dataPlus?.reviews
+        }
         renderItem={({item, index}) => (
           <CommentItem item={item} index={index} key={item.author_name} />
         )}

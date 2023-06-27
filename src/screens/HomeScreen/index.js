@@ -224,7 +224,7 @@ const HomeScreen = ({route}) => {
           }>
           <Feather name="home" size={24} color={'#222222'} />
         </TouchableOpacity>
-        <Text style={styles.textTitle}>Your trip</Text>
+        <Text style={styles.textTitle}>Your itinerary</Text>
         {isUser?.data?._id !== undefined ? (
           <TouchableOpacity
             onPress={() =>

@@ -32,7 +32,7 @@ const RecommendedItinerary = ({item}) => {
     <View style={styles.viewParent}>
       <View style={styles.viewContainer0}>
         <Text style={styles.textName} numberOfLines={1}>
-          {item?.name !== undefined ? item?.name : 'Unknown trip'}
+          {item?.name !== undefined ? item?.name : 'Unknown Itinerary'}
         </Text>
       </View>
       <View style={styles.viewContainer1}>

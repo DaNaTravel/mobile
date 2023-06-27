@@ -75,7 +75,7 @@ const HistoryDetaislScreen = ({route}) => {
           <FontAwesome name="angle-left" size={24} color="black" />
         </TouchableOpacity>
         <Text style={styles.textTitle}>
-          {item?.name !== undefined ? item?.name : 'Unknown Trip'}
+          {item?.name !== undefined ? item?.name : 'Unknown Itinerary'}
         </Text>
         <View style={styles.viewParentAvt}>
           <Image

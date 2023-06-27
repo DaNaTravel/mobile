@@ -29,9 +29,9 @@ const CarouselItem = ({item, index}) => {
             </View>
           ) : item.id === 1 ? (
             <View style={styles.viewTitle}>
-              <Text style={styles.textTitle3}>Travel trip</Text>
+              <Text style={styles.textTitle3}>Travel itinerary</Text>
               <Text style={styles.textTitle4}>
-                Suggest a suitable trip
+                Suggest a suitable itinerary
               </Text>
             </View>
           ) : (

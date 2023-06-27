@@ -32,7 +32,7 @@ const ConfirmDelete = ({
           style={{height: heightScreen * 0.2, width: widthScreen * 0.7}}
         />
         <Text style={styles.textSure}>
-          Are you sure you want to delete this destination from your trip?
+          Are you sure you want to delete this destination from your itinerary?
         </Text>
         <View style={styles.viewButtons}>
           <TouchableOpacity

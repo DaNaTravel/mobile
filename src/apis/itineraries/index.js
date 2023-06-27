@@ -57,7 +57,6 @@ export const ItineraryRoutesTest = async (
   setId,
   setData,
 ) => {
-  console.log('point', point);
   let data = {
     latitude: latitude,
     longitude: longitude,
@@ -92,7 +91,13 @@ export const ItineraryRoutesTest = async (
     });
 };
 
-export const GenerateItiTest = (IdIti, token, arr, setDataToSentMap, setIsLoading) => {
+export const GenerateItiTest = (
+  IdIti,
+  token,
+  arr,
+  setDataToSentMap,
+  setIsLoading,
+) => {
   let data = {routes: arr};
   let config = {
     method: 'post',
@@ -117,7 +122,14 @@ export const GenerateItiTest = (IdIti, token, arr, setDataToSentMap, setIsLoadin
     });
 };
 
-export const UpdateItiTest = (IdIti, token, arr, status, setDataReturn, setIsLoading) => {
+export const UpdateItiTest = (
+  IdIti,
+  token,
+  arr,
+  status,
+  setDataReturn,
+  setIsLoading,
+) => {
   let data = {routes: arr};
   let config = {
     method: 'patch',
@@ -133,6 +145,39 @@ export const UpdateItiTest = (IdIti, token, arr, status, setDataReturn, setIsLoa
   axios
     .request(config)
     .then(response => {
+      setDataReturn(response?.data);
+      setIsLoading(false);
+    })
+    .catch(error => {
+      console.log(error?.response?.data?.message);
+      setDataReturn(error?.response?.data);
+    });
+};
+
+export const UpdateItiTestArrange = (
+  IdIti,
+  token,
+  arr,
+  status,
+  setDataReturn,
+  setIsLoading,
+) => {
+  let data = {routes: arr};
+  let config = {
+    method: 'patch',
+    maxBodyLength: Infinity,
+    url: `http://ec2-18-183-180-22.ap-northeast-1.compute.amazonaws.com:5000/routes/${IdIti}?checked=${status}`,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    data: data,
+  };
+
+  axios
+    .request(config)
+    .then(response => {
+      console.log('dataAPI', response?.data);
       setDataReturn(response?.data);
       setIsLoading(false);
     })

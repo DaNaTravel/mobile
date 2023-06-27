@@ -849,7 +849,7 @@ const EditItinerary = ({route}) => {
       }else {
         Alert.alert(
           'Warning',
-          `Your trip requires careful attention due to some encountered issues: 
+          `Your itinerary requires careful attention due to some encountered issues: 
           ${dataReturn?.message}`,
           [
             {
