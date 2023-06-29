@@ -15,8 +15,8 @@ const ASPECT_RATIO = widthScreen / (heightScreen * 0.5);
 const LATITUDE_DELTA = 0.072;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-const GOOGLE_MAPS_APIKEY = 'AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU';
-// const GOOGLE_MAPS_APIKEY = '';
+// const GOOGLE_MAPS_APIKEY = 'AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU';
+const GOOGLE_MAPS_APIKEY = '';
 const positions = [
   {
     latitude: 16.019110655988168,
@@ -64,11 +64,14 @@ const MapViewComponent = ({
     setData(selectedRoutes);
     getInitialRegion();
   }, [dataMap, selectedItem]);
-
+  useEffect(() => {
+    setDataHotel(dataHT)
+  }, [dataHT])
+  
   const mapView = useRef(null);
   mapView.current?.animateToRegion({
-    latitude: dataHT[index].lat,
-    longitude: dataHT[index].lon,
+    latitude: dataHotel[index]?.lat,
+    longitude: dataHotel[index]?.lon,
     latitudeDelta: 0.025,
     longitudeDelta: 0.025,
   });
@@ -80,7 +83,7 @@ const MapViewComponent = ({
       <Image
         style={styles.markerImage}
         source={{
-          uri: `https://dummyimage.com/50x50/fd003a/7cfc00&text=${number}`,
+          uri: `https://dummyimage.com/50x50/fd003a/000000&text=${number}`,
         }}
         resizeMode="contain"
       />
@@ -105,7 +108,7 @@ const MapViewComponent = ({
           {markerImage(index)}
         </Marker>
       ))}
-      {dataHotel.map((coordinate, index) => (
+      {dataHotel ? dataHotel.map((coordinate, index) => (
         <Marker
           key={`coordinate_${index}`}
           coordinate={{latitude: coordinate.lat, longitude: coordinate.lon}}
@@ -116,7 +119,7 @@ const MapViewComponent = ({
             style={styles.img}
           />
         </Marker>
-      ))}
+      )): null}
       {data?.length >= 2 && (
         <MapViewDirections
           origin={data?.[0]}
@@ -142,8 +145,8 @@ const styles = StyleSheet.create({
     width: widthScreen,
   },
   img: {
-    height: 40,
-    width: 40,
+    height: 30,
+    width: 30,
   },
   marker: {
     width: 30,

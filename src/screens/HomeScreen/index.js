@@ -106,6 +106,8 @@ const HomeScreen = ({route}) => {
   const [number, setNumber] = useState();
   const [point, setPoint] = useState(null);
   const [total, setTotal] = useState();
+  const [dataHotels, setDataHotels] = useState([])
+  const [listHotels, setListHotels] = useState(dataHT);
   const [Id, setId] = useState();
   const axiosContext = useContext(AxiosContext);
   const handleTotal = num => {
@@ -150,6 +152,7 @@ const HomeScreen = ({route}) => {
             number,
             point,
             setTotal,
+            setDataHotels,
             responseData => {
               setData(responseData);
               var transformedData = {};
@@ -182,6 +185,7 @@ const HomeScreen = ({route}) => {
             isUser?.data?.token,
             setTotal,
             setId,
+            setDataHotels,
             responseData => {
               setData(responseData);
               var transformedData = {};
@@ -213,6 +217,77 @@ const HomeScreen = ({route}) => {
       onSelect={setSelectedItem}
     />
   );
+  useEffect(() => {
+    console.log('dataHotels', dataHotels);
+    if(dataHotels?.length !== 0){
+      const options = {method: 'GET', headers: {accept: 'application/json'}};
+      let arrHotels = []
+      let newHotel = {
+        id: 0,
+        price: '250.000 VND',
+        rating: 4.5,
+        title: 'Salina Hotel',
+        address: '622 Nui Thanh, Hai Chau',
+        lat: 16.028644727364792,
+        lon: 108.22203248519534,
+        imgUrl:
+          'https://images.trvl-media.com/lodging/12000000/12000000/11998700/11998656/d5787bee_z.jpg',
+      }
+      Promise.all(dataHotels.slice(0, 3).map(hotelId =>
+        fetch(`https://api.content.tripadvisor.com/api/v1/location/${hotelId}/details?key=8FB16E9A710F47FD95919C9A00CBB69F&language=en&currency=USD`, options)
+          .then(response => response.json())
+      ))
+        .then(responses => {
+          const arrHotels = responses.map((response, i) => ({
+            id: i + 1,
+            price: '250.000 VND',
+            rating: response?.rating,
+            title: response?.name,
+            address: response?.address_obj?.street1,
+            lat: Number.parseFloat(response?.latitude),
+            lon: Number.parseFloat(response?.longitude),
+            imgUrl: 'https://images.trvl-media.com/lodging/12000000/12000000/11998700/11998656/d5787bee_z.jpg',
+            hotelId: dataHotels[i]
+          }));
+          console.log('mang Hotels:', arrHotels);
+          setListHotels(arrHotels);
+        })
+        .catch(err => console.error(err));
+    } 
+  }, [dataHotels])
+  
+  useEffect(() => {
+    const apiUrl = 'https://api.content.tripadvisor.com/api/v1/location/';
+    const apiKey = '8FB16E9A710F47FD95919C9A00CBB69F';
+    const language = 'en';
+
+    const fetchImageUrl = async (hotel) => {
+      const url = `${apiUrl}${hotel.hotelId}/photos?key=${apiKey}&language=${language}`;
+      const options = { method: 'GET', headers: { accept: 'application/json' } };
+
+      return await fetch(url, options)
+        .then(response => response.json())
+        .then(json => {
+          console.log('url: ',json?.data?.[0]?.images?.original?.url);
+          const photoUrl = json?.data?.[0]?.images?.original?.url;
+          if (photoUrl) {
+            hotel.imgUrl = photoUrl;
+          }
+          return hotel;
+        })
+        .catch(err => {
+          console.error('Error:', err);
+          return hotel;
+        });
+    }
+    const fetchImageUrls = async () => {
+      const updatedHotels = await Promise.all(listHotels.map(hotel => fetchImageUrl(hotel)));
+      console.log('updatedHotels', updatedHotels);
+    };
+
+    fetchImageUrls();
+  }, [listHotels])
+  
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewHeader}>
@@ -238,7 +313,7 @@ const HomeScreen = ({route}) => {
       </View>
       <View style={styles.map}>
         <MapViewComponent
-          dataHT={dataHT}
+          dataHT={listHotels}
           index={index}
           dataMap={dataMap}
           selectedItem={selectedItem}
@@ -267,7 +342,7 @@ const HomeScreen = ({route}) => {
         layout="default"
         layoutCardOffset={9}
         ref={isCarousel}
-        data={dataHT}
+        data={listHotels}
         renderItem={CarouselItinerary}
         sliderWidth={SLIDER_WIDTH}
         itemWidth={ITEM_WIDTH}

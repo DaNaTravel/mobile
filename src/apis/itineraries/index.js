@@ -9,6 +9,7 @@ export const ItineraryRoutes = async (
   number,
   point,
   setTotal,
+  setDataHotels,
   setData,
 ) => {
   let data = {
@@ -37,6 +38,7 @@ export const ItineraryRoutes = async (
       console.log(response?.data?.data);
       setData(response?.data?.data?.routes);
       setTotal(response?.data?.data?.cost);
+      setDataHotels(response?.data?.data?.recommendedHotels)
     })
     .catch(error => {
       return error?.response;
@@ -55,6 +57,7 @@ export const ItineraryRoutesTest = async (
   token,
   setTotal,
   setId,
+  setDataHotels,
   setData,
 ) => {
   let data = {
@@ -85,6 +88,7 @@ export const ItineraryRoutesTest = async (
       setData(response?.data?.data?.routes);
       setTotal(response?.data?.data?.cost);
       setId(response?.data?.data?._id);
+      setDataHotels(response?.data?.data?.recommendedHotels)
     })
     .catch(error => {
       return error?.response;

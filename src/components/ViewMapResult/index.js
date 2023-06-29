@@ -43,7 +43,7 @@ const ViewMapResult = ({dataHT, index, dataMap, selectedItem, coordinates}) => {
       <Image
         style={styles.markerImage}
         source={{
-          uri: `https://dummyimage.com/50x50/fd003a/7cfc00&text=${number}`,
+          uri: `https://dummyimage.com/50x50/fd003a/000000&text=${number}`,
         }}
         resizeMode="contain"
       />
