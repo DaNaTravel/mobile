@@ -52,6 +52,7 @@ const MapViewComponent = ({
 }) => {
   const [data, setData] = useState(positions);
   const [dataHotel, setDataHotel] = useState(dataHT);
+  const [dataDes, setDataDes] = useState(dataMap)
   const [lat, setLat] = useState();
   const [lng, setLng] = useState();
   const getInitialRegion = async () => {
@@ -59,11 +60,17 @@ const MapViewComponent = ({
     setLat(parseFloat(data.latitude));
     setLng(parseFloat(data.longitude));
   };
+
   useEffect(() => {
-    const selectedRoutes = dataMap?.[`routes${selectedItem}`];
+    setDataDes(dataMap)
+  }, [dataMap])
+
+  useEffect(() => {
+    const selectedRoutes =  dataDes?.[`routes${selectedItem}`];
     setData(selectedRoutes);
     getInitialRegion();
-  }, [dataMap, selectedItem]);
+  }, [selectedItem, dataDes]);
+
   useEffect(() => {
     setDataHotel(dataHT)
   }, [dataHT])
@@ -100,7 +107,7 @@ const MapViewComponent = ({
       style={styles.map}
       ref={mapView}>
       {data?.map((coordinate, index) => (
-        <Marker
+        <Marker 
           key={`coordinate_${index}`}
           coordinate={coordinate}
           description={coordinate?.address?.slice(0, 40)}

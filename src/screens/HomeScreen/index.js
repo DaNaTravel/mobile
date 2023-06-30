@@ -27,6 +27,7 @@ import {ItineraryRoutes, ItineraryRoutesTest} from '../../apis/itineraries';
 import DayItem from '../../components/DayItem';
 import {AxiosContext} from '../../context/AxiosContext';
 import LottieView from 'lottie-react-native';
+import OptionItem from '../../components/OptionItem';
 
 const Tab = createMaterialTopTabNavigator();
 const Day = ({data, index}) => {
@@ -60,6 +61,7 @@ const Day = ({data, index}) => {
     </View>
   );
 };
+
 const TabView = ({data}) => {
   const [days, setDays] = useState([1]);
   const handleDays = async () => {
@@ -68,6 +70,7 @@ const TabView = ({data}) => {
   };
   useLayoutEffect(() => {
     handleDays();
+    console.log('data', data);
   }, []);
   return (
     <Tab.Navigator
@@ -82,7 +85,7 @@ const TabView = ({data}) => {
             return (
               <Tab.Screen
                 name={`Day ${day}`}
-                children={() => <Day data={data[index]} index={index} />}
+                children={() => <Day data={data?.[index]} index={index} />}
                 key={index}
               />
             );
@@ -91,6 +94,7 @@ const TabView = ({data}) => {
     </Tab.Navigator>
   );
 };
+
 const HomeScreen = ({route}) => {
   const {coordinates} = route.params;
   const refRBSheet = useRef();
@@ -98,6 +102,7 @@ const HomeScreen = ({route}) => {
   const isCarousel = useRef(null);
   const [index, setIndex] = useState(0);
   const [time, setTime] = useState();
+  const [dataTotal, setDataTotal] = useState([])
   const [data, setData] = useState([]);
   const [dataMap, setDataMap] = useState();
   const [days, setDays] = useState([1]);
@@ -110,13 +115,12 @@ const HomeScreen = ({route}) => {
   const [listHotels, setListHotels] = useState(dataHT);
   const [Id, setId] = useState();
   const axiosContext = useContext(AxiosContext);
+
   const handleTotal = num => {
-    let formattedNum = num
-      .toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
-      .replace(',00', '')
-      .slice(0, -1);
+    let formattedNum = num?.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})?.replace(',00', '')?.slice(0, -1);
     return formattedNum;
   };
+
   const handleTime = async () => {
     const data = JSON.parse(await AsyncStorage.getItem('data'));
     setTime(data?.time);
@@ -153,24 +157,9 @@ const HomeScreen = ({route}) => {
             point,
             setTotal,
             setDataHotels,
+            setDataTotal,
             responseData => {
               setData(responseData);
-              var transformedData = {};
-              responseData.forEach(function (item, index) {
-                var key = `routes${index + 1}`;
-                transformedData[key] = [];
-
-                item.route.forEach(function (routeItem) {
-                  var place = {
-                    latitude: routeItem.description.latitude,
-                    longitude: routeItem.description.longitude,
-                    name: routeItem.description.name,
-                    address: routeItem.description.address,
-                  };
-                  transformedData[key].push(place);
-                });
-              });
-              setDataMap(transformedData);
             },
           )
         : ItineraryRoutesTest(
@@ -186,30 +175,18 @@ const HomeScreen = ({route}) => {
             setTotal,
             setId,
             setDataHotels,
+            setDataTotal,
             responseData => {
               setData(responseData);
-              var transformedData = {};
-              responseData.forEach(function (item, index) {
-                var key = `routes${index + 1}`;
-                transformedData[key] = [];
-
-                item.route.forEach(function (routeItem) {
-                  var place = {
-                    latitude: routeItem.description.latitude,
-                    longitude: routeItem.description.longitude,
-                    name: routeItem.description.name,
-                    address: routeItem.description.address,
-                  };
-                  transformedData[key].push(place);
-                });
-              });
-              setDataMap(transformedData);
             },
           );
     }
   }, [time?.startDate, time?.endDate, cost, point]);
+
   const isUser = useSelector(state => state.auth.login);
   const [selectedItem, setSelectedItem] = useState(1);
+  const [selectedItemOption, setSelectedItemOption] = useState(1);
+
   const renderItem = ({item}) => (
     <DayItem
       item={item}
@@ -217,23 +194,20 @@ const HomeScreen = ({route}) => {
       onSelect={setSelectedItem}
     />
   );
+
+  const renderItemOption = ({item}) => (
+    <OptionItem 
+      item={item}
+      selectedOption={item === selectedItemOption}
+      onSelectOption={setSelectedItemOption}
+    />
+  );
+
   useEffect(() => {
-    console.log('dataHotels', dataHotels);
-    if(dataHotels?.length !== 0){
+    console.log('dataHotels', dataHotels); 
+    if(dataHotels?.length > 0){
       const options = {method: 'GET', headers: {accept: 'application/json'}};
-      let arrHotels = []
-      let newHotel = {
-        id: 0,
-        price: '250.000 VND',
-        rating: 4.5,
-        title: 'Salina Hotel',
-        address: '622 Nui Thanh, Hai Chau',
-        lat: 16.028644727364792,
-        lon: 108.22203248519534,
-        imgUrl:
-          'https://images.trvl-media.com/lodging/12000000/12000000/11998700/11998656/d5787bee_z.jpg',
-      }
-      Promise.all(dataHotels.slice(0, 3).map(hotelId =>
+      Promise.all(dataHotels?.slice(0, 3)?.map(hotelId =>
         fetch(`https://api.content.tripadvisor.com/api/v1/location/${hotelId}/details?key=8FB16E9A710F47FD95919C9A00CBB69F&language=en&currency=USD`, options)
           .then(response => response.json())
       ))
@@ -254,7 +228,7 @@ const HomeScreen = ({route}) => {
         })
         .catch(err => console.error(err));
     } 
-  }, [dataHotels])
+  }, [dataHotels]);
   
   useEffect(() => {
     const apiUrl = 'https://api.content.tripadvisor.com/api/v1/location/';
@@ -286,8 +260,33 @@ const HomeScreen = ({route}) => {
     };
 
     fetchImageUrls();
-  }, [listHotels])
-  
+  }, [listHotels]);
+
+  useEffect(() => {
+    setData(dataTotal?.[selectedItemOption - 1]?.routes);
+    setDataHotels(dataTotal?.[selectedItemOption - 1]?.recommendedHotels);
+    setTotal(dataTotal?.[selectedItemOption - 1]?.cost);
+  }, [selectedItemOption]);
+
+  useEffect(()=>{
+    var transformedData = {};
+    dataTotal?.[selectedItemOption - 1]?.routes.forEach(function (item, index) {
+      var key = `routes${index + 1}`;
+      transformedData[key] = [];
+
+      item.route.forEach(function (routeItem) {
+        var place = {
+          latitude: routeItem.description.latitude,
+          longitude: routeItem.description.longitude,
+          name: routeItem.description.name,
+          address: routeItem.description.address,
+        };
+        transformedData[key].push(place);
+      });
+    });
+    setDataMap(transformedData);
+  },[dataTotal, selectedItemOption]);
+
   return (
     <View style={styles.viewParent}>
       <View style={styles.viewHeader}>
@@ -321,6 +320,17 @@ const HomeScreen = ({route}) => {
         />
       </View>
       <View style={styles.viewRow}>
+        <View style={styles.viewLists}>
+          <FlatList
+            data={[1,2,3]}
+            renderItem={renderItemOption}
+            keyExtractor={item => item.toString()}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            horizontal
+            style={styles.listDays}
+          />
+        </View>
         <TouchableOpacity
           style={styles.buttonBottom}
           onPress={() => refRBSheet.current.open()}>

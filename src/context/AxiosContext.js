@@ -220,7 +220,7 @@ export const AxiosProvider = ({children}) => {
       routes: routes,
     };
     axiosInstance
-      .post(`/routes/${ItiId}/generate`, {data})
+      .post(`/routes/${ItiId}/arrange`, {data})
       .then(response => console.log(response.data))
       .catch(err => console.log(err));
   };

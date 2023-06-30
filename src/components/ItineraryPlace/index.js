@@ -11,20 +11,19 @@ import ConfirmDelete from '../Modal/ConfirmDelete';
 const ItineraryPlace = ({item, type, listLoca, setListLoca}) => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
+
   const handleDelete = () => {
     setModalVisible(!isModalVisible);
   };
+
   const handleTotal = num => {
-    let formattedNum = num
-      ?.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
-      ?.replace(',00', '')
-      ?.slice(0, -1);
+    let formattedNum = num?.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})?.replace(',00', '')?.slice(0, -1);
     return formattedNum;
   };
+  
   return (
     <View
       style={type === 'edit' ? styles.viewParentEdit : styles.viewParent}
-      // onPress={() => navigation.navigate('LocationDetail', {item: item})}
     >
       <View style={styles.viewTime}>
         <View style={styles.circleParent}>

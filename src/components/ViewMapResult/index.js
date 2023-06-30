@@ -8,33 +8,45 @@ import MapViewDirections from 'react-native-maps-directions';
 const ASPECT_RATIO = widthScreen / (heightScreen * 0.5);
 const LATITUDE_DELTA = 0.072;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-const GOOGLE_MAPS_APIKEY = 'AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU';
-// const GOOGLE_MAPS_APIKEY = '';
+// const GOOGLE_MAPS_APIKEY = 'AIzaSyBVatgG_Di0Y8-yNMFDvczuyAGzIMcN0RU';
+const GOOGLE_MAPS_APIKEY = '';
 
 const ViewMapResult = ({dataHT, index, dataMap, selectedItem, coordinates}) => {
   const [data, setData] = useState(null);
   const [dataHotel, setDataHotel] = useState(dataHT);
+  const [dataDes, setDataDes] = useState(dataMap)
   const [lat, setLat] = useState();
   const [lng, setLng] = useState();
   const mapView = useRef(null);
+
   const getInitialRegion = async () => {
     let data = JSON.parse(await AsyncStorage.getItem('data'));
     setLat(data?.latitude);
     setLng(data?.longitude);
   };
+
+
   useEffect(() => {
-    const selectedRoutes = dataMap?.[`routes${selectedItem}`];
+    setDataDes(dataMap)
+  }, [dataMap]);
+
+  useEffect(() => {
+    const selectedRoutes =  dataDes?.[`routes${selectedItem}`];
     setData(selectedRoutes);
-  }, [dataMap, selectedItem]);
-  useLayoutEffect(() => {
     getInitialRegion();
-  }, []);
+  }, [selectedItem, dataDes]);
+
+  useEffect(() => {
+    setDataHotel(dataHT)
+  }, [dataHT]);
+
   mapView.current?.animateToRegion({
     latitude: dataHT[index].lat,
     longitude: dataHT[index].lon,
     latitudeDelta: 0.025,
     longitudeDelta: 0.025,
   });
+
   const markerImage = number => (
     <>
       <Image
@@ -49,6 +61,7 @@ const ViewMapResult = ({dataHT, index, dataMap, selectedItem, coordinates}) => {
       />
     </>
   );
+  
   return (
     <MapView
       style={styles.map}
@@ -68,7 +81,7 @@ const ViewMapResult = ({dataHT, index, dataMap, selectedItem, coordinates}) => {
           {markerImage(index)}
         </Marker>
       ))}
-      {dataHotel.map((coordinate, index) => (
+      {dataHotel ? dataHotel.map((coordinate, index) => (
         <Marker
           key={`coordinate_${index}`}
           coordinate={{latitude: coordinate.lat, longitude: coordinate.lon}}
@@ -79,7 +92,7 @@ const ViewMapResult = ({dataHT, index, dataMap, selectedItem, coordinates}) => {
             style={styles.img}
           />
         </Marker>
-      ))}
+      )): null}
       {data?.length >= 2 && (
         <MapViewDirections
           origin={data?.[0]}
@@ -104,8 +117,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   img: {
-    height: 40,
-    width: 40,
+    height: 30,
+    width: 30,
   },
   marker: {
     width: 30,

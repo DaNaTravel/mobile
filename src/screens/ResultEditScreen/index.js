@@ -43,13 +43,16 @@ const Day = ({data, index}) => {
 };
 const TabView = ({data}) => {
   const [days, setDays] = useState([1]);
+
   const handleDays = async () => {
     const dataDay = JSON.parse(await AsyncStorage.getItem('data'));
     setDays(dataDay?.days);
   };
+
   useLayoutEffect(() => {
     handleDays();
   }, []);
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -74,6 +77,7 @@ const TabView = ({data}) => {
     </Tab.Navigator>
   );
 };
+
 const ResultEditScreen = ({route}) => {
   const {data, Id, type} = route.params;
   console.log('data in Result Edit Screen: ', data);
@@ -86,6 +90,9 @@ const ResultEditScreen = ({route}) => {
   const [time, setTime] = useState();
   const [coordinates, setCoordinates] = useState(null);
   const [dataReturn, setDataReturn] = useState(null);
+  const [dataHotels, setDataHotels] = useState([])
+  const [listHotels, setListHotels] = useState(dataHT);
+
   const handleDataToSent = arr1 => {
     let newArray = arr1.map(obj =>
       obj.route.map(item => {
@@ -102,6 +109,7 @@ const ResultEditScreen = ({route}) => {
     console.log('newnewArray', newArray);
     UpdateItiTestArrange(Id, isUser?.data?.token, newArray, true, setDataReturn);
   };
+
   const handleDataStillSave = arr1 => {
     let newArray = arr1.map(obj =>
       obj.route.map(item => {
@@ -115,11 +123,10 @@ const ResultEditScreen = ({route}) => {
         }
       }),
     );
-
-    console.log(newArray);
     UpdateItiTest(Id, isUser?.data?.token, newArray, false);
     navigation.navigate('BottomTab');
   };
+
   const handleTime = async () => {
     const data = JSON.parse(await AsyncStorage.getItem('data'));
     setTime(data?.time);
@@ -133,6 +140,7 @@ const ResultEditScreen = ({route}) => {
       refRBSheet.current.open();
     }
   }, []);
+
   useEffect(() => {
     var transformedData = {};
     data?.routes?.forEach(function (item, index) {
@@ -150,16 +158,17 @@ const ResultEditScreen = ({route}) => {
       });
     });
     setDataMap(transformedData);
+    setDataHotels(data?.recommendedHotels);
   }, [time?.startDate && time?.endDate]);
+
   const isUser = useSelector(state => state.auth.login);
   const [selectedItem, setSelectedItem] = useState(1);
+
   const handleTotal = num => {
-    let formattedNum = num
-      .toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
-      .replace(',00', '')
-      .slice(0, -1);
+    let formattedNum = num?.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})?.replace(',00', '')?.slice(0, -1);
     return formattedNum;
   };
+
   const renderItem = ({item}) => (
     <DayItem
       item={item}
@@ -167,6 +176,7 @@ const ResultEditScreen = ({route}) => {
       onSelect={setSelectedItem}
     />
   );
+
   useEffect(() => {
     if (dataReturn !== null) {
       console.log('dataReturn', dataReturn);
@@ -180,6 +190,65 @@ const ResultEditScreen = ({route}) => {
       }
     }
   }, [dataReturn]);
+
+  useEffect(() => {
+    console.log('dataHotels', dataHotels); 
+    if(dataHotels?.length !== 0){
+      const options = {method: 'GET', headers: {accept: 'application/json'}};
+      Promise.all(dataHotels.slice(0, 3).map(hotelId =>
+        fetch(`https://api.content.tripadvisor.com/api/v1/location/${hotelId}/details?key=8FB16E9A710F47FD95919C9A00CBB69F&language=en&currency=USD`, options)
+          .then(response => response.json())
+      ))
+        .then(responses => {
+          const arrHotels = responses.map((response, i) => ({
+            id: i + 1,
+            price: '250.000 VND',
+            rating: response?.rating,
+            title: response?.name,
+            address: response?.address_obj?.street1,
+            lat: Number.parseFloat(response?.latitude),
+            lon: Number.parseFloat(response?.longitude),
+            imgUrl: 'https://images.trvl-media.com/lodging/12000000/12000000/11998700/11998656/d5787bee_z.jpg',
+            hotelId: dataHotels[i]
+          }));
+          console.log('mang Hotels:', arrHotels);
+          setListHotels(arrHotels);
+        })
+        .catch(err => console.error(err));
+    } 
+  }, [dataHotels])
+  
+  useEffect(() => {
+    const apiUrl = 'https://api.content.tripadvisor.com/api/v1/location/';
+    const apiKey = '8FB16E9A710F47FD95919C9A00CBB69F';
+    const language = 'en';
+
+    const fetchImageUrl = async (hotel) => {
+      const url = `${apiUrl}${hotel.hotelId}/photos?key=${apiKey}&language=${language}`;
+      const options = { method: 'GET', headers: { accept: 'application/json' } };
+
+      return await fetch(url, options)
+        .then(response => response.json())
+        .then(json => {
+          console.log('url: ',json?.data?.[0]?.images?.original?.url);
+          const photoUrl = json?.data?.[0]?.images?.original?.url;
+          if (photoUrl) {
+            hotel.imgUrl = photoUrl;
+          }
+          return hotel;
+        })
+        .catch(err => {
+          console.error('Error:', err);
+          return hotel;
+        });
+    }
+    const fetchImageUrls = async () => {
+      const updatedHotels = await Promise.all(listHotels.map(hotel => fetchImageUrl(hotel)));
+      console.log('updatedHotels', updatedHotels);
+    };
+
+    fetchImageUrls();
+  }, [listHotels])
 
   return (
     <View style={styles.viewParent}>
@@ -226,7 +295,7 @@ const ResultEditScreen = ({route}) => {
       </View>
       <View style={styles.map}>
         <ViewMapResult
-          dataHT={dataHT}
+          dataHT={listHotels}
           index={index}
           dataMap={dataMap}
           selectedItem={selectedItem}
@@ -254,7 +323,7 @@ const ResultEditScreen = ({route}) => {
         layout="default"
         layoutCardOffset={9}
         ref={isCarousel}
-        data={dataHT}
+        data={listHotels}
         renderItem={CarouselItinerary}
         sliderWidth={SLIDER_WIDTH}
         itemWidth={ITEM_WIDTH}
@@ -365,7 +434,6 @@ const styles = StyleSheet.create({
   map: {
     height: heightScreen * 0.5,
     width: widthScreen,
-    backgroundColor: colors.RED,
   },
   viewRow: {
     flexDirection: 'row',

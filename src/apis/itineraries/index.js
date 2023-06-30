@@ -10,6 +10,7 @@ export const ItineraryRoutes = async (
   point,
   setTotal,
   setDataHotels,
+  setDataTotal,
   setData,
 ) => {
   let data = {
@@ -35,10 +36,11 @@ export const ItineraryRoutes = async (
   await axios
     .request(config)
     .then(response => {
-      console.log(response?.data?.data);
-      setData(response?.data?.data?.routes);
-      setTotal(response?.data?.data?.cost);
-      setDataHotels(response?.data?.data?.recommendedHotels)
+      console.log(response?.data?.data?.options);
+      setDataTotal(response?.data?.data?.options);
+      setData(response?.data?.data?.options?.[0]?.routes);
+      setTotal(response?.data?.data?.options?.[0]?.cost);
+      setDataHotels(response?.data?.data?.options?.[0]?.recommendedHotels);
     })
     .catch(error => {
       return error?.response;
@@ -58,6 +60,7 @@ export const ItineraryRoutesTest = async (
   setTotal,
   setId,
   setDataHotels,
+  setDataTotal,
   setData,
 ) => {
   let data = {
@@ -84,11 +87,12 @@ export const ItineraryRoutesTest = async (
   await axios
     .request(config)
     .then(response => {
-      console.log(response?.data?.data);
-      setData(response?.data?.data?.routes);
-      setTotal(response?.data?.data?.cost);
+      console.log(response?.data?.data?.options);
+      setDataTotal(response?.data?.data?.options);
+      setData(response?.data?.data?.options?.[0]?.routes);
+      setTotal(response?.data?.data?.options?.[0]?.cost);
+      setDataHotels(response?.data?.data?.options?.[0]?.recommendedHotels);
       setId(response?.data?.data?._id);
-      setDataHotels(response?.data?.data?.recommendedHotels)
     })
     .catch(error => {
       return error?.response;
@@ -106,7 +110,7 @@ export const GenerateItiTest = (
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: `http://ec2-18-183-180-22.ap-northeast-1.compute.amazonaws.com:5000/routes/${IdIti}/generate`,
+    url: `http://ec2-18-183-180-22.ap-northeast-1.compute.amazonaws.com:5000/routes/${IdIti}/arrange`,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
