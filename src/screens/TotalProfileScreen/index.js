@@ -1,11 +1,12 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import Feather from 'react-native-vector-icons/Feather';
 import ConfirmLogout from '../../components/Modal/ConfirmLogout';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import NonAccount from '../../components/Modal/NonAccount';
+import { AxiosContext } from '../../context/AxiosContext';
 
 const FunctionTouch = ({
   nameIcon,
@@ -15,11 +16,12 @@ const FunctionTouch = ({
   navigation,
   handleSignout,
   isUser,
+  data
 }) => {
   const handlePress = () => {
     if (!isLogout) {
       if (isUser?.data?.token !== undefined) {
-        navigation.navigate(press);
+        navigation.navigate(press,{data});
       }
     } else handleSignout();
   };
@@ -49,11 +51,25 @@ const FunctionTouch = ({
 };
 const TotalProfileScreen = () => {
   const [isModalVisible, setModalVisible] = useState(false);
+  const [data, setData] = useState(null);
   const handleSignout = async () => {
     setModalVisible(!isModalVisible);
   };
   const navigation = useNavigation();
   const isUser = useSelector(state => state.auth.login);
+  const axiosContext = useContext(AxiosContext);
+  
+  useFocusEffect(
+    React.useCallback(() => {
+      axiosContext.GetProfile(setData);    
+    }, []))
+
+  useEffect(() => {
+    if(data !== null){
+      console.log(data);
+    }
+  }, [data])
+  
 
   return (
     <View style={styles.viewParent}>
@@ -61,18 +77,18 @@ const TotalProfileScreen = () => {
       <View style={styles.viewParentAvt}>
         <Image
           source={
-            isUser?.data?.token === undefined
+            isUser?.data?.token === undefined || data?.avatar === undefined
               ? require('../../assets/images/img-logo.png')
-              : require('../../assets/images/get3.jpg')
+              : {uri: data?.avatar}
           }
           style={styles.viewAvt}
         />
       </View>
       <Text style={styles.textName}>
-        {isUser?.data?.token === undefined ? 'Anonymous' : 'Nguyen Thanh Duke'}
+        {isUser?.data?.token === undefined ? 'Anonymous' : data?.name}
       </Text>
       <Text style={styles.textPhone}>
-        {isUser?.data?.token === undefined ? '' : '+84 336 364 692'}
+        {isUser?.data?.token === undefined ? '' : data?.email}
       </Text>
       <FunctionTouch
         nameIcon={'edit-3'}
@@ -81,6 +97,7 @@ const TotalProfileScreen = () => {
         press={'EditProfile'}
         navigation={navigation}
         isUser={isUser}
+        data={data}
       />
       <FunctionTouch
         nameIcon={'lock'}

@@ -45,7 +45,6 @@ const ConfirmLogout = ({
     try {
       if (type === 'delete') {
         let result = await axiosContext.DeleteFavo(dataId, setResult);
-        console.log('result LOca', result);
         updateListLocaFavo(dataId);
         const updatedData = data?.filter(item => item?.locationId !== dataId);
         setData(updatedData);

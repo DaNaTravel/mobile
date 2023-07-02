@@ -15,7 +15,6 @@ const SortableListComponent = ({
   }, []);
   const [listLoca, setListLoca] = useState(dataIti?.[0]?.route);
   useEffect(() => {
-    console.log('load lai 2');
     setListLoca(dataIti?.[selectedItem - 1]?.route);
   }, [selectedItem]);
   useEffect(() => {

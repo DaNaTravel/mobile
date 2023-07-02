@@ -1,15 +1,14 @@
 import {
-  Button,
   Keyboard,
   Platform,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
   Animated,
+  Alert
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {colors, heightScreen, widthScreen} from '../../utility';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FieldTextInput from '../../components/FieldTextInput';
@@ -17,12 +16,16 @@ import FieldButton from '../../components/FieldButton';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import LottieView from 'lottie-react-native';
+import { AxiosContext } from '../../context/AxiosContext';
 
 const ChangePassword = () => {
   const navigation = useNavigation();
   const [password, setPassword] = useState('');
   const [newPass, setNewPass] = useState('');
   const [confirmPass, setConfirmPass] = useState('');
+  const axiosContext = useContext(AxiosContext);
+  const [result, setResult] = useState(null)
+
   const handlePasswordChange = value => {
     setPassword(value);
   };
@@ -92,7 +95,10 @@ const ChangePassword = () => {
     return color;
   };
 
-  const handleChangePassword = () => {};
+  const handleChangePassword = () => {
+    axiosContext.ChangePassword(password, newPass, confirmPass, setResult);
+  };
+
   const headerMotion = useRef(new Animated.Value(0)).current;
   const animatedKeyBoard = (motion, value, duration) => {
     Animated.timing(motion, {
@@ -102,6 +108,7 @@ const ChangePassword = () => {
       useNativeDriver: false,
     }).start();
   };
+
   useEffect(() => {
     const SHOW_KEYBOARD_EVENT =
       Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
@@ -118,7 +125,27 @@ const ChangePassword = () => {
       hideSubscription.remove();
     };
   }, []);
+
   const isUser = useSelector(state => state.auth.login);
+
+  useEffect(() => {
+    if(result === 'Success') {
+      Alert.alert('Success', 'Change password successfully!', [
+        {
+          text: 'Back to Home',
+          onPress: () =>
+              navigation.navigate('BottomTab')
+        },
+      ]);
+    } else if(result !== null && result !== 'Success'){
+      Alert.alert('Failed', `${result}`, [
+        {
+          text: 'Try again',
+        },
+      ]);
+    }
+  }, [result]);
+
   return (
     <Animated.View style={styles.viewParent}>
       {isUser?.data?.token === undefined ? (

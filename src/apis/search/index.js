@@ -13,7 +13,6 @@ export const Search = (keyword, type, page, take, setData, setIsLoading) => {
   axios
     .request(config)
     .then(response => {
-      console.log(response?.data?.listLocations);
       setData(response?.data?.listLocations);
       setIsLoading(false);
     })
@@ -78,7 +77,6 @@ export const SearchByID = (id, setData) => {
       setData(response?.data?.data);
     })
     .catch(error => {
-      console.log(error?.response?.data);
       return error.response.data;
     });
 };
@@ -98,7 +96,6 @@ export const SearchRelatedByID = (id, setData) => {
       setData(response?.data?.data?.relatedLocations);
     })
     .catch(error => {
-      console.log(error?.response?.data);
       return error.response.data;
     });
 };

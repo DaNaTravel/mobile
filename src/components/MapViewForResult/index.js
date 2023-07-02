@@ -61,7 +61,6 @@ const MapViewForResult = ({dataHT, index, dataMap, selectedItem}) => {
   }, [dataMap, selectedItem]);
 
   const mapView = useRef(null);
-  console.log('data', data);
   return (
     <MapView
       initialRegion={{

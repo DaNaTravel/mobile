@@ -7,8 +7,9 @@ import {
   TouchableOpacity,
   View,
   Animated,
+  Alert
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {colors, heightScreen, widthScreen} from '../../utility';
@@ -16,14 +17,17 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import FieldTextInput from '../../components/FieldTextInput';
 import LottieView from 'lottie-react-native';
+import { AxiosContext } from '../../context/AxiosContext';
 
-const Profile = () => {
+const Profile = ({route}) => {
   const navigation = useNavigation();
+  const {data} = route.params;
   const isUser = useSelector(state => state.auth.login);
-  const [name, setName] = useState('Nguyen Thanh Duke');
-  const [email, setEmail] = useState('nguyenthanhduong1002@gmail.com');
-  const [phone, setPhone] = useState('0336364692');
+  const [name, setName] = useState(data?.name);
+  const [email, setEmail] = useState(data?.email);
   const [isEdit, setIsEdit] = useState(false);
+  const axiosContext = useContext(AxiosContext);
+  const [result, setResult] = useState(null);
 
   const headerMotion = useRef(new Animated.Value(0)).current;
   const animatedKeyBoard = (motion, value, duration) => {
@@ -34,6 +38,7 @@ const Profile = () => {
       useNativeDriver: false,
     }).start();
   };
+
   useEffect(() => {
     const SHOW_KEYBOARD_EVENT =
       Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
@@ -50,6 +55,31 @@ const Profile = () => {
       hideSubscription.remove();
     };
   }, []);
+
+  const handleSave = () => {
+    console.log('name', name, 'email', email);
+    axiosContext.UpdateProfile(name, email, setResult);
+  }
+
+  useEffect(() => {
+    if(result === 'Success') {
+      Alert.alert('Success', 'Change profile successfully!', [
+        {
+          text: 'Back to Home',
+          onPress: () =>
+              navigation.navigate('BottomTab')
+        },
+      ]);
+    } else if(result !== null && result !== 'Success'){
+      Alert.alert('Failed', 'Something wrong!', [
+        {
+          text: 'Try again',
+        },
+      ]);
+    }
+  }, [result])
+  
+
   return (
     <Animated.View style={[styles.viewParent, {marginTop: headerMotion}]}>
       {isUser?.data?.token === undefined ? (
@@ -89,7 +119,7 @@ const Profile = () => {
           </View>
           <View>
             <Image
-              source={require('../../assets/images/get3.jpg')}
+              source={{uri: data?.avatar}}
               style={styles.viewAvt}
             />
             <TouchableOpacity style={styles.cameraButton}>
@@ -118,21 +148,11 @@ const Profile = () => {
               value={email}
               stylesInput={styles.stylesInput}
             />
-            <Text style={styles.textField}>Phone Number</Text>
-            <FieldTextInput
-              stylesContainer={{marginBottom: 0}}
-              placeholder={'Your phone number'}
-              onChangeText={txt => setPhone(txt)}
-              onSubmitEditing={Keyboard.dismiss}
-              editable={isEdit}
-              value={phone}
-              stylesInput={styles.stylesInput}
-            />
           </View>
           {isEdit ? (
             <TouchableOpacity
               style={styles.signOut}
-              onPress={() => console.log('Save')}>
+              onPress={() => handleSave()}>
               <Text style={styles.textSignout}>Save</Text>
             </TouchableOpacity>
           ) : (

@@ -114,7 +114,6 @@ const HomeScreen = ({route}) => {
   const [dataHotels, setDataHotels] = useState([])
   const [listHotels, setListHotels] = useState(dataHT);
   const [Id, setId] = useState();
-  const axiosContext = useContext(AxiosContext);
 
   const handleTotal = num => {
     let formattedNum = num?.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})?.replace(',00', '')?.slice(0, -1);

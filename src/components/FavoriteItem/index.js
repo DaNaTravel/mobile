@@ -14,7 +14,6 @@ const FavoriteItem = ({item, data, setData}) => {
   };
 
   const handleDelete = id => {
-    console.log('id', id);
     setModalVisible(!isModalVisible);
   };
 

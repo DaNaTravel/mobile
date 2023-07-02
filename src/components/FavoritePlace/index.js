@@ -12,7 +12,6 @@ const FavoritePlace = ({item}) => {
   const [alert, setAlert] = useState(false);
   const isNoUser = () => {
     setAlert(!alert);
-    console.log(alert);
   };
   const isUser = () => {
     setLike(!like);

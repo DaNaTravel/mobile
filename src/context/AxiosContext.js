@@ -205,7 +205,6 @@ export const AxiosProvider = ({children}) => {
     await axiosInstance
       .post(`/routes`, {data})
       .then(response => {
-        console.log(response?.data?.data);
         setData(response?.data?.data?.routes);
         setTotal(response?.data?.data?.cost);
         setId(response?.data?.data?._id);
@@ -224,6 +223,45 @@ export const AxiosProvider = ({children}) => {
       .then(response => console.log(response.data))
       .catch(err => console.log(err));
   };
+
+  const GetProfile = (setData) => {
+    axiosInstance
+      .get(`/accounts/profile`)
+      .then(response => setData(response?.data?.data))
+      .catch(err => console.log(err));
+  };
+
+  const UpdateProfile = async (nameSent, emailSent, setData) => {
+    let data = {
+      email: emailSent,
+      name: nameSent,
+    };
+    console.log('data', data);
+    try {
+      const response = await axiosInstance.patch(`/accounts/profile`, data);
+      console.log(response?.data);
+      setData(response?.data?.message);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const ChangePassword = async (currentPass, newPass, confirmPass, setData) => {
+    let data = {
+      currentPassword: currentPass,
+      newPassword: newPass,
+      confirmPassword: confirmPass
+    };
+    console.log('data', data);
+    try {
+      const response = await axiosInstance.patch(`/accounts/change-password`, data);
+      setData(response?.data?.message);
+    } catch (err) {
+      console.log(err?.response?.data?.message);
+      setData(err?.response?.data?.message);
+    }
+  };
+
   return (
     <Provider
       value={{
@@ -236,6 +274,9 @@ export const AxiosProvider = ({children}) => {
         ChangeStatusForIti,
         ItineraryRoutesUser,
         GenerateNewIti,
+        GetProfile,
+        UpdateProfile,
+        ChangePassword
       }}>
       {children}
     </Provider>

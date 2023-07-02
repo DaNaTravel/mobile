@@ -45,10 +45,7 @@ const HotelItems = ({
       },
       cost: item?.cost,
     };
-    console.log('dataId', item?._id);
-    console.log('dataToSent', dataToSent?.routes);
     let result = [...dataToSent?.routes[selectedItem - 1], {_id: item?._id}];
-    console.log('result', result);
     dataToSent.routes[selectedItem - 1] = result;
     setDataToSent({...dataToSent});
     setData(preData => [...preData, newData]);

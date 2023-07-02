@@ -40,7 +40,7 @@ const Header = ({name, isUser}) => {
           style={styles.viewAvt}
           source={
             isUser?.data?.token !== undefined
-              ? require('../../assets/images/get3.jpg')
+              ? {uri: "https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-PNG-Picture.png"}
               : require('../../assets/images/img-logo.png')
           }
         />

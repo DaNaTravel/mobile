@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textDay:{
-    fontWeight: 500
+    fontWeight: 500,
+    fontSize: 10
   }
 });

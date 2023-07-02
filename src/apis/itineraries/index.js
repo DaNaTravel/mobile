@@ -36,7 +36,6 @@ export const ItineraryRoutes = async (
   await axios
     .request(config)
     .then(response => {
-      console.log(response?.data?.data?.options);
       setDataTotal(response?.data?.data?.options);
       setData(response?.data?.data?.options?.[0]?.routes);
       setTotal(response?.data?.data?.options?.[0]?.cost);
@@ -87,7 +86,6 @@ export const ItineraryRoutesTest = async (
   await axios
     .request(config)
     .then(response => {
-      console.log(response?.data?.data?.options);
       setDataTotal(response?.data?.data?.options);
       setData(response?.data?.data?.options?.[0]?.routes);
       setTotal(response?.data?.data?.options?.[0]?.cost);
@@ -121,7 +119,6 @@ export const GenerateItiTest = (
   axios
     .request(config)
     .then(response => {
-      console.log('response.data', response.data);
       setDataToSentMap(response?.data?.data);
       setIsLoading(false);
     })
@@ -157,7 +154,6 @@ export const UpdateItiTest = (
       setIsLoading(false);
     })
     .catch(error => {
-      console.log(error?.response?.data?.message);
       setDataReturn(error?.response?.data);
     });
 };
@@ -185,12 +181,10 @@ export const UpdateItiTestArrange = (
   axios
     .request(config)
     .then(response => {
-      console.log('dataAPI', response?.data);
       setDataReturn(response?.data);
       setIsLoading(false);
     })
     .catch(error => {
-      console.log(error?.response?.data?.message);
       setDataReturn(error?.response?.data);
     });
 };
@@ -248,7 +242,6 @@ export const GetItineraryRecommend = setData => {
       setData(response?.data?.data);
     })
     .catch(error => {
-      console.log(error?.response?.data);
       return error.response.data;
     });
 };
@@ -268,7 +261,6 @@ export const GetLocationRecommend = setData => {
       setData(response?.data?.data);
     })
     .catch(error => {
-      console.log(error?.response?.data);
       return error.response.data;
     });
 };
