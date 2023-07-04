@@ -18,6 +18,8 @@ import {colors, heightScreen, widthScreen} from '../../utility';
 import FieldTextInput from '../../components/FieldTextInput';
 import FieldButton from '../../components/FieldButton';
 import {SignIn} from '../../apis/controller/accounts/SignIn';
+import { useDispatch } from 'react-redux';
+import { Login } from '../../redux/action/auth/authRequests';
 
 const Header = () => {
   const navigation = useNavigation();
@@ -36,9 +38,9 @@ const Header = () => {
 };
 const Body = ({email, setNewPass, newPass}) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const handleSignIn = (email, password) => {
-    SignIn(email, password);
-    navigation.navigate('Home');
+    Login(dispatch, email, password);
   };
   return (
     <ScrollView style={styles.containerBody}>

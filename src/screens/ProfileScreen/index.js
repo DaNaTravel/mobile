@@ -18,6 +18,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import FieldTextInput from '../../components/FieldTextInput';
 import LottieView from 'lottie-react-native';
 import { AxiosContext } from '../../context/AxiosContext';
+import ForFuture from '../../components/Modal/ForFuture';
 
 const Profile = ({route}) => {
   const navigation = useNavigation();
@@ -28,6 +29,8 @@ const Profile = ({route}) => {
   const [isEdit, setIsEdit] = useState(false);
   const axiosContext = useContext(AxiosContext);
   const [result, setResult] = useState(null);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [type, setType] = useState(null);
 
   const headerMotion = useRef(new Animated.Value(0)).current;
   const animatedKeyBoard = (motion, value, duration) => {
@@ -57,19 +60,18 @@ const Profile = ({route}) => {
   }, []);
 
   const handleSave = () => {
-    console.log('name', name, 'email', email);
     axiosContext.UpdateProfile(name, email, setResult);
   }
 
+  const handleUpdateAvatar = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+
   useEffect(() => {
     if(result === 'Success') {
-      Alert.alert('Success', 'Change profile successfully!', [
-        {
-          text: 'Back to Home',
-          onPress: () =>
-              navigation.navigate('BottomTab')
-        },
-      ]);
+      setType('alert');
+      setModalVisible(!isModalVisible);
     } else if(result !== null && result !== 'Success'){
       Alert.alert('Failed', 'Something wrong!', [
         {
@@ -122,7 +124,7 @@ const Profile = ({route}) => {
               source={{uri: data?.avatar}}
               style={styles.viewAvt}
             />
-            <TouchableOpacity style={styles.cameraButton}>
+            <TouchableOpacity style={styles.cameraButton} onPress={()=>handleUpdateAvatar()}>
               <Feather name="camera" size={13} color={colors.WHITE} />
             </TouchableOpacity>
             <Text style={styles.textName}>{name}</Text>
@@ -149,6 +151,11 @@ const Profile = ({route}) => {
               stylesInput={styles.stylesInput}
             />
           </View>
+          <ForFuture isModalVisible={isModalVisible} 
+            setModalVisible={setModalVisible} 
+            type={type} 
+            setType={setType}
+          />
           {isEdit ? (
             <TouchableOpacity
               style={styles.signOut}

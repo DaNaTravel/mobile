@@ -236,7 +236,6 @@ export const AxiosProvider = ({children}) => {
       email: emailSent,
       name: nameSent,
     };
-    console.log('data', data);
     try {
       const response = await axiosInstance.patch(`/accounts/profile`, data);
       console.log(response?.data);
@@ -252,7 +251,6 @@ export const AxiosProvider = ({children}) => {
       newPassword: newPass,
       confirmPassword: confirmPass
     };
-    console.log('data', data);
     try {
       const response = await axiosInstance.patch(`/accounts/change-password`, data);
       setData(response?.data?.message);

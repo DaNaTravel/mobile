@@ -16,10 +16,10 @@ import axios from 'axios';
 import FieldWebView from '../../components/WebView';
 import {useDispatch} from 'react-redux';
 import {Login} from '../../redux/action/auth/authRequests';
+import ForFuture from '../../components/Modal/ForFuture';
 const Header = () => {
   return (
     <View>
-      {/* <View style={styles.viewBack}></View> */}
       <View style={styles.viewHello}>
         <Image
           source={require('../../assets/images/img-logo.png')}
@@ -30,7 +30,7 @@ const Header = () => {
     </View>
   );
 };
-const Body = ({email, setEmail, password, setPassword}) => {
+const Body = ({email, setEmail, password, setPassword, isModalVisible, setModalVisible}) => {
   const [data, setData] = useState('');
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -40,22 +40,8 @@ const Body = ({email, setEmail, password, setPassword}) => {
   const handleForgot = async () => {
     navigation.navigate('Forgot');
   };
-  const handleSignInWithGG = async () => {
-    let config = {
-      method: 'get',
-      maxBodyLength: Infinity,
-      url: 'http://192.168.21.63:5000/accounts/google',
-    };
-
-    await axios
-      .request(config)
-      .then(response => {
-        setData(response?.data);
-        console.log(typeof data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+  const handleSignInWithGG = () => {
+    setModalVisible(!isModalVisible);
   };
   const handleSignInWithGuess = () => {
     navigation.navigate('BottomTabGuess');
@@ -125,6 +111,7 @@ const Body = ({email, setEmail, password, setPassword}) => {
 const SignInScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isModalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.viewParent}>
       <Header />
@@ -133,7 +120,10 @@ const SignInScreen = () => {
         setEmail={setEmail}
         password={password}
         setPassword={setPassword}
+        isModalVisible={isModalVisible} 
+        setModalVisible={setModalVisible}
       />
+      <ForFuture isModalVisible={isModalVisible} setModalVisible={setModalVisible}/>
     </View>
   );
 };

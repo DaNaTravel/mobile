@@ -17,6 +17,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import LottieView from 'lottie-react-native';
 import { AxiosContext } from '../../context/AxiosContext';
+import ForFuture from '../../components/Modal/ForFuture';
 
 const ChangePassword = () => {
   const navigation = useNavigation();
@@ -24,7 +25,9 @@ const ChangePassword = () => {
   const [newPass, setNewPass] = useState('');
   const [confirmPass, setConfirmPass] = useState('');
   const axiosContext = useContext(AxiosContext);
-  const [result, setResult] = useState(null)
+  const [result, setResult] = useState(null);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [type, setType] = useState(null);
 
   const handlePasswordChange = value => {
     setPassword(value);
@@ -130,13 +133,8 @@ const ChangePassword = () => {
 
   useEffect(() => {
     if(result === 'Success') {
-      Alert.alert('Success', 'Change password successfully!', [
-        {
-          text: 'Back to Home',
-          onPress: () =>
-              navigation.navigate('BottomTab')
-        },
-      ]);
+      setType('alert');
+      setModalVisible(!isModalVisible);
     } else if(result !== null && result !== 'Success'){
       Alert.alert('Failed', `${result}`, [
         {
@@ -231,6 +229,11 @@ const ChangePassword = () => {
             title={'Confirm Password'}
             onPress={() => handleChangePassword()}
             stylesTitle={{fontSize: 18}}
+          />
+          <ForFuture isModalVisible={isModalVisible} 
+            setModalVisible={setModalVisible} 
+            type={type} 
+            setType={setType}
           />
         </>
       )}
